@@ -1,0 +1,339 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+	Layout = "Master.cshtml";
+}
+
+@section Styles {
+    <link href="@Url.Content("/assets/css/jquery.dataTables.min.css")" rel="stylesheet" type="text/css" />
+}
+
+<div class="container top-space">
+    @{
+        IPublishedContent current = (CurrentPage);
+        Stack<dynamic> pages = new Stack<dynamic>();
+        while (current.Level > 1)
+        {
+            pages.Push(current);
+            current = current.Parent;
+        }
+    }
+
+    <ul class="breadcrumb block">
+        <li><a href="/"><span class="fa fa-home"></span></a></li>
+        @foreach (var page in pages)
+        {
+            var cls = page.Id == CurrentPage.Id ? "current" : "";
+            if (page.DocumentTypeId != 1237){
+                <li class="@cls"><a href="@page.Url">@page.Name</a></li>                    
+            } else {
+                <li class="@cls"><a href="" class="disable"><span>@page.Name</span></li>
+            }
+        }
+    </ul>
+    <div class="page-title-container">
+        <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+    </div>
+    <h2 class="page-subtitle">@Umbraco.GetDictionaryValue("Composite Bond Index")</h2>
+    <p><b>@Umbraco.GetDictionaryValue("date") :</b> <span id="compositeDate"></span>  <b>@Umbraco.GetDictionaryValue("time") :</b> <span id="compositeTime"></span></p>
+    <table id="compositeTable" class="table table--zebra table-content-page table-thead-nowrap">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>@Umbraco.GetDictionaryValue("name")</th>
+                <th>@Umbraco.GetDictionaryValue("value")</th>
+                <th>@Umbraco.GetDictionaryValue("change")</th>
+                <th>% @Umbraco.GetDictionaryValue("change")</th>
+            </tr>
+        </thead>
+        <tbody>            
+        </tbody>
+    </table>
+    <h2 class="page-subtitle">@Umbraco.GetDictionaryValue("Government Bond Index")</h2>
+    <p><b>@Umbraco.GetDictionaryValue("date") :</b> <span id="governmentDate"></span>  <b>@Umbraco.GetDictionaryValue("time") :</b> <span id="governmentTime"></span></p>
+    <table id="governmentTable" class="table table--zebra table-content-page">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>@Umbraco.GetDictionaryValue("name")</th>
+                <th>@Umbraco.GetDictionaryValue("value")</th>
+                <th>@Umbraco.GetDictionaryValue("change")</th>
+                <th>% @Umbraco.GetDictionaryValue("change")</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <h2 class="page-subtitle">@Umbraco.GetDictionaryValue("Corporate Bond Index")</h2>
+    <p><b>@Umbraco.GetDictionaryValue("date") :</b> <span id="corporateDate"></span>  <b>@Umbraco.GetDictionaryValue("time") :</b> <span id="corporateTime"></span></p>
+    <table id="corporateTable" class="table table--zebra table-content-page indobex-table">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>@Umbraco.GetDictionaryValue("name")</th>
+                <th>@Umbraco.GetDictionaryValue("value")</th>
+                <th>@Umbraco.GetDictionaryValue("change")</th>
+                <th>% @Umbraco.GetDictionaryValue("change")</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <span class=""><b>@Umbraco.GetDictionaryValue("description") :</b></span>
+    <p><b>TR:</b> Total Return, <b>CP:</b> Clean Price, <b>GP:</b> Gross Price, <b>EY:</b> Effective Yield, <b>GY:</b> Gross Yield</p>
+</div>
+
+@section Scripts{
+    <script type="text/javascript" src="/assets/js/vendor/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            getCompositeBondIndex();
+            getGovernmentBondIndex();
+            getCorporateBondIndex();
+        });
+
+        function getCompositeBondIndex(){
+            $.get('@Url.Action("GetCompositeBondIndex", "BondSukuk")',
+                function (result) {
+                    var compositeDate = moment(result.Items[0].DateInserted, 'YYYY-MM-DDTHH:mm:ss').locale(currentLang).format('dddd, DD-MMM-YYYY');
+                    $('#compositeDate').text(compositeDate);
+
+                    var compositeTime = moment(result.Items[0].DateInserted, 'YYYY-MM-DDTHH:mm:ss').locale(currentLang).format('HH:mm:ss');
+                    $('#compositeTime').text(compositeTime);
+
+                    $('#compositeTable').dataTable({
+                        'processing': true,
+                        'paging': false,
+                        'ordering': false,
+                        'info': false,
+                        'filter': false,
+                        'deferRender': true,
+                        'data': result.Items,
+                        'columns': [
+                            { 'data': 'IndexId' },
+                            { 'data': 'IndexCode' },
+                            { 'data': 'IndexValue' },
+                            { 'data': 'IndexChgVal' },
+                            { 'data': 'IndexChgPct' }
+                        ],
+                        'columnDefs': [
+                            {
+                                'targets': [0,1],
+                                'createdCell' : function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-center');
+                                }
+                            },
+                            {
+                                'targets': 2,
+                                'createdCell' : function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-right');
+                                },
+                                render: function( data, type, full, meta ) {
+                                    return data.toLocaleString(currentLang, { 'minimumFractionDigits': 4 });
+                                }
+                            },
+                            {
+                                'targets': 3,
+                                'createdCell' : function (td, cellData, rowData, row, col) {
+                                    if (cellData < 0) {
+                                        return $(td).addClass('text-right red');
+                                    }
+                                    return $(td).addClass('text-right green');
+                                },
+                                render: function( data, type, full, meta ) {
+                                    return data.toLocaleString(currentLang, { 'minimumFractionDigits': 4 });
+                                }
+                            },
+                            {
+                                'targets': 4,
+                                'createdCell' : function (td, cellData, rowData, row, col) {
+                                    if (cellData < 0) {
+                                        $(td).text($(td).text() + ' %');
+                                        return $(td).addClass('text-right red');
+                                    }
+                                    $(td).text($(td).text() + ' %');
+                                    return $(td).addClass('text-right green');
+                                },
+                                render: function( data, type, full, meta ) {
+                                    return data.toLocaleString(currentLang, { 'minimumFractionDigits': 4 });
+                                }
+                            }
+                        ],
+                        "rowCallback": function (row, data, iDisplayIndex) {
+                            var info = this.api().page.info();
+                            var page = info.page;
+                            var length = info.length;
+                            var index = (page * length + (iDisplayIndex + 1));
+                            $('td:eq(0)', row).html(index);
+                        },
+                    });
+                });
+        }
+
+        function getGovernmentBondIndex(){
+            $.get('@Url.Action("GetGovernmentBondIndex", "BondSukuk")',
+                function (result) {
+                    var jsonResult = $.parseJSON(result);
+
+                    if(jsonResult != '' && jsonResult != null){
+                    var governmentDate = moment(jsonResult.Items[0].DateInserted, 'YYYY-MM-DDTHH:mm:ss').locale(currentLang).format('dddd, DD-MMM-YYYY');
+                    $('#governmentDate').text(governmentDate);
+
+                    var governmentTime = moment(jsonResult.Items[0].DateInserted, 'YYYY-MM-DDTHH:mm:ss').locale(currentLang).format('HH:mm:ss');
+                    $('#governmentTime').text(governmentTime);
+
+                    $('#governmentTable').dataTable({
+                        'processing': true,
+                        'paging': false,
+                        'ordering': false,
+                        'info': false,
+                        'filter': false,
+                        'deferRender': true,
+                        'data': jsonResult.Items,
+                        'columns': [
+                            { 'data': 'IndexId' },
+                            { 'data': 'IndexCode' },
+                            { 'data': 'IndexValue' },
+                            { 'data': 'IndexChgVal' },
+                            { 'data': 'IndexChgPct' }
+                        ],
+                        'columnDefs': [
+                            {
+                                'targets': [0,1],
+                                'createdCell' : function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-center');
+                                }
+                            },
+                            {
+                                'targets': 2,
+                                'createdCell' : function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-right');
+                                },
+                                render: function( data, type, full, meta ) {
+                                    return data.toLocaleString(currentLang, { 'minimumFractionDigits': 4 });
+                                }
+                            },
+                            {
+                                'targets': 3,
+                                'createdCell' : function (td, cellData, rowData, row, col) {
+                                    if (cellData < 0) {
+                                        return $(td).addClass('text-right red');
+                                    }
+                                    return $(td).addClass('text-right green');
+                                },
+                                render: function( data, type, full, meta ) {
+                                    return data.toLocaleString(currentLang, { 'minimumFractionDigits': 4 });
+                                }
+                            },
+                            {
+                                'targets': 4,
+                                'createdCell' : function (td, cellData, rowData, row, col) {
+                                    if (cellData < 0) {
+                                        $(td).text($(td).text() + ' %');
+                                        return $(td).addClass('text-right red');
+                                    }
+                                    $(td).text($(td).text() + ' %');
+                                    return $(td).addClass('text-right green');
+                                },
+                                render: function( data, type, full, meta ) {
+                                    return data.toLocaleString(currentLang, { 'minimumFractionDigits': 4 });
+                                }
+                            }
+                        ],
+                        "rowCallback": function (row, data, iDisplayIndex) {
+                            var info = this.api().page.info();
+                            var page = info.page;
+                            var length = info.length;
+                            var index = (page * length + (iDisplayIndex + 1));
+                            $('td:eq(0)', row).html(index);
+                        },
+                    });
+                    }
+                });
+        }
+
+        function getCorporateBondIndex(){
+            $.get('@Url.Action("GetCorporateBondIndex", "BondSukuk")',
+                function (result) {
+                    var jsonResult = $.parseJSON(result);
+                    
+                    if(jsonResult != '' && jsonResult != null){
+                    var corporateDate = moment(jsonResult.Items[0].DateInserted, 'YYYY-MM-DDTHH:mm:ss').locale(currentLang).format('dddd, DD-MMM-YYYY');
+                    $('#corporateDate').text(corporateDate);
+
+                    var corporateTime = moment(jsonResult.Items[0].DateInserted, 'YYYY-MM-DDTHH:mm:ss').locale(currentLang).format('HH:mm:ss');
+                    $('#corporateTime').text(corporateTime);
+
+                    $('#corporateTable').dataTable({
+                        'processing': true,
+                        'paging': false,
+                        'ordering': false,
+                        'info': false,
+                        'filter': false,
+                        'deferRender': true,
+                        'data': jsonResult.Items,
+                        'columns': [
+                            { 'data': 'IndexId' },
+                            { 'data': 'IndexCode' },
+                            { 'data': 'IndexValue' },
+                            { 'data': 'IndexChgVal' },
+                            { 'data': 'IndexChgPct' }
+                        ],
+                        'columnDefs': [
+                            {
+                                'targets': [0,1],
+                                'createdCell' : function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-center');
+                                }
+                            },
+                            {
+                                'targets': 2,
+                                'createdCell' : function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-right');
+                                },
+                                render: function( data, type, full, meta ) {
+                                    return data.toLocaleString(currentLang, { 'minimumFractionDigits': 4 });
+                                }
+                            },
+                            {
+                                'targets': 3,
+                                'createdCell' : function (td, cellData, rowData, row, col) {
+                                    if (cellData < 0) {
+                                        return $(td).addClass('text-right red');
+                                    }
+                                    return $(td).addClass('text-right green');
+                                },
+                                render: function( data, type, full, meta ) {
+                                    return data.toLocaleString(currentLang, { 'minimumFractionDigits': 4 });
+                                }
+                            },
+                            {
+                                'targets': 4,
+                                'createdCell' : function (td, cellData, rowData, row, col) {
+                                    if (cellData < 0) {
+                                        $(td).text($(td).text() + ' %');
+                                        return $(td).addClass('text-right red');
+                                    }
+                                    $(td).text($(td).text() + ' %');
+                                    return $(td).addClass('text-right green');
+                                },
+                                render: function( data, type, full, meta ) {
+                                    return data.toLocaleString(currentLang, { 'minimumFractionDigits': 4 });
+                                }
+                            }
+                        ],
+                        "rowCallback": function (row, data, iDisplayIndex) {
+                            var info = this.api().page.info();
+                            var page = info.page;
+                            var length = info.length;
+                            var index = (page * length + (iDisplayIndex + 1));
+                            $('td:eq(0)', row).html(index);
+                        },
+                    });
+                    }
+
+                    
+                });
+        }
+
+    </script>
+}

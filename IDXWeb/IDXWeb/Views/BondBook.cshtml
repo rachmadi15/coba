@@ -1,0 +1,62 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+	Layout = "Master.cshtml";
+}
+
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (page.DocumentTypeId != 1237){
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>                    
+                } else {
+                    <li class="@cls"><a href="" class="disable"><span>@page.Name</span></li>
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@CurrentPage.Name</h1>
+        </div>
+        <div class="grid-container">
+        </div>
+    </div>
+</main>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            getBondBook();
+        });
+
+        function getBondBook(){
+            $.get('@Url.Action("GetBook", "Book")?nodeId=@CurrentPage.Id', function (result) {
+                for (var i = 0; i < result.length; i++) {                        
+                    $('.grid-container').append(
+                        '<div class="grid-4">' + 
+                            '<figure class="annual-report-container">' +
+                                '<img src="' + result[i].thumbnail + '" alt="" class="annual-report-img">' +
+                                '<figcaption class="annual-report-content">' +
+                                    '<span class="annual-report-title">' + result[i].description + '</span>' +
+                                    '<a target="_blank" href="' + result[i].file + '" class="annual-report-anchor">Download</a>' +
+                                '</figcaption>' +
+                            '</figure>' +
+                        '</div>');
+                }
+            });       
+        }
+
+    </script>
+}

@@ -1,0 +1,125 @@
+{
+    "data": [
+        {
+            "issuesName": "Surat Berharga Syariah Negara Seri PBB010",
+            "bondType": "Sukuk IFR",
+            "bondCode": "Issued Date",
+            "issuedDate": "Mon Oct 26 2015 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "listingDate": "Tue Oct 27 2015 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "maturityDate": "Sat Jan 26 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "nominalValue": 89507.30,
+            "interest": 5.625,
+            "tenure": "39 M",
+            "quarterVolume": 12396.15,
+            "quarterValue": 12765.77,
+            "quarterFreq": 103,
+            "yearVolume": 27076.19,
+            "yearValue": 26176.46,
+            "yearFreq": 237
+        }
+    ],
+    "columns": [
+        {
+            "columnName": "count",
+            "decimal": 0,
+            "format": "count",
+            "className": ""
+        },
+        {
+            "columnName": "issuesName",
+            "decimal": 0,
+            "format": false,
+            "className": "text-left nowrap"
+        },
+        {
+            "columnName": "bondType",
+            "decimal": 0,
+            "format": false,
+            "className": "text-center nowrap"
+        },
+        {
+            "columnName": "bondCode",
+            "decimal": 0,
+            "format": false,
+            "className": "text-center nowrap"
+        },
+        {
+            "columnName": "issuedDate",
+            "decimal": 0,
+            "format": "fullDate",
+            "className": "text-center nowrap"
+        },
+        {
+            "columnName": "listingDate",
+            "decimal": 0,
+            "format": "fullDate",
+            "className": "text-center nowrap"
+        },
+        {
+            "columnName": "maturityDate",
+            "decimal": 0,
+            "format": "fullDate",
+            "className": "text-center nowrap"
+        },
+        {
+            "columnName": "nominalValue",
+            "decimal": 2,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "interest",
+            "decimal": 3,
+            "format": "percent",
+            "className": ""
+        },
+        {
+            "columnName": "tenure",
+            "decimal": 0,
+            "format": false,
+            "className": "text-center"
+        },
+        {
+            "columnName": "quarterVolume",
+            "decimal": 2,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "quarterValue",
+            "decimal": 2,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "quarterFreq",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": null,
+            "decimal": 0,
+            "format": false,
+            "className": ""
+        },
+        {
+            "columnName": "yearVolume",
+            "decimal": 2,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "yearValue",
+            "decimal": 2,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "yearFreq",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        }
+    ]
+}

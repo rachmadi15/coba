@@ -1,0 +1,66 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@using IDXWeb.Models;
+@using Newtonsoft.Json;
+@using System.IO;
+@using Umbraco.Core.Models
+@using Umbraco.Web
+
+
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "DPSMaster.cshtml";
+    var monthlyMenu = new List<MonthlyMenu>();
+    var dir = System.Web.HttpContext.Current.Server.MapPath("~/Views/Partials/DPS/JsonFile/MonthlyMenu.json");
+
+    using (StreamReader r = System.IO.File.OpenText(dir))
+    {
+        string json = r.ReadToEnd();
+        monthlyMenu = JsonConvert.DeserializeObject<List<MonthlyMenu>>(json);
+    }
+
+    int counter = 0;
+    var selection = Model.Content.Children.Where(x => x.IsVisible()).ToArray();
+}
+
+<div class="background-white content-push">
+    <div class="container">
+        <div id="menuContainer" class="statistic-accordion js-statistic-accordion">
+        </div>
+    </div>
+</div>
+@section Scripts{
+    $.getJSON( "/data/MonthlyMenu.json", function( data ) {
+    var items = [];
+    var count = 0;
+    $.each( data, function( key, val ) {
+    count++;
+    items.push('<div class="accordion-item" id="monthly' + count + '">
+        <div class="accordion-head" data-collapse="#monthly'+ count +'">
+            <div>
+                '+ val.name +'
+            </div>
+            <div class="ml-4" style="flex-shrink: 0;">
+                <div class="accordion-head__icon download-toggle is-active" data-toggle="#downloadList' + count + '">
+                    <i class="fa fa-download"></i>
+                    <ul class="download-list" id="downloadList'+ count +'">
+                        <li><a href="#">PDF</a></li>
+                        <li><a href="#">Excel</a></li>
+                    </ul>
+                </div>
+                <div class="accordion-head__icon">
+                    <i class="fa fa-angle-up"></i>
+                    <i class="fa fa-angle-down"></i>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-body">
+            <ul class="list-nostyle ml-8">
+                $.each( val.links, function( kunci, value ) {
+                <li class="mb-4"><a class="statistic-link" href="' + value.url + '">' + value.name + '</a></li>
+                }
+            </ul>
+        </div>
+    </div>');
+    });
+    $("#menuContainer").html(items.join( "" ));
+}

@@ -1,0 +1,137 @@
+﻿@using System.Configuration
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+}
+
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (page.DocumentTypeId != 1237){
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>                    
+                } else {
+                    <li class="@cls"><a href="" class="disable"><span>@page.Name</span></li>
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@CurrentPage.Name</h1>
+        </div>
+        <div class="">
+            <div class="block flex v-center">
+                <span class="form-label-announcement">@Umbraco.GetDictionaryValue("index code")</span>
+                <select name="indexCode" id="indexCodeList" class="form-input form-input--block select2-js">
+                </select>
+            </div>
+            <div class="block flex v-center">
+                <span class="form-label-announcement">@Umbraco.GetDictionaryValue("year")</span>
+                <select name="year" id="yearList" class="form-input form-input--block select2-js">
+                </select>
+            </div>
+            <div class="block flex v-center">
+                <span class="form-label-announcement">&nbsp;</span>
+                <button class="btn btn-primary" onclick="getIndexConstituent()">@Umbraco.GetDictionaryValue("search")</button>
+            </div>
+        </div>
+        <table id="indexConstituentTable" class="table table--zebra table-content-page table-thead-nowrap width-block">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>@Umbraco.GetDictionaryValue("Year")</th>
+                    <th>@Umbraco.GetDictionaryValue("Description")</th>
+                    <th>@Umbraco.GetDictionaryValue("type")</th>
+                    <th>@Umbraco.GetDictionaryValue("size")</th>
+                    <th>@Umbraco.GetDictionaryValue("Download")</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+@section Scripts{
+    <script type="text/javascript" src="/assets/js/vendor/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var currentYear = moment().format('YYYY');
+            for (var i = 0; i <= @ConfigurationManager.AppSettings["maxYear"]; i++) {
+                $('#yearList').append('<option value="' + (currentYear - i) + '">' + (currentYear - i) + '</option>');
+            }
+            getIndexGroup();
+        });
+
+        function getIndexGroup(){
+            $.get('@Url.Action("GetIndexGroupPrevalues", "StockData")', function (result) {
+                for (var i = 0; i < result.length; i++) {
+                    if (result[i].IndexCode !== '0')
+                        $('#indexCodeList').append('<option value="' + result[i].IndexCode + '">' + result[i].IndexCode + '</option>');
+                }
+
+                getIndexConstituent();
+            });
+        }
+
+        function getIndexConstituent(){
+            var selectedCode = $('#indexCodeList option:selected').val();
+            var selectedYear = $('#yearList option:selected').val();
+            if($.fn.DataTable.isDataTable('#indexConstituentTable')){
+                var url = '@Url.Action("GetStockIndex", "StockIndex")' + '?nodeId=@CurrentPage.Id&code=' + selectedCode + '&year=' + selectedYear;
+                $('#indexConstituentTable').DataTable().ajax.url(url).load();
+            }else {
+                $('#indexConstituentTable').dataTable({
+                    'ajax': {
+                        'url': '@Url.Action("GetStockIndex", "StockIndex")' + '?nodeId=@CurrentPage.Id&code=' + selectedCode + '&year=' + selectedYear,
+                    },
+                    'filter': false,
+                    'sort': false,
+                    'serverSide': true,
+                    'processing': true,
+                    'paging': true,
+                    'deferRender': true,
+                    'columns': [
+                        { 'data': 'id' },
+                        { 'data': 'year' },
+                        { 'data': 'description' },
+                        { 'data': 'type' },
+                        { 'data': 'size' },
+                        { 
+                            'data': 'file',
+                            render: function( data, type, full, meta ) {
+                                return '<a target="_blank" href="' + data + '" class="red"><span class="fa fa-file"></span> @Umbraco.GetDictionaryValue("download")</a>';
+                            }
+                        }
+                    ],
+                    'columnDefs': [
+                        {
+                            "targets": [ 0 ],
+                            "visible": false,
+                            "searchable": false
+                        },
+                        {
+                            'targets': [1,2,3,4],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-center');
+                            }
+                        }
+                    ],
+                    "order": [[ 0, 'desc' ]],
+                });
+            }
+        }
+    </script>
+}

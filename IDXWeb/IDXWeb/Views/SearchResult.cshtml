@@ -1,0 +1,115 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+	Layout = "Master.cshtml";
+}
+<main class="sticky-footer-container-item --pushed" ng-controller="SearchController as annoucnementCtrl">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (page.DocumentTypeId != 1237){
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>                    
+                } else {
+                    <li class="@cls"><a href="" class="disable"><span>@page.Name</span></a></li>
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+        </div>
+        <div action="" class="block-double">
+            <div class="block flex v-center">
+                <span class="form-label-announcement">@Umbraco.GetDictionaryValue("keyword")</span>
+                <input id="keywordInput" type="text" class="form-input form-input--block" placeholder="@Umbraco.GetDictionaryValue("keyword")">
+            </div>
+            <div class="block flex v-center">
+                <span class="form-label-announcement">&nbsp;</span>
+                <button id="searchButton" class="btn btn-primary">@Umbraco.GetDictionaryValue("search")</button>
+            </div>
+        </div>
+		<div class="news-list-container">
+		    <div class="news-list-item block" dir-paginate="res in search | itemsPerPage: limit" total-items="totalSearch" current-page="pagination.current">
+		        <div class="news-list-figure">
+		            <div class="news-list-figcaption">
+		                <a href="{{res.link}}" target="_blank" class="news-list-anchor">
+		                    <span class="news-list-title">{{res.title}}</span>
+		                </a>
+		                <p class="news-list-description block-half">{{res.snippet}}</p>
+		                <div class="header-right-content">
+		                    <span class="chevron-bullet"></span>
+		                    <a href="{{res.link}}" target="_blank" class="grey">{{res.formattedUrl}}</a>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		<dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+    </div>
+</main>
+
+@section Scripts{
+    <script>
+        const app = angular.module('app', ['angularUtils.directives.dirPagination'])
+        app.controller('SearchController', ['$scope', '$http', function($scope, $http){
+
+            $scope.search = [];
+            $scope.totalSearch = 0;
+            $scope.currentPage = 1;
+            $scope.limit = 10;
+            $scope.loading = false;
+            $scope.nextIndex = 1;
+            getResultsPage(1);
+
+            $scope.pagination = {
+                current: 1
+            };
+
+            $('#searchButton').on('click', function(e){
+                getResultsPage(1);
+            });
+
+            $scope.pageChanged = function(newPage) {
+                getResultsPage();
+            };
+
+            function getResultsPage() {
+                $scope.loading = true;
+
+                var keyword = decodeURI(getParams('keyword'));
+
+                if ($('#keywordInput').val() === '') {
+                	$('#keywordInput').val(keyword);
+                	$('#global-input-search').val(keyword);
+                	$('#global-input-search').text(keyword);
+                }else{
+            		keyword = $('#keywordInput').val();
+                }
+
+                var url = '@Url.Action("GetSearch", "Search")?keyword=' + keyword + '&indexFrom=' + $scope.nextIndex;
+
+                $http.get(url).then( function (result) {
+	                var data = result.data.items;
+                    var searchInformation = result.data.searchInformation;
+                    var queries = result.data.queries;
+                    $scope.search = data;
+                    $scope.nextIndex = queries.nextPage[0].startIndex;
+                    $scope.totalSearch = searchInformation.totalResults;
+                    $scope.loading = false;
+	            });
+            }
+
+        }])
+    </script>
+}

@@ -1,0 +1,51 @@
+﻿#dashboard-container {
+    width: 100%;
+}
+
+/*#dashboard-container .row {
+    margin-bottom: 25px;
+}*/
+
+.ui.card {
+    border-radius: 0;
+}
+
+.ui.card > .content .highcharts-container {
+    margin: auto;
+    display: flex;
+    /*width: 100% !important;*/
+}
+
+.row > [class^="col-"] {
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+}
+
+.row .ui.card,
+.row .ui.card .content {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+#overall-rating > span {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, 6px);
+    font-size: 27pt;
+    color: #7d7d7d;
+}
+
+.ui.card > .content .highcharts-root {
+    margin: auto;
+}
+
+.datepicker > .input-append.date {
+    width: calc(100% - 32px);
+}
+
+.datepicker > .input-append.date > input.datepickerinput {
+    width: 100%;
+}

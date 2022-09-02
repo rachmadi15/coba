@@ -1,0 +1,21 @@
+{
+    "chartName": "Total Trading Value by Investors 2018 - Q1Q2 2019 (Sell - Buy)",
+    "categories": [
+        "A-A",
+        "A-I",
+        "I-A",
+        "I-I"
+    ],
+    "series": [
+        {
+            "seriesName": "Value",
+            "seriesData": [
+                23.5,
+                15,
+                12.3,
+                49.2
+            ],
+            "seriesColor": "#4472c4"
+        }
+    ]
+}

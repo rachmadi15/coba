@@ -1,0 +1,308 @@
+﻿@using System.Configuration
+@using IDXWeb.Models;
+@using Newtonsoft.Json;
+@using System.IO;
+@using System.Text
+
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "DPSMaster.cshtml";
+    var order = "";
+    var paging = "";
+    var vertical = "";
+    var datatableClass = "";
+    var query = Request.QueryString["q"];
+    var isCumulative = string.IsNullOrEmpty(Request.QueryString["cumulative"]) ? "false" : Request.QueryString["cumulative"];
+    var custom = Umbraco.Field("customClass");
+    var urlName = Umbraco.Field("apiLinkName").ToString();
+    var downloadCode = Umbraco.Field("downloadCode").ToString();
+    var data = Url.Action("GetApiData", "DigitalStatitic", new { urlName = urlName, cumulative = isCumulative, query = query });
+    var fileName = Umbraco.Field("title").ToString();
+    var en = Model.Content.AncestorOrSelf("home").Name == "en-us";
+    if (!string.IsNullOrWhiteSpace(Umbraco.Field("titleQuarterly").ToString()))
+    {
+        fileName = Umbraco.Field("titleQuarterly").ToString();
+    }
+    var printState = Request.QueryString["print"];
+
+
+    if (urlName != urlName.ToUpper())
+    {
+        data = "/data/" + urlName;
+
+    }
+    if (custom != null)
+    {
+        datatableClass = custom.ToString() != "" ? custom.ToString() : "js-datatable";
+    }
+
+    if (Umbraco.Field("ordering").ToString() != "True")
+    {
+        order = "no-ordering";
+    }
+
+    if (printState == "pdf")
+    {
+        paging = "no-paging";
+        vertical = "";
+    }
+    else if (Umbraco.Field("pagination").ToString() != "True" && Umbraco.Field("paging").ToString() != "True")
+    {
+        paging = "no-paging";
+        // vertical = "vertical-scroll";
+    }
+
+
+}
+
+<style>
+    #currentTable tbody tr:nth-child(even) {
+        background-color: #d5d5d5c9;
+    }
+
+    #currentTable tbody tr:nth-child(odd) {
+        background-color: #EFEFEF;
+    }
+
+    #currentTable tbody tr td.pointer {
+        cursor: pointer;
+        font-weight: bolder;
+    }
+
+    #currentTable > tbody > tr.parent-row {
+        cursor: pointer;
+    }
+
+    #currentTable > tbody > tr:hover {
+        background-color: #f2d9d9;
+    }
+</style>
+
+<div class="table-loading">
+    <img src="~/assets/img/Rolling-1s-200px.svg" alt="">
+    Loading...
+</div>
+<div class="background-white content-push">
+    <div class="container mb-16">
+        <div class="table-wrapper">
+            <table id="currentTable" class="statistic-table @vertical  @order  @datatableClass @paging" data-json="@data">
+                @Html.Partial(Umbraco.Field("headerPartialView").ToString())
+            </table>
+        </div>
+        @if (Umbraco.Field("notes").ToString() != "")
+        {
+            <div>
+                <p class="text-bold mb-4">Notes</p><br />
+                @Html.Raw(Umbraco.Field("notes").ToString())
+            </div>
+        }
+    </div>
+</div>
+@section Scripts{
+<script type="text/javascript">
+
+    var currTable = $("#currentTable");
+    if (currTable.attr('class').includes('width-')) {
+        var width = currTable.attr('class').split('-');
+        if (width.length > 1) {
+            currTable.css('width', width[1]);
+        }
+    }
+    
+    var errorShown = false;
+    var loader = $('.table-loading');
+
+    var dataTable = null;
+
+    var downloadState = true;
+    function getData(type) {
+        errorShown = false;
+        
+        dataTable = $('#currentTable').DataTable({
+            ajax: {
+                error: function (err) {
+                    loader.hide();
+                    if (errorShown) return;
+                    var message = 'Gagal mengambil data statistik. Cobalah beberapa saat lagi.';
+                    @if (en) {
+                        <text>message = 'Failed to load statistic data. Please try again later.';</text>
+                    }
+                    errorShown = true;
+                    alert(message);
+                }
+            }
+        });
+
+        if (type != undefined) {
+            $('#filteredType').val(type);
+            setTabVisibility()
+        }
+
+        loader.fadeIn();
+
+        var filteredType = $('#filteredType').val();
+        var periodYear = $('#filterYear').val();
+        var periodMonth = $('#filterMonth').val();
+        var periodQuarter = $('#filterQuarter').val();
+        var dateFiltered = $('#dateFiltered').val();
+        var startDate = $('#startDate').val();
+        var endDate = $('#endDate').val();
+        if (typeof setDataTableHeader == "function") {
+            setDataTableHeader()
+        }
+        var queryparam = "&";
+
+        if (periodYear != undefined) {
+//                setCookie("filterYear", periodYear);
+            queryparam += 'periodYear=' + periodYear;
+        }
+        if (periodMonth != undefined) {
+//                setCookie("filterMonth", periodMonth);
+            queryparam += '&periodMonth=' + periodMonth;
+
+        }
+
+        if (periodQuarter != undefined) {
+            queryparam += '&periodQuarter=' + periodQuarter;
+        }
+        queryparam += '&periodType=' + filteredType;
+        if(startDate != undefined) {
+            queryparam += '&startDate=' + startDate;
+        }
+        if (endDate != undefined) {
+            queryparam += '&endDate=' + endDate;
+        }
+        if (dateFiltered != undefined) {
+            queryparam += '&dateFiltered=' + dateFiltered;
+        }
+        queryparam += '&cumulative=' + @isCumulative;
+        var url = '@Url.Action("GetApiDataSearch", "DigitalStatitic", new { urlName = urlName })' + queryparam;
+
+        if (dataTable == null) {
+            dataTable = $('#currentTable').DataTable();
+        }
+        dataTable.ajax.url(url).load(function (res) {
+            dataTable.columns().every(function (i) {
+                $(dataTable.column(i).header()).text(res.columns[i].columnTitle);
+            });
+            createFooter($("#currentTable"), res);
+
+            // Row Click Listener
+            //for (var row of ) {
+            $('#currentTable tr').unbind("click");
+            $('#currentTable tr').on('click', function (e) {
+                var clickedDOM = e.currentTarget;
+                var clickedName = $(clickedDOM).data("name");
+                var segments = clickedName.toString().split('.');
+
+                if (segments.length > 1 && this.res.NameRow !== 'MasterIndex') {
+                    addParentRowClickListener(dataTable, this.res, segments[0]);
+                } else {
+                    var dtRow = dataTable.row(clickedDOM);
+                    if (dtRow.child.isShown()) {
+                        dtRow.child.hide();
+                    } else {
+                        dataTable.rows('.parent-row').nodes().to$().not(this).map(function (id, tr) {
+                            if (dataTable.row(tr).child.isShown()) dataTable.row(tr).child.hide();
+                        });
+                        var data = this.res.data.find(x => x.Name == clickedName);
+
+                        if (data == null || data.months == null || data.months.length <= 0) return;
+                        var newRows = collapsibleRowTemplate(data.months, this.res.columns);
+                        dtRow.child(newRows).show();
+                    }
+                }
+            }.bind({ res: res }));
+            //}
+
+            loader.fadeOut();
+            loader.hide();
+        }, true);
+        setTitle();
+    }
+
+    function getReport(tipe) {
+        var dataTable = $('#currentTable').DataTable();
+
+        if (dataTable != null) {
+            var a = dataTable.data().count();
+            if (a == 0 || a ==  undefined) {
+                downloadState = false;
+            } else {
+                downloadState = true;
+            }
+        }
+        if (downloadState) {
+            var filteredType = $('#filteredType').val();
+            var periodYear = $('#filterYear').val();
+            var periodMonth = $('#filterMonth').val();
+            var periodQuarter = $('#filterQuarter').val();
+            var dateFiltered = $('#dateFiltered').val();
+            var startDate = $('#startDate').val();
+            var endDate = $('#endDate').val();
+            var queryparam = "&type=" + tipe;
+            queryparam += '&periodType=' + filteredType;
+
+            if (periodYear != undefined) {
+//                    setCookie("filterYear", periodYear);
+                queryparam += '&periodYear=' + periodYear;
+            }
+            if (periodMonth != undefined && filteredType == "monthly") {
+//                    setCookie("filterMonth", periodMonth);
+                queryparam += '&periodMonth=' + periodMonth;
+
+            }
+            if (periodQuarter != undefined && filteredType == "quarterly") {
+                queryparam += '&periodQuarter=' + periodQuarter;
+            }
+
+            if (dateFiltered != undefined) {
+                queryparam += '&dateFiltered=' + dateFiltered;
+            }
+
+            if (startDate != undefined) {
+                queryparam += '&startDate=' + startDate;
+            }
+            if (endDate != undefined) {
+                queryparam += '&endDate=' + endDate;
+            }
+            queryparam += '&cumulative=' + @isCumulative;
+
+            queryparam += '&filecode=' + '@downloadCode';
+
+//                if (tipe == "pdf") {
+//                    var loc = window.location.href;
+//
+//                    //printDiv("mainStatistik");
+//                    //window.print();
+//                } else {
+            filename = '@Umbraco.Field("title")'
+            if (filteredType == "quarterly") {
+                filename = "@(string.IsNullOrEmpty(Umbraco.Field("titleQuarterly").ToString()) ? Umbraco.Field("title") : Umbraco.Field("titleQuarterly"))";
+            }
+            queryparam += '&filename='+filename;
+            var url = '@Url.Action("GetReportData", "DigitalStatitic", new { xyzzz = 0 })' + queryparam;
+//                }
+
+//                if (tipe == "pdf") {
+                window.open(url, '_blank');
+//                } else {
+//                console.log(url)
+//                    location.href = url;
+//                }
+        } else {
+            alert("Sorry, no data available in table.");
+        }
+    }
+    </script>
+
+    @if (Umbraco.Field("searching").ToString() == "True")
+    {
+        <script type="text/javascript">
+            // #myInput is a <input type="text"> element
+            $('#searchBox').on('keyup', function () {
+                $('#currentTable').DataTable().search(this.value).draw();
+            });
+        </script>
+    }
+}

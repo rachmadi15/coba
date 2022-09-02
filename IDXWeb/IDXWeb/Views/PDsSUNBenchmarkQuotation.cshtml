@@ -1,0 +1,605 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+}
+
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic>
+                pages = new Stack<dynamic>
+                    ();
+            while (current.Level > 1) {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages) {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (page.DocumentTypeId != 1237) {
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>
+                }
+                else {
+                    <li class="@cls"><a href="" class="disable"><span>@page.Name</span></li>
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+        </div>
+    </div>
+    <div class="background-light-grey content-push">
+        <div class="container">
+            <form class="search-instrument">
+                <div class="bzg flex v-center mb-8">
+                    <div class="bzg_c" data-col="s2">Instrument</div>
+                    <div class="bzg_c" data-col="s9">
+                        <select class="form-input form-input--block" id="selectInstrument">
+                        </select>
+                    </div>
+                </div>
+                <div class="bzg flex v-center">
+                    <div class="bzg_c" data-col="s2"></div>
+                    <div class="bzg_c" data-col="s9">
+                        <button class="btn btn-primary" id="search-btn">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="background-white content-push">
+        <div class="container">
+            <div class="benchmark-quotation-slider">
+                <button id="leftArw" class="slick-prev slick-arrow" aria-label="Previous" style=""><span class="fa fa-angle-left"></span></button>
+                <div>
+                    <div class="text-center">
+                        <h2 class="mb-12" id="instrumentTitle"></h2>
+                        <div class="mb-24"><b>Date :</b> <span id="curDate"></span></div>
+                    </div>
+                    <div class="table-wrapper mb-36">
+                        <table class="statistic-table secondary">
+                            <thead class="thead-plain">
+                                <tr>
+                                    <th class="text-center">Type</th>
+                                    <th class="text-center">Last Trade</th>
+                                    <th class="text-center">Mid Price</th>
+                                    <th class="text-center">Avg Bid Price</th>
+                                    <th class="text-center">Avg Offer Price</th>
+                                    <th class="text-center">Prev Mid Price</th>
+                                    <th class="text-center">Prev Bid Price</th>
+                                    <th class="text-center">Prev Offer Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="text-center">
+                                    <th>All</th>
+                                    <td id="allLT"></td>
+                                    <td id="allMP"></td>
+                                    <td id="allABP" class="green"></td>
+                                    <td id="allAOP" class="red"></td>
+                                    <td id="allPMP" class="highlighted"></td>
+                                    <td id="allPABP" class="highlighted red"></td>
+                                    <td id="allPAOP" class="highlighted green"></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <th>Firm</th>
+                                    <td id="firmLT"></td>
+                                    <td id="firmMP"></td>
+                                    <td id="firmABP" class="green"></td>
+                                    <td id="firmAOP" class="red"></td>
+                                    <td id="firmPMP" class="highlighted"></td>
+                                    <td id="firmPABP" class="highlighted red"></td>
+                                    <td id="firmPAOP" class="highlighted green"></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <th>Indicative</th>
+                                    <td id="indLT"></td>
+                                    <td id="indMP"></td>
+                                    <td id="indABP" class="green"></td>
+                                    <td id="indAOP" class="red"></td>
+                                    <td id="indPMP" class="highlighted"></td>
+                                    <td id="indPABP" class="highlighted red"></td>
+                                    <td id="indPAOP" class="highlighted green"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="block">
+                        <div class="content-tab-container block content-tab-container--center wrap">
+                            <div class="content-tab-item">
+                                <a href="#sortName" class="content-tab-anchor content-tab-anchor--wide etp-trading-tab-js is-active">Sort by Name</a>
+                            </div>
+                            <div class="content-tab-item">
+                                <a href="#sortPrice" class="content-tab-anchor content-tab-anchor--wide etp-trading-tab-js">Sort by Price</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="etp-trading-container is-active" id="sortName">
+                        <div class="table-wrapper">
+                            <table class="statistic-table js-datatable-benchmark no-paging" data-member-col="1" id="nameTable">
+                                <thead class="thead-plain">
+                                    <tr>
+                                        <th class="text-center nowrap">No</th>
+                                        <th class="text-center">Member</th>
+                                        <th class="text-center">Time</th>
+                                        <th class="text-center">F/I</th>
+                                        <th class="text-center">Bid Size</th>
+                                        <th class="text-center">Bid</th>
+                                        <th class="text-center">Offer</th>
+                                        <th class="text-center">Offer Size</th>
+                                        <th class="text-center">F/I</th>
+                                        <th class="text-center">Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="etp-trading-container" id="sortPrice">
+                        <div class="table-wrapper pair-table">
+                            <div style="width:50%;float: left">
+                                <table id="leftTable" class="statistic-table js-datatable-benchmark no-paging" data-member-col="0" data-unorderable="1" nowrapper="true">
+                                    <thead class="thead-plain">
+                                        <tr>
+                                            <th class="text-center nowrap">Member</th>
+                                            <th class="text-center nowrap">Time</th>
+                                            <th class="text-center nowrap">F/I</th>
+                                            <th class="text-center nowrap">Bid Size</th>
+                                            <th class="text-center nowrap">Bid</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="width:50%; float:right">
+                                <table id="rightTable" class="statistic-table js-datatable-benchmark no-paging" data-member-col="4" data-unorderable="3" nowrapper="true">
+                                    <thead class="thead-plain">
+                                        <tr>
+                                            <th class="text-center nowrap">Offer</th>
+                                            <th class="text-center nowrap">Offer Size</th>
+                                            <th class="text-center nowrap">F/I</th>
+                                            <th class="text-center nowrap">Time</th>
+                                            <th class="text-center nowrap">Member</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button id="rightArw" class="slick-next slick-arrow" aria-label="Next" style=""><span class="fa fa-angle-right"></span></button>
+            </div>
+
+        </div>
+    </div>
+</main>
+@section Scripts{
+    <script type="text/javascript" src="/assets/js/vendor/jquery.dataTables.min.js"></script>
+    <script>
+    
+        var marketTime;
+        var closeTime;
+        $(function () {
+            if(currentLang != "en-us"){
+                jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+                    "formatted-num-pre": function ( a ) {
+                        a = (a === "-" || a === "") ? 0 : a.replace( /[^\d\-\,]/g, "" );
+                        return parseFloat( a );
+                    },
+                 
+                    "formatted-num-asc": function ( a, b ) {
+                        return a - b;
+                    },
+                 
+                    "formatted-num-desc": function ( a, b ) {
+                        return b - a;
+                    }
+                } );
+                jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+                	"numeric-comma-pre": function ( a ) {
+                		var x = (a == "-") ? 0 : a.replace( /,/, "," );
+                		return parseFloat( x );
+                	},
+                
+                	"numeric-comma-asc": function ( a, b ) {
+                		return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+                	},
+                
+                	"numeric-comma-desc": function ( a, b ) {
+                		return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+                	}
+                } );
+            }else{
+                jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+                    "formatted-num-pre": function ( a ) {
+                        a = (a === "-" || a === "") ? 0 : a.replace( /[^\d\-\.]/g, "" );
+                        return parseFloat( a );
+                    },
+                 
+                    "formatted-num-asc": function ( a, b ) {
+                        return a - b;
+                    },
+                 
+                    "formatted-num-desc": function ( a, b ) {
+                        return b - a;
+                    }
+                } );
+                jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+                	"numeric-comma-pre": function ( a ) {
+                		var x = (a == "-") ? 0 : a.replace( /,/, "." );
+                		return parseFloat( x );
+                	},
+                
+                	"numeric-comma-asc": function ( a, b ) {
+                		return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+                	},
+                
+                	"numeric-comma-desc": function ( a, b ) {
+                		return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+                	}
+                } );
+            }
+            $('#search-btn').on('click', function (e) {
+                var instrument = $('#selectInstrument option:selected').val();
+                getPreviousData(instrument);
+            });
+
+            getInstrumentList();
+            
+            $('#leftArw').on('click', function(e) {
+                var curVal = $('#selectInstrument')[0].options.selectedIndex;
+                var lefVal = curVal - 1;
+                
+                $('#selectInstrument')[0].value = $('#selectInstrument')[0].options[lefVal].value;
+                getPreviousData($('#selectInstrument')[0].options[lefVal].value);
+            });
+            
+            $('#rightArw').on('click', function(e) {
+                var curVal = $('#selectInstrument')[0].options.selectedIndex;
+                var rightVal = curVal + 1;
+                
+                $('#selectInstrument')[0].value = $('#selectInstrument')[0].options[rightVal].value;
+                getPreviousData($('#selectInstrument')[0].options[rightVal].value);
+            });
+            
+            $.get('@Url.Action("GetMarketTime", "Helper")?culture=' + currentLang, function (result) {
+                marketTime = moment();
+                closeTime = moment().set({h: 16, m: 0, s:0});
+            });
+            
+        });
+        
+        function showHideArw(index, maxIndex){
+            if(index == 0){
+                $('#leftArw').hide();
+            }else if(index > 0){
+                $('#leftArw').show();
+            }
+            if(index == maxIndex){
+                $('#rightArw').hide();
+            }else if(index < maxIndex){
+                $('#rightArw').show();
+            }
+            
+        }
+
+        function getInstrumentList() {
+            $.get('@Url.Action("GetInstrumentList", "BondSukuk")').then(function (result) {
+                for (i = 0; i < result.Results.length; i++){
+                    var dat = result.Results[i].Instrument;
+                    $('#selectInstrument').append('<option value="' + dat + '">' + dat + '</option>');
+                    if(i == 0){
+                        getPreviousData(result.Results[i].Instrument);
+                    }
+                }
+                showHideArw(0, result.Results.length - 1);
+            });
+        }
+
+        function getPreviousData(instrument) {
+            var curInstrument;
+            $.get('@Url.Action("GetPdQuotationReference", "BondSukuk")?Instrument=' + instrument).then(function (result) {
+                var dat = result.Results[0];
+                if (dat != null) {
+                    $('#instrumentTitle').text(dat.Instrument);
+                    curInstrument = dat.Instrument;
+                    $('#curDate').text(moment(dat.OutputDateTime).locale(currentLang).format('dddd, DD-MMM-YYYY'));
+
+                    $('#allLT').text(dat.LastTrade.toLocaleString(currentLang, {style: 'decimal', maximumFractionDigits: 10}));
+                    $('#allMP').text(dat.AllMidPrice.toLocaleString(currentLang, {style: 'decimal', maximumFractionDigits: 10}));
+                    $('#allABP').text(dat.AllAvgBidPrice.toLocaleString(currentLang, {style: 'decimal', maximumFractionDigits: 10}));
+                    $('#allAOP').text(dat.AllAvgOfferPrice.toLocaleString(currentLang, {style: 'decimal', maximumFractionDigits: 10}));
+                    $('#allPMP').text(dat.AllMidPricePrev.toLocaleString(currentLang, {style: 'decimal', maximumFractionDigits: 10}));
+                    $('#allPABP').text(dat.AllAvgBidPricePrev.toLocaleString(currentLang, {style: 'decimal', maximumFractionDigits: 10}));
+                    $('#allPAOP').text(dat.AllAvgOfferPricePrev.toLocaleString(currentLang, {style: 'decimal', maximumFractionDigits: 10}));
+
+                    $('#firmLT').text(dat.LastTrade.toLocaleString(currentLang, {style: 'decimal', maximumFractionDigits: 10}));
+                    $('#firmMP').text(dat.FirmMidPrice.toLocaleString(currentLang, {style: 'decimal', maximumFractionDigits: 10}));
+                    $('#firmABP').text(dat.FirmAvgBidPrice.toLocaleString(currentLang, {style: 'decimal', maximumFractionDigits: 10}));
+                    $('#firmAOP').text(dat.FirmAvgOfferPrice.toLocaleString(currentLang, {style: 'decimal', maximumFractionDigits: 10}));
+                    $('#firmPMP').text(dat.FirmMidPricePrev.toLocaleString(currentLang, {style: 'decimal', maximumFractionDigits: 10}));
+                    $('#firmPABP').text(dat.FirmAvgBidPricePrev.toLocaleString(currentLang, {style: 'decimal', maximumFractionDigits: 10}));
+                    $('#firmPAOP').text(dat.FirmAvgOfferPricePrev.toLocaleString(currentLang, {style: 'decimal', maximumFractionDigits: 10}));
+
+                    $('#indLT').text(dat.LastTrade.toLocaleString(currentLang, {style: 'decimal', maximumFractionDigits: 10}));
+                    $('#indMP').text(dat.IndicativeMidPrice.toLocaleString(currentLang, {style: 'decimal', maximumFractionDigits: 10}));
+                    $('#indABP').text(dat.IndicativeAvgBidPrice.toLocaleString(currentLang, {style: 'decimal', maximumFractionDigits: 10}));
+                    $('#indAOP').text(dat.IndicativeAvgOfferPrice.toLocaleString(currentLang, {style: 'decimal', maximumFractionDigits: 10}));
+                    $('#indPMP').text(dat.IndicativeMidPricePrev.toLocaleString(currentLang, {style: 'decimal', maximumFractionDigits: 10}));
+                    $('#indPABP').text(dat.IndicativeAvgBidPricePrev.toLocaleString(currentLang, {style: 'decimal', maximumFractionDigits: 10}));
+                    $('#indPAOP').text(dat.IndicativeAvgOfferPricePrev.toLocaleString(currentLang, {style: 'decimal', maximumFractionDigits: 10}));
+                } else {
+                    $('#instrumentTitle').text(instrument);
+                    $('#curDate').text('-');
+
+                    $('#allLT').text('-');
+                    $('#allMP').text('-');
+                    $('#allABP').text('-');
+                    $('#allAOP').text('-');
+                    $('#allPMP').text('-');
+                    $('#allPABP').text('-');
+                    $('#allPAOP').text('-');
+
+                    $('#firmLT').text('-');
+                    $('#firmMP').tedxt('-');
+                    $('#firmABP').text('-');
+                    $('#firmAOP').text('-');
+                    $('#firmPMP').text('-');
+                    $('#firmPABP').text('-');
+                    $('#firmPAOP').text('-');
+
+                    $('#indLT').text('-');
+                    $('#indMP').text('-');
+                    $('#indABP').text('-');
+                    $('#indAOP').text('-');
+                    $('#indPMP').text('-');
+                    $('#indPABP').text('-');
+                    $('#indPAOP').text('-');
+                }
+                
+
+                $.get('@Url.Action("GetPdQuotation", "BondSukuk")?Instrument=' + curInstrument)
+                    .then(function (result) {
+                        getNameTable(result);
+                        getLeftTable(result);
+                        getRightTable(result);
+                    });
+            });
+        }
+
+        function getNameTable(result) {
+            if ($.fn.DataTable.isDataTable('#nameTable')) {
+                var dt = $('#nameTable').DataTable();
+                dt.clear();
+                if(result.data.length > 0)
+                    dt.rows.add(result.data);
+                dt.draw();
+            } else {
+                $('#nameTable').dataTable({
+                    'data': result.data,
+                    'filter': false,
+                    'sort': true,
+                    'order' : [[2, "desc"]],
+                    'serverSide': false,
+                    'processing': false,
+                    'paging': false,
+                    'deferRender': true,
+                    'bInfo': false,
+                    'language': {
+                        'decimal': '.'
+                    },
+                    'columns': [
+                        { 'data': 'FirmCode' },
+                        { 'data': 'FirmCode' },
+                        { 'data': 'OutputDateTime' },
+                        { 'data': 'FI' },
+                        { 'data': 'BidSize' },
+                        { 'data': 'Bid' },
+                        { 'data': 'Offer' },
+                        { 'data': 'OfferSize' },
+                        { 'data': 'FI' },
+                        { 'data': 'OutputDateTime' },
+                    ],
+                    'columnDefs': [
+                        {
+                            'targets': [0, 1, 2, 3, 8, 9],
+                            'createdCell': function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-center');
+                            }
+                        },
+                        {
+                            'targets': [2, 9],
+                            'render': function (data, type, row, meta) {
+                                return moment(data).format('HH:mm');
+                            }
+                        },
+                        {
+                            'targets': [4, 5],
+                            'createdCell': function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('green text-right');
+                            },
+                            'render': function (data, type, row, meta) {
+                                return data.toLocaleString(currentLang, {'maximumFractionDigits' : 10});                                
+                            },
+                            'type':'numeric-comma'
+                        },
+                        {
+                            'targets': [6, 7],
+                            'createdCell': function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('red text-right');
+                            },
+                            'render': function (data, type, row, meta) {
+                                return data.toLocaleString(currentLang, {'maximumFractionDigits' : 10}); 
+                            },
+                            'type': 'numeric-comma'
+                        }
+                    ],
+                    "rowCallback": function (row, data, iDisplayIndex) {
+                        var info = this.api().page.info();
+                        var page = info.page;
+                        var length = info.length;
+                        var index = (page * length + (iDisplayIndex + 1));
+                        $('td:eq(0)', row).html(index);
+                    },
+                });
+            }
+            
+            var curVal = $('#selectInstrument')[0].options.selectedIndex;
+            var max = $('#selectInstrument')[0].options.length - 1;
+            showHideArw(curVal, max);
+            if(!marketTime.isAfter(closeTime) && marketTime != closeTime){
+                var dt = $('#nameTable').DataTable();
+                dt.columns(1).visible(false);
+            }
+        }
+
+            function getLeftTable(result) {
+            
+                if ($.fn.DataTable.isDataTable('#leftTable')) {
+                    var dt = $('#leftTable').DataTable();
+                    dt.clear();
+                    if(result.data.length > 0)
+                        dt.rows.add(result.data);
+                    dt.draw();
+                } else {
+                    $('#leftTable').dataTable({
+                        'data': result.data,
+                        'filter': false,
+                        'sort': true,
+                        'order': [[4, "desc"]],
+                        'serverSide': false,
+                        'processing': false,
+                        'paging': false,
+                        'deferRender': true,
+                        'bInfo': false,
+                        'language': {
+                            'decimal': '.'
+                        },
+                        'columns': [
+                            { 'data': 'FirmCode' },
+                            { 'data': 'OutputDateTime' },
+                            { 'data': 'FI' },
+                            { 'data': 'BidSize' },
+                            { 'data': 'Bid' }
+                        ],
+                        'columnDefs': [
+                            {
+                                'targets': [0, 1, 2],
+                                'createdCell': function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-center');
+                                }
+                            },
+                            {
+                                'targets': [1],
+                                'render': function (data, type, row, meta) {
+                                    return moment(data).format('HH:mm');
+                                }
+                            },
+                            {
+                                'targets': [3],
+                                'createdCell': function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('green text-right');
+                                },
+                                'render': function (data, type, row, meta) {
+                                    return data.toLocaleString(currentLang, {'maximumFractionDigits' : 10});                                
+                                },
+                                'type':'numeric-comma'
+                            },
+                            {
+                                'targets' : [4],
+                                'createdCell' : function(td, cellData, rowData, row, col){
+                                    return $(td).addClass('green text-right solid-border--right');
+                                },
+                                'render': function (data, type, row, meta) {
+                                    return data.toLocaleString(currentLang, {'maximumFractionDigits' : 10});                                
+                                },
+                                'type':'numeric-comma'
+                            }
+                        ]
+                    });
+                }
+                
+                
+            var curVal = $('#selectInstrument')[0].options.selectedIndex;
+            var max = $('#selectInstrument')[0].options.length - 1;
+            showHideArw(curVal, max);
+            if(!marketTime.isAfter(closeTime)  && marketTime != closeTime){
+                var dt = $('#leftTable').DataTable();
+                dt.columns(0).visible(false);
+            }
+        }
+
+        function getRightTable(result) {
+            if ($.fn.DataTable.isDataTable('#rightTable')) {
+                var dt = $('#rightTable').DataTable();
+                    dt.clear();
+                    if(result.data.length > 0)
+                        dt.rows.add(result.data);
+                    dt.draw();
+            } else {
+                $('#rightTable').dataTable({
+                    'data': result.data,
+                    'filter': false,
+                    'sort': true,
+                    'order': [[0, "asc"]],
+                    'serverSide': false,
+                    'processing': false,
+                    'paging': false,
+                    'deferRender': true,
+                    'bInfo': false,
+                    'language': {
+                        'decimal': '.'
+                    },
+                    'columns': [
+                        { 'data': 'Offer' },
+                        { 'data': 'OfferSize' },
+                        { 'data': 'FI' },
+                        { 'data': 'OutputDateTime' },
+                        { 'data': 'FirmCode' }
+                    ],
+                    'columnDefs': [
+                        {
+                            'targets': [2, 3, 4],
+                            'createdCell': function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-center');
+                            }
+                        },
+                        {
+                            'targets': [3],
+                            'render': function (data, type, row, meta) {
+                                return moment(data).format('HH:mm');
+                            }
+                        },
+                        {
+                            'targets': [0, 1],
+                            'createdCell': function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('red text-right');
+                            },
+                            'render': function (data, type, row, meta) {
+                                return data.toLocaleString(currentLang, {'maximumFractionDigits' : 10}); 
+                            },
+                            'type': 'numeric-comma'
+                        }
+                    ]
+                });
+            }
+            
+            var curVal = $('#selectInstrument')[0].options.selectedIndex;
+            var max = $('#selectInstrument')[0].options.length - 1;
+            showHideArw(curVal, max);
+            
+            if(!marketTime.isAfter(closeTime)  && marketTime != closeTime){
+                var dt = $('#rightTable').DataTable();
+                dt.columns(4).visible(false);
+            }
+        }
+    </script>
+}

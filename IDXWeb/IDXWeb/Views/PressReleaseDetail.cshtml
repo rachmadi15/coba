@@ -1,0 +1,76 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+	Layout = "Master.cshtml";
+}
+
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (!page.Name.Contains("Detail"))
+                {
+                    if (page.DocumentTypeId != 1237)
+                    {
+                        <li class="@cls"><a href="@page.Url">@page.Name</a></li>
+                    }
+                    else
+                    {
+                        <li class="@cls"><a href="" class="disable"><span>@page.Name</span></a></li>
+                    }
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+        </div>
+        <div class="news-detail-content-container block-double">
+            <h2 id="prTitle" class="news-detail-title block-half"></h2>
+            <div class="news-detail-support-content-container block">
+                <time class="news-detail-date"><b><span id="prTime"></span></b></time>
+                <div class="news-detail-social-media-container">
+                    <span class="news-detail-social-media-text">Share</span>
+                    <a href="" class="news-detail-social-media-anchor"><span class="fa fa-facebook-square"></span></a>
+                    <a href="" class="news-detail-social-media-anchor"><span class="fa fa-twitter"></span></a>
+                </div>
+            </div>
+            <div id="prContent"></div>
+        </div>
+        <div class="flexbox block">
+            <div class="v-center v-center--spread">
+                @*<a href="" class="color-red text-bold"><span class="fa fa-chevron-left"></span> Previous Release</a>*@
+                <a href="@Umbraco.TypedContent(Request.Url.ToString().Contains("en-us") ? 1321 : 1512).Url" class="color-red text-bold">Back to List</a>
+                @*<a href="" class="color-red text-bold">Next Release <span class="fa fa-chevron-right"></span></a>*@
+            </div>
+        </div>
+    </div>   
+</main>
+
+@section Scripts{
+    <script type="text/javascript">
+        var emitenCode = getParams('emitenCode');
+        $(function () {
+            getDetail();
+        });
+
+        function getDetail() {
+            $.get('@Url.Action("GetPressReleaseDetail", "NewsAnnouncement")?id=' + emitenCode, function (result) {
+                $('#prTitle').text(result.Title);
+                $('#prTime').text(moment(result.PublishedDate).locale(currentLang).format('DD MMMM YYYY'));
+                $('#prContent').append(result.Contents);
+            });
+        }
+    </script>
+}

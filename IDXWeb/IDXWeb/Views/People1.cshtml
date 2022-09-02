@@ -1,0 +1,413 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+}
+    <main class="sticky-footer-container-item --pushed">
+        <div class="container top-space">
+            @{
+                IPublishedContent current = (CurrentPage);
+                Stack<dynamic> pages = new Stack<dynamic>();
+                while (current.Level > 1)
+                {
+                    pages.Push(current);
+                    current = current.Parent;
+                }
+            }
+
+            <ul class="breadcrumb block">
+                <li><a href="/"><span class="fa fa-home"></span></a></li>
+                @foreach (var page in pages)
+                {
+                    var cls = page.Id == CurrentPage.Id ? "current" : "";
+                    if (page.DocumentTypeId != 1237)
+                    {
+                        <li class="@cls"><a href="@page.Url">@page.Name</a></li>
+
+                    }
+                    else
+                    {
+                        <li class="@cls"><a href="" class="disable"><span>@page.Name</span></li>
+                    }
+                }
+            </ul>
+            <div class="page-title-container">
+                <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+            </div>
+            <div class="content-tab-container block --center">
+                <div class="content-tab-item">
+                    <a href="#bod" class="content-tab-anchor people-tab-js is-active">@Umbraco.AssignedContentItem.GetPropertyValue("boardOfDirectorTabTitle")</a>
+                </div>
+                <div class="content-tab-item">
+                    <a href="#boc" class="content-tab-anchor people-tab-js">@Umbraco.AssignedContentItem.GetPropertyValue("boardOfComissionerTabTitle")</a>
+                </div>
+
+                <div class="content-tab-item">
+                    <a href="#hou" class="content-tab-anchor people-tab-js">@Umbraco.AssignedContentItem.GetPropertyValue("headOfDivisionTabTitle")</a>
+                </div>
+                <div class="content-tab-item">
+                    <a href="#os" class="content-tab-anchor people-tab-js">@Umbraco.AssignedContentItem.GetPropertyValue("organizationTabTitle")</a>
+                </div>
+                <div class="content-tab-item">
+                    <a href="#icms" class="content-tab-anchor people-tab-js">@Umbraco.AssignedContentItem.GetPropertyValue("structureTabTitle")</a>
+                </div>
+            </div>
+        </div>
+        @{ /**************************************************** Board of Directors *********************************************************************/ }
+        <div class="people-container is-active" id="bod" data-more="@Umbraco.GetDictionaryValue("read more")" data-close="@Umbraco.GetDictionaryValue("close box")">
+            <div class="hof-parent hof-accordion-js">
+                <div class="container">
+                    <figure class="hof-figure">
+                        @{
+                            var image = Model.Content.GetPropertyValue<IPublishedContent>("presidentDir");
+                            if (image != null)
+                            {
+                                var imageUrl = image.Url;
+                                <img src="@imageUrl" alt="" class="hof-img">
+                            }
+                        }
+                        <figcaption class="hof-figcaption">
+                            <span class="hof-figcaption-name">@Umbraco.AssignedContentItem.GetPropertyValue("presidentDirectorName")</span>
+                            <span class="hof-figcaption-title">@Umbraco.AssignedContentItem.GetPropertyValue("presidentDirectorTitle")</span>
+                            @{
+                                var presidentDirectorDesc = Umbraco.AssignedContentItem.GetPropertyValue("presidentDirectorDescription");
+                            }
+                            <div class="hof-figcaption-description">
+                                @presidentDirectorDesc
+                            </div>
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+            <div class="hof-parent hof-accordion-js">
+                <div class="container">
+                    <figure class="hof-figure">
+                        @{
+                            var image1 = Model.Content.GetPropertyValue<IPublishedContent>("director1Image");
+                            if (image1 != null)
+                            {
+                                var imageUrl = image1.Url;
+                                <img src="@imageUrl" alt="" class="hof-img">
+                            }
+                        }
+                        <figcaption class="hof-figcaption">
+                            <span class="hof-figcaption-name">@Umbraco.AssignedContentItem.GetPropertyValue("director1Name")</span>
+                            <span class="hof-figcaption-title">@Umbraco.AssignedContentItem.GetPropertyValue("director1Title")</span>
+                            @{
+                                var director1Desc = Umbraco.AssignedContentItem.GetPropertyValue("director1Description");
+                            }
+                            <div class="hof-figcaption-description">
+                                @director1Desc
+                            </div>
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+            <div class="hof-parent hof-accordion-js">
+                <div class="container">
+                    <figure class="hof-figure">
+                        @{
+                            var image2 = Model.Content.GetPropertyValue<IPublishedContent>("director2Image");
+                            if (image2 != null)
+                            {
+                                var imageUrl = image2.Url;
+                                <img src="@imageUrl" alt="" class="hof-img">
+                            }
+                        }
+                        <figcaption class="hof-figcaption">
+                            <span class="hof-figcaption-name">@Umbraco.AssignedContentItem.GetPropertyValue("director2Name")</span>
+                            <span class="hof-figcaption-title">@Umbraco.AssignedContentItem.GetPropertyValue("director2Title")</span>
+                            @{
+                                var director2Desc = Umbraco.AssignedContentItem.GetPropertyValue("director2Description");
+                            }
+                            <div class="hof-figcaption-description">
+                                @director2Desc
+                            </div>
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+            <div class="hof-parent hof-accordion-js">
+                <div class="container">
+                    <figure class="hof-figure">
+                        @{
+                            var image3 = Model.Content.GetPropertyValue<IPublishedContent>("director3Image");
+                            if (image3 != null)
+                            {
+                                var imageUrl = image3.Url;
+                                <img src="@imageUrl" alt="" class="hof-img">
+                            }
+                        }
+                        <figcaption class="hof-figcaption">
+                            <span class="hof-figcaption-name">@Umbraco.AssignedContentItem.GetPropertyValue("director3Name")</span>
+                            <span class="hof-figcaption-title">@Umbraco.AssignedContentItem.GetPropertyValue("director3Title")</span>
+                            @{
+                                var director3Desc = Umbraco.AssignedContentItem.GetPropertyValue("director3Description");
+                            }
+                            <div class="hof-figcaption-description">
+                                @director3Desc
+                            </div>
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+            <div class="hof-parent hof-accordion-js">
+                <div class="container">
+                    <figure class="hof-figure">
+                        @{
+                            var image4 = Model.Content.GetPropertyValue<IPublishedContent>("director4Image");
+                            if (image4 != null)
+                            {
+                                var imageUrl = image4.Url;
+                                <img src="@imageUrl" alt="" class="hof-img">
+                            }
+                        }
+                        <figcaption class="hof-figcaption">
+                            <span class="hof-figcaption-name">@Umbraco.AssignedContentItem.GetPropertyValue("director4Name")</span>
+                            <span class="hof-figcaption-title">@Umbraco.AssignedContentItem.GetPropertyValue("director4Title")</span>
+                            @{
+                                var director4Desc = Umbraco.AssignedContentItem.GetPropertyValue("director4Description");
+                            }
+                            <div class="hof-figcaption-description">
+                                @director4Desc
+                            </div>
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+            <div class="hof-parent hof-accordion-js">
+                <div class="container">
+                    <figure class="hof-figure">
+                        @{
+                            var image5 = Model.Content.GetPropertyValue<IPublishedContent>("director5Image");
+                            if (image5 != null)
+                            {
+                                var imageUrl = image5.Url;
+                                <img src="@imageUrl" alt="" class="hof-img">
+                            }
+                        }
+                        <figcaption class="hof-figcaption">
+                            <span class="hof-figcaption-name">@Umbraco.AssignedContentItem.GetPropertyValue("director5Name")</span>
+                            <span class="hof-figcaption-title">@Umbraco.AssignedContentItem.GetPropertyValue("director5Title")</span>
+                            @{
+                                var director5Desc = Umbraco.AssignedContentItem.GetPropertyValue("director5Description");
+                            }
+                            <div class="hof-figcaption-description">
+                                @director5Desc
+                            </div>
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+            <div class="hof-parent hof-accordion-js">
+                <div class="container">
+                    <figure class="hof-figure">
+                        @{
+                            var image6 = Model.Content.GetPropertyValue<IPublishedContent>("director6Image");
+                            if (image6 != null)
+                            {
+                                var imageUrl = image6.Url;
+                                <img src="@imageUrl" alt="" class="hof-img">
+                            }
+                        }
+                        <figcaption class="hof-figcaption">
+                            <span class="hof-figcaption-name">@Umbraco.AssignedContentItem.GetPropertyValue("director6Name")</span>
+                            <span class="hof-figcaption-title">@Umbraco.AssignedContentItem.GetPropertyValue("director6Title")</span>
+                            @{
+                                var director6Desc = Umbraco.AssignedContentItem.GetPropertyValue("director6Description");
+                            }
+                            <div class="hof-figcaption-description">
+                                @director6Desc
+                            </div>
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+        </div>
+
+        @{ /**************************************************** Board of Commisioner *********************************************************************/ }
+        <div class="people-container" id="boc">
+            <div class="hof-parent hof-accordion-js">
+                <div class="container">
+                    <figure class="hof-figure">
+                        @{
+                            var imagePresidentComissioner = Model.Content.GetPropertyValue<IPublishedContent>("presidentComissionerImage");
+                            if (imagePresidentComissioner != null)
+                            {
+                                var imageUrl = imagePresidentComissioner.Url;
+                                <img src="@imageUrl" alt="" class="hof-img">
+                            }
+                        }
+                        <figcaption class="hof-figcaption">
+                            <span class="hof-figcaption-name">@Umbraco.AssignedContentItem.GetPropertyValue("presidentComissionerName")</span>
+                            <span class="hof-figcaption-title">@Umbraco.AssignedContentItem.GetPropertyValue("presidentComissionerTitle")</span>
+                            @{
+                                var presidentComissionerDesc = Umbraco.AssignedContentItem.GetPropertyValue("presidentComissionerDescription");
+                            }
+                            <div class="hof-figcaption-description">
+                                @presidentComissionerDesc
+                            </div>
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+            <div class="hof-parent hof-accordion-js">
+                <div class="container">
+                    <figure class="hof-figure">
+                        @{
+                            var imageComissioner1 = Model.Content.GetPropertyValue<IPublishedContent>("comissioner1Image");
+                            if (imageComissioner1 != null)
+                            {
+                                var imageUrl = imageComissioner1.Url;
+                                <img src="@imageUrl" alt="" class="hof-img">
+                            }
+                        }
+                        <figcaption class="hof-figcaption">
+                            <span class="hof-figcaption-name">@Umbraco.AssignedContentItem.GetPropertyValue("comissioner1Name")</span>
+                            <span class="hof-figcaption-title">@Umbraco.AssignedContentItem.GetPropertyValue("comissioner1Title")</span>
+                            @{
+                                var comissioner1Desc = Umbraco.AssignedContentItem.GetPropertyValue("comissioner1Description");
+                            }
+                            <div class="hof-figcaption-description">
+                                @comissioner1Desc
+                            </div>
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+            <div class="hof-parent hof-accordion-js">
+                <div class="container">
+                    <figure class="hof-figure">
+                        @{
+                            var imageComissioner2 = Model.Content.GetPropertyValue<IPublishedContent>("comissioner2");
+                            if (imageComissioner2 != null)
+                            {
+                                var imageUrl = imageComissioner2.Url;
+                                <img src="@imageUrl" alt="" class="hof-img">
+                            }
+                        }
+                        <figcaption class="hof-figcaption">
+                            <span class="hof-figcaption-name">@Umbraco.AssignedContentItem.GetPropertyValue("comissioner2Name")</span>
+                            <span class="hof-figcaption-title">@Umbraco.AssignedContentItem.GetPropertyValue("comissioner2Title")</span>
+                            @{
+                                var comissioner2Desc = Umbraco.AssignedContentItem.GetPropertyValue("comissioner2Description");
+                            }
+                            <div class="hof-figcaption-description">
+                                @comissioner2Desc
+                            </div>
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+            <div class="hof-parent hof-accordion-js">
+                <div class="container">
+                    <figure class="hof-figure">
+                        @{
+                            var imageComissioner3 = Model.Content.GetPropertyValue<IPublishedContent>("comissioner3Image");
+                            if (imageComissioner3 != null)
+                            {
+                                var imageUrl = imageComissioner3.Url;
+                                <img src="@imageUrl" alt="" class="hof-img">
+                            }
+                        }
+                        <figcaption class="hof-figcaption">
+                            <span class="hof-figcaption-name">@Umbraco.AssignedContentItem.GetPropertyValue("comissioner3Name")</span>
+                            <span class="hof-figcaption-title">@Umbraco.AssignedContentItem.GetPropertyValue("comissioner3Title")</span>
+                            @{
+                                var comissioner3Desc = Umbraco.AssignedContentItem.GetPropertyValue("comissioner3Description");
+                            }
+                            <div class="hof-figcaption-description">
+                                @comissioner3Desc
+                            </div>
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+            <div class="hof-parent hof-accordion-js">
+                <div class="container">
+                    <figure class="hof-figure">
+                        @{
+                            var imageComissioner4 = Model.Content.GetPropertyValue<IPublishedContent>("comissioner4Image");
+                            if (imageComissioner4 != null)
+                            {
+                                var imageUrl = imageComissioner4.Url;
+                                <img src="@imageUrl" alt="" class="hof-img">
+                            }
+                        }
+                        <figcaption class="hof-figcaption">
+                            <span class="hof-figcaption-name">@Umbraco.AssignedContentItem.GetPropertyValue("comissioner4Name")</span>
+                            <span class="hof-figcaption-title">@Umbraco.AssignedContentItem.GetPropertyValue("comissioner4Title")</span>
+                            @{
+                                var comissioner4Desc = Umbraco.AssignedContentItem.GetPropertyValue("comissioner4Description");
+                            }
+                            <div class="hof-figcaption-description">
+                                @comissioner4Desc
+                            </div>
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+        </div>
+
+     @{ /**************************************************** Board of Head of Division *********************************************************************/ }
+    <div class="people-container" id="hou" data-more="@Umbraco.GetDictionaryValue("read more")" data-close="@Umbraco.GetDictionaryValue("close box")">
+        @for (var i = 1; i <= 50; i++)
+        {
+            if(string.IsNullOrEmpty(Model.Content.GetPropertyValue<string>("headofDivision" + i + "Image"))) {
+                continue;
+            }
+            <div class="hof-parent hof-accordion-js">
+                <div class="container">
+                    <figure class="hof-figure">
+                        @{
+                            var headOfDivisionImage = Model.Content.GetPropertyValue<IPublishedContent>("headofDivision" + i + "Image");
+                            if (headOfDivisionImage != null)
+                            {
+                                <img src="@headOfDivisionImage.Url" alt="" class="hof-img">
+                            }
+                        }
+                        <figcaption class="hof-figcaption">
+                            <span class="hof-figcaption-name">@Umbraco.AssignedContentItem.GetPropertyValue("headOfDivision" + i + "Name")</span>
+                            <span class="hof-figcaption-title">@Umbraco.AssignedContentItem.GetPropertyValue("headOfDivision" + i + "Title")</span>
+                            <div class="hof-figcaption-description">
+                                @Umbraco.AssignedContentItem.GetPropertyValue("headOfDivision" + i + "Description")
+                            </div>
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+        }
+
+    </div>
+
+        @{ /**************************************************** Organization Image *********************************************************************/ }
+        <div class="people-container" id="os">
+            <div class="container text-center">
+                <figure>
+                    @{
+                        var imageOrganization = Model.Content.GetPropertyValue<IPublishedContent>("organizationImage");
+                        if (imageOrganization != null)
+                        {
+                            var imageUrl = imageOrganization.Url;
+                            <img src="@imageUrl" alt="">
+                        }
+                    }
+                </figure>
+            </div>
+        </div>
+
+        @{ /**************************************************** Structure Image *********************************************************************/ }
+        <div class="people-container" id="icms">
+            <div class="container text-center">
+                <figure>
+                    @{
+                        var imageStructure = Model.Content.GetPropertyValue<IPublishedContent>("structureImage");
+                        if (imageStructure != null)
+                        {
+                            var imageUrl = imageStructure.Url;
+                            <img src="@imageUrl" alt="">
+                        }
+                    }
+                </figure>
+            </div>
+        </div>
+    </main>

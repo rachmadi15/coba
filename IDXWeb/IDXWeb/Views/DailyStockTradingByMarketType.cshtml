@@ -1,0 +1,186 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+
+    Layout = "Master.cshtml";
+}
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                <li class="@cls"><a href="@page.Url">@page.Name.ToLower()</a></li>
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">Statistik</h1>
+        </div>
+        <div class="content-tab-container block content-tab-container--center">
+            <div class="content-tab-item">
+                <a href="#monthly" class="content-tab-anchor statistic-tab-js is-active">Monthly</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#quarterly" class="content-tab-anchor statistic-tab-js">Quarterly</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#yearly" class="content-tab-anchor statistic-tab-js">Yearly</a>
+            </div>
+        </div>
+    </div>
+    <div class="statistic-main-content">
+        <div class="statistic-container is-active" id="monthly">
+            <div class="background-light-grey content-push">
+                <div class="container mb-16">
+                    <div class="statistic--title-area mb-20">
+                        <h2 class="mb-0">Daily Stock Trading by Type of Market</h2>
+                        <div class="download-toggle-area">
+                            <button class="btn btn-primary download-toggle is-active" type="button" data-toggle="#searchList">
+                                Download
+                                <i class="fa fa-caret-down ml-8"></i>
+                                <ul class="download-list full-width" id="searchList">
+                                    <li><a href="#">PDF</a></li>
+                                    <li><a href="#">Excel</a></li>
+                                </ul>
+                            </button>
+                        </div>
+                    </div>
+                    <form class="report-search" action="">
+                        <div class="report-search-main">
+                            <i class="fa fa-search red fa-lg"></i>
+                            <input class="form-input" type="text" placeholder="Search this report">
+                            <button class="toggle-options btn btn-primary" type="button">
+                                <i class="fa fa-ellipsis-v fa-lg"></i>
+                            </button>
+                        </div>
+                        <div class="report-search-options">
+                            <div class="bzg">
+                                <div class="bzg_c" data-col="s4">
+                                    Start Date:
+                                </div>
+                                <div class="bzg_c" data-col="s8,m6,l8">
+                                    <div class="calendar-box no-icon width-block relative-toggle">
+                                        <input type="date" class="form-input form-input--block report-search-datepicker-js">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bzg">
+                                <div class="bzg_c" data-col="s4">
+                                    End Date:
+                                </div>
+                                <div class="bzg_c" data-col="s8,m6,l8">
+                                    <div class="calendar-box no-icon width-block relative-toggle">
+                                        <input type="date" class="form-input form-input--block report-search-datepicker-js">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bzg">
+                                <div class="bzg_c">
+                                    <button class="btn btn-primary">
+                                        <i class="fa fa-filter mr-8"></i>
+                                        Filter
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="background-white content-push">
+                <div class="container">
+                    <p class="red mb-12 text-bold">Daily Stock Trading by Type of Market (Regular and Non Regular Market)</p>
+                    <div class="table-wrapper">
+                        <table class="statistic-table js-datatable no-paging" data-json="@Url.Action("GetDailyTradingMarketRegNonReg", "DigitalStatitic")" data-unorderable="4">
+                            <thead class="thead-plain">
+                                <tr>
+                                    <th rowspan="2">Date</th>
+                                    <th class="short" colspan="3">Regular Market</th>
+                                    <th rowspan="2"></th>
+                                    <th class="short" colspan="3">Non Regular Market</th>
+                                </tr>
+                                <tr>
+                                    <th class="short">Value</th>
+                                    <th class="short">Volume</th>
+                                    <th class="short">Freq., x</th>
+                                    <th class="short">Value</th>
+                                    <th class="short">Volume</th>
+                                    <th class="short">Freq., x</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-right">
+                                
+                            </tbody>
+                            <tfoot>
+                                <tr class="text-right">
+                                    <td class="text-center">Total</td>
+                                    <td>33,292,966,390,323</td>
+                                    <td>12,536,371,145</td>
+                                    <td>678,554</td>
+                                    <td></td>
+                                    <td>23,884,234,220,122</td>
+                                    <td>11,404,567,094</td>
+                                    <td>1,176,176</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="background-light-grey content-push">
+                <div class="container">
+                    <p class="red mb-12 text-bold">Daily Stock Trading by Type of Market (Non Regular Market)</p>
+                    <div class="table-wrapper">
+                        <table class="statistic-table js-datatable no-paging" data-json="@Url.Action("GetDailyTradingMarketNonReg", "DigitalStatitic")" data-unorderable="4">
+                            <thead class="thead-plain">
+                                <tr>
+                                    <th rowspan="2">Date</th>
+                                    <th class="short" colspan="3">Negotiated Market</th>
+                                    <th rowspan="2"></th>
+                                    <th class="short" colspan="3">Cash Market</th>
+                                </tr>
+                                <tr>
+                                    <th class="short">Volume</th>
+                                    <th class="short">Value</th>
+                                    <th class="short">Freq., x</th>
+                                    <th class="short">Volume</th>
+                                    <th class="short">Value</th>
+                                    <th class="short">Freq., x</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-right">
+                                
+                            </tbody>
+                            <tfoot>
+                                <tr class="text-right">
+                                    <td class="text-center">Total</td>
+                                    <td>12,536,371,145</td>
+                                    <td>33,292,966,390,323</td>
+                                    <td>678,554</td>
+                                    <td></td>
+                                    <td>11,404,567,094</td>
+                                    <td>23,884,234,220,122</td>
+                                    <td>1,176,176</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<?php include $path.'_partials/statistic-quarterly.php'; ?>
+        <?php include $path.'_partials/statistic-yearly.php'; ?>*@
+    </div>
+</main>
+
+

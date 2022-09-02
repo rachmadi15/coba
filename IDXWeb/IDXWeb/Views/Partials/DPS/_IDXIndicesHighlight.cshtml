@@ -1,0 +1,64 @@
+﻿@using System.Text
+@using Newtonsoft.Json
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    var query = Request.QueryString["q"];
+    byte[] queryBase64 = Convert.FromBase64String(query);
+    string queryJson = Encoding.UTF8.GetString(queryBase64);
+    dynamic querys = JsonConvert.DeserializeObject<dynamic>(queryJson);
+}
+@if (querys.type == "monthly")
+{
+    <thead class="thead-plain">
+        <tr>
+            <th rowspan="2">No.</th>
+            <th rowspan="2">Index</th>
+            <th rowspan="2">High</th>
+            <th rowspan="2">Low</th>
+            <th rowspan="2">Close</th>
+            <th class="short" colspan="10">Change</th>
+        </tr>
+        <tr>
+            <th class="">1 Month</th>
+            <th class="short"></th>
+            <th class="">3 Month</th>
+            <th class="short"></th>
+            <th class="">6 Month</th>
+            <th class="short"></th>
+            <th class="">1 Year</th>
+            <th class="short"></th>
+            <th class="">YTD (%)</th>
+            <th class="short"></th>
+        </tr>
+    </thead>
+}
+else
+{
+    <thead class="thead-plain">
+    <tr>
+        <th rowspan="2">No.</th>
+        <th rowspan="2">Index</th>
+        <th rowspan="2">High</th>
+        <th rowspan="2">Low</th>
+        <th rowspan="2">Close</th>
+        <th rowspan="2" class="text-right">YTD<br />Change</th>
+        <th rowspan="2" class="text-right">YoY<br />Change</th>
+        <th rowspan="2" class=""></th>
+        <th class="" colspan="3">Greatest Gain (%)</th>
+        <th rowspan="2" class=""></th>
+        <th class="" colspan="3">Greatest Loss (%)</th>
+    </tr>
+    <tr>
+        <th class="text-right">One<br />Day</th>
+        <th class="text-right">One<br />Week</th>
+        <th class="text-right">One<br />Month</th>
+        <th class="text-right">One<br />Day</th>
+        <th class="text-right">One<br />Week</th>
+        <th class="text-right">One<br />Month</th>
+    </tr>
+    </thead>
+    <script>
+        var table = document.getElementById("currentTable");
+        table.classList.replace("js-datatable-indices", "js-datatable");
+    </script>
+}

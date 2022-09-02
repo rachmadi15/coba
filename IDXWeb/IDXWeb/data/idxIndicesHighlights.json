@@ -1,0 +1,1534 @@
+{
+  "data": [
+    {
+      "indexName": "Composite Index",
+      "high": {
+        "val": 6339.64,
+        "date": "2019-10-24T00:00:00"
+      },
+      "low": {
+        "val": 6000.58,
+        "date": "2019-10-07T00:00:00"
+      },
+      "close": {
+        "val": 6228.31,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -59.21,
+        "percent": -0.9506591675751528,
+        "rank": 33,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": 162.19,
+        "percent": 2.6040771894783656,
+        "rank": 0,
+        "status": "increase"
+      },
+      "month6": {
+        "val": 227.04,
+        "percent": 3.645290616555695,
+        "rank": 0,
+        "status": "increase"
+      },
+      "year1": {
+        "val": -396.66,
+        "percent": -6.368661803924339,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "ytd": {
+        "val": 304.65,
+        "percent": 4.891375027896813,
+        "rank": 0,
+        "status": "increase"
+      }
+    },
+    {
+      "indexName": "Agriculture",
+      "high": {
+        "val": 1382.51,
+        "date": "2019-10-31T00:00:00"
+      },
+      "low": {
+        "val": 1325.66,
+        "date": "2019-10-18T00:00:00"
+      },
+      "close": {
+        "val": 1382.51,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -5.05,
+        "percent": -0.3652776471779589,
+        "rank": 17,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": -22.41,
+        "percent": -1.620964766981794,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "month6": {
+        "val": 58.57,
+        "percent": 4.236497385190704,
+        "rank": 0,
+        "status": "increase"
+      },
+      "year1": {
+        "val": 169.11,
+        "percent": 12.232099586983097,
+        "rank": 0,
+        "status": "increase"
+      },
+      "ytd": {
+        "val": 279.45,
+        "percent": 20.213235347303094,
+        "rank": 0,
+        "status": "increase"
+      }
+    },
+    {
+      "indexName": "Mining",
+      "high": {
+        "val": 1619.42,
+        "date": "2019-10-11T00:00:00"
+      },
+      "low": {
+        "val": 1545.06,
+        "date": "2019-10-31T00:00:00"
+      },
+      "close": {
+        "val": 1545.06,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": 48.78,
+        "percent": 3.1571589452836784,
+        "rank": 2,
+        "status": "increase"
+      },
+      "month3": {
+        "val": 90.87,
+        "percent": 5.881324997087492,
+        "rank": 0,
+        "status": "increase"
+      },
+      "month6": {
+        "val": 234.3,
+        "percent": 15.164459632635626,
+        "rank": 0,
+        "status": "increase"
+      },
+      "year1": {
+        "val": 295.16,
+        "percent": 19.10346523759595,
+        "rank": 0,
+        "status": "increase"
+      },
+      "ytd": {
+        "val": 377.95,
+        "percent": 24.461833197416283,
+        "rank": 0,
+        "status": "increase"
+      }
+    },
+    {
+      "indexName": "Basic Industry and Chemicals",
+      "high": {
+        "val": 952.31,
+        "date": "2019-10-24T00:00:00"
+      },
+      "low": {
+        "val": 823.42,
+        "date": "2019-10-09T00:00:00"
+      },
+      "close": {
+        "val": 917.16,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -65.01,
+        "percent": -7.088185267565092,
+        "rank": 34,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": -79.8,
+        "percent": -8.700771948187885,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "month6": {
+        "val": -100.09,
+        "percent": -10.913035893410092,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "year1": {
+        "val": -164.17,
+        "percent": -17.89982118714292,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "ytd": {
+        "val": -5.19,
+        "percent": -0.565877273321994,
+        "rank": 0,
+        "status": "decrease"
+      }
+    },
+    {
+      "indexName": "Miscellanous Industry",
+      "high": {
+        "val": 1233.22,
+        "date": "2019-10-29T00:00:00"
+      },
+      "low": {
+        "val": 1121.22,
+        "date": "2019-10-09T00:00:00"
+      },
+      "close": {
+        "val": 1227.85,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -57.21,
+        "percent": -4.659363928818666,
+        "rank": 32,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": 12.11,
+        "percent": 0.9862768253451154,
+        "rank": 0,
+        "status": "increase"
+      },
+      "month6": {
+        "val": 93.95,
+        "percent": 7.6515861057946815,
+        "rank": 0,
+        "status": "increase"
+      },
+      "year1": {
+        "val": 102.75,
+        "percent": 8.368286028423668,
+        "rank": 0,
+        "status": "increase"
+      },
+      "ytd": {
+        "val": 217.78,
+        "percent": 17.736694221606875,
+        "rank": 0,
+        "status": "increase"
+      }
+    },
+    {
+      "indexName": "Consumer Goods",
+      "high": {
+        "val": 2197.64,
+        "date": "2019-10-01T00:00:00"
+      },
+      "low": {
+        "val": 2095.16,
+        "date": "2019-10-23T00:00:00"
+      },
+      "close": {
+        "val": 2122.63,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": 82.73,
+        "percent": 3.8975233554599718,
+        "rank": 1,
+        "status": "increase"
+      },
+      "month3": {
+        "val": 232.79,
+        "percent": 10.967055021365004,
+        "rank": 0,
+        "status": "increase"
+      },
+      "month6": {
+        "val": 390.97,
+        "percent": 18.419130983732444,
+        "rank": 0,
+        "status": "increase"
+      },
+      "year1": {
+        "val": 281.9,
+        "percent": 13.28069423309762,
+        "rank": 0,
+        "status": "increase"
+      },
+      "ytd": {
+        "val": 538.12,
+        "percent": 25.351568572949596,
+        "rank": 0,
+        "status": "increase"
+      }
+    },
+    {
+      "indexName": "Cons., Property & Real Estate",
+      "high": {
+        "val": 525.31,
+        "date": "2019-10-30T00:00:00"
+      },
+      "low": {
+        "val": 488.73,
+        "date": "2019-10-07T00:00:00"
+      },
+      "close": {
+        "val": 524.27,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -26.78,
+        "percent": -5.1080550098231825,
+        "rank": 30,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": -25.42,
+        "percent": -4.848646689682797,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "month6": {
+        "val": -37.68,
+        "percent": -7.187136399183626,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "year1": {
+        "val": -120.7,
+        "percent": -23.02248841245923,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "ytd": {
+        "val": -58.32,
+        "percent": -11.124039140137715,
+        "rank": 0,
+        "status": "decrease"
+      }
+    },
+    {
+      "indexName": "Infrastruc., Utility & Trans.",
+      "high": {
+        "val": 1236.82,
+        "date": "2019-10-24T00:00:00"
+      },
+      "low": {
+        "val": 1179.34,
+        "date": "2019-10-31T00:00:00"
+      },
+      "close": {
+        "val": 1179.34,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": 46.37,
+        "percent": 3.931860192989299,
+        "rank": 3,
+        "status": "increase"
+      },
+      "month3": {
+        "val": 26.76,
+        "percent": 2.2690657486390693,
+        "rank": 0,
+        "status": "increase"
+      },
+      "month6": {
+        "val": -8.27,
+        "percent": -0.7012396764291892,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "year1": {
+        "val": -120.04,
+        "percent": -10.178574456899621,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "ytd": {
+        "val": -8.97,
+        "percent": -0.7605949090169077,
+        "rank": 0,
+        "status": "decrease"
+      }
+    },
+    {
+      "indexName": "Finance",
+      "high": {
+        "val": 1301.47,
+        "date": "2019-10-24T00:00:00"
+      },
+      "low": {
+        "val": 1207.12,
+        "date": "2019-10-03T00:00:00"
+      },
+      "close": {
+        "val": 1278.68,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -33.9,
+        "percent": -2.6511715206306503,
+        "rank": 31,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": 45.28,
+        "percent": 3.541151812806957,
+        "rank": 0,
+        "status": "increase"
+      },
+      "month6": {
+        "val": 26.09,
+        "percent": 2.0403853974411112,
+        "rank": 0,
+        "status": "increase"
+      },
+      "year1": {
+        "val": -204.54,
+        "percent": -15.996183564300685,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "ytd": {
+        "val": -31.96,
+        "percent": -2.499452560452967,
+        "rank": 0,
+        "status": "decrease"
+      }
+    },
+    {
+      "indexName": "Trade & Service",
+      "high": {
+        "val": 809.35,
+        "date": "2019-10-22T00:00:00"
+      },
+      "low": {
+        "val": 788.38,
+        "date": "2019-10-03T00:00:00"
+      },
+      "close": {
+        "val": 802.13,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -1.67,
+        "percent": -0.2081956790046501,
+        "rank": 8,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": 15.23,
+        "percent": 1.898694725293905,
+        "rank": 0,
+        "status": "increase"
+      },
+      "month6": {
+        "val": 25.31,
+        "percent": 3.155348883597422,
+        "rank": 0,
+        "status": "increase"
+      },
+      "year1": {
+        "val": -21.72,
+        "percent": -2.7077905077730544,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "ytd": {
+        "val": -4.35,
+        "percent": -0.5423061099821724,
+        "rank": 0,
+        "status": "decrease"
+      }
+    },
+    {
+      "indexName": "Manufacture",
+      "high": {
+        "val": 1479.62,
+        "date": "2019-10-24T00:00:00"
+      },
+      "low": {
+        "val": 1387.46,
+        "date": "2019-10-10T00:00:00"
+      },
+      "close": {
+        "val": 1456.24,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -13.56,
+        "percent": -0.9311651925506784,
+        "rank": 25,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": 46.61,
+        "percent": 3.2007086743943307,
+        "rank": 0,
+        "status": "increase"
+      },
+      "month6": {
+        "val": 109.23,
+        "percent": 7.500824039993407,
+        "rank": 0,
+        "status": "increase"
+      },
+      "year1": {
+        "val": 39.56,
+        "percent": 2.7165851782673185,
+        "rank": 0,
+        "status": "increase"
+      },
+      "ytd": {
+        "val": 233.14,
+        "percent": 16.00972367192221,
+        "rank": 0,
+        "status": "increase"
+      }
+    },
+    {
+      "indexName": "LQ45",
+      "high": {
+        "val": 1011.45,
+        "date": "2019-10-24T00:00:00"
+      },
+      "low": {
+        "val": 931.03,
+        "date": "2019-10-07T00:00:00"
+      },
+      "close": {
+        "val": 984.84,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -16.7,
+        "percent": -1.6957069168595913,
+        "rank": 27,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": 37.59,
+        "percent": 3.816863652979164,
+        "rank": 0,
+        "status": "increase"
+      },
+      "month6": {
+        "val": 34.49,
+        "percent": 3.5020917103285814,
+        "rank": 0,
+        "status": "increase"
+      },
+      "year1": {
+        "val": -62.13,
+        "percent": -6.308638966735713,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "ytd": {
+        "val": 54.13,
+        "percent": 5.496324276024532,
+        "rank": 0,
+        "status": "increase"
+      }
+    },
+    {
+      "indexName": "Jakarta Islamic Index",
+      "high": {
+        "val": 709.17,
+        "date": "2019-10-24T00:00:00"
+      },
+      "low": {
+        "val": 660.63,
+        "date": "2019-10-10T00:00:00"
+      },
+      "close": {
+        "val": 686.92,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -1,
+        "percent": -0.1455773598090025,
+        "rank": 6,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": 0.88,
+        "percent": 0.1281080766319222,
+        "rank": 0,
+        "status": "increase"
+      },
+      "month6": {
+        "val": 4.99,
+        "percent": 0.7264310254469225,
+        "rank": 0,
+        "status": "increase"
+      },
+      "year1": {
+        "val": -35.65,
+        "percent": -5.189832877190939,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "ytd": {
+        "val": 40.09,
+        "percent": 5.836196354742911,
+        "rank": 0,
+        "status": "increase"
+      }
+    },
+    {
+      "indexName": "Main Board Index",
+      "high": {
+        "val": 1764.63,
+        "date": "2019-10-24T00:00:00"
+      },
+      "low": {
+        "val": 1665.52,
+        "date": "2019-10-07T00:00:00"
+      },
+      "close": {
+        "val": 1727.59,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -13.06,
+        "percent": -0.7559664040657795,
+        "rank": 24,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": 70.89,
+        "percent": 4.103404164182474,
+        "rank": 0,
+        "status": "increase"
+      },
+      "month6": {
+        "val": 99.01,
+        "percent": 5.731105181206189,
+        "rank": 0,
+        "status": "increase"
+      },
+      "year1": {
+        "val": -85.88,
+        "percent": -4.971086889829184,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "ytd": {
+        "val": 116.1,
+        "percent": 6.720344526189663,
+        "rank": 0,
+        "status": "increase"
+      }
+    },
+    {
+      "indexName": "Development Board Index",
+      "high": {
+        "val": 1159.17,
+        "date": "2019-10-31T00:00:00"
+      },
+      "low": {
+        "val": 1111.66,
+        "date": "2019-10-07T00:00:00"
+      },
+      "close": {
+        "val": 1159.17,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -26.69,
+        "percent": -2.302509554250024,
+        "rank": 29,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": -91.7,
+        "percent": -7.910832751020126,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "month6": {
+        "val": -123.54,
+        "percent": -10.657625714951216,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "year1": {
+        "val": -186.92,
+        "percent": -16.12533105584168,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "ytd": {
+        "val": -89.96,
+        "percent": -7.760725346584194,
+        "rank": 0,
+        "status": "decrease"
+      }
+    },
+    {
+      "indexName": "KOMPAS100",
+      "high": {
+        "val": 1281.86,
+        "date": "2019-10-24T00:00:00"
+      },
+      "low": {
+        "val": 1192.86,
+        "date": "2019-10-07T00:00:00"
+      },
+      "close": {
+        "val": 1252.71,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -15.17,
+        "percent": -1.2109746070519114,
+        "rank": 26,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": 50.59,
+        "percent": 4.038444651994476,
+        "rank": 0,
+        "status": "increase"
+      },
+      "month6": {
+        "val": 61.21,
+        "percent": 4.886206703866018,
+        "rank": 0,
+        "status": "increase"
+      },
+      "year1": {
+        "val": -74.67,
+        "percent": -5.960677251718275,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "ytd": {
+        "val": 92.57,
+        "percent": 7.389579391878407,
+        "rank": 0,
+        "status": "increase"
+      }
+    },
+    {
+      "indexName": "BISNIS-27",
+      "high": {
+        "val": 558.23,
+        "date": "2019-10-24T00:00:00"
+      },
+      "low": {
+        "val": 516.13,
+        "date": "2019-10-07T00:00:00"
+      },
+      "close": {
+        "val": 545.18,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -9.07,
+        "percent": -1.6636707142595106,
+        "rank": 23,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": 22.64,
+        "percent": 4.152756887633442,
+        "rank": 0,
+        "status": "increase"
+      },
+      "month6": {
+        "val": 23.12,
+        "percent": 4.240801203272314,
+        "rank": 0,
+        "status": "increase"
+      },
+      "year1": {
+        "val": -25.94,
+        "percent": -4.758061557650684,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "ytd": {
+        "val": 35.71,
+        "percent": 6.550130232216882,
+        "rank": 0,
+        "status": "increase"
+      }
+    },
+    {
+      "indexName": "PEFINDO25 Index",
+      "high": {
+        "val": 360.44,
+        "date": "2019-10-18T00:00:00"
+      },
+      "low": {
+        "val": 338.31,
+        "date": "2019-10-31T00:00:00"
+      },
+      "close": {
+        "val": 338.31,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": 4.13,
+        "percent": 1.2207738464721705,
+        "rank": 4,
+        "status": "increase"
+      },
+      "month3": {
+        "val": 12.16,
+        "percent": 3.59433655523041,
+        "rank": 0,
+        "status": "increase"
+      },
+      "month6": {
+        "val": 16.29,
+        "percent": 4.81511040170258,
+        "rank": 0,
+        "status": "increase"
+      },
+      "year1": {
+        "val": -34.14,
+        "percent": -10.091336348319588,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "ytd": {
+        "val": 0.88,
+        "percent": 0.2601164612337797,
+        "rank": 0,
+        "status": "increase"
+      }
+    },
+    {
+      "indexName": "SRI-KEHATI Index",
+      "high": {
+        "val": 399.94,
+        "date": "2019-10-24T00:00:00"
+      },
+      "low": {
+        "val": 373.63,
+        "date": "2019-10-07T00:00:00"
+      },
+      "close": {
+        "val": 391.71,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -2.44,
+        "percent": -0.6229098057236221,
+        "rank": 11,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": 13.93,
+        "percent": 3.556202292512318,
+        "rank": 0,
+        "status": "increase"
+      },
+      "month6": {
+        "val": 13.58,
+        "percent": 3.466850476117536,
+        "rank": 0,
+        "status": "increase"
+      },
+      "year1": {
+        "val": -37.76,
+        "percent": -9.639784534477037,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "ytd": {
+        "val": 11.35,
+        "percent": 2.8975517602307828,
+        "rank": 0,
+        "status": "increase"
+      }
+    },
+    {
+      "indexName": "Indeks Saham Syariah Indonesia",
+      "high": {
+        "val": 193.68,
+        "date": "2019-10-24T00:00:00"
+      },
+      "low": {
+        "val": 184.92,
+        "date": "2019-10-07T00:00:00"
+      },
+      "close": {
+        "val": 189.49,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -0.57,
+        "percent": -0.30080743047126496,
+        "rank": 5,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": -2.52,
+        "percent": -1.3298854820834873,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "month6": {
+        "val": -1.06,
+        "percent": -0.5593962742097208,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "year1": {
+        "val": -15.35,
+        "percent": -8.10069132935775,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "ytd": {
+        "val": 4,
+        "percent": 2.110929336640456,
+        "rank": 0,
+        "status": "increase"
+      }
+    },
+    {
+      "indexName": "Indeks IDX30",
+      "high": {
+        "val": 551.57,
+        "date": "2019-10-24T00:00:00"
+      },
+      "low": {
+        "val": 508.1,
+        "date": "2019-10-10T00:00:00"
+      },
+      "close": {
+        "val": 536.83,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -7.45,
+        "percent": -1.3877763910362684,
+        "rank": 21,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": 22.89,
+        "percent": 4.2639196766201595,
+        "rank": 0,
+        "status": "increase"
+      },
+      "month6": {
+        "val": 24.52,
+        "percent": 4.567553974256282,
+        "rank": 0,
+        "status": "increase"
+      },
+      "year1": {
+        "val": -28.55,
+        "percent": -5.318257176387311,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "ytd": {
+        "val": 33.95,
+        "percent": 6.324162211500847,
+        "rank": 0,
+        "status": "increase"
+      }
+    },
+    {
+      "indexName": "Indeks infobank15",
+      "high": {
+        "val": 995.97,
+        "date": "2019-10-24T00:00:00"
+      },
+      "low": {
+        "val": 917.84,
+        "date": "2019-10-03T00:00:00"
+      },
+      "close": {
+        "val": 984.08,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -25.68,
+        "percent": -2.6095439395171125,
+        "rank": 28,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": 39.24,
+        "percent": 3.9874806926266158,
+        "rank": 0,
+        "status": "increase"
+      },
+      "month6": {
+        "val": 29.52,
+        "percent": 2.9997561173888303,
+        "rank": 0,
+        "status": "increase"
+      },
+      "year1": {
+        "val": -165.98,
+        "percent": -16.866514917486384,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "ytd": {
+        "val": -13.21,
+        "percent": -1.3423705389805707,
+        "rank": 0,
+        "status": "decrease"
+      }
+    },
+    {
+      "indexName": "SMinfra18",
+      "high": {
+        "val": 336.42,
+        "date": "2019-10-30T00:00:00"
+      },
+      "low": {
+        "val": 306.93,
+        "date": "2019-10-10T00:00:00"
+      },
+      "close": {
+        "val": 325.3,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -6.14,
+        "percent": -1.8874884721795266,
+        "rank": 19,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": 24.96,
+        "percent": 7.672917307101137,
+        "rank": 0,
+        "status": "increase"
+      },
+      "month6": {
+        "val": 26.69,
+        "percent": 8.204734091607747,
+        "rank": 0,
+        "status": "increase"
+      },
+      "year1": {
+        "val": -22.8,
+        "percent": -7.00891484783277,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "ytd": {
+        "val": 10.15,
+        "percent": 3.120196741469413,
+        "rank": 0,
+        "status": "increase"
+      }
+    },
+    {
+      "indexName": "Indeks MNC36",
+      "high": {
+        "val": 349.17,
+        "date": "2019-10-24T00:00:00"
+      },
+      "low": {
+        "val": 324.74,
+        "date": "2019-10-07T00:00:00"
+      },
+      "close": {
+        "val": 342.62,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -4.96,
+        "percent": -1.4476679703461561,
+        "rank": 16,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": 20.93,
+        "percent": 6.108808592609888,
+        "rank": 0,
+        "status": "increase"
+      },
+      "month6": {
+        "val": 28.08,
+        "percent": 8.195668670830658,
+        "rank": 0,
+        "status": "increase"
+      },
+      "year1": {
+        "val": -11.15,
+        "percent": -3.254334247854766,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "ytd": {
+        "val": 31.79,
+        "percent": 9.27850096316619,
+        "rank": 0,
+        "status": "increase"
+      }
+    },
+    {
+      "indexName": "Indeks Investor33",
+      "high": {
+        "val": 469.02,
+        "date": "2019-10-24T00:00:00"
+      },
+      "low": {
+        "val": 436.92,
+        "date": "2019-10-07T00:00:00"
+      },
+      "close": {
+        "val": 459.42,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -6.27,
+        "percent": -1.3647642679900744,
+        "rank": 20,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": 14.07,
+        "percent": 3.0625571372600233,
+        "rank": 0,
+        "status": "increase"
+      },
+      "month6": {
+        "val": 13.71,
+        "percent": 2.984197466370641,
+        "rank": 0,
+        "status": "increase"
+      },
+      "year1": {
+        "val": -42.26,
+        "percent": -9.198554699403596,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "ytd": {
+        "val": 16.17,
+        "percent": 3.519655217448087,
+        "rank": 0,
+        "status": "increase"
+      }
+    },
+    {
+      "indexName": "Pefindo I-Grade",
+      "high": {
+        "val": 179.73,
+        "date": "2019-10-24T00:00:00"
+      },
+      "low": {
+        "val": 165.34,
+        "date": "2019-10-07T00:00:00"
+      },
+      "close": {
+        "val": 175.08,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -2.8,
+        "percent": -1.5992689056431346,
+        "rank": 13,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": 5.11,
+        "percent": 2.9186657527987205,
+        "rank": 0,
+        "status": "increase"
+      },
+      "month6": {
+        "val": 0.46,
+        "percent": 0.262737034498515,
+        "rank": 0,
+        "status": "increase"
+      },
+      "year1": {
+        "val": -27.66,
+        "percent": -15.798492117888966,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "ytd": {
+        "val": -2.96,
+        "percent": -1.6906557002513136,
+        "rank": 0,
+        "status": "decrease"
+      }
+    },
+    {
+      "indexName": "IDX SMC Composite",
+      "high": {
+        "val": 271.1,
+        "date": "2019-10-24T00:00:00"
+      },
+      "low": {
+        "val": 260.92,
+        "date": "2019-10-07T00:00:00"
+      },
+      "close": {
+        "val": 268.53,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -2.19,
+        "percent": -0.8155513350463636,
+        "rank": 9,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": 1.37,
+        "percent": 0.5101850817413325,
+        "rank": 0,
+        "status": "increase"
+      },
+      "month6": {
+        "val": 5.29,
+        "percent": 1.9699847316873347,
+        "rank": 0,
+        "status": "increase"
+      },
+      "year1": {
+        "val": -27.37,
+        "percent": -10.192529698730123,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "ytd": {
+        "val": 4.78,
+        "percent": 1.7800618180464007,
+        "rank": 0,
+        "status": "increase"
+      }
+    },
+    {
+      "indexName": "IDX SMC Liquid",
+      "high": {
+        "val": 328.01,
+        "date": "2019-10-24T00:00:00"
+      },
+      "low": {
+        "val": 302,
+        "date": "2019-10-07T00:00:00"
+      },
+      "close": {
+        "val": 317.29,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -5.89,
+        "percent": -1.8563459295912257,
+        "rank": 18,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": 14.28,
+        "percent": 4.500614579722021,
+        "rank": 0,
+        "status": "increase"
+      },
+      "month6": {
+        "val": 12.89,
+        "percent": 4.06252954710202,
+        "rank": 0,
+        "status": "increase"
+      },
+      "year1": {
+        "val": -43.89,
+        "percent": -13.832771281792681,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "ytd": {
+        "val": 19.44,
+        "percent": 6.126887074915692,
+        "rank": 0,
+        "status": "increase"
+      }
+    },
+    {
+      "indexName": "IDX High Dividend 20",
+      "high": {
+        "val": 500.69,
+        "date": "2019-10-24T00:00:00"
+      },
+      "low": {
+        "val": 460.85,
+        "date": "2019-10-07T00:00:00"
+      },
+      "close": {
+        "val": 489.65,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -8.07,
+        "percent": -1.648116001225365,
+        "rank": 22,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": 36.72,
+        "percent": 7.499234146839579,
+        "rank": 0,
+        "status": "increase"
+      },
+      "month6": {
+        "val": 38.98,
+        "percent": 7.960788318186459,
+        "rank": 0,
+        "status": "increase"
+      },
+      "year1": {
+        "val": 0.82,
+        "percent": 0.1674665577453283,
+        "rank": 0,
+        "status": "increase"
+      },
+      "ytd": {
+        "val": 44.79,
+        "percent": 9.147350148064945,
+        "rank": 0,
+        "status": "increase"
+      }
+    },
+    {
+      "indexName": "IDX BUMN20",
+      "high": {
+        "val": 404.21,
+        "date": "2019-10-24T00:00:00"
+      },
+      "low": {
+        "val": 364.04,
+        "date": "2019-10-07T00:00:00"
+      },
+      "close": {
+        "val": 387.52,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -2.46,
+        "percent": -0.6348059454995871,
+        "rank": 12,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": 35.04,
+        "percent": 9.042113955408754,
+        "rank": 0,
+        "status": "increase"
+      },
+      "month6": {
+        "val": 47.57,
+        "percent": 12.275495458298927,
+        "rank": 0,
+        "status": "increase"
+      },
+      "year1": {
+        "val": -33.82,
+        "percent": -8.727291494632535,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "ytd": {
+        "val": 32.07,
+        "percent": 8.275701899256813,
+        "rank": 0,
+        "status": "increase"
+      }
+    },
+    {
+      "indexName": "Jakarta Islamic Index 70",
+      "high": {
+        "val": 240.09,
+        "date": "2019-10-24T00:00:00"
+      },
+      "low": {
+        "val": 224.86,
+        "date": "2019-10-10T00:00:00"
+      },
+      "close": {
+        "val": 233.07,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -1.3,
+        "percent": -0.5577723430728966,
+        "rank": 7,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": -2.58,
+        "percent": -1.1069635731754408,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "month6": {
+        "val": -3,
+        "percent": -1.2871669455528383,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "year1": {
+        "val": -18.04,
+        "percent": -7.740163899257734,
+        "rank": 0,
+        "status": "decrease"
+      },
+      "ytd": {
+        "val": 9.46,
+        "percent": 4.058866434976617,
+        "rank": 0,
+        "status": "increase"
+      }
+    },
+    {
+      "indexName": "Indeks IDX80",
+      "high": {
+        "val": 143.76,
+        "date": "2019-10-24T00:00:00"
+      },
+      "low": {
+        "val": 132.46,
+        "date": "2019-10-07T00:00:00"
+      },
+      "close": {
+        "val": 139.81,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -2.28,
+        "percent": -1.6307846362921108,
+        "rank": 10,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": 5.21,
+        "percent": 3.7264859452113583,
+        "rank": 0,
+        "status": "increase"
+      },
+      "month6": {
+        "val": 5.54,
+        "percent": 3.9625205636220584,
+        "rank": 0,
+        "status": "increase"
+      },
+      "year1": {
+        "val": 0,
+        "percent": 0,
+        "rank": 0,
+        "status": ""
+      },
+      "ytd": {
+        "val": 0,
+        "percent": 0,
+        "rank": 0,
+        "status": ""
+      }
+    },
+    {
+      "indexName": "IDX Value30",
+      "high": {
+        "val": 144.54,
+        "date": "2019-10-24T00:00:00"
+      },
+      "low": {
+        "val": 130.98,
+        "date": "2019-10-10T00:00:00"
+      },
+      "close": {
+        "val": 139.95,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -3.1,
+        "percent": -2.2150768131475527,
+        "rank": 14,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": 0,
+        "percent": 0,
+        "rank": 0,
+        "status": ""
+      },
+      "month6": {
+        "val": 0,
+        "percent": 0,
+        "rank": 0,
+        "status": ""
+      },
+      "year1": {
+        "val": 0,
+        "percent": 0,
+        "rank": 0,
+        "status": ""
+      },
+      "ytd": {
+        "val": 0,
+        "percent": 0,
+        "rank": 0,
+        "status": ""
+      }
+    },
+    {
+      "indexName": "IDX Growth30",
+      "high": {
+        "val": 144.34,
+        "date": "2019-10-24T00:00:00"
+      },
+      "low": {
+        "val": 131.32,
+        "date": "2019-10-10T00:00:00"
+      },
+      "close": {
+        "val": 140.11,
+        "date": "2019-10-31T00:00:00"
+      },
+      "month1": {
+        "val": -3.79,
+        "percent": -2.705017486260795,
+        "rank": 15,
+        "status": "decrease"
+      },
+      "month3": {
+        "val": 0,
+        "percent": 0,
+        "rank": 0,
+        "status": ""
+      },
+      "month6": {
+        "val": 0,
+        "percent": 0,
+        "rank": 0,
+        "status": ""
+      },
+      "year1": {
+        "val": 0,
+        "percent": 0,
+        "rank": 0,
+        "status": ""
+      },
+      "ytd": {
+        "val": 0,
+        "percent": 0,
+        "rank": 0,
+        "status": ""
+      }
+    }
+  ]
+}

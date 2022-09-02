@@ -1,0 +1,47 @@
+﻿<script type="text/javascript" src="/App_Plugins/FeedbackListView/xlsx.core.min.js"></script>
+<div id="feedback-list" ng-controller="FeedbackListViewController as vm">
+    <div id="list-loader" ng-if="vm.items.length <= 0 || vm.loadingVisitorTypes || vm.loadingCategories">
+        <div class="umb-empty-state ng-scope -center">
+            <div style="display: flex; justify-content: center; margin-bottom: 15px;">
+                <img ng-if="vm.loadingVisitorTypes || vm.loadingCategories" src="/Umbraco/assets/img/loader.gif" alt="Loading" />
+                <localize ng-if="!vm.loadingVisitorTypes && !vm.loadingCategories && vm.items.length <= 0" key="content_listViewNoContent" class="ng-isolate-scope ng-scope">No content has been added</localize>
+            </div>
+        </div>
+    </div>
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 15px;">
+        <div class="umb-box" style="width: auto; margin-bottom: 0;">
+            <div class="umb-box-header" style="padding: 3px 5px;">
+                <div class="umb-box-header-title" style="font-size: 10pt;">Export</div>
+            </div>
+            <div class="umb-box-content" style="padding: 5px;">
+                <div>
+                    <input id="export-start" type="text" style="font-size: 10pt; height: auto; padding: 2px; vertical-align: middle;" placeholder="Start" ng-model="exportStart" />
+                    <input id="export-end" type="text" style="font-size: 10pt; height: auto; padding: 2px; vertical-align: middle;" placeholder="End" ng-model="exportEnd" />
+                    <umb-button id="export-btn" ng-if="vm.items.length > 0 && !vm.loadingVisitorTypes && !vm.loadingCategories"
+                                size="xs"
+                                action="vm.exportBtn.action()"
+                                type="button"
+                                button-style="action"
+                                state="vm.exportBtn.state"
+                                shortcut="ctrl+e"
+                                label="Export"
+                                disabled="vm.buttonState === 'busy'">
+                    </umb-button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <umb-table id="feedback-table" 
+               ng-if="vm.items.length > 0 && !vm.loadingVisitorTypes && !vm.loadingCategories"
+                items="vm.items"
+                item-properties="options.includeProperties"
+                allow-select-all="vm.allowSelectAll"
+                on-select="vm.selectItem"
+                on-click="vm.clickItem"
+                on-select-all="vm.selectAll"
+                on-selected-all="vm.isSelectedAll"
+                on-sorting-direction="vm.onSortDirection"
+                on-sort="vm.sort"
+                on-search="vm.search">
+    </umb-table>
+</div>

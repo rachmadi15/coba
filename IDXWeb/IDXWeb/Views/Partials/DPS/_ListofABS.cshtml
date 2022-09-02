@@ -1,0 +1,62 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+<thead class="thead-plain">
+<tr>
+    <th rowspan="2">No.</th>
+    <th rowspan="2" class="text-left">Code</th>
+    <th rowspan="2" class="text-left">Listed ABS</th>
+    <th rowspan="2">Listing<br />Date</th>
+    <th rowspan="2">Maturity<br />Date</th>
+    <th class="short" colspan="2">Nominal, b.IDR</th>
+    <th class="short" colspan="2">Volume, b.IDR</th>
+    <th class="short" rowspan="2">Rating</th>
+    <th class="short" rowspan="2">Interest</th>
+    <th class="short" rowspan="2">Tenure</th>
+    <th class="short" rowspan="2">Type</th>
+    <th class="short text-left" rowspan="2">Investment Manager</th>
+    <th class="short text-left" rowspan="2">Custodian</th>
+</tr>
+<tr>
+    <th class="short sum">Issued</th>
+    <th class="short sum">Outstanding</th>
+    <th class="short sum" id="header-1"></th>
+    <th class="short sum" id="header-2"></th>
+</tr>
+</thead>
+<tfoot>
+    <tr class="text-right">
+        <td></td>
+        <td></td>
+        <td class="text-center">Total</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+</tfoot>
+<script type="text/javascript">
+    function setDataTableHeader() {
+        months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        filteredType = $('#filteredType').val();
+        year = $('#filterYear').val();
+        month = $('#filterMonth').val();
+        quarter = $('#filterQuarter').val();
+        header1 = "Q"+ quarter + " " + year;
+        header2 = "YTD " + year;
+        if (filteredType == "monthly") {
+            header1 = months[month-1] + " " + year;
+            header2 = "YTD " + year;
+        }
+
+        document.getElementById("header-1").innerHTML = header1;
+        document.getElementById("header-2").innerHTML = header2;
+
+    }
+</script>

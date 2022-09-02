@@ -1,0 +1,99 @@
+{
+    "data": [
+        {
+            "date": "Fri Mar 01 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "regularValue": 1184849863238,
+            "regularVolume": 247161491,
+            "regularFreq": 30991,
+            "nonRegularValue": 1113646554346,
+            "nonRegularVolume": 606646270,
+            "nonRegularFreq": 72988
+        },
+        {
+            "date": "Fri Mar 01 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "regularValue": 1118797780382,
+            "regularVolume": 247186190,
+            "regularFreq": 30978,
+            "nonRegularValue": 1145388240502,
+            "nonRegularVolume": 606648742,
+            "nonRegularFreq": 72961
+        },
+        {
+            "date": "Fri Mar 01 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "regularValue": 1122841278486,
+            "regularVolume": 247162386,
+            "regularFreq": 30959,
+            "nonRegularValue": 1174144438208,
+            "nonRegularVolume": 606649160,
+            "nonRegularFreq": 72995
+        },
+        {
+            "date": "Sat Mar 02 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "regularValue": 1050301766597,
+            "regularVolume": 247139828,
+            "regularFreq": 30961,
+            "nonRegularValue": 1302706523374,
+            "nonRegularVolume": 606645048,
+            "nonRegularFreq": 72956
+        },
+        {
+            "date": "Sat Mar 02 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "regularValue": 1095476556732,
+            "regularVolume": 247153704,
+            "regularFreq": 30871,
+            "nonRegularValue": 1294409338409,
+            "nonRegularVolume": 606646876,
+            "nonRegularFreq": 72994
+        }
+    ],
+    "columns": [
+        {
+            "columnName": "date",
+            "decimal": 0,
+            "format": "fullDate",
+            "className": "text-center nowrap"
+        },
+        {
+            "columnName": "regularValue",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "regularVolume",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "regularFreq",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": null,
+            "decimal": 0,
+            "format": false,
+            "className": ""
+        },
+        {
+            "columnName": "nonRegularValue",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "nonRegularVolume",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "nonRegularFreq",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        }
+    ]
+}

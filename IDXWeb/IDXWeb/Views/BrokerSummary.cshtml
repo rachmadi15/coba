@@ -1,0 +1,206 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+	Layout = "Master.cshtml";
+}
+
+@section Styles {
+    <link href="@Url.Content("/assets/css/vendor/datatables.min.css")" rel="stylesheet" type="text/css" />
+}
+
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (page.DocumentTypeId != 1237){
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>                    
+                } else {
+                    <li class="@cls"><a href="" class="disable"><span>@page.Name</span></a></li>
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+        </div>
+        <div>
+            <div class="block flex v-center">
+                <span class="form-label-announcement">@Umbraco.GetDictionaryValue("date")</span>
+                <div class="calendar-box width-block">
+                    <input id="dateFilter" type="date" class="form-input form-input--block date-picker-js">
+                </div>
+            </div>
+            <div class="block-double">
+                <button class="btn btn-primary" onclick="getBrokerSummary()">@Umbraco.GetDictionaryValue("search")</button>
+            </div>
+        </div>
+    </div>
+    <div class="main-content content-push">
+        <div class="container">
+            <div class="block">
+                <table id="brokerTable" class="table table--zebra table-content-page">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>@Umbraco.GetDictionaryValue("code")</th>
+                            <th>@Umbraco.GetDictionaryValue("firm name")</th>
+                            <th>Volume</th>
+                            <th>@Umbraco.GetDictionaryValue("value")</th>
+                            <th>@Umbraco.GetDictionaryValue("frequency")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div hidden="true">
+                <table id="downloadBrokerTable" class="table table--zebra table-content-page">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>@Umbraco.GetDictionaryValue("code")</th>
+                            <th>@Umbraco.GetDictionaryValue("firm name")</th>
+                            <th>Volume</th>
+                            <th>@Umbraco.GetDictionaryValue("value")</th>
+                            <th>@Umbraco.GetDictionaryValue("frequency")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-right block">
+                <a onclick="downloadSummary()" href="" class="btn btn-primary --rounded"><span class="fa fa-download"></span> @Umbraco.GetDictionaryValue("download")</a>
+            </div>
+        </div>        
+    </div>
+</main>
+
+@section Scripts{
+    <script type="text/javascript" src="/assets/js/vendor/datatables.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#dateFilter').val(moment().add(-1, 'days').format('DD-MM-YYYY'));
+            getBrokerSummary();
+        });
+
+        function getBrokerSummary(){
+            var dateFilter = $('#dateFilter').val();
+            if (dateFilter !== ""){
+                dateFilter = moment(dateFilter, "DD-MM-YYYY").format('YYYYMMDD');
+            }
+            
+            if($.fn.DataTable.isDataTable('#brokerTable')){
+                var datatable = $('#brokerTable').DataTable();
+                datatable.clear();
+                var url = '@Url.Action("GetBrokerSummary", "TradingSummary")' + '?date=' + dateFilter;
+                datatable.ajax.url(url).load();
+                datatable.draw();
+            } else {
+                $('#brokerTable').dataTable({
+                    'ajax': {
+                    'url': '@Url.Action("GetBrokerSummary", "TradingSummary")',
+                    },
+                    'filter': false,
+                    'sort': false,
+                    'serverSide': true,
+                    'processing': true,
+                    'paging': true,
+                    'deferRender': true,
+                    'columns': [
+                        { 'data': 'No' },
+                        { 'data': 'IDFirm' },
+                        { 'data': 'FirmName' },
+                        { 'data': 'Volume' },
+                        { 'data': 'Value' },
+                        { 'data': 'Frequency' }
+                    ],
+                    'columnDefs': [
+                        {
+                            'targets': [0,1,2],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-center');
+                            }
+                        },
+                        {
+                            'targets': [3,4,5],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-right');
+                            },
+                            'render' : function ( data, type, row, meta ) {
+                                return data.toLocaleString(currentLang);
+                            }
+                        }
+                    ],
+                    "rowCallback": function (row, data, iDisplayIndex) {
+                        var info = this.api().page.info();
+                        var page = info.page;
+                        var length = info.length;
+                        var index = (page * length + (iDisplayIndex + 1));
+                        $('td:eq(0)', row).html(index);
+                    },
+                });                
+            }
+        }
+
+        function downloadSummary(){
+            var dateFilter = $('#dateFilter').val();
+            if (dateFilter !== ""){
+                dateFilter = moment(dateFilter, "DD-MM-YYYY").format('YYYYMMDD');
+            }
+
+            var isDatatable = $.fn.DataTable.isDataTable('#downloadBrokerTable');
+            // if (!isDatatable) {
+            //     dateFilter = ''
+            // }
+
+            $.get('@Url.Action("DownloadBrokerSummary", "TradingSummary")?date=' + dateFilter, function (response){
+                if(!isDatatable){                
+                    $('#downloadBrokerTable').DataTable({
+                        'paging': true,
+                        'data': response.Results,
+                        'buttons': [{ 
+                            'extend': 'excelHtml5', 
+                            'title': function () {
+                                return '@Umbraco.TypedContent(CurrentPage.Id).PageTitle' + '-' + moment($('#dateFilter').val(), "DD-MM-YYYY").format('YYYYMMDD');
+                            }
+                        }],
+                        'columns': [
+                            { 'data': 'No' },
+                            { 'data': 'IDFirm' },
+                            { 'data': 'FirmName' },
+                            { 'data': 'Volume' },
+                            { 'data': 'Value' },
+                            { 'data': 'Frequency' }
+                        ],
+                        "rowCallback": function (row, data, iDisplayIndex) {
+                            var info = this.api().page.info();
+                            var page = info.page;
+                            var length = info.length;
+                            var index = (page * length + (iDisplayIndex + 1));
+                            $('td:eq(0)', row).html(index);
+                        },
+                    });
+                } else {
+                    var datatable = $('#downloadBrokerTable').DataTable();
+                    datatable.clear();
+                    datatable.rows.add(response.Results).draw();
+                }                                
+
+                $('#downloadBrokerTable').DataTable().buttons().trigger();
+            });
+        }
+
+    </script>
+}

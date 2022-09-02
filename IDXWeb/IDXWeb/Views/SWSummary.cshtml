@@ -1,0 +1,468 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+	Layout = "Master.cshtml";
+}
+
+@section Styles {
+    <link href="@Url.Content("/assets/css/vendor/datatables.min.css")" rel="stylesheet" type="text/css" />
+}
+
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (page.DocumentTypeId != 1237){
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>                    
+                } else {
+                    <li class="@cls"><a href="" class="disable"><span>@page.Name</span></a></li>
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+        </div>
+        <div action="" class="block-double">
+            <div class="block flex v-center">
+                <span class="form-label-announcement">@Umbraco.GetDictionaryValue("SW - Underlying")</span>
+                <select name="code" id="underlyingInput" class="form-input form-input--block select2-js emitenList"></select>
+            </div>
+            <div class="block flex v-center">
+                <span class="form-label-announcement">@Umbraco.GetDictionaryValue("SW - Issuer")</span>
+                <select name="code" id="issuerInput" class="form-input form-input--block select2-js issuerList"></select>
+            </div>
+            <div class="block flex v-center">
+                <span class="form-label-announcement">@Umbraco.GetDictionaryValue("SW - SW Type")</span>
+                <select id="swTypeInput" class="form-input form-input--block select2-js swtypeList"></select>
+            </div>
+            <div class="block flex v-center">
+                <span class="form-label-announcement">@Umbraco.GetDictionaryValue("from")</span>
+                <div class="calendar-box width-block">
+                    <input id="datefromInput" type="date" class="form-input form-input--block date-picker-js">
+                </div>
+                <span class="form-label-announcement">@Umbraco.GetDictionaryValue("to")</span>
+                <div class="calendar-box width-block">
+                    <input id="datetoInput" type="date" class="form-input form-input--block date-picker-js">
+                </div>
+            </div>
+
+            <div class="block flex v-center">
+                <span class="form-label-announcement">&nbsp;</span>
+                <button id="searchBtn" class="btn btn-primary">@Umbraco.GetDictionaryValue("search")</button>
+            </div>
+        </div>
+    </div>
+    <div class="main-content content-push">
+        <div class="container">
+            <div class="block">
+                <div class="market-overview-chart-stock-container">
+                <div class="market-overview-chart-stock is-active" id="jci1">
+                    <div class="market-overview-chart-stock-header">
+                        <div class="market-overview-chart-stock-header-top">
+                            <span class="market-overview-chart-stock-header-title"></span>
+                        </div>
+                        <div class="market-overview-chart-stock-header-bottom">
+                            <div>
+                                <span id="graphicPrice"></span>
+                                <span id="graphicPercent"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="market-overview-chart-stock-item">
+                        <div id="chartContainer" class="chart-stock"></div>
+                        <div id="chartDisclaimerContainer" class="table-detail-link">
+                            <span><small>*@Umbraco.GetDictionaryValue("disclaimer MarketOverview")</small></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <table id="tradingTable" class="table table--zebra table-content-page">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>@Umbraco.GetDictionaryValue("SW - Summary - Code", "Kode")</th>
+                            <th>@Umbraco.GetDictionaryValue("SW - Summary - Open", "Open")</th>
+                            <th>@Umbraco.GetDictionaryValue("SW - Summary - High", "High")</th>
+                            <th>@Umbraco.GetDictionaryValue("SW - Summary - Low", "Low")</th>
+                            <th>@Umbraco.GetDictionaryValue("SW - Summary - Last", "Last")</th>
+                            <th>@Umbraco.GetDictionaryValue("SW - Summary - Change", "Change")</th>
+                            <th>%@Umbraco.GetDictionaryValue("SW - Summary - Change", "Change")</th>
+                            <th>@Umbraco.GetDictionaryValue("SW - Summary - Bid", "Bid")</th>
+                            <th>@Umbraco.GetDictionaryValue("SW - Summary - Offer", "Offer")</th>
+                            <th>@Umbraco.GetDictionaryValue("SW - Summary - Volume", "Volume")</th>
+                            <th>@Umbraco.GetDictionaryValue("SW - Summary - Value", "Value")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+				<span><i>@Umbraco.GetDictionaryValue("SW - Summary - Footnote", "*footnote")</i></span>
+            </div>
+        </div>        
+    </div>
+</main>
+
+@section Scripts{
+    <script type="text/javascript" src="/assets/js/vendor/datatables.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            getTradingList();
+            getFilter();
+            getStockChart();
+            $('.market-overview-chart-stock-item').hide();
+        });
+        
+        $('#searchBtn').on('click', function(){
+            getTradingList();
+            getStockChart();
+        });
+        
+        function getFilter() {
+            $.get('@Url.Action("GetEmiten", "Helper")?emitenType=s', function (result) {
+                $('.emitenList').append('<option value="">' + "@Umbraco.GetDictionaryValue("SW - Choose Underlying")" + '</option>');
+                for (var i = 0; i < result.length; i++) {
+                    $('.emitenList').each(function(){
+                        $(this).append('<option value="' + result[i].KodeEmiten + '">' + result[i].KodeEmiten + '</option>');
+                    });
+                }
+                $.get('@Url.Action("GetIndexList", "Home")?cultureInfo=' + currentLang, function (result) {
+                    var jsonResult = $.parseJSON(result);
+                    for(var i = 0; i < jsonResult.length; i++){
+                        $('.emitenList').each(function(){
+                            if(jsonResult[i].IndexCode != 'COMPOSITE')
+                                $(this).append('<option value="' + jsonResult[i].IndexCode + '">' + jsonResult[i].IndexCode + '</option>');
+                        })
+                    }
+                });
+            });
+            $.get('@Url.Action("GetIssuerDDL", "StructuredWarrant")', function (result) {
+                $('.issuerList').append('<option value="">' + "@Umbraco.GetDictionaryValue("SW - Choose Issuer")" + '</option>');
+                for (var i = 0; i < result.length; i++) {
+                    $('.issuerList').each(function(){
+                        $(this).append('<option value="' + result[i] + '">' + result[i] + '</option>');
+                    });
+                }
+            });
+            $.get('@Url.Action("GetJenisSw", "StructuredWarrant")', function (result) {
+                $('.swtypeList').append('<option value="">' + "@Umbraco.GetDictionaryValue("SW - Choose SW Type")" + '</option>');
+                for (var i = 0; i < result.length; i++) {
+                    $('.swtypeList').each(function(){
+                        var dat = capitalizeLetter(result[i]);
+                        $(this).append('<option value="' + result[i] + '">' + dat + '</option>');
+                    });
+                }
+            });
+        }
+        
+        function getStockInfo(){
+            var indexCode = $('.emitenList option:selected').text();
+                $.get('@Url.Action("GetGraph", "StructuredWarrant")?underlying=' + $('#underlyingInput'), function (result) {
+                    var price = result.Price.toLocaleString(currentLang);
+                    var percent = result.Percent.toLocaleString(currentLang) + '%';
+
+                    $('.market-overview-chart-filter-item').removeClass('is-active');
+                    $($('.market-overview-chart-filter-item')[0]).addClass('is-active');
+
+                    onChartChange(indexCode, price, percent, "1D");
+
+                    $('#chartDisclaimerContainer').show();
+            });
+        }
+
+        function getTradingList(){
+            var underlying = $('#underlyingInput').val();
+            if(underlying == null) underlying = '';
+            var period = $('#dateInput').val();
+            if(period == null) period = '';
+            var datefrom = moment($('#datefromInput').val(), 'DD-MM-YYYY').format('YYYY-MM-DD');
+            if($('#datefromInput').val()== null) datefrom = '';
+            var dateto = moment($('#datetoInput').val(),'DD-MM-YYYY').format('YYYY-MM-DD');
+            if($('#datetoInput').val()== null) dateto = '';
+            var issuer = $('#issuerInput').val();
+            if(issuer == null) issuer = '';
+            var swtype = $('#swTypeInput').val();
+            if(swtype == null) swtype = '';
+            
+            if($.fn.DataTable.isDataTable('#tradingTable')){
+                var datatable = $('#tradingTable').DataTable();
+                datatable.clear();
+                var url = '@Url.Action("GetTradingList", "StructuredWarrant")' + 
+                '?language=' + currentLang + 
+                '&sw=' + swtype + 
+                '&dateFrom=' + datefrom + 
+                '&dateTo=' + dateto +
+                '&underlying=' + underlying +
+                '&issuer=' + issuer;
+                datatable.ajax.url(url).load();
+            } else {
+                $('#tradingTable').dataTable({
+                    'ajax': {
+                    'url': '@Url.Action("GetTradingList", "StructuredWarrant")',
+                    },
+                    'filter': false,
+                    'sort': false,
+                    'serverSide': true,
+                    'processing': true,
+                    'paging': true,
+                    'deferRender': true,
+                    'columns': [
+                        { 'data': 'IntRow' },
+                        { 'data': 'KodeSW' },
+                        { 'data': 'Open' },
+                        { 'data': 'High'},
+                        { 'data': 'Low' },
+                        { 'data': 'Last' },
+                        { 'data': 'Change' },
+                        { 'data': 'PercentChange' },
+                        { 'data': 'Bid' },
+                        { 'data': 'Offer' },
+                        { 'data': 'Volume' },
+                        { 'data': 'Value' },
+                    ],
+                    'columnDefs': [
+                        {
+                            'targets': [0,1,2,3],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-center');
+                            }
+                        },
+                        {
+                            'targets': [4,5],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-right');
+                            },
+                            'render' : function ( data, type, row, meta ) {
+                                return data.toLocaleString(currentLang);
+                            }
+                        },
+                        {
+                            'targets' : '_all',
+                            'render' : function ( data, type, row, meta ){
+                                if(data != null){
+                                    return data.toLocaleString(currentLang);
+                                }else{
+                                    return '';
+                                }
+                            }
+                        }
+                    ],
+                    "rowCallback": function (row, data, iDisplayIndex) {
+                        var info = this.api().page.info();
+                        var page = info.page;
+                        var length = info.length;
+                        var index = (page * length + (iDisplayIndex + 1));
+                        $('td:eq(0)', row).html(index);
+                    },
+                });                
+            }
+        }
+        
+        
+        function getStockChart(){
+            var chartUrl = "@Url.Action("GetGraph", "StructuredWarrant")";
+            var indexCode = $('#underlyingInput').val();
+            if(indexCode == null || indexCode == '') {
+                indexCode = '';
+                $('.market-overview-chart-stock-item').hide();
+            }
+            else{
+                var datefromDat = moment($('#datefromInput').val(), 'DD-MM-YYYY');
+                var datetoDat = moment($('#datetoInput').val(), 'DD-MM-YYYY')
+                
+                var datefrom = datefromDat.format('YYYY-MM-DD');
+                if($('#datefromInput').val() == null) datefrom = '';
+                var dateto = datetoDat.format('YYYY-MM-DD');
+                if($('#datetoInput').val() == null) dateto = '';
+                var issuer = $('#issuerInput').val();
+                if(issuer == null) issuer = '';
+                
+                $.getJSON(chartUrl + '?underlying=' + indexCode + 
+                '&datefrom=' + datefrom +
+                '&dateto=' + dateto +
+                '&issuer=' + issuer
+                , function(response) {
+                    var startDate = null;
+                    var endDate = null;
+    
+                    var chartData = response != null
+                        ? response.map(row => [moment(row.Date).locale(currentLang).format('DD-MMM-YYYY'), row.Close])
+                        : null;
+                        
+                    if(chartData.length == 0){
+                        $('.market-overview-chart-stock-item').hide();
+                    }else{
+                        $('.market-overview-chart-stock-item').show();
+                    }
+					
+					if(currentLang == 'en-us'){
+						Highcharts.setOptions({
+							lang: {
+							thousandsSep: ',',
+						  }
+						});
+					}
+					else if(currentLang == 'id-id'){
+						Highcharts.setOptions({
+							lang: {
+							thousandsSep: ',',
+								months: [
+									'Januari', 'Febuari', 'Maret', 'April',
+									'Mei', 'Juni', 'Juli', 'Agustus',
+									'September', 'Oktober', 'November', 'Desember'
+								],
+								weekdays: [
+									'Senin', 'Selasa', 'Rabu', 'Kamis',
+									'Jumat', 'Sabtu', 'Minggu'
+								]
+						  }
+						});
+					}
+					
+                    var index = response != null && response.length > 0 ? response[0].IndexCode : '';    
+    				if(!datefromDat.isValid()) datefromDat = moment().startOf('day').subtract(3, 'months');
+    				if(!datetoDat.isValid()) datetoDat = moment().startOf('day');
+                    var options = {
+                            chart: {
+                                zoomType: 'x',
+                                ignoreHiddenSeries : false,
+                                height: 160,
+                                spacing: [0,0,0,0],
+                                marginTop: 20,
+                                marginRight: 20,
+                                renderTo: 'chartContainer'
+                            },
+                            buttons: {
+                                printButton: {
+                                    enabled: false
+                                },
+                                exportButton: {
+                                    enabled: false
+                                }
+                            },
+                            exporting: {
+                                enabled: false
+                            },
+                            credits: { enabled: false },
+                            legend: { enabled: false },
+                            title: { text: null },
+                            xAxis: {
+                                type: 'datetime',
+                                gridLineWidth: 1,
+                                ordinal: false,
+                                endOnTick: true,
+                                startOnTick: true,
+                               labels: {
+										formatter: function() {
+												return Highcharts.dateFormat('%e %B %Y', this.value);
+									}
+								}
+                            },
+							
+						tooltip: {
+							xDateFormat: '%e %B %Y',
+							shared: true
+						},
+                            yAxis: {
+								labels: {
+									format: '{value:,.0f}' // The $ is literally a dollar unit
+								},
+                                title: null,
+                                gridLineWidth: 1,
+                                plotLines: [{
+                                    color: '#FF0000',
+                                    width: 2,
+                                    dashStyle: 'shortdash'
+                                }],
+                            },
+                            plotOptions: {
+                                line: {
+                                    fillColor: {
+                                        linearGradient: {
+                                            x1: 0,
+                                            y1: 0,
+                                            x2: 0,
+                                            y2: 1
+                                        },
+                                        stops: [
+                                            [0, Highcharts.getOptions().colors[0]],
+                                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                                        ]
+                                    },
+                                    marker: {
+                                        radius: 2
+                                    },
+                                    lineWidth: 1,
+                                    negativeColor: 'red',
+                                    color: 'green',
+                                    states: {
+                                        hover: {
+                                            lineWidth: 1
+                                        }
+                                    }
+                                }
+                            },
+                            series: []
+                        };
+                    var newseries;
+    				var indexList = new Set(response.map(s => s.IndexCode));
+    				indexList.forEach(function(i, item){
+    					newseries = {};
+    					newseries.name = item;
+    					var dat = response.filter(function(r){ return r.IndexCode == item;});
+    					var data = [];
+    					$.each(dat, function(i, x){ data.push([moment(x.Date, 'YYYY-MM-DDThh:mm:ss').add(7, 'hours').valueOf(), x.Close])});
+    					newseries.data = data;
+    					newseries.type = 'line';
+    					options.series.push(newseries);
+    				});
+    				
+    				var chart = new Highcharts.Chart(options);
+    				chart.xAxis[0].setExtremes(
+                        datefromDat.add(7, 'hours').valueOf(),
+                        datetoDat.add(7, 'hours').valueOf()
+                    );
+    			})
+            }
+            
+		}
+        
+        function onChartChange(indexCode, indexChange, indexPercent, period){
+            currentCode = indexCode;
+
+            $('.market-overview-chart-stock-header-title').text(indexCode);
+
+            var indexColor = (indexPercent.indexOf('-') < 0 ? 'green' : 'red');
+
+            if (indexChange !== "" && indexPercent !== ""){
+                $('#graphicPrice').text(indexChange);
+                $('#graphicPercent').text(indexPercent);
+
+                $('#graphicPrice').removeClass('green red').addClass(indexColor);
+                $('#graphicPercent').removeClass('green red').addClass(indexColor);
+            }
+
+            renderIndexChart(indexCode, period);
+        }
+        
+        function capitalizeLetter(str) {
+            var splitStr = str.toLowerCase().split(' ');
+            for (var i = 0; i < splitStr.length; i++) {
+               splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);     
+            }
+            return splitStr.join(' '); 
+        }
+
+    </script>
+}

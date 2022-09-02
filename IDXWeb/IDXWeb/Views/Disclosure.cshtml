@@ -1,0 +1,195 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+}
+
+<main class="sticky-footer-container-item --pushed" ng-controller="DisclosureController as disclosureCtrl">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1) {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages) {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (page.DocumentTypeId != 1237) {
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>
+                } else {
+                    <li class="@cls"><a href="" class="disable"><span>@page.Name</span></li>
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+        </div>
+        <div action="" class="block-double">
+            <div class="block flex v-center">
+                <span class="form-label-announcement">@Umbraco.GetDictionaryValue("type")</span>
+                <div class="form-radio form-radio--inline">
+                    <input type="radio" class="form-input-custom-bullet" id="toe0" name="financialExchangeType" checked value="">
+                    <label for="toe0" class="">@Umbraco.GetDictionaryValue("all")</label>
+                </div>
+                <div class="form-radio form-radio--inline">
+                    <input type="radio" class="form-input-custom-bullet" id="toe1" name="financialExchangeType" value="s">
+                    <label for="toe1" class="">@Umbraco.GetDictionaryValue("stock")</label>
+                </div>
+                <div class="form-radio form-radio--inline">
+                    <input type="radio" class="form-input-custom-bullet" id="toe2" name="financialExchangeType" value="o">
+                    <label for="toe2" class="">@Umbraco.GetDictionaryValue("bonds")</label>
+                </div>
+                <div class="form-radio form-radio--inline">
+                    <input type="radio" class="form-input-custom-bullet" id="toe3" name="financialExchangeType" value="etf">
+                    <label for="toe3" class="">ETF</label>
+                </div>
+                <div class="form-radio form-radio--inline">
+                    <input type="radio" class="form-input-custom-bullet" id="toe4" name="financialExchangeType" value="dd">
+                    <label for="toe4" class="">DIRE & DINFRA</label>
+                </div>
+                <div class="form-radio form-radio--inline">
+                    <input type="radio" class="form-input-custom-bullet" id="toe5" name="financialExchangeType" value="eba">
+                    <label for="toe5" class="">EBA</label>
+                </div>
+            </div>
+            <div class="block flex v-center">
+                <span class="form-label-announcement">@Umbraco.GetDictionaryValue("code")</span>
+                <select name="code" id="emitenList" class="form-input form-input--block select2-js"></select>
+            </div>
+            <div class="block flex v-center">
+                <span class="form-label-announcement">@Umbraco.GetDictionaryValue("keyword")</span>
+                <input id="keywordInput" type="text" class="form-input form-input--block" placeholder='@Umbraco.GetDictionaryValue("enter code")' maxlength="100">
+            </div>
+            <div class="block flex v-center">
+                <span class="form-label-announcement">@Umbraco.GetDictionaryValue("from")</span>
+                <div class="calendar-box width-block">
+                    <input id="dateFromInput" type="date" class="form-input form-input--block date-picker-js">
+                </div>
+                <span class="form-label-announcement">@Umbraco.GetDictionaryValue("to")</span>
+                <div class="calendar-box width-block">
+                    <input id="dateToInput" type="date" class="form-input form-input--block date-picker-js">
+                </div>
+            </div>
+
+            <div class="block flex v-center">
+                <span class="form-label-announcement">&nbsp;</span>
+                <button id="searchBtn" class="btn btn-primary">@Umbraco.GetDictionaryValue("search")</button>
+            </div>
+        </div>
+    </div>
+    <div class="main-content content-push">
+        <div class="container white-container">
+            <div class="loader-box" ng-class="{'is-active' : loading}">
+                <div class="loader-container">
+                    <img src="/assets/img/ajax-loader.gif" alt="">
+                </div>
+            </div>
+            <div class="block">
+                <div class="border-bottom">
+                    <div class="container-space container-space--big" dir-paginate="res in announcement | itemsPerPage: limit" total-items="totalAnnouncement" current-page="pagination.current">
+                        <time class="financial-report-date">{{res.pengumuman.TglPengumuman | date:'dd MMMM yyyy HH:mm:ss'}}</time>
+                        <a href="{{res.attachments[0].FullSavePath}}" target="_blank" class="red">
+                            <p class="text-bigger text-bold block-clear">{{res.pengumuman.JudulPengumuman}} [{{res.pengumuman.Kode_Emiten}}]</p>
+                        </a>
+                        Attachment:<br />
+                        <div ng-repeat="attachments in res.attachments | filter:true:isAttachment">
+                            <a href="{{attachments.FullSavePath}}" target="_blank" class="red"><span class="fa fa-file"></span> {{attachments.OriginalFilename}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <script>
+        const app = angular.module('app', ['angularUtils.directives.dirPagination'])
+
+        app.filter('attachmentType', function() {
+            return function(input, uppercase) {
+                var out = [];
+                for (var i = 0; i < input.length; i++) {
+                    if(input[i].IsAttachment){
+                        out.push(input[i]);
+                    }
+                }
+                return out;
+            }
+        });
+
+        app.controller('DisclosureController', ['$scope', '$http', function($scope, $http){
+
+            $scope.announcement = [];
+            $scope.totalAnnouncement = 0;
+            $scope.currentPage = 1;
+            $scope.limit = 10;
+            $scope.loading = false;
+            getResultsPage(1);
+
+            $scope.pagination = {
+                current: 1
+            };
+
+            $scope.pageChanged = function(newPage) {
+                getResultsPage(newPage);
+            };
+
+            $('#searchBtn').on('click', function(e){
+                getResultsPage(1);
+            });
+
+            $('input[name="financialExchangeType"]').on('click', function(e){
+                getEmitenType();
+            });
+
+            getEmitenType();
+
+            function getEmitenType() {
+                $scope.loading = true;
+                var emitenType = $('input[name="financialExchangeType"]:checked').val();
+				if(emitenType == '')
+					emitenType = '*';
+                $('#emitenList').empty();
+
+                $.get('@Url.Action("GetEmiten", "Helper")?emitenType=' + emitenType, function (result) {
+                    $('#emitenList').append('<option value="">' + "@Umbraco.GetDictionaryValue("choose emiten")" + '</option>');
+                    for (var i = 0; i < result.length; i++) {
+                        $('#emitenList').each(function(){
+                            $(this).append('<option value="' + result[i].KodeEmiten + '">' + result[i].KodeEmiten + ' - ' + result[i].NamaEmiten + '</option>');
+                        });
+                    }
+                    $scope.loading = false;
+                });
+            }
+
+            function getResultsPage(pageNumber) {
+                $scope.loading = true;
+                var selectedCode = $('#emitenList option:selected').val();
+                if (selectedCode == "@Umbraco.GetDictionaryValue("choose emiten")" || selectedCode == undefined) {
+                    selectedCode = "";
+                }
+
+                var dateFrom = $('#dateFromInput').val() === '' ? '' : moment($('#dateFromInput').val(), 'DD-MM-YYYY').format('YYYYMMDD');
+                var dateTo = $('#dateToInput').val() === '' ? '' : moment($('#dateToInput').val(), 'DD-MM-YYYY').format('YYYYMMDD');
+
+                var keyword = $('#keywordInput').val();
+                var emitenType = $('input[name="financialExchangeType"]:checked').val();
+                $http.get('@Url.Action("GetAnnouncement", "ListedCompany")' +
+                '?kodeEmiten=' + selectedCode + '&keyword=' + keyword + '&indexFrom=' +(pageNumber-1) + '&pageSize=' + $scope.limit + '&dateFrom=' + dateFrom +
+                '&dateTo=' + dateTo + '&language=' + currentLang + '&emitenType=' + emitenType).then(function (result) {
+                    var data = result.data;
+                    $scope.announcement = data.Replies;
+                    $scope.totalAnnouncement = data.ResultCount;
+                    $scope.loading = false;
+                });
+            }
+
+        }])
+    </script>
+}

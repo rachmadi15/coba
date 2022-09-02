@@ -1,0 +1,357 @@
+{
+    "data": [
+        {
+            "date": "2019-11-01T00:00:00",
+            "rightsVol": 2312435.00,
+            "rightsValue": 127.00,
+            "rightsFreq": 46.00,
+            "warrantVol": 0.0,
+            "warrantValue": 0.0,
+            "warrantFreq": 0.0,
+            "etfVol": 234214232934.00,
+            "etfValue": 245236478983.00,
+            "etfFreq": 1314.00,
+            "reitVol": 2813.00,
+            "reitValue": 23211706.00,
+            "reitFreq": 682.00
+        },
+        {
+            "date": "2019-11-01T00:00:00",
+            "rightsVol": 2312435.00,
+            "rightsValue": 127.00,
+            "rightsFreq": 46.00,
+            "warrantVol": 0.0,
+            "warrantValue": 0.0,
+            "warrantFreq": 0.0,
+            "etfVol": 234214232934.00,
+            "etfValue": 245236478983.00,
+            "etfFreq": 1314.00,
+            "reitVol": 2813.00,
+            "reitValue": 23211706.00,
+            "reitFreq": 682.00
+        },
+        {
+            "date": "2019-11-01T00:00:00",
+            "rightsVol": 2312435.00,
+            "rightsValue": 127.00,
+            "rightsFreq": 46.00,
+            "warrantVol": 0.0,
+            "warrantValue": 0.0,
+            "warrantFreq": 0.0,
+            "etfVol": 234214232934.00,
+            "etfValue": 245236478983.00,
+            "etfFreq": 1314.00,
+            "reitVol": 2813.00,
+            "reitValue": 23211706.00,
+            "reitFreq": 682.00
+        },
+        {
+            "date": "2019-11-01T00:00:00",
+            "rightsVol": 2312435.00,
+            "rightsValue": 127.00,
+            "rightsFreq": 46.00,
+            "warrantVol": 0.0,
+            "warrantValue": 0.0,
+            "warrantFreq": 0.0,
+            "etfVol": 234214232934.00,
+            "etfValue": 245236478983.00,
+            "etfFreq": 1314.00,
+            "reitVol": 2813.00,
+            "reitValue": 23211706.00,
+            "reitFreq": 682.00
+        },
+        {
+            "date": "2019-11-01T00:00:00",
+            "rightsVol": 2312435.00,
+            "rightsValue": 127.00,
+            "rightsFreq": 46.00,
+            "warrantVol": 0.0,
+            "warrantValue": 0.0,
+            "warrantFreq": 0.0,
+            "etfVol": 234214232934.00,
+            "etfValue": 245236478983.00,
+            "etfFreq": 1314.00,
+            "reitVol": 2813.00,
+            "reitValue": 23211706.00,
+            "reitFreq": 682.00
+        },
+        {
+            "date": "2019-11-01T00:00:00",
+            "rightsVol": 2312435.00,
+            "rightsValue": 127.00,
+            "rightsFreq": 46.00,
+            "warrantVol": 0.0,
+            "warrantValue": 0.0,
+            "warrantFreq": 0.0,
+            "etfVol": 234214232934.00,
+            "etfValue": 245236478983.00,
+            "etfFreq": 1314.00,
+            "reitVol": 2813.00,
+            "reitValue": 23211706.00,
+            "reitFreq": 682.00
+        },
+        {
+            "date": "2019-11-01T00:00:00",
+            "rightsVol": 2312435.00,
+            "rightsValue": 127.00,
+            "rightsFreq": 46.00,
+            "warrantVol": 0.0,
+            "warrantValue": 0.0,
+            "warrantFreq": 0.0,
+            "etfVol": 234214232934.00,
+            "etfValue": 245236478983.00,
+            "etfFreq": 1314.00,
+            "reitVol": 2813.00,
+            "reitValue": 23211706.00,
+            "reitFreq": 682.00
+        },
+        {
+            "date": "2019-11-01T00:00:00",
+            "rightsVol": 2312435.00,
+            "rightsValue": 127.00,
+            "rightsFreq": 46.00,
+            "warrantVol": 0.0,
+            "warrantValue": 0.0,
+            "warrantFreq": 0.0,
+            "etfVol": 234214232934.00,
+            "etfValue": 245236478983.00,
+            "etfFreq": 1314.00,
+            "reitVol": 2813.00,
+            "reitValue": 23211706.00,
+            "reitFreq": 682.00
+        },
+        {
+            "date": "2019-11-02T00:00:00",
+            "rightsVol": 2312435.00,
+            "rightsValue": 127.00,
+            "rightsFreq": 46.00,
+            "warrantVol": 0.0,
+            "warrantValue": 0.0,
+            "warrantFreq": 0.0,
+            "etfVol": 234214232934.00,
+            "etfValue": 245236478983.00,
+            "etfFreq": 1314.00,
+            "reitVol": 2813.00,
+            "reitValue": 23211706.00,
+            "reitFreq": 682.00
+        },
+        {
+            "date": "2019-11-02T00:00:00",
+            "rightsVol": 2312435.00,
+            "rightsValue": 127.00,
+            "rightsFreq": 46.00,
+            "warrantVol": 0.0,
+            "warrantValue": 0.0,
+            "warrantFreq": 0.0,
+            "etfVol": 234214232934.00,
+            "etfValue": 245236478983.00,
+            "etfFreq": 1314.00,
+            "reitVol": 2813.00,
+            "reitValue": 23211706.00,
+            "reitFreq": 682.00
+        },
+        {
+            "date": "2019-11-02T00:00:00",
+            "rightsVol": 2312435.00,
+            "rightsValue": 127.00,
+            "rightsFreq": 46.00,
+            "warrantVol": 0.0,
+            "warrantValue": 0.0,
+            "warrantFreq": 0.0,
+            "etfVol": 234214232934.00,
+            "etfValue": 245236478983.00,
+            "etfFreq": 1314.00,
+            "reitVol": 2813.00,
+            "reitValue": 23211706.00,
+            "reitFreq": 682.00
+        },
+        {
+            "date": "2019-11-02T00:00:00",
+            "rightsVol": 2312435.00,
+            "rightsValue": 127.00,
+            "rightsFreq": 46.00,
+            "warrantVol": 0.0,
+            "warrantValue": 0.0,
+            "warrantFreq": 0.0,
+            "etfVol": 234214232934.00,
+            "etfValue": 245236478983.00,
+            "etfFreq": 1314.00,
+            "reitVol": 2813.00,
+            "reitValue": 23211706.00,
+            "reitFreq": 682.00
+        },
+        {
+            "date": "2019-11-02T00:00:00",
+            "rightsVol": 2312435.00,
+            "rightsValue": 127.00,
+            "rightsFreq": 46.00,
+            "warrantVol": 0.0,
+            "warrantValue": 0.0,
+            "warrantFreq": 0.0,
+            "etfVol": 234214232934.00,
+            "etfValue": 245236478983.00,
+            "etfFreq": 1314.00,
+            "reitVol": 2813.00,
+            "reitValue": 23211706.00,
+            "reitFreq": 682.00
+        },
+        {
+            "date": "2019-11-02T00:00:00",
+            "rightsVol": 2312435.00,
+            "rightsValue": 127.00,
+            "rightsFreq": 46.00,
+            "warrantVol": 0.0,
+            "warrantValue": 0.0,
+            "warrantFreq": 0.0,
+            "etfVol": 234214232934.00,
+            "etfValue": 245236478983.00,
+            "etfFreq": 1314.00,
+            "reitVol": 2813.00,
+            "reitValue": 23211706.00,
+            "reitFreq": 682.00
+        },
+        {
+            "date": "2019-11-02T00:00:00",
+            "rightsVol": 2312435.00,
+            "rightsValue": 127.00,
+            "rightsFreq": 46.00,
+            "warrantVol": 0.0,
+            "warrantValue": 0.0,
+            "warrantFreq": 0.0,
+            "etfVol": 234214232934.00,
+            "etfValue": 245236478983.00,
+            "etfFreq": 1314.00,
+            "reitVol": 2813.00,
+            "reitValue": 23211706.00,
+            "reitFreq": 682.00
+        },
+        {
+            "date": "2019-11-02T00:00:00",
+            "rightsVol": 2312435.00,
+            "rightsValue": 127.00,
+            "rightsFreq": 46.00,
+            "warrantVol": 0.0,
+            "warrantValue": 0.0,
+            "warrantFreq": 0.0,
+            "etfVol": 234214232934.00,
+            "etfValue": 245236478983.00,
+            "etfFreq": 1314.00,
+            "reitVol": 2813.00,
+            "reitValue": 23211706.00,
+            "reitFreq": 682.00
+        },
+        {
+            "date": "2019-11-03T00:00:00",
+            "rightsVol": 2312435.00,
+            "rightsValue": 127.00,
+            "rightsFreq": 46.00,
+            "warrantVol": 0.0,
+            "warrantValue": 0.0,
+            "warrantFreq": 0.0,
+            "etfVol": 234214232934.00,
+            "etfValue": 245236478983.00,
+            "etfFreq": 1314.00,
+            "reitVol": 2813.00,
+            "reitValue": 23211706.00,
+            "reitFreq": 682.00
+        }
+    ],
+    "columns": [
+        {
+            "columnName": "date",
+            "decimal": 0.0,
+            "format": "dayMonth",
+            "className": "text-center nowrap"
+        },
+        {
+            "columnName": "rightsVol",
+            "decimal": 2.0,
+            "format": "true",
+            "className": ""
+        },
+        {
+            "columnName": "rightsValue",
+            "decimal": 0.0,
+            "format": "true",
+            "className": ""
+        },
+        {
+            "columnName": "rightsFreq",
+            "decimal": 0.0,
+            "format": "true",
+            "className": ""
+        },
+        {
+            "columnName": null,
+            "decimal": 0.0,
+            "format": "false",
+            "className": ""
+        },
+        {
+            "columnName": "warrantVol",
+            "decimal": 2.0,
+            "format": "true",
+            "className": ""
+        },
+        {
+            "columnName": "warrantValue",
+            "decimal": 0.0,
+            "format": "true",
+            "className": ""
+        },
+        {
+            "columnName": "warrantFreq",
+            "decimal": 0.0,
+            "format": "true",
+            "className": ""
+        },
+        {
+            "columnName": null,
+            "decimal": 0.0,
+            "format": "false",
+            "className": ""
+        },
+        {
+            "columnName": "etfVol",
+            "decimal": 2.0,
+            "format": "true",
+            "className": ""
+        },
+        {
+            "columnName": "etfValue",
+            "decimal": 0.0,
+            "format": "true",
+            "className": ""
+        },
+        {
+            "columnName": "etfFreq",
+            "decimal": 0.0,
+            "format": "true",
+            "className": ""
+        },
+        {
+            "columnName": null,
+            "decimal": 0.0,
+            "format": "false",
+            "className": ""
+        },
+        {
+            "columnName": "reitVol",
+            "decimal": 2.0,
+            "format": "true",
+            "className": ""
+        },
+        {
+            "columnName": "reitValue",
+            "decimal": 0.0,
+            "format": "true",
+            "className": ""
+        },
+        {
+            "columnName": "reitFreq",
+            "decimal": 0.0,
+            "format": "true",
+            "className": ""
+        }
+    ]
+}

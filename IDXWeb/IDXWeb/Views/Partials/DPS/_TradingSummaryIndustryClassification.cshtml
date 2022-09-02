@@ -1,0 +1,52 @@
+﻿@using System.Text
+@using Newtonsoft.Json
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    var query = Request.QueryString["q"];
+    byte[] queryBase64 = Convert.FromBase64String(query);
+    string queryJson = Encoding.UTF8.GetString(queryBase64);
+    dynamic querys = JsonConvert.DeserializeObject<dynamic>(queryJson);
+}
+    <thead class="thead-plain" data-unorderable="7">
+        <tr>
+            <th rowspan="2" class="text-left">Sector / Sub Sector</th>
+            <th rowspan="2" class="sum">Members</th>
+            <th rowspan="2" class="sum">Delisted</th>
+            <th rowspan="2" class="sum">Number of Shares</th>
+            <th rowspan="2" class="sum">Market Cap,<br>m. IDR</th>
+            <th class="short" colspan="3">Total Trading</th>
+            @if (querys.type == "monthly")
+            {
+                <th class="short" colspan="2">Average</th>
+            }
+            else
+            {
+                <th class="short" rowspan="2">PER,<br>x</th>
+                <th class="short" rowspan="2">PBV,<br>x</th>
+            }
+        </tr>
+        <tr>
+            <th class="short sum">Volume,<br>th. shares</th>
+            <th class="short sum">Value,<br>m. IDR</th>
+            <th class="short sum">Freq.,<br>x</th>
+            @if (querys.type == "monthly")
+            {
+                <th class="short">PER,<br>x</th>
+                <th class="short">PBV,<br>x</th>
+            }
+        </tr>
+    </thead>
+    <tfoot>
+        <tr class="text-right">
+            <td class="text-center">Total</td>
+            <td class=""></td>
+            <td class=""></td>
+            <td class=""></td>
+            <td class=""></td>
+            <td class=""></td>
+            <td class=""></td>
+            <td class=""></td>
+            <td class=""></td>
+            <td class=""></td>
+        </tr>
+    </tfoot>

@@ -1,0 +1,96 @@
+<!-- <script>
+    (function(undefined) {}).call('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});
+</script> -->
+<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=default,promise,fetch,es6"></script>
+<script src="~/assets/js/vendor/angular.min.js"></script>
+<script src="~/assets/js/vendor/jquery.min.js"></script>
+<script src="~/assets/js/vendor/angularPagination.min.js"></script>
+<script src="~/assets/js/vendor/slick.min.js"></script>
+<script src="~/assets/js/vendor/select2.min.js"></script>
+<script src="~/assets/js/vendor/moment.min.js"></script>
+<script src="~/assets/js/vendor/fullcalendar.min.js"></script>
+<script src="~/assets/js/vendor/id.min.js"></script>
+<script src="~/assets/js/vendor/flatpickr.min.js"></script>
+<script src="~/assets/js/vendor/mapbox.min.js"></script>
+<script src="~/assets/js/vendor/flipclock.min.js"></script>
+<script src="~/assets/js/vendor/dailycounter.min.js"></script>
+<script src="~/assets/js/vendor/jquery.clamp.min.js"></script>
+<script src="~/assets/js/vendor/object-fit-images.min.js"></script>
+<script src="~/assets/js/vendor/highstock.min.js"></script>
+<script src="~/assets/js/vendor/highcharts-more.min.js"></script>
+<script src="~/assets/js/vendor/jquery.dataTables.min.js"></script>
+<script src="~/assets/js/vendor/tex-chtml.min.js"></script>
+<script src="~/assets/js/main.min.js"></script>
+<script>
+    const app = angular.module('app', ['angularUtils.directives.dirPagination'])
+    app.controller('AnnouncementController', ['$scope', '$http', function ($scope, $http) {
+
+        $scope.users = [];
+        $scope.totalUsers = 0;
+        $scope.currentPage = 1;
+        $scope.limit = 10;
+        $scope.loading = false
+        getResultsPage(1);
+
+        $scope.pagination = {
+            current: 1
+        };
+
+        $scope.pageChanged = function (newPage) {
+            getResultsPage(newPage);
+        };
+
+        function getResultsPage(pageNumber) {
+            $scope.loading = true
+            $http.get('http://202.137.4.216/api/get/ListedCompanies/Announcement/GetAllAnnouncement?indexfrom=1&pagesize=10')
+                .then(function (result) {
+                    var data = result.data
+                    // var data = $.parseJSON(result.data);
+                    $scope.users = data.Replies
+                    $scope.totalUsers = data.ResultCount;
+                    $scope.loading = false
+                });
+        }
+
+    }])
+</script>
+<script>
+    $('.market-overview-slider').slick({
+        prevArrow: $('.slick-prev'),
+        nextArrow: $('.slick-next')
+    })
+</script>
+<script>
+    $('.custom-direct-js').on('change', function (event) {
+        event.preventDefault();
+        /* Act on the event */
+        if ($(this).val() == 'others') {
+            window.location.href = "http://youtube.com";
+        }
+    });
+</script>
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kaGlrYXJpZGhvdmFuaSIsImEiOiJjamhqejE3bTgwdDJ4MzBrZHR3MmE5emUyIn0.QCvlMSgjCxbQpPwGp3I9wQ';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        center: [106.8082005, -6.2238179],
+        zoom: 16,
+        style: 'mapbox://styles/mapbox/streets-v10'
+    });
+
+    var marker = new mapboxgl.Marker()
+        .setLngLat([106.80863, -6.22357])
+        .addTo(map);
+</script>
+
+<script>
+    const $countdown = $('.countdown-js')
+    const data = $countdown.attr('data-countdown');
+    const targetDate = new Date(data)
+    const newDate = (targetDate.getTime() - new Date().getTime()) / 1000
+
+    var clock = $('.countdown-js').FlipClock(newDate, {
+        clockFace: 'DailyCounter',
+        countdown: true
+    });
+</script>

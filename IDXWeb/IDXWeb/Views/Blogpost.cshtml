@@ -1,0 +1,96 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.Blogpost>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@{
+    Layout = "Master.cshtml";
+}
+
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+
+            var parentPageTitle = "";
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                if (page.DocumentTypeId != 1096)
+                {
+                    var cls = page.Id == CurrentPage.Id ? "current" : "";
+                    if (page.DocumentTypeId != 1237)
+                    {
+                        <li class="@cls"><a href="@page.Url">@page.Name</a></li>
+                    }
+                    else
+                    {
+                        <li class="@cls"><a href="" class="disable"><span>@page.Name</span></a></li>
+                    }
+
+                    parentPageTitle = page.Name;
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@parentPageTitle</h1>
+        </div>
+        <div class="news-detail-content-container block-double">
+            <h2 class="news-detail-title">@CurrentPage.PageTitle</h2>
+            <div class="news-detail-support-content-container block-double">
+                <time class="news-detail-date"><b>@Model.Content.UpdateDate.ToString("dd MMM yyyy")</b></time>
+                <div class="news-detail-social-media-container">
+                    <span class="news-detail-social-media-text">Share</span>
+                    <a href="" class="news-detail-social-media-anchor"><span class="fa fa-facebook-square"></span></a>
+                    <a href="" class="news-detail-social-media-anchor"><span class="fa fa-twitter"></span></a>
+                </div>
+            </div>
+            @Html.GetGridHtml(Model.Content, "bodyText", "bootstrap3-fluid")
+        </div>
+        <h2 class="">Related News</h2>
+        <div class="related-news-container block">
+            <div class="related-news-item">
+                <a href="" class="related-news-anchor">
+                    <img src="/assets/img/mainhall.jpg" alt="" class="related-news-img">
+                    <span class="related-news-text-container">
+                        <span class="related-news-text">The Launching of Pusat Informasi Go Public</span>
+                        <time class="related-news-date">28 Agustus 2017</time>
+                    </span>
+                </a>
+            </div>
+            <div class="related-news-item">
+                <a href="" class="related-news-anchor">
+                    <img src="/assets/img/mainhall.jpg" alt="" class="related-news-img">
+                    <span class="related-news-text-container">
+                        <span class="related-news-text">The Launching of Pusat Informasi Go Public</span>
+                        <time class="related-news-date">28 Agustus 2017</time>
+                    </span>
+                </a>
+            </div>
+            <div class="related-news-item">
+                <a href="" class="related-news-anchor">
+                    <img src="/assets/img/mainhall.jpg" alt="" class="related-news-img">
+                    <span class="related-news-text-container">
+                        <span class="related-news-text">The Launching of Pusat Informasi Go Public</span>
+                        <time class="related-news-date">28 Agustus 2017</time>
+                    </span>
+                </a>
+            </div>
+            <div class="related-news-item">
+                <a href="" class="related-news-anchor">
+                    <img src="/assets/img/mainhall.jpg" alt="" class="related-news-img">
+                    <span class="related-news-text-container">
+                        <span class="related-news-text">The Launching of Pusat Informasi Go Public</span>
+                        <time class="related-news-date">28 Agustus 2017</time>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
+</main>

@@ -1,0 +1,140 @@
+{
+    "data": [
+        {
+            "type": "Bonds (IDR)",
+            "issuer": 105,
+            "issues": 306,
+            "series": 574,
+            "outstandingIDR": 367791,
+            "outstandingUSD": null,
+            "quarterlyVolIDR": 75262,
+            "quarterlyFreqIDR": 6463,
+            "quarterlyVolUSD": null,
+            "quarterlyFreqUSD": null,
+            "cumulativeVolIDR": 141851,
+            "cumulativeFreqIDR": 12953,
+            "cumulativeVolUSD": null,
+            "cumulativeFreqUSD": null
+        },
+        {
+            "type": "Bonds Subordinate (USD)",
+            "issuer": 1,
+            "issues": 1,
+            "series": 1,
+            "outstandingIDR": null,
+            "outstandingUSD": 47.5,
+            "quarterlyVolIDR": null,
+            "quarterlyFreqIDR": null,
+            "quarterlyVolUSD": null,
+            "quarterlyFreqUSD": null,
+            "cumulativeVolIDR": null,
+            "cumulativeFreqIDR": null,
+            "cumulativeVolUSD": null,
+            "cumulativeFreqUSD": null
+        }
+    ],
+    "columns": [
+        {
+            "columnName": "count",
+            "decimal": 0,
+            "format": "count",
+            "className": ""
+        },
+        {
+            "columnName": "type",
+            "decimal": 0,
+            "format": false,
+            "className": "text-left nowrap"
+        },
+        {
+            "columnName": "issuer",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "issues",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "series",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "outstandingIDR",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "outstandingUSD",
+            "decimal": 1,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": null,
+            "decimal": 0,
+            "format": false,
+            "className": ""
+        },
+        {
+            "columnName": "quarterlyVolIDR",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "quarterlyFreqIDR",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "quarterlyVolUSD",
+            "decimal": 1,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "quarterlyFreqUSD",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": null,
+            "decimal": 0,
+            "format": false,
+            "className": ""
+        },
+        {
+            "columnName": "cumulativeVolIDR",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "cumulativeFreqIDR",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "cumulativeVolUSD",
+            "decimal": 1,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "cumulativeFreqUSD",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        }
+    ]
+}

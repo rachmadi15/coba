@@ -1,0 +1,108 @@
+{
+  "data": [
+    {
+      "name": "Aldiracita Sekuritas Indonesia (PP)",
+      "volume": 3902235737,
+      "volumeRank": 78,
+      "volumePercent": 2.1412346,
+      "value": 1428008662600,
+      "valueRank": 82,
+      "valuePercent": 0.12311111,
+      "freq": 11909,
+      "freqRank": 96,
+      "freqPercent": 0.021234
+    },
+    {
+      "name": "Amantara Sekuritas Indonesia (YO)",
+      "volume": 109240300,
+      "volumeRank": 102,
+      "volumePercent": 2.1412345,
+      "value": 49546218900,
+      "valueRank": 102,
+      "valuePercent": 0.054435,
+      "freq": 14909,
+      "freqRank": 94,
+      "freqPercent": 0.033234
+    },
+    {
+      "name": "Anugerah Sekuritas Indonesia (ID)",
+      "volume": 27967992055,
+      "volumeRank": 19,
+      "volumePercent": 2.1412345,
+      "value": 4931144736630,
+      "valueRank": 55,
+      "valuePercent": 0.551234,
+      "freq": 193155,
+      "freqRank": 54,
+      "freqPercent": 0.377123
+    }
+  ],
+  "columns": [
+    {
+      "columnName": "count",
+      "decimal": 0,
+      "format": "count",
+      "className": "text-right nowrap"
+    },
+    {
+      "columnName": "name",
+      "decimal": 0,
+      "format": false,
+      "className": "text-left nowrap"
+    },
+    {
+      "columnName": "volume",
+      "decimal": 0,
+      "format": true,
+      "className": "text-right nowrap"
+    },
+    {
+      "columnName": "volumeRank",
+      "decimal": 0,
+      "format": true,
+      "className": "text-right nowrap"
+    },
+    {
+      "columnName": "volumePercent",
+      "decimal": 2,
+      "format": true,
+      "className": "tooltip"
+    },
+    {
+      "columnName": "value",
+      "decimal": 0,
+      "format": true,
+      "className": "text-right nowrap"
+    },
+    {
+      "columnName": "valueRank",
+      "decimal": 0,
+      "format": true,
+      "className": "text-right nowrap"
+    },
+    {
+      "columnName": "valuePercent",
+      "decimal": 2,
+      "format": true,
+      "className": "tooltip"
+    },
+    {
+      "columnName": "freq",
+      "decimal": 0,
+      "format": true,
+      "className": "text-right nowrap"
+    },
+    {
+      "columnName": "freqRank",
+      "decimal": 0,
+      "format": true,
+      "className": "text-right nowrap"
+    },
+    {
+      "columnName": "freqPercent",
+      "decimal": 2,
+      "format": true,
+      "className": "tooltip"
+    }
+  ]
+}

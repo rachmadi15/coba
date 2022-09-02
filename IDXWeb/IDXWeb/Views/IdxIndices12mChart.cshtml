@@ -1,0 +1,278 @@
+﻿@using System.Configuration
+@using IDXWeb.Models;
+@using Newtonsoft.Json.Linq;
+@using System.IO;
+
+
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "DPSMaster.cshtml";
+
+    var isCumulative = string.IsNullOrEmpty(Request.QueryString["cumulative"]) ? "false" : Request.QueryString["cumulative"];
+    var listIndexUrlName = "LINK_12_M_LIST_INDEX";
+    var indexUrlName = "LINK_12_M_ID";
+    var downloadCode = "Index12M";
+    var fileName = Umbraco.Field("title").ToString();
+    if (!string.IsNullOrWhiteSpace(Umbraco.Field("titleQuarterly").ToString()))
+    {
+        fileName = Umbraco.Field("titleQuarterly").ToString();
+    }
+    var query = Request.QueryString["q"];
+    var printState = Request.QueryString["print"];
+    @*var month = Request.QueryString["month"];*@
+    var year = Request.QueryString["year"];
+    @*var quarter = Request.QueryString["quarter"];*@
+    var date = Request.QueryString["date"];
+    var start = Request.QueryString["start"];
+    var end = Request.QueryString["end"];
+    var id = Request.QueryString["id"];
+    var periodType = Request.QueryString["periodType"];
+    var animation = "";
+    var isPrint = false;
+    
+
+    string queryJsonStr = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(query));
+    var queryJson = JObject.Parse(queryJsonStr);
+    var month = queryJson.Value<string>("month");
+    var quarter = queryJson.Value<string>("quarter");
+
+    if (printState == "pdf")
+    {
+        isPrint = true;
+        animation = "no-animation";
+    }
+    if(!string.IsNullOrEmpty(year)){
+        HttpCookie typeC = new HttpCookie("filteredType");
+        typeC.Value = "yearly";
+        Response.Cookies.Add(typeC);
+        HttpCookie yearC = new HttpCookie("filteredYear");
+        yearC.Value = year;
+        Response.Cookies.Add(yearC);
+    }
+    if(!string.IsNullOrEmpty(quarter)){
+        HttpCookie quarterC = new HttpCookie("filteredQuarter");
+        quarterC.Value = quarter;
+        Response.Cookies.Add(quarterC);
+
+        HttpCookie typeC = new HttpCookie("filteredType");
+        typeC.Value = "quarterly";
+        Response.Cookies.Add(typeC);
+
+    }
+    if (!string.IsNullOrEmpty(month))
+    {
+        HttpCookie monthC = new HttpCookie("filteredMonth");
+        HttpCookie typeC = new HttpCookie("filteredType");
+        typeC.Value = "monthly";
+        Response.Cookies.Add(typeC);
+
+        monthC.Value = month;
+        Response.Cookies.Add(monthC);
+    }
+
+    if(start != ""&& start != null){
+        HttpCookie startC = new HttpCookie("startDate");
+        HttpCookie endC = new HttpCookie("endDate");
+        startC.Value = start;
+        endC.Value = end;
+        Response.Cookies.Add(startC);
+        Response.Cookies.Add(endC);
+    }
+    if(date != "" && date != null)
+    {
+        HttpCookie dateC = new HttpCookie("filteredDate");
+        dateC.Value = date;
+        Response.Cookies.Add(dateC);
+    }
+}
+<div class="table-loading">
+    <img src="~/assets/img/Rolling-1s-200px.svg" alt="">
+    Loading...
+</div>
+<div class="background-white content-push">
+    <div class="container">
+        <div class="@(@printState != "pdf" ? "chart-slider mb-20" : "bzg mb-16")" id="chartHolder"></div>
+        <div class="chart-slider__nav"></div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function() {
+            // getYear();
+            filteredType = $('#filteredType').val();
+            getData(filteredType)
+        })
+
+        var handleError = function () {
+            $('#table-loading').fadeOut();
+            if (isErrorHandled) return;
+
+            var en = document.URL.indexOf("/en-us/") >= 0 || document.URL.indexOf("/en/") >= 0;
+            var message = 'Failed to load statistic data. Please try again later.';
+            if(!en) {
+                message = 'Gagal mengambil data statistik. Cobalah beberapa saat lagi.';
+            }
+            alert(message);
+            isErrorHandled = true;
+        }
+
+        function getData(type) {
+            if (type != undefined) {
+                $('#filteredType').val(type);
+            }
+            var filteredType = $('#filteredType').val();
+            var periodYear = $('#filterYear').val();
+            var periodMonth = $('#filterMonth').val();
+            var periodQuarter = $('#filterQuarter').val();
+            var dateFiltered = $('#dateFiltered').val();
+            var startDate = $('#startDate').val();
+            var endDate = $('#endDate').val();
+            if ('@printState' == "pdf") {
+                filteredType = '@periodType';
+                periodYear = '@year';
+                periodMonth = '@month';
+                periodQuarter = '@quarter';
+            }
+            var queryparam = ""
+
+            if (periodYear != undefined) {
+                queryparam += '&periodYear=' + periodYear;
+            }
+            if (periodMonth != undefined) {
+                queryparam += '&periodMonth=' + periodMonth;
+
+            }
+            if (periodQuarter != undefined) {
+                queryparam += '&periodQuarter=' + periodQuarter;
+            }
+            queryparam += '&periodType=' + filteredType;
+            if(startDate != undefined) {
+                queryparam += '&startDate=' + startDate;
+            }
+            if (endDate != undefined) {
+                queryparam += '&endDate=' + endDate;
+            }
+            if (dateFiltered != undefined) {
+                queryparam += '&dateFiltered=' + dateFiltered;
+            }
+
+            var loader = $('.table-loading');
+            loader.fadeIn();
+            if ('@printState' == "pdf")
+            {
+                loader.fadeOut();
+            }
+            chartHolder = $('#chartHolder')
+            html = ""
+            listIndexUrl = '@Url.Action("GetApiDataSearch", "DigitalStatitic", new { urlName = listIndexUrlName})';
+            $.ajaxSetup({
+                async: false
+            });
+            if ('@id' != '') {
+                indexUrl = '@Url.Action("GetApiDataSearch", "DigitalStatitic",new { urlName = indexUrlName})'+'&id=@id'+queryparam;
+                html += '<div>'
+                html += "<div class='idx-indices-12-month-js' data-chart='"+indexUrl+"' data-id='@id'></div>"
+                html += "</div>"
+            } else {
+                var periodeMonth = @(!string.IsNullOrEmpty(month) ? month : "0"), periodeQuarter = @(!string.IsNullOrEmpty(quarter) ? quarter : "0");
+                var type = $('#filteredType').val();
+                type = type === null || type === '' ? '@(queryJson.Value<string>("type"))' : type;
+                var periodYear = $('#filterYear').val() ?? @(queryJson.Value<string>("year"));
+                listIndexUrl += '&periodYear=' + periodYear + '&periodType=' + type;
+
+                if (type === 'monthly') {
+                    periodeMonth = $('#filterMonth').val() ?? periodeMonth;
+                    listIndexUrl += '&periodMonth=' + periodeMonth;
+                } else if (type === 'quarterly') {
+                    periodQuarter = $('#filterQuarter').val() ?? periodQuarter;
+                    listIndexUrl += '&periodQuarter=' + periodQuarter;
+                }
+                isErrorHandled = false;
+                $.ajax({
+                    url: listIndexUrl,
+                    method: 'GET',
+                    success: function (res) {
+                        res = res.sort((a, b) => b.ID - a.ID);
+                        $.each(res, function (i, d) {
+                            indexUrl = '@Url.Action("GetApiDataSearch", "DigitalStatitic",new { urlName = indexUrlName})' + '&id=' + d.ID + queryparam;
+                            html += '<div>'
+                            html += "<div class='idx-indices-12-month-js' data-chart='" + indexUrl + "' data-id='" + d.ID + "'></div>"
+                            html += "</div>"
+                        })
+                    },
+                    error: (err) => { handleError() },
+                    complete: () => { return; }
+                });
+            }
+            chartHolder.html(html)
+            $('.chart-slider').slick('unslick');
+            if ('@printState' == "pdf") {
+                sliders.idxIndices12MonthChart();
+            } else {
+                sliders.chartSlider();
+            }
+            $.ajaxSetup({
+                async: true
+            });
+            loader.fadeOut();
+            setTitle();
+        }
+        function getReport(tipe) {
+            var periodYear = $('#filterYear').val();
+            var periodMonth = $('#filterMonth').val();
+            var periodQuarter = $('#filterQuarter').val();
+            var dateFiltered = $('#dateFiltered').val();
+            var startDate = $('#startDate').val();
+            var filteredType = $('#filteredType').val();
+            var endDate = $('#endDate').val();
+
+            var queryparam = "&type="+(tipe == "pdf" ? "oldPdf" : tipe);
+            queryparam += '&periodType=' + filteredType;
+            if (periodYear != undefined) {
+//                setCookie("filterYear", periodYear);
+                queryparam += '&periodYear=' + periodYear;
+            }
+            if (periodMonth != undefined) {
+//                setCookie("filterMonth", periodMonth);
+                queryparam += '&periodMonth=' + periodMonth;
+
+            }
+            if (periodQuarter != undefined) {
+                queryparam += '&periodQuarter=' + periodQuarter;
+            }
+
+            if (dateFiltered != undefined) {
+                queryparam += '&dateFiltered=' + dateFiltered;
+            }
+
+            if (startDate != undefined) {
+                queryparam += '&startDate=' + startDate;
+            }
+            if (endDate != undefined) {
+                queryparam += '&endDate=' + endDate;
+            }
+            var id = $('.slick-active .idx-indices-12-month-js').data('id')
+            if (tipe == "pdf") {
+                var loc = window.location.href;
+                queryparam += '&filecode='+loc+'%26id='+id;
+                var url = '@Url.Action("GetReportData", "DigitalStatitic", new { filename = fileName })' + queryparam;
+                //printDiv("mainStatistik");
+                window.print();
+            } else {
+                queryparam += '&filename=' + '@fileName';
+                queryparam += '&id=' + id;
+                var url = '@Url.Action("GetReportData", "DigitalStatitic", new { filecode = downloadCode })' + queryparam;
+            }
+
+            if (tipe == "pdf") {
+                window.open(url, '_blank');
+            } else {
+                location.href = url;
+            }
+
+        }
+    </script>
+}

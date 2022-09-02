@@ -1,0 +1,157 @@
+{
+    "data": [
+        {
+            "year": 2018,
+            "days": 234,
+            "volumeTotal": 6,
+            "freqTotal": 6,
+            "volumeAvgDaily": 0.03,
+            "freqAvgDaily": 0.03,
+            "contractsNum": 9,
+            "months": [
+                {
+                    "semester": "S1",
+                    "days": 116,
+                    "volumeTotal": 2,
+                    "freqTotal": 2,
+                    "volumeAvgDaily": 0.02,
+                    "freqAvgDaily": 0.02,
+                    "contractsNum": 9
+                },
+                {
+                    "semester": "S2",
+                    "days": 118,
+                    "volumeTotal": 4,
+                    "freqTotal": 4,
+                    "volumeAvgDaily": 0.03,
+                    "freqAvgDaily": 0.03,
+                    "contractsNum": 9
+                },
+                {
+                    "quarter": "Q1",
+                    "days": 62,
+                    "volumeTotal": null,
+                    "freqTotal": null,
+                    "volumeAvgDaily": null,
+                    "freqAvgDaily": null,
+                    "contractsNum": 9
+                },
+                {
+                    "quarter": "Q2",
+                    "days": 54,
+                    "volumeTotal": 2,
+                    "freqTotal": 2,
+                    "volumeAvgDaily": 0.04,
+                    "freqAvgDaily": 0.04,
+                    "contractsNum": 9
+                },
+                {
+                    "quarter": "Q3",
+                    "days": 62,
+                    "volumeTotal": null,
+                    "freqTotal": null,
+                    "volumeAvgDaily": null,
+                    "freqAvgDaily": null,
+                    "contractsNum": 9
+                },
+                {
+                    "quarter": "Q4",
+                    "days": 56,
+                    "volumeTotal": 4,
+                    "freqTotal": 4,
+                    "volumeAvgDaily": 0.07,
+                    "freqAvgDaily": 0.07,
+                    "contractsNum": 9
+                }
+            ]
+        },
+        {
+            "year": 2019,
+            "days": 116,
+            "volumeTotal": 8,
+            "freqTotal": 8,
+            "volumeAvgDaily": 0.07,
+            "freqAvgDaily": 0.07,
+            "contractsNum": 9,
+            "months": [
+                {
+                    "semester": "S1",
+                    "days": 116,
+                    "volumeTotal": 8,
+                    "freqTotal": 8,
+                    "volumeAvgDaily": 0.07,
+                    "freqAvgDaily": 0.07,
+                    "contractsNum": 9
+                },
+                {
+                    "quarter": "Q1",
+                    "days": 61,
+                    "volumeTotal": 2,
+                    "freqTotal": 2,
+                    "volumeAvgDaily": 0.03,
+                    "freqAvgDaily": 0.03,
+                    "contractsNum": 9
+                },
+                {
+                    "quarter": "Q2",
+                    "days": 55,
+                    "volumeTotal": 6,
+                    "freqTotal": 6,
+                    "volumeAvgDaily": 0.11,
+                    "freqAvgDaily": 0.11,
+                    "contractsNum": 9
+                }
+            ]
+        }
+    ],
+    "columns": [
+        {
+            "columnName": "year",
+            "decimal": 0,
+            "format": false,
+            "className": "text-center"
+        },
+        {
+            "columnName": "days",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "volumeTotal",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "freqTotal",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": null,
+            "decimal": 0,
+            "format": false,
+            "className": ""
+        },
+        {
+            "columnName": "volumeAvgDaily",
+            "decimal": 2,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "freqAvgDaily",
+            "decimal": 2,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "contractsNum",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        }
+    ]
+}

@@ -1,0 +1,157 @@
+﻿@using umbraco.NodeFactory
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    <!-- var root = Model.Content.AncestorsOrSelf(2).Children;
+    var domains = Domain.GetDomains();
+    var arrDomains = domains as Domain[] ?? domain.ToArray(); -->
+}
+
+<header class="sticky-footer-container-item">
+    <div class="container">
+        <div class="header-content-container">
+            <div class="header-left-content">
+                <div class="header-img-container">
+                    <a name="homeLink" href="/">
+                        <img src="/assets/img/logo-idx.png" alt="">
+                    </a>
+                </div>
+            </div>
+            <div class="header-right-content">
+                <div class="header-bottom">
+                    <div class="header-date livetime-js"></div>
+                    <ul class="header-socmed list-inline list-nostyle">
+                        <li class="header-socmed-item"><a href="https://www.facebook.com/indonesiastockexchange/" target="_blank"><span class="fa fa-facebook-official"></span></a></li>
+                        <li class="header-socmed-item"><a href="https://twitter.com/IDX_BEI" target="_blank"><span class="fa fa-twitter"></span></a></li>
+                        <li class="header-socmed-item"><a href="https://www.youtube.com/channel/UCXyfYHdOPLUgxMndSwf9tHg" target="_blank"><span class="fa fa-youtube-play"></span></a></li>
+                        <li class="header-socmed-item"><a href="https://www.instagram.com/indonesiastockexchange/" target="_blank"><span class="fa fa-instagram"></span></a></li>
+                    </ul>
+                    <div class="header-hotline">
+                        <span class="fa fa-volume-control-phone"></span>
+                        <span>0800-100-9000</span>
+                    </div>
+                    <div class="header-search-box">
+                        <div class="search-box">
+                            <input name="global-input-search" type="text" class="form-search" placeholder="Search">
+                            <button class="btn btn-icon-box" onclick="onSearchBtnClick()"><span class="fa fa-search fa-fw"></span></button>
+                        </div>
+                    </div>
+                    <div class="header-language">
+                        @{
+                            var rs = ApplicationContext.Current.Services.RelationService;
+                            var currentPageId = CurrentPage.AncestorOrSelf().Id;
+
+                            var relations = rs.GetByParentOrChildId(currentPageId);
+
+                            foreach (Relation relation in relations)
+                            {
+                                if (relation.RelationType.Alias == "relateDocumentOnCopy")
+                                {
+                                    var node = relation.ParentId == currentPageId ? 
+                                        new Node(relation.ChildId) : 
+                                        new Node(relation.ParentId);
+                                    
+                                    var nodeFullUrl = node.NiceUrl;
+                                    if(Request.QueryString.ToString() != ""){
+                                        nodeFullUrl += "?" + Request.QueryString.ToString();
+                                    }
+
+                                    <a href="@nodeFullUrl" class="language-current">            
+                                        @{
+                                            var reqUrl = Request.Url.ToString();
+                                            if (Request.Url != null && reqUrl.Contains("en-us"))
+                                            {
+                                                <span>ID</span>
+                                            }
+                                            else
+                                            {
+                                                <span>EN</span>
+                                            }
+                                        }
+                                    </a>
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header-content-mobile-container">
+        <div class="header-content-mobile">
+            <div class="header-content-left-mobile">
+                <div class="header-img-container">
+                    <a name="homeLink" href="/">
+                        <img src="/assets/img/logo-idx.png" alt="">
+                    </a>
+                </div>
+            </div>
+            <div class="header-content-right-mobile">
+                <div class="header-content-top-mobile">
+                    <div class="header-search-box">
+                        <div class="search-box">
+                            <input type="text" class="form-search" placeholder="Search">
+                            <button class="btn btn-icon-box btn-icon-box--header"><span class="fa fa-search fa-fw"></span></button>
+                        </div>
+                    </div>
+                    <div class="header-language">
+                        @{
+                            rs = ApplicationContext.Current.Services.RelationService;
+                            currentPageId = CurrentPage.AncestorOrSelf().Id;
+
+                            relations = rs.GetByParentOrChildId(currentPageId);
+
+                            foreach (Relation relation in relations)
+                            {
+                                if (relation.RelationType.Alias == "relateDocumentOnCopy")
+                                {
+                                    var node = relation.ParentId == currentPageId ? 
+                                        new Node(relation.ChildId) : 
+                                        new Node(relation.ParentId);
+                                    
+                                    var nodeFullUrl = node.NiceUrl;
+                                    if(Request.QueryString.ToString() != ""){
+                                        nodeFullUrl += "?" + Request.QueryString.ToString();
+                                    }
+
+                                    <a href="@nodeFullUrl" class="language-current">            
+                                        @{
+                                            var reqUrl = Request.Url.ToString();
+                                            if (Request.Url != null && reqUrl.Contains("en-us"))
+                                            {
+                                                <span>ID</span>
+                                            }
+                                            else
+                                            {
+                                                <span>EN</span>
+                                            }
+                                        }
+                                    </a>
+                                }
+                            }
+                        }
+                    </div>
+                    <div class="header-mobile-menu-container">
+                        <button class="btn btn-menu open-nav-js fa fa-bars fa-fw"></button>
+                    </div>
+                </div>
+                <div class="header-content-bottom-mobile">
+                    <div class="header-date livetime-js"></div>
+                    <ul class="header-socmed list-inline list-nostyle">
+                        <li class="header-socmed-item"><a href="https://www.facebook.com/indonesiastockexchange/" target="_blank"><span class="fa fa-facebook-official"></span></a></li>
+                        <li class="header-socmed-item"><a href="https://twitter.com/IDX_BEI" target="_blank"><span class="fa fa-twitter"></span></a></li>
+                        <li class="header-socmed-item"><a href="https://www.youtube.com/channel/UCXyfYHdOPLUgxMndSwf9tHg" target="_blank"><span class="fa fa-youtube-play"></span></a></li>
+                        <li class="header-socmed-item"><a href="https://www.instagram.com/indonesiastockexchange/" target="_blank"><span class="fa fa-instagram"></span></a></li>
+                    </ul>
+                </div> 
+            </div>
+        </div>
+    </div>
+    <div class="header-main-nav">
+        <div class="container">
+            @Html.Partial("~/views/partials/navigation/topNavigation.cshtml")
+        </div>
+    </div>
+    <div class="header-main-mobile-nav">
+        @Html.Partial("~/views/partials/navigation/mobileNavigation.cshtml")
+    </div>
+</header>

@@ -1,0 +1,44 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "DPSMaster.cshtml";
+}
+
+<div class="table-loading">
+    <img src="~/assets/img/Rolling-1s-200px.svg" alt="">
+    Loading...
+</div>
+<div class="background-white content-push">
+    <div class="container">
+        <div class="chart-slider">
+            <div>
+                <div class="idx-indices-12-month-js" data-chart="/data/propertyRealEstateConstruction.json"></div>
+            </div>
+            <div>
+                <div class="idx-indices-12-month-js" data-chart="/data/infrastructureUtilitiesTransportation.json"></div>
+            </div>
+            <div>
+                <div class="idx-indices-12-month-js" data-chart="/data/finance.json"></div>
+            </div>
+            <div>
+                <div class="idx-indices-12-month-js" data-chart="/data/tradeServicesInvestment.json"></div>
+            </div>
+        </div>
+        <ol class="pagination mb-16">
+            <li><a href=""><span class="fa fa-angle-double-left"></span></a></li>
+            <li><a href="" class="active">1</a></li>
+            <li><a href="">2</a></li>
+            <li><a href="">3</a></li>
+            <li><a href=""><span class="fa fa-angle-double-right"></span></a></li>
+        </ol>
+        <p class="mb-32">
+            Notes :
+            <span class="ml-8">Trading Volume (Bar, LHS)</span>
+            <span class="ml-8">Index (Line, RHS)</span>
+        </p>
+        <div class="ml-8 mb-16">
+            <p class="mb-8 text-bold">Base date</p>
+            <p class="mb-8">LQ45 (Jul 13, 1994 = 100), IDX30 (Dec 30, 2004 = 100), JII (Dec 28, 1994 = 100) ... ... ... ... </p>
+            <p class="mb-8">*) Manufacturing = Basic Industry and Chemicals + Miscellaneous Industry + Consumer Goods Industry</p>
+        </div>
+    </div>
+</div>

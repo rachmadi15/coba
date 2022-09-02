@@ -1,0 +1,11 @@
+﻿<div class="ng-scope" style="width: 66%" ng-controller="CustomFileUploadController">
+    <input type="hidden" ng-model="model.value" />
+    <input type="file" ngf-select ng-model="picFile" accept="{{model.acceptExt}}" name="file">
+    <button type="button" ng-click="uploadPic(picFile)" class="pull-right">
+        Upload
+    </button>
+    <div class="progress umb-progress-bar umb-progress-bar--m" ng-show="picFile.progress >= 0">
+        <span class="umb-progress-bar__progress" style="width: {{picFile.progress}}%"></span>
+    </div>
+    <span ng-show="model.value"><a href="{{model.value}}" target="_blank">{{model.value}}</a></span>
+</div>

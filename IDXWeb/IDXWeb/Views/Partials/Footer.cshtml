@@ -1,0 +1,132 @@
+﻿@inherits UmbracoTemplatePage
+@using umbraco.NodeFactory
+@using Umbraco.Web;
+@{
+    var root = Model.Content.AncestorOrSelf("home");
+}
+
+<footer class="sticky-footer-container-item">
+    <div class="scroll-top-container">
+        <button class="scroll-top-btn">
+            <span class="fa fa-chevron-up fa-fw"></span>
+        </button>
+        <span class="scroll-top-text">@Umbraco.GetDictionaryValue("back to top")</span>
+    </div>
+    <div class="border-bottom"></div>
+    <div class="container cf">
+        <div class="sponsor-brand-container cf">
+            <div class="sponsor-brand-img-container">
+                <a href="https://www.ojk.go.id/Default.aspx" target="_blank">
+                    <img src="/assets/img/logo_ojk.png" alt="" class="sponsor-brand-img">
+                </a>
+            </div>
+            <div class="sponsor-brand-img-container">
+                <a href="http://www.kpei.co.id" target="_blank">
+                    <img src="/assets/img/logo-kpei.png" alt="" class="sponsor-brand-img">
+                </a>
+            </div>
+            <div class="sponsor-brand-img-container">
+                <a href="http://www.ksei.co.id" target="_blank">
+                    <img src="/assets/img/logo-ksei.png" alt="" class="sponsor-brand-img">
+                </a>
+            </div>
+            <div class="sponsor-brand-img-container">
+                <a href="http://ticmi.co.id" target="_blank">
+                    <img src="/assets/img/logo-ticmi.png" alt="" class="sponsor-brand-img">
+                </a>
+            </div>
+            <div class="sponsor-brand-img-container">
+                <a href="http://www.indonesiasipf.co.id" target="_blank">
+                    <img src="/assets/img/logo-sipf.png" alt="" class="sponsor-brand-img">
+                </a>
+            </div>
+            <div class="sponsor-brand-img-container">
+                <a href="http://www.ibpa.co.id" target="_blank">
+                    <img src="/assets/img/logo-ibpa.png" alt="" class="sponsor-brand-img">
+                </a>
+            </div>
+            <div class="sponsor-brand-img-container">
+                <a href="http://www.pefindo.com" target="_blank">
+                    <img src="/assets/img/logo-pefindo.png" alt="" class="sponsor-brand-img">
+                </a>
+            </div>
+            <div class="sponsor-brand-img-container">
+                <a href="https://www.metube.id/m/live/IDXChannel" target="_blank">
+                    <img src="/assets/img/idx-channel.png" alt="" class="sponsor-brand-img">
+                </a>
+            </div>
+            <div class="sponsor-brand-img-container">
+                <a href="http://idxincubator.com" target="_blank">
+                    <img src="/assets/img/idx-incubator.png" alt="" class="sponsor-brand-img">
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="border-bottom"></div>
+    <div class="container">
+        <div class="footer-information-container" style="padding-bottom: 0px">
+            <div class="footer-information-list ise-list">
+                <span class="footer-information-title color-red text-bigger">@Umbraco.GetDictionaryValue("indonesia stock exchange")</span>
+                <p>@Umbraco.GetDictionaryValue("idx building"),<br> @Umbraco.GetDictionaryValue("idx tower") <br> Jl. Jend. Sudirman Kav 52-53 <br>Jakarta Selatan 12190, Indonesia</p>
+                <div class="block-half">
+                    <span class="fa fa-phone margin-right-small d-iblock"></span><span>0800-100-9000</span>
+                </div>
+                <div class="">
+                    <span class="fa fa-envelope-o margin-right-small d-iblock"></span><span>callcenter@idx.co.id</span>
+                </div>
+            </div>
+            @{
+                var site = Model.Content.Site();
+                var selection = site.Children.Where(x => x.Name == "Footer Menu");
+            }
+            @foreach (var item in selection)
+            {
+                if (item.Children != null && item.Children.Any())
+                {
+                    foreach (var childLevel1 in item.Children)
+                    {
+                        if (childLevel1.IsVisible())
+                        {
+                            <div class="footer-information-list">
+                                <span class="footer-information-title">@childLevel1.Name</span>
+                                @if (childLevel1.Children != null && childLevel1.Children.Any())
+                                {
+                                    <ul class="list-nostyle">
+                                        @foreach (var childLevel2 in childLevel1.Children)
+                                        {
+                                            if (childLevel2.IsVisible())
+                                            {
+                                                <li>
+                                                    <a href="@childLevel2.Url">@childLevel2.Name</a>
+                                                </li>
+                                            }
+                                        }
+                                    </ul>
+                                }
+                            </div>
+                        }
+                    }
+                }
+            }
+        </div>
+        <div style="padding-bottom:10px; text-align: center; font-size: 15px; font-weight:bold">
+            
+<p><a rel="noopener" href="https://www.instagram.com/indonesiastockexchange/" target="_blank"><img style="width: 31px; height: 23px;" src="/media/2630/logo-instagram1.png?width=31&amp;height=23&amp;mode=max" alt="" data-udi="umb://media/6be5636fe25041a68e2e8756e187ff31" /></a><a rel="noopener" href="https://www.instagram.com/indonesiastockexchange" target="_blank" class="red">@@indonesiastockexchange</a> <a rel="noopener" href="https://twitter.com/IDX_BEI" target="_blank"><img style="width: 30px; height: 23px;" src="/media/2631/logo-twitter1.png?width=30&amp;height=23&amp;mode=max" alt="" data-udi="umb://media/fa466f1fbb1945329739c42d75c94717" /></a><a rel="noopener" href="https://twitter.com/IDX_BEI" target="_blank" class="red">@@idx_bei</a> <a rel="noopener" href="https://www.facebook.com/indonesiastockexchange/" target="_blank"><img style="width: 28px; height: 23px;" src="/media/2629/logo-facebook1.png?width=28&amp;height=23&amp;mode=max" alt="" data-udi="umb://media/20d07c0e17e046689b71aea9bc6226db" /></a><a rel="noopener" href="https://www.facebook.com/indonesiastockexchange/" target="_blank" class="red">Indonesia Stock Exchange</a><a rel="noopener" href="https://www.facebook.com/indonesiastockexchange/" target="_blank"></a><a rel="noopener" href="https://www.facebook.com/indonesiastockexchange/" target="_blank"></a> <a rel="noopener" href="https://www.youtube.com/channel/UCXyfYHdOPLUgxMndSwf9tHg" target="_blank"><img style="width: 29px; height: 27px;" src="/media/2632/logo-youtube1.png?width=29&amp;height=27&amp;mode=max" alt="" data-udi="umb://media/5007cd5a3ba84bfa8708157ecd9f58e4" /></a><a rel="noopener" href="https://www.youtube.com/channel/UCXyfYHdOPLUgxMndSwf9tHg" target="_blank" class="red">Indonesia Stock Exchange</a><a rel="noopener" href="https://www.youtube.com/channel/UCXyfYHdOPLUgxMndSwf9tHg" target="_blank"></a><a rel="noopener" href="https://www.youtube.com/channel/UCXyfYHdOPLUgxMndSwf9tHg" target="_blank"></a><a rel="noopener" href="https://www.youtube.com/channel/UCXyfYHdOPLUgxMndSwf9tHg" target="_blank"></a><a rel="noopener" href="https://www.instagram.com/indonesiastockexchange/" target="_blank"></a></p>
+                               
+</div>
+    </div>
+    <div class="copyright-container">
+        <div class="container">
+            <span>&copy; @Umbraco.GetDictionaryValue("copyright")</span>
+        </div>
+    </div>
+</footer>
+@try
+{
+    if (root.GetPropertyValue("enableCustomerFeedback") != null && root.GetPropertyValue<bool>("enableCustomerFeedback"))
+    {
+        <!-- USER FEEDBACK -->
+        @Html.Partial("UserFeedback")
+    }
+}
+catch (NullReferenceException e) { }

@@ -1,0 +1,55 @@
+{
+    "chartName": "Monthly Trading in Volume and Value, January 2018 - June 2019",
+    "startMonth": "Jan-2018",
+    "endMonth": "Jun-2019",
+    "series": [
+        {
+            "seriesName": "Volume (Billion Shares)",
+            "seriesData": [
+                250,
+                290,
+                220,
+                190,
+                190,
+                120,
+                200,
+                195,
+                185,
+                220,
+                200,
+                230,
+                295,
+                275,
+                300,
+                295,
+                290,
+                220
+            ],
+            "seriesColor": "#4A8AC8"
+        },
+        {
+            "seriesName": "Value (Trillion Rp)",
+            "seriesData": [
+                174,
+                213,
+                187,
+                171,
+                186,
+                119,
+                126,
+                121,
+                186,
+                130,
+                159,
+                191,
+                217,
+                197,
+                204,
+                217,
+                121,
+                177
+            ],
+            "seriesColor": "#7cb5ec"
+        }
+    ]
+}

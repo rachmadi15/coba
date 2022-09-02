@@ -1,0 +1,225 @@
+﻿@using System.Configuration
+@using umbraco.cms.businesslogic.datatype
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+    var preValues = PreValues.GetPreValues(2256).Values;
+    var enumerator = preValues.GetEnumerator();
+    var preValList = new List<string>();
+    bool localeId = Umbraco.GetDictionaryValue("name") == "Nama";
+}
+
+@section Styles {
+    <link href="@Url.Content("/assets/css/vendor/datatables.min.css")" rel="stylesheet" type="text/css" />
+}
+
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1) {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages) {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (!page.Name.Contains("Detail")) {
+                    if (page.DocumentTypeId != 1237) {
+                        <li class="@cls"><a href="@page.Url">@page.Name</a></li>
+                    }
+                    else {
+                        <li class="@cls"><a href="" class="disable"><span>@page.Name</span></a></li>
+                    }
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.Field("pageTitle")</h1>
+        </div>
+        <table id="legendTable" class="table table--zebra table-content-page">
+            <thead>
+                <tr>
+                    <th>Notasi</th>
+                    <th>Keterangan</th>
+                </tr>
+            </thead>
+            <tbody>
+                @while (enumerator.MoveNext()) {
+                    var preVal = ((umbraco.cms.businesslogic.datatype.PreValue)enumerator.Current).Value;
+                    preValList.Add(preVal);
+                    var str = "notasi" + preVal.ToLower();
+                    if (preVal != "1" && preVal != "0") {
+                        <tr>
+                            <td class="text-center">
+                                @preVal
+                            </td>
+                            <td>
+                                @Umbraco.GetDictionaryValue(str)
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+        <h4>
+            @Umbraco.GetDictionaryValue("date"): <span id="latestUpdate"></span></h2>
+
+            <table id="specialNotationTable" class="table table--zebra table-content-page">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>@Umbraco.GetDictionaryValue("code")</th>
+                        <th>@Umbraco.GetDictionaryValue("name")</th>
+                        <th>Notasi</th>
+                        <th>Keterangan Notasi</th>
+                        <th>Remarks2</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="text-right block">
+                <a onclick="$('#specialNotationTable').DataTable().buttons().trigger();" href="" class="btn btn-primary --rounded"><span class="fa fa-download"></span> @Umbraco.GetDictionaryValue("download")</a>
+            </div>
+    </div>
+</main>
+
+@section Scripts{
+    <script type="text/javascript" src="/assets/js/vendor/datatables.min.js"></script>
+    <script type="text/javascript">
+        var notationMapping = [
+            @foreach (var val in preValList) {
+                var preVal = val;
+                var str = "notasi" + preVal.ToLower();
+                if (preVal != "1" && preVal != "0") {
+                    <text>
+            { 'notation' : '@preVal.ToLower()', 'desc' : '@Umbraco.GetDictionaryValue(str)' },
+                    </text>
+                }
+
+            }
+        ]
+
+        var emitenList = null;
+
+        $(function () {
+            getEmitenType();
+        });
+
+        function getEmitenType() {
+            $.get('@Url.Action("GetEmiten", "Helper")?emitenType=*', function (result) {
+                emitenList = result;
+                getStockNotation();
+            }).fail(function() {
+                getStockNotation();
+            });
+        }
+
+        function getStockNotation() {
+            $.get('@Url.Action("GetNotationLatestDate", "ListedCompany")', function (result) {
+                var localeId = @localeId.ToString().ToLower();
+                var date = result.Date;
+
+                if(date != null){
+
+                    if (localeId) {
+                        $('#latestUpdate').text(moment(date).locale('id-ID').format('DD MMM YYYY'));
+                    } else {
+                        $('#latestUpdate').text(moment(date).locale('en-US').format('DD MMM YYYY'));
+                    }
+
+                } else {
+                    $('#latestUpdate').text('-');
+                }
+                var dt = $('#specialNotationTable').DataTable({
+                    'ajax': { 'url': '@Url.Action("GetSpecialNotation", "ListedCompany")?Length=1000' },
+                    'processing': true,
+                    'info': false,
+                    'deferRender': true,
+                    'data': result.data,
+                    'serverSide': false,
+                    'filter': true,
+                    'sort': true,
+                    'pageLength':100,
+                    'buttons': [{
+                        'extend': 'excelHtml5',
+                        'title': function () {
+                            if (localeId) {
+                                return '@Umbraco.Field("pageTitle")' + '-' + moment(result.latestUpdate).locale('id-ID').format('YYYYMMDD');
+                            } else {
+                                return '@Umbraco.Field("pageTitle")' + '-' + moment(result.latestUpdate).locale('en-US').format('YYYYMMDD');
+                            }
+                        },
+                    }],
+                    'columns': [
+                        { 'data': 'No' },
+                        { 'data': 'EmitenCode' },
+                        { 'data': 'EmitenCode' },
+                        { 'data': 'Notation' },
+                        { 'data': 'Notation' },
+                        { 'data': 'Remarks' }
+                    ],
+                    'columnDefs': [
+                        {
+                            'targets': 4,
+                            'render' : function (td, cellData, rowData, row, col) {
+                                var notationMappingVal = rowData.Notation.split(',');
+                                var notationString = '';
+                                for (var i = 0; i < notationMappingVal.length; i++) {
+                                    var notation = notationMapping.find(x => x.notation == notationMappingVal[i].toLowerCase());
+                                    if (notation != null) {
+                                        notationString += notationMappingVal[i].toUpperCase() + ' : ' + notationMapping.find(x => x.notation == notationMappingVal[i].toLowerCase()).desc + '<br>'
+                                    }
+                                }
+                                return notationString;
+                            },
+                        },
+                        {
+                            'targets': 1,
+                            'render': function (td, cellData, rowData, row, col) {
+                                console.log(rowData);
+                                if (rowData.Remarks !== null && rowData.Remarks != "") {
+                                    return rowData.EmitenCode + '.' + rowData.Remarks.replace(/-/g, '');
+                                } else {
+                                    return rowData.EmitenCode + '.' + rowData.notation.replace(/,/g, '');
+                                }
+                            },
+                        },
+                        {
+                            'targets': 2,
+                            'render' : function (td, cellData, rowData, row, col) {
+                                if (emitenList != null) {
+                                    var objectResult = $.grep(emitenList, function(e){
+                                    return e.KodeEmiten == rowData.EmitenCode;
+                                    });
+                                    return objectResult.length > 0 ? objectResult[0].NamaEmiten : '';
+                                }
+                                return td;
+                            },
+                        },
+                        {
+                            'targets': [0,1,2,3],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-center');
+                            }
+                        },
+                        {
+                            'targets': 5,
+                            'visible': false
+                        },
+                    ],
+                });
+                dt.on('order.dt search.dt', function () {
+                    dt.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                        cell.innerHTML = i + 1;
+                    });
+                }).draw();
+            });
+        }
+    </script>
+}

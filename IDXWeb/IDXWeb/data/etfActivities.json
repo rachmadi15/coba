@@ -1,0 +1,432 @@
+{
+  "data": [
+    {
+      "year": 2017,
+      "usdRate": 14190,
+      "volumeTotal": 1205476,
+      "valueTotal": 2509371,
+      "freqTotal": 1813337,
+      "volumeAvgDaily": 11428.71,
+      "valueAvgDaily": 9254.7,
+      "freqAvgDaily": 349,
+      "days": 244,
+      "numberEtf": 3,
+      "months": [
+        {
+          "month": 0,
+          "usdRate": 14264,
+          "volumeTotal": 1859365,
+          "valueTotal": 2203623,
+          "freqTotal": 1799442,
+          "volumeAvgDaily": 12981.7,
+          "valueAvgDaily": 9356.04,
+          "freqAvgDaily": 442,
+          "days": 243,
+          "numberEtf": 3
+        },
+        {
+          "month": 1,
+          "usdRate": 14045,
+          "volumeTotal": 1550764,
+          "valueTotal": 1324848,
+          "freqTotal": 1398628,
+          "volumeAvgDaily": 12624.78,
+          "valueAvgDaily": 10081.86,
+          "freqAvgDaily": 313,
+          "days": 244,
+          "numberEtf": 3
+        },
+        {
+          "month": 2,
+          "usdRate": 14882,
+          "volumeTotal": 1259477,
+          "valueTotal": 2370534,
+          "freqTotal": 1570853,
+          "volumeAvgDaily": 12520.43,
+          "valueAvgDaily": 8780.99,
+          "freqAvgDaily": 401,
+          "days": 244,
+          "numberEtf": 3
+        },
+        {
+          "month": 3,
+          "usdRate": 14502,
+          "volumeTotal": 1493003,
+          "valueTotal": 1902640,
+          "freqTotal": 1535774,
+          "volumeAvgDaily": 11566.4,
+          "valueAvgDaily": 9491.38,
+          "freqAvgDaily": 361,
+          "days": 244,
+          "numberEtf": 3
+        },
+        {
+          "month": 4,
+          "usdRate": 13242,
+          "volumeTotal": 1125952,
+          "valueTotal": 2114034,
+          "freqTotal": 1294087,
+          "volumeAvgDaily": 12217.92,
+          "valueAvgDaily": 9047.73,
+          "freqAvgDaily": 437,
+          "days": 243,
+          "numberEtf": 3
+        },
+        {
+          "month": 5,
+          "usdRate": 14553,
+          "volumeTotal": 1051013,
+          "valueTotal": 2246709,
+          "freqTotal": 1070462,
+          "volumeAvgDaily": 10521.66,
+          "valueAvgDaily": 10187.95,
+          "freqAvgDaily": 353,
+          "days": 242,
+          "numberEtf": 3
+        },
+        {
+          "month": 6,
+          "usdRate": 14787,
+          "volumeTotal": 1905770,
+          "valueTotal": 2456995,
+          "freqTotal": 925551,
+          "volumeAvgDaily": 11254.21,
+          "valueAvgDaily": 9500.4,
+          "freqAvgDaily": 329,
+          "days": 242,
+          "numberEtf": 3
+        },
+        {
+          "month": 7,
+          "usdRate": 13289,
+          "volumeTotal": 1117436,
+          "valueTotal": 1325290,
+          "freqTotal": 1254892,
+          "volumeAvgDaily": 11030.83,
+          "valueAvgDaily": 8305.2,
+          "freqAvgDaily": 415,
+          "days": 244,
+          "numberEtf": 3
+        },
+        {
+          "month": 8,
+          "usdRate": 13803,
+          "volumeTotal": 1257448,
+          "valueTotal": 2476465,
+          "freqTotal": 1083167,
+          "volumeAvgDaily": 13410.71,
+          "valueAvgDaily": 10298.44,
+          "freqAvgDaily": 324,
+          "days": 243,
+          "numberEtf": 3
+        },
+        {
+          "month": 9,
+          "usdRate": 14058,
+          "volumeTotal": 1857864,
+          "valueTotal": 1388584,
+          "freqTotal": 939081,
+          "volumeAvgDaily": 14087.54,
+          "valueAvgDaily": 9236.83,
+          "freqAvgDaily": 388,
+          "days": 241,
+          "numberEtf": 3
+        },
+        {
+          "month": 10,
+          "usdRate": 13137,
+          "volumeTotal": 1482277,
+          "valueTotal": 1114921,
+          "freqTotal": 1438262,
+          "volumeAvgDaily": 10706.87,
+          "valueAvgDaily": 10286.85,
+          "freqAvgDaily": 424,
+          "days": 241,
+          "numberEtf": 3
+        },
+        {
+          "month": 11,
+          "usdRate": 14250,
+          "volumeTotal": 2360377,
+          "valueTotal": 1377380,
+          "freqTotal": 1668326,
+          "volumeAvgDaily": 11568.18,
+          "valueAvgDaily": 10145.22,
+          "freqAvgDaily": 358,
+          "days": 240,
+          "numberEtf": 3
+        }
+      ]
+    },
+    {
+      "year": 2018,
+      "usdRate": 14688,
+      "volumeTotal": 1055301,
+      "valueTotal": 1146437,
+      "freqTotal": 1119841,
+      "volumeAvgDaily": 12783.63,
+      "valueAvgDaily": 9841.41,
+      "freqAvgDaily": 351,
+      "days": 244,
+      "numberEtf": 5,
+      "months": [
+        {
+          "month": 0,
+          "usdRate": 14374,
+          "volumeTotal": 1579221,
+          "valueTotal": 1082304,
+          "freqTotal": 1223676,
+          "volumeAvgDaily": 12619.09,
+          "valueAvgDaily": 8661.4,
+          "freqAvgDaily": 381,
+          "days": 243,
+          "numberEtf": 5
+        },
+        {
+          "month": 1,
+          "usdRate": 13651,
+          "volumeTotal": 1663001,
+          "valueTotal": 1302764,
+          "freqTotal": 1955158,
+          "volumeAvgDaily": 12740.82,
+          "valueAvgDaily": 8716.97,
+          "freqAvgDaily": 435,
+          "days": 240,
+          "numberEtf": 5
+        },
+        {
+          "month": 2,
+          "usdRate": 14003,
+          "volumeTotal": 1726716,
+          "valueTotal": 2127258,
+          "freqTotal": 1182334,
+          "volumeAvgDaily": 12782.56,
+          "valueAvgDaily": 7750.21,
+          "freqAvgDaily": 402,
+          "days": 244,
+          "numberEtf": 5
+        },
+        {
+          "month": 3,
+          "usdRate": 14426,
+          "volumeTotal": 2233537,
+          "valueTotal": 1606818,
+          "freqTotal": 1220959,
+          "volumeAvgDaily": 11039.29,
+          "valueAvgDaily": 8751.74,
+          "freqAvgDaily": 319,
+          "days": 243,
+          "numberEtf": 5
+        },
+        {
+          "month": 4,
+          "usdRate": 13488,
+          "volumeTotal": 2350764,
+          "valueTotal": 2487462,
+          "freqTotal": 1840364,
+          "volumeAvgDaily": 10870.16,
+          "valueAvgDaily": 8750.76,
+          "freqAvgDaily": 397,
+          "days": 243,
+          "numberEtf": 5
+        },
+        {
+          "month": 5,
+          "usdRate": 14348,
+          "volumeTotal": 2079609,
+          "valueTotal": 2291319,
+          "freqTotal": 1313192,
+          "volumeAvgDaily": 14115.58,
+          "valueAvgDaily": 9249.07,
+          "freqAvgDaily": 314,
+          "days": 242,
+          "numberEtf": 5
+        },
+        {
+          "month": 6,
+          "usdRate": 13445,
+          "volumeTotal": 1401225,
+          "valueTotal": 2345557,
+          "freqTotal": 1125259,
+          "volumeAvgDaily": 12108.49,
+          "valueAvgDaily": 8750.28,
+          "freqAvgDaily": 349,
+          "days": 242,
+          "numberEtf": 5
+        },
+        {
+          "month": 7,
+          "usdRate": 13840,
+          "volumeTotal": 2397307,
+          "valueTotal": 1292033,
+          "freqTotal": 1664091,
+          "volumeAvgDaily": 11615.32,
+          "valueAvgDaily": 9712.5,
+          "freqAvgDaily": 410,
+          "days": 242,
+          "numberEtf": 5
+        },
+        {
+          "month": 8,
+          "usdRate": 14698,
+          "volumeTotal": 2037033,
+          "valueTotal": 1397587,
+          "freqTotal": 1847931,
+          "volumeAvgDaily": 12606.29,
+          "valueAvgDaily": 9409.47,
+          "freqAvgDaily": 332,
+          "days": 241,
+          "numberEtf": 5
+        },
+        {
+          "month": 9,
+          "usdRate": 13954,
+          "volumeTotal": 1452708,
+          "valueTotal": 1972163,
+          "freqTotal": 2018773,
+          "volumeAvgDaily": 12387.55,
+          "valueAvgDaily": 9148.42,
+          "freqAvgDaily": 322,
+          "days": 241,
+          "numberEtf": 5
+        },
+        {
+          "month": 10,
+          "usdRate": 14669,
+          "volumeTotal": 1553789,
+          "valueTotal": 2282904,
+          "freqTotal": 1719384,
+          "volumeAvgDaily": 12440.7,
+          "valueAvgDaily": 8709.23,
+          "freqAvgDaily": 406,
+          "days": 243,
+          "numberEtf": 5
+        },
+        {
+          "month": 11,
+          "usdRate": 14598,
+          "volumeTotal": 1932765,
+          "valueTotal": 2241405,
+          "freqTotal": 1598089,
+          "volumeAvgDaily": 13431.63,
+          "valueAvgDaily": 8596.79,
+          "freqAvgDaily": 368,
+          "days": 243,
+          "numberEtf": 5
+        }
+      ]
+    },
+    {
+      "year": 2019,
+      "usdRate": 14343,
+      "volumeTotal": 1881997,
+      "valueTotal": 1181490,
+      "freqTotal": 976731,
+      "volumeAvgDaily": 13304.55,
+      "valueAvgDaily": 8135.81,
+      "freqAvgDaily": 447,
+      "days": 242,
+      "numberEtf": 9,
+      "months": [
+        {
+          "month": 0,
+          "usdRate": 14656,
+          "volumeTotal": 2391966,
+          "valueTotal": 1635784,
+          "freqTotal": 1520491,
+          "volumeAvgDaily": 12173.03,
+          "valueAvgDaily": 8332.42,
+          "freqAvgDaily": 407,
+          "days": 240,
+          "numberEtf": 9
+        },
+        {
+          "month": 1,
+          "usdRate": 13248,
+          "volumeTotal": 2418241,
+          "valueTotal": 1961742,
+          "freqTotal": 1172762,
+          "volumeAvgDaily": 13659,
+          "valueAvgDaily": 9627.99,
+          "freqAvgDaily": 419,
+          "days": 240,
+          "numberEtf": 9
+        },
+        {
+          "month": 2,
+          "usdRate": 14633,
+          "volumeTotal": 1009527,
+          "valueTotal": 1013215,
+          "freqTotal": 1916904,
+          "volumeAvgDaily": 12366.53,
+          "valueAvgDaily": 9468.45,
+          "freqAvgDaily": 326,
+          "days": 240,
+          "numberEtf": 9
+        }
+      ]
+    }
+  ],
+  "columns": [
+    {
+      "columnName": "year",
+      "decimal": 0,
+      "format": false,
+      "className": "text-center"
+    },
+    {
+      "columnName": "days",
+      "decimal": 0,
+      "format": true,
+      "className": "text-center"
+    },
+    {
+      "columnName": "volumeTotal",
+      "decimal": 0,
+      "format": true,
+      "className": ""
+    },
+    {
+      "columnName": "valueTotal",
+      "decimal": 0,
+      "format": true,
+      "className": ""
+    },
+    {
+      "columnName": "freqTotal",
+      "decimal": 0,
+      "format": true,
+      "className": ""
+    },
+    {
+      "columnName": null,
+      "decimal": 0,
+      "format": false,
+      "className": ""
+    },
+    {
+      "columnName": "volumeAvgDaily",
+      "decimal": 2,
+      "format": true,
+      "className": ""
+    },
+    {
+      "columnName": "valueAvgDaily",
+      "decimal": 2,
+      "format": true,
+      "className": ""
+    },
+    {
+      "columnName": "freqAvgDaily",
+      "decimal": 0,
+      "format": true,
+      "className": ""
+    },
+    {
+      "columnName": "numberEtf",
+      "decimal": 0,
+      "format": true,
+      "className": "text-center"
+    }
+  ]
+}

@@ -1,0 +1,365 @@
+﻿@using System.Configuration
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@using Umbraco.Core
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = null;
+
+    // Get basic design settings from the homepage
+    //ContentModels.Home home = Model.Content.Site() as ContentModels.Home;
+    //var colorTheme = Umbraco.GetPreValueAsString(home.ColorTheme);
+    //var font = Umbraco.GetPreValueAsString(home.Font);
+}
+
+<!doctype html>
+<html class="no-js flexbox" lang="en" ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <meta name="description" content="@Umbraco.GetDictionaryValue("website description")">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+
+    <meta property="og:url" content="http://www.idx.co.id">
+    <meta property="og:title" content="@Umbraco.GetDictionaryValue("site title")">
+    <meta property="og:site_name" content="@Umbraco.GetDictionaryValue("site title")">
+    <meta property="og:description" content="Indonesia Stock Exchange (IDX) website features stock market news, stock information, stock updates, and general overview of the market landscape.">
+    <meta property="og:image" content="http://www.idx.co.id/assets/img/logo-idx.png">
+    <meta property="og:type" content="website">
+    <meta property="fb:app_id" content="">
+
+    <meta name="twitter:card" content="">
+    <meta name="twitter:site" content="http://www.idx.co.id">
+    <meta name="twitter:description" content="Indonesia Stock Exchange (IDX) website features stock market news, stock information, stock updates, and general overview of the market landscape.">
+    <meta name="twitter:title" content="@Umbraco.GetDictionaryValue("site title")">
+    <meta name="twitter:image" content="http://www.idx.co.id/assets/img/logo-idx.png">
+
+    <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+
+    <title>@Umbraco.GetDictionaryValue("site title")</title>
+
+    @RenderSection("styles", required: false)
+
+    @* <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.16/b-1.5.1/b-html5-1.5.1/datatables.min.css" /> *@
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <!-- <script src="/assets/js/vendor/modernizr.min.js" defer></script> --> 
+	<script src="/assets/js/vendor/jquery.min.js"></script>
+	
+    @try
+    {
+        if ((Model.Content.GetPropertyValue("enableLiveChat") != null && Model.Content.GetPropertyValue<bool>("enableLiveChat")) ||
+            (Model.Content.Ancestor("home").GetPropertyValue("enableLiveChat") != null && Model.Content.Ancestor("home").GetPropertyValue<bool>("enableLiveChat")))
+        {
+           <!-- Start of  Zendesk Widget script -->
+            <script>
+                $(document).on('click', '.btn-zd', function(e) {
+                    e.preventDefault();
+                // setTimeout(function() {
+                var script = document.createElement('script');
+                script.id = 'ze-snippet'
+                script.src = 'https://static.zdassets.com/ekr/snippet.js?key=da2da078-9e57-47e0-8cc5-5b2f497c2cf6';
+                
+                    document.head.appendChild(script)
+        
+                    window.onload = function() {
+                    
+                        zE(function() {
+                            var locale = "id-id";
+                            zE.setLocale(locale === 'en-us' ? 'en' : 'id');
+                            zE.activate();
+                        });
+                    }
+                // }, 5000)
+                })
+            </script>
+            <!-- <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=da2da078-9e57-47e0-8cc5-5b2f497c2cf6" defer> </script> -->
+            <script type="text/javascript">
+        
+                window.zESettings = {
+                    chat: {
+                      title: {
+                        '*': "Bantuan"
+                      },
+                      offlineForm: {
+                        greeting: {
+                          '*': "Maaf, IDX Call Center sedang offline. Kami akan melayani anda lagi pada hari Senin - Jumat pukul 08.00 - 17.00.\n\nSilahkan tinggalkan pesan Anda di sini. Terima kasih!"
+                        }
+                      },
+                      prechatForm: {
+                        greeting: {
+                          '*': "Selamat datang! Isi formulir untuk memulai percakapan!"
+                        }
+                      }
+                    },
+        
+                    webWidget: {
+                      launcher: {
+                        label: {
+                          '*': "Bantuan Offline"
+                        },
+        
+                        chatLabel: {
+                          '*': "Bantuan Online"
+                        }
+                      },
+                      chat: {
+                        connectOnPageLoad: false
+                      }
+                    }
+                };
+                
+            </script>
+            <!-- End of  Zendesk Widget script -->
+        }
+
+    }
+    catch (NullReferenceException e) { }
+    <script>
+        var interval = setInterval(function () {            
+            if ($("#launcher").length) {
+                clearInterval(interval);
+                var $currentIFrame = $('#launcher');
+                console.log($currentIFrame.contents().find("body .wrapper-AtBcr"))
+                $currentIFrame.contents().find("body .wrapper-AtBcr").click()
+            }
+        }, 1000);
+    </script>
+
+    <link rel="stylesheet" href="~/assets/css/user-feedback.css">
+	<style type="text/css">
+        .grecaptcha-badge {
+            visibility: hidden;
+        }
+    </style>
+
+    @Html.Partial("~/Views/Partials/DPSAssets.cshtml")
+</head>
+<body class="sticky-footer-container">
+    <!--[if lt IE 9]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    @Html.Partial("~/views/partials/header.cshtml")
+
+    @RenderBody()
+
+    @Html.Partial("~/views/partials/footer.cshtml")
+    
+    <button class="btn btn-zd" type="button">
+        <span class="btn-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><g id="Layer_4"><path d="M11,12.3V13c0,0-1.8,0-2,0v-0.6c0-0.6,0.1-1.4,0.8-2.1c0.7-0.7,1.6-1.2,1.6-2.1c0-0.9-0.7-1.4-1.4-1.4 c-1.3,0-1.4,1.4-1.5,1.7H6.6C6.6,7.1,7.2,5,10,5c2.4,0,3.4,1.6,3.4,3C13.4,10.4,11,10.8,11,12.3z"></path><circle cx="10" cy="15" r="1"></circle><path d="M10,2c4.4,0,8,3.6,8,8s-3.6,8-8,8s-8-3.6-8-8S5.6,2,10,2 M10,0C4.5,0,0,4.5,0,10s4.5,10,10,10s10-4.5,10-10S15.5,0,10,0 L10,0z"></path></g></svg>
+        </span>
+        <span class="btn-text">
+            Bantuan Offline
+        </span>
+    </button>
+    <style>
+        .btn-zd {
+            display: inline-block;
+            position: fixed;
+            z-index: 999;
+            bottom: 10px;
+            right: 20px;
+            background: #9f0e0f;
+            color: #fff;
+            font-weight: 700;
+            border-radius: 40px;
+            font-size: 15px;
+            padding: 13px 22px;
+            border: none;
+            vertical-align: middle;
+            transition: transform 0.35s ease;
+        }
+
+        .btn-zd .btn-icon svg {
+            fill: #fff;
+            color: #fff;
+        }
+
+        .btn-zd .btn-icon {
+            line-height: 1;
+        }
+
+        .btn-zd .btn-icon, .btn-zd .btn-text {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .btn-zd.is-hide {
+            transform: translateY(150%);
+        }
+    </style>
+
+    <!-- <script>
+        (function(undefined) {}).call('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});
+    </script> -->
+    <!--<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=default,promise,fetch"></script>-->
+    <script>
+        /* Disable minification (remove `.min` from URL path) for more info */
+        (function(undefined) {}).call('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});
+    </script>
+    <script src="/assets/js/vendor/jquery.min.js"></script>
+    <script src="/assets/js/vendor/angular.min.js"></script>
+    <script src="/assets/js/vendor/angular-resource.min.js"></script>
+    <script src="/assets/js/vendor/angular-sanitize.js"></script>
+    <script src="/assets/js/vendor/angularPagination.min.js"></script>
+    <script src="/assets/js/vendor/slick.min.js"></script>
+    <script src="/assets/js/vendor/select2.min.js"></script>
+    <script src="/assets/js/vendor/moment.min.js"></script>
+    <script src="/assets/js/vendor/fullcalendar.min.js"></script>
+    <!-- <script src="/assets/js/vendor/mapbox.min.js"></script> -->
+    <script src="/assets/js/vendor/id.min.js"></script>
+    <script src="/assets/js/vendor/flatpickr.min.js"></script>
+    <script src="/assets/js/vendor/flipclock.min.js"></script>
+    <script src="/assets/js/vendor/dailycounter.min.js"></script>
+    <script src="/assets/js/vendor/jquery.clamp.min.js"></script>
+    <script src="/assets/js/vendor/object-fit-images.min.js"></script>
+    <script src="/assets/js/vendor/highstock.min.js"></script>
+    <script src="/assets/js/vendor/highcharts-more.min.js"></script>
+    <script src="/assets/js/vendor/userFeedback.min.js"></script>
+    <script src="/assets/js/vendor/userFeedback.addition.js"></script>
+    <script src="/assets/js/vendor/jquery.dataTables.min.js"></script>
+    <script src="/assets/js/vendor/tex-chtml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    @* <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.16/b-1.5.1/b-html5-1.5.1/datatables.min.js"></script> *@
+    <script src="/assets/js/main.min.js"></script>
+
+    <script type="text/javascript">
+        var currentLang = document.URL.indexOf("en-us") >= 0 ? "en-us" : "id-id";
+        $(function () {
+            $.get('@Url.Action("GetMarketTime", "Helper")?culture=' + currentLang, function (result) {
+                var jsonResult = $.parseJSON(result);
+                $('.header-date').text(jsonResult);
+            });
+
+            if (currentLang === 'en-us') {
+                $('a[name=homeLink]').attr('href', '/' + currentLang);
+            }
+
+            $('a[name=oldWebsiteLink]').attr('href', 'web.idx.id');
+        });
+
+        function getParams(sParam){
+            var sPageURL = window.location.search.substring(1);
+            var sURLVariables = sPageURL.split('&');
+            for (var i = 0; i < sURLVariables.length; i++) {
+                var sParameterName = sURLVariables[i].split('=');
+                if (sParameterName[0] == sParam) {
+                    return sParameterName[1];
+                }
+            }
+        }
+
+        function getUrlParam(url, sParam){
+            var sPageURL = url;
+            var sURLVariables = sPageURL.split('&');
+            for (var i = 0; i < sURLVariables.length; i++) {
+                var sParameterName = sURLVariables[i].split('=');
+                if (sParameterName[0] == sParam) {
+                    return sParameterName[1];
+                }
+            }
+        }
+
+        function onSearchBtnClick(){
+            var keyword = $("#global-input-search").val();
+
+            @{
+                var pageId = Request.Url.ToString().Contains("en-us") ? 2170 : 2171;
+                var content = Umbraco.TypedContent(pageId);
+                var contentUrl = string.Empty;
+
+            }
+
+            @if (content != null)
+            {
+                contentUrl = content.Url;
+            }
+
+            window.location.replace("@contentUrl" + "?keyword=" + keyword);
+        }
+
+        function getYearList() {
+            var yearList = [];
+
+            for (var i = 0; i < @ConfigurationManager.AppSettings["maxYear"]; i++) {
+                yearList.push(moment().subtract(i, 'years').format('YYYY'));
+            }
+
+            return yearList;
+        }
+    </script>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kaGlrYXJpZGhvdmFuaSIsImEiOiJjamhqejE3bTgwdDJ4MzBrZHR3MmE5emUyIn0.QCvlMSgjCxbQpPwGp3I9wQ';
+        if ($('#map').length > 0) {
+            var map = new mapboxgl.Map({
+                container: 'map',
+                center: [106.8082005, -6.2238179],
+                zoom: 16,
+                style: 'mapbox://styles/mapbox/streets-v10'
+            });
+
+            var marker = new mapboxgl.Marker()
+                .setLngLat([106.80863, -6.22357])
+                .addTo(map);
+        }
+    </script>
+
+    <script>
+        angular.module('app', ['angularUtils.directives.dirPagination'])
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!--<script async src="https://www.googletagmanager.com/gtag/js?id=UA-69243601-3"></script>-->
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'UA-69243601-3');
+    </script>
+
+    <script>
+        const $countdown = $('.countdown-js')
+        if ($countdown !== undefined) {
+            const data = $countdown.attr('data-countdown');
+            const targetDate = new Date(data)
+            const newDate = (targetDate.getTime() - new Date().getTime()) / 1000
+
+            var clock = $('.countdown-js').FlipClock(newDate, {
+                clockFace: 'DailyCounter',
+                countdown: true
+            });
+        }
+    </script>
+
+    @try
+    {
+        if ((Model.Content.GetPropertyValue("enableLiveChat") != null && Model.Content.GetPropertyValue<bool>("enableLiveChat")) ||
+            (Model.Content.Ancestor("home").GetPropertyValue("enableLiveChat") != null && Model.Content.Ancestor("home").GetPropertyValue<bool>("enableLiveChat")))
+        {
+            <!--<script type="text/javascript">
+            zE(function () {
+
+
+                $zopim(function () {
+                    @if (Umbraco.GetDictionaryValue("live_chat_greetings") != null && Umbraco.GetDictionaryValue("live_chat_greetings") != "")
+                    {
+                        <text>$zopim.livechat.offlineForm.setGreetings("@Html.Raw(Html.Encode(Umbraco.GetDictionaryValue("live_chat_greetings")).Replace(Environment.NewLine, "\\n"))");</text>
+                        <text>$zopim.livechat.setGreetings("@Html.Raw(Html.Encode(Umbraco.GetDictionaryValue("live_chat_greetings")).Replace(Environment.NewLine, "\\n"))");</text>
+                    }
+                });
+            });
+
+                </script>-->
+        }
+    }
+    catch (NullReferenceException e) { }
+
+    @RenderSection("scripts", required: false)
+    @RenderSection("userFeedbackScript", required: false)
+</body>
+</html>
+

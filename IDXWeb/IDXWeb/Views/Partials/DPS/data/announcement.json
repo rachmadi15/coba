@@ -1,0 +1,517 @@
+{
+  "ResultCount": 51942,
+  "SearchParams": {
+    "DateFrom": "1/29/2016 5:47:18 PM",
+    "DateTo": "1/29/2018 5:47:18 PM",
+    "Query": null,
+    "KodeEmiten": null,
+    "EmitenType": null,
+    "indexfrom": 2,
+    "pagesize": 10
+  },
+  "Replies": [
+    {
+      "pengumuman": {
+        "Id": 318263,
+        "FinalId": 30491088,
+        "OldFinalId": null,
+        "NoPengumuman": "166/E/CS/JIHD/VI/2017",
+        "TglPengumuman": "2017-06-05T16:35:30+07:00",
+        "JudulPengumuman": "Rencana Penyelenggaraan Public Expose - Tahunan",
+        "JenisPengumuman": "",
+        "Kode_Emiten": "JIHD                                                                                                ",
+        "CreatedDate": "2017-06-05T16:35:33.0969984+07:00",
+        "Form_Id": "E003",
+        "PerihalPengumuman": "Rencana Penyelenggaraan Public Expose - Tahunan",
+        "JMSXGroupID": "f-30491088-0",
+        "Divisi": "",
+        "KodeDivisi": "",
+        "JenisEmiten": "korporasi",
+        "EfekEmiten_Saham": true,
+        "EfekEmiten_Obligasi": false,
+        "EfekEmiten_EBA": false,
+        "EfekEmiten_ETF": false,
+        "EfekEmiten_SPEI": false
+      },
+      "attachments": [
+        {
+          "Id": 3201136,
+          "PDFFilename": "161831ccc4_e95673e3ae.pdf",
+          "FullSavePath": "http://www.newidx.com/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_EREP/201706/161831ccc4_e95673e3ae.pdf",
+          "JMSXGroupID": "f-30491088-0",
+          "CorrelationID": "f-30491088-0",
+          "IsAttachment": false,
+          "OriginalFilename": "E003.pdf"
+        },
+        {
+          "Id": 3201137,
+          "PDFFilename": "c04e8006ec_7ffd964ed1.pdf",
+          "FullSavePath": "http://www.newidx.com/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_EREP/201706/c04e8006ec_7ffd964ed1.pdf",
+          "JMSXGroupID": "f-30491088-0",
+          "CorrelationID": "f-30491088-0",
+          "IsAttachment": true,
+          "OriginalFilename": "Surat Pemberitahuan Public Expose PT JIHD Tbk.pdf"
+        }
+      ]
+    },
+    {
+      "pengumuman": {
+        "Id": 318262,
+        "FinalId": 30491168,
+        "OldFinalId": null,
+        "NoPengumuman": "093/VI/CS/2017",
+        "TglPengumuman": "2017-06-05T16:33:02+07:00",
+        "JudulPengumuman": "Hasil Rapat Umum Para Pemegang Saham Tahunan dan Luar Biasa",
+        "JenisPengumuman": "",
+        "Kode_Emiten": "WOMF                                                                                                ",
+        "CreatedDate": "2017-06-05T16:33:06.76+07:00",
+        "Form_Id": "E013",
+        "PerihalPengumuman": "Hasil Rapat Umum Para Pemegang Saham Tahunan dan Luar Biasa",
+        "JMSXGroupID": "f-30491168-0",
+        "Divisi": "",
+        "KodeDivisi": "",
+        "JenisEmiten": "korporasi",
+        "EfekEmiten_Saham": true,
+        "EfekEmiten_Obligasi": true,
+        "EfekEmiten_EBA": false,
+        "EfekEmiten_ETF": false,
+        "EfekEmiten_SPEI": true
+      },
+      "attachments": [
+        {
+          "Id": 3201133,
+          "PDFFilename": "1728af7dbb_5006fabdbc.pdf",
+          "FullSavePath": "http://www.newidx.com/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_EREP/201706/1728af7dbb_5006fabdbc.pdf",
+          "JMSXGroupID": "f-30491168-0",
+          "CorrelationID": "f-30491168-0",
+          "IsAttachment": false,
+          "OriginalFilename": "E013.pdf"
+        },
+        {
+          "Id": 3201134,
+          "PDFFilename": "3bf0311ad4_9e4372c8b4.pdf",
+          "FullSavePath": "http://www.newidx.com/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_EREP/201706/3bf0311ad4_9e4372c8b4.pdf",
+          "JMSXGroupID": "f-30491168-0",
+          "CorrelationID": "f-30491168-0",
+          "IsAttachment": true,
+          "OriginalFilename": "Cover Note Notaris.pdf"
+        },
+        {
+          "Id": 3201135,
+          "PDFFilename": "94a99fac56_4238c022ea.pdf",
+          "FullSavePath": "http://www.newidx.com/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_EREP/201706/94a99fac56_4238c022ea.pdf",
+          "JMSXGroupID": "f-30491168-0",
+          "CorrelationID": "f-30491168-0",
+          "IsAttachment": true,
+          "OriginalFilename": "6-5-2017 (093VICS2017) Lap.Pelaksanaan dan Hasil RUPST&LB.pdf"
+        }
+      ]
+    },
+    {
+      "pengumuman": {
+        "Id": 318261,
+        "FinalId": 30491139,
+        "OldFinalId": null,
+        "NoPengumuman": "CS-86/LSIP/VI/2017",
+        "TglPengumuman": "2017-06-05T16:30:09+07:00",
+        "JudulPengumuman": "Jadwal Dividen Tunai",
+        "JenisPengumuman": "",
+        "Kode_Emiten": "LSIP                                                                                                ",
+        "CreatedDate": "2017-06-05T16:30:13.4130048+07:00",
+        "Form_Id": "E007",
+        "PerihalPengumuman": "Jadwal Dividen Tunai",
+        "JMSXGroupID": "f-30491139-0",
+        "Divisi": "",
+        "KodeDivisi": "",
+        "JenisEmiten": "korporasi",
+        "EfekEmiten_Saham": true,
+        "EfekEmiten_Obligasi": false,
+        "EfekEmiten_EBA": false,
+        "EfekEmiten_ETF": false,
+        "EfekEmiten_SPEI": false
+      },
+      "attachments": [
+        {
+          "Id": 3201131,
+          "PDFFilename": "3fdf1a24a9_7159d70d46.pdf",
+          "FullSavePath": "http://www.newidx.com/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_EREP/201706/3fdf1a24a9_7159d70d46.pdf",
+          "JMSXGroupID": "f-30491139-0",
+          "CorrelationID": "f-30491139-0",
+          "IsAttachment": false,
+          "OriginalFilename": "E007.pdf"
+        },
+        {
+          "Id": 3201132,
+          "PDFFilename": "140858f395_f34a5868a6.pdf",
+          "FullSavePath": "http://www.newidx.com/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_EREP/201706/140858f395_f34a5868a6.pdf",
+          "JMSXGroupID": "f-30491139-0",
+          "CorrelationID": "f-30491139-0",
+          "IsAttachment": true,
+          "OriginalFilename": "CS-86 Jadwal dan Tata Cara Pembagian Dividen.pdf"
+        }
+      ]
+    },
+    {
+      "pengumuman": {
+        "Id": 318260,
+        "FinalId": 30491135,
+        "OldFinalId": null,
+        "NoPengumuman": "CS-83/LSIP/VI/2017",
+        "TglPengumuman": "2017-06-05T16:28:36+07:00",
+        "JudulPengumuman": "Penyampaian Bukti Iklan Hasil RUPS",
+        "JenisPengumuman": "",
+        "Kode_Emiten": "LSIP                                                                                                ",
+        "CreatedDate": "2017-06-05T16:28:39.9529984+07:00",
+        "Form_Id": "E014",
+        "PerihalPengumuman": "Penyampaian Bukti Iklan Hasil RUPS",
+        "JMSXGroupID": "f-30491135-0",
+        "Divisi": "",
+        "KodeDivisi": "",
+        "JenisEmiten": "korporasi",
+        "EfekEmiten_Saham": true,
+        "EfekEmiten_Obligasi": false,
+        "EfekEmiten_EBA": false,
+        "EfekEmiten_ETF": false,
+        "EfekEmiten_SPEI": false
+      },
+      "attachments": [
+        {
+          "Id": 3201127,
+          "PDFFilename": "d20ff853d5_c24a6fd793.pdf",
+          "FullSavePath": "http://www.newidx.com/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_EREP/201706/d20ff853d5_c24a6fd793.pdf",
+          "JMSXGroupID": "f-30491135-0",
+          "CorrelationID": "f-30491135-0",
+          "IsAttachment": false,
+          "OriginalFilename": "E014.pdf"
+        },
+        {
+          "Id": 3201128,
+          "PDFFilename": "59f133d100_a3ad29465c.pdf",
+          "FullSavePath": "http://www.newidx.com/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_EREP/201706/59f133d100_a3ad29465c.pdf",
+          "JMSXGroupID": "f-30491135-0",
+          "CorrelationID": "f-30491135-0",
+          "IsAttachment": true,
+          "OriginalFilename": "Bukti Iklan The Jakarta Post.pdf"
+        },
+        {
+          "Id": 3201129,
+          "PDFFilename": "79e4888196_48ab13339a.pdf",
+          "FullSavePath": "http://www.newidx.com/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_EREP/201706/79e4888196_48ab13339a.pdf",
+          "JMSXGroupID": "f-30491135-0",
+          "CorrelationID": "f-30491135-0",
+          "IsAttachment": true,
+          "OriginalFilename": "Bukti Iklan Bisnis Indonesia.pdf"
+        },
+        {
+          "Id": 3201130,
+          "PDFFilename": "3aa8b0eb1f_29d23edc47.pdf",
+          "FullSavePath": "http://www.newidx.com/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_EREP/201706/3aa8b0eb1f_29d23edc47.pdf",
+          "JMSXGroupID": "f-30491135-0",
+          "CorrelationID": "f-30491135-0",
+          "IsAttachment": true,
+          "OriginalFilename": "CS-83 Penyampaian Bukti Iklan.pdf"
+        }
+      ]
+    },
+    {
+      "pengumuman": {
+        "Id": 318259,
+        "FinalId": 30491129,
+        "OldFinalId": null,
+        "NoPengumuman": "CS-82/LSIP/VI/2017",
+        "TglPengumuman": "2017-06-05T16:27:54+07:00",
+        "JudulPengumuman": "Hasil Rapat Umum Para Pemegang Saham Tahunan",
+        "JenisPengumuman": "",
+        "Kode_Emiten": "LSIP                                                                                                ",
+        "CreatedDate": "2017-06-05T16:27:58.1330048+07:00",
+        "Form_Id": "E013",
+        "PerihalPengumuman": "Hasil Rapat Umum Para Pemegang Saham Tahunan",
+        "JMSXGroupID": "f-30491129-0",
+        "Divisi": "",
+        "KodeDivisi": "",
+        "JenisEmiten": "korporasi",
+        "EfekEmiten_Saham": true,
+        "EfekEmiten_Obligasi": false,
+        "EfekEmiten_EBA": false,
+        "EfekEmiten_ETF": false,
+        "EfekEmiten_SPEI": false
+      },
+      "attachments": [
+        {
+          "Id": 3201124,
+          "PDFFilename": "3ffd08cc9f_034b9be768.pdf",
+          "FullSavePath": "http://www.newidx.com/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_EREP/201706/3ffd08cc9f_034b9be768.pdf",
+          "JMSXGroupID": "f-30491129-0",
+          "CorrelationID": "f-30491129-0",
+          "IsAttachment": false,
+          "OriginalFilename": "E013.pdf"
+        },
+        {
+          "Id": 3201125,
+          "PDFFilename": "263c70953b_de8151ed04.pdf",
+          "FullSavePath": "http://www.newidx.com/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_EREP/201706/263c70953b_de8151ed04.pdf",
+          "JMSXGroupID": "f-30491129-0",
+          "CorrelationID": "f-30491129-0",
+          "IsAttachment": true,
+          "OriginalFilename": "Surat Keterangan Notaris.pdf"
+        },
+        {
+          "Id": 3201126,
+          "PDFFilename": "40763a947d_79c116dc28.pdf",
+          "FullSavePath": "http://www.newidx.com/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_EREP/201706/40763a947d_79c116dc28.pdf",
+          "JMSXGroupID": "f-30491129-0",
+          "CorrelationID": "f-30491129-0",
+          "IsAttachment": true,
+          "OriginalFilename": "CS-82 Pemberitahuan Hasil RUPS.pdf"
+        }
+      ]
+    },
+    {
+      "pengumuman": {
+        "Id": 318258,
+        "FinalId": 30491070,
+        "OldFinalId": null,
+        "NoPengumuman": "SIMP/021/CS/EXT/VI/17",
+        "TglPengumuman": "2017-06-05T16:26:15+07:00",
+        "JudulPengumuman": "Jadwal Dividen Tunai",
+        "JenisPengumuman": "",
+        "Kode_Emiten": "SIMP                                                                                                ",
+        "CreatedDate": "2017-06-05T16:26:19.6499968+07:00",
+        "Form_Id": "E007",
+        "PerihalPengumuman": "Jadwal Dividen Tunai",
+        "JMSXGroupID": "f-30491070-0",
+        "Divisi": "",
+        "KodeDivisi": "",
+        "JenisEmiten": "korporasi",
+        "EfekEmiten_Saham": true,
+        "EfekEmiten_Obligasi": false,
+        "EfekEmiten_EBA": false,
+        "EfekEmiten_ETF": false,
+        "EfekEmiten_SPEI": false
+      },
+      "attachments": [
+        {
+          "Id": 3201121,
+          "PDFFilename": "7373b0369b_145a327131.pdf",
+          "FullSavePath": "http://www.newidx.com/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_EREP/201706/7373b0369b_145a327131.pdf",
+          "JMSXGroupID": "f-30491070-0",
+          "CorrelationID": "f-30491070-0",
+          "IsAttachment": false,
+          "OriginalFilename": "E007.pdf"
+        },
+        {
+          "Id": 3201122,
+          "PDFFilename": "84a263c481_a3abe643a6.pdf",
+          "FullSavePath": "http://www.newidx.com/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_EREP/201706/84a263c481_a3abe643a6.pdf",
+          "JMSXGroupID": "f-30491070-0",
+          "CorrelationID": "f-30491070-0",
+          "IsAttachment": true,
+          "OriginalFilename": "Surat SIMP_Jadwal Pembagian Dividen Tunai 5 Juni 2017.pdf"
+        },
+        {
+          "Id": 3201123,
+          "PDFFilename": "7e58fbd138_6b5ade3065.pdf",
+          "FullSavePath": "http://www.newidx.com/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_EREP/201706/7e58fbd138_6b5ade3065.pdf",
+          "JMSXGroupID": "f-30491070-0",
+          "CorrelationID": "f-30491070-0",
+          "IsAttachment": true,
+          "OriginalFilename": "Bukti Iklan_Ringkasan Risalah RUPS_Bisnis Indonesia_5 Juni 2017.pdf"
+        }
+      ]
+    },
+    {
+      "pengumuman": {
+        "Id": 318257,
+        "FinalId": 30491090,
+        "OldFinalId": null,
+        "NoPengumuman": "288/BCI-DIR/VI/2017",
+        "TglPengumuman": "2017-06-05T16:25:47+07:00",
+        "JudulPengumuman": "Rencana Penyelenggaraan Public Expose - Tahunan",
+        "JenisPengumuman": "",
+        "Kode_Emiten": "BACA                                                                                                ",
+        "CreatedDate": "2017-06-05T16:25:50.6729984+07:00",
+        "Form_Id": "E003",
+        "PerihalPengumuman": "Rencana Penyelenggaraan Public Expose - Tahunan",
+        "JMSXGroupID": "f-30491090-0",
+        "Divisi": "",
+        "KodeDivisi": "",
+        "JenisEmiten": "korporasi",
+        "EfekEmiten_Saham": true,
+        "EfekEmiten_Obligasi": true,
+        "EfekEmiten_EBA": false,
+        "EfekEmiten_ETF": false,
+        "EfekEmiten_SPEI": false
+      },
+      "attachments": [
+        {
+          "Id": 3201119,
+          "PDFFilename": "8df30998b6_c1a6bc1507.pdf",
+          "FullSavePath": "http://www.newidx.com/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_EREP/201706/8df30998b6_c1a6bc1507.pdf",
+          "JMSXGroupID": "f-30491090-0",
+          "CorrelationID": "f-30491090-0",
+          "IsAttachment": false,
+          "OriginalFilename": "E003.pdf"
+        },
+        {
+          "Id": 3201120,
+          "PDFFilename": "17b8ac4372_1a850ba9c3.pdf",
+          "FullSavePath": "http://www.newidx.com/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_EREP/201706/17b8ac4372_1a850ba9c3.pdf",
+          "JMSXGroupID": "f-30491090-0",
+          "CorrelationID": "f-30491090-0",
+          "IsAttachment": true,
+          "OriginalFilename": "Public Expose-revisi.pdf"
+        }
+      ]
+    },
+    {
+      "pengumuman": {
+        "Id": 318256,
+        "FinalId": 30491066,
+        "OldFinalId": null,
+        "NoPengumuman": "SIMP/020/CS/EXT/VI/17",
+        "TglPengumuman": "2017-06-05T16:25:03+07:00",
+        "JudulPengumuman": "Penyampaian Bukti Iklan Hasil RUPS",
+        "JenisPengumuman": "",
+        "Kode_Emiten": "SIMP                                                                                                ",
+        "CreatedDate": "2017-06-05T16:25:06.8969984+07:00",
+        "Form_Id": "E014",
+        "PerihalPengumuman": "Penyampaian Bukti Iklan Hasil RUPS",
+        "JMSXGroupID": "f-30491066-0",
+        "Divisi": "",
+        "KodeDivisi": "",
+        "JenisEmiten": "korporasi",
+        "EfekEmiten_Saham": true,
+        "EfekEmiten_Obligasi": false,
+        "EfekEmiten_EBA": false,
+        "EfekEmiten_ETF": false,
+        "EfekEmiten_SPEI": false
+      },
+      "attachments": [
+        {
+          "Id": 3201116,
+          "PDFFilename": "5ec49de7db_042054ee56.pdf",
+          "FullSavePath": "http://www.newidx.com/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_EREP/201706/5ec49de7db_042054ee56.pdf",
+          "JMSXGroupID": "f-30491066-0",
+          "CorrelationID": "f-30491066-0",
+          "IsAttachment": false,
+          "OriginalFilename": "E014.pdf"
+        },
+        {
+          "Id": 3201117,
+          "PDFFilename": "2ad2dad9ad_933a0b05b8.pdf",
+          "FullSavePath": "http://www.newidx.com/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_EREP/201706/2ad2dad9ad_933a0b05b8.pdf",
+          "JMSXGroupID": "f-30491066-0",
+          "CorrelationID": "f-30491066-0",
+          "IsAttachment": true,
+          "OriginalFilename": "Surat SIMP_Penyampaian Bukti Iklan SIMP_5 Jun 2017.pdf"
+        },
+        {
+          "Id": 3201118,
+          "PDFFilename": "89fc6c26af_9838896e2d.pdf",
+          "FullSavePath": "http://www.newidx.com/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_EREP/201706/89fc6c26af_9838896e2d.pdf",
+          "JMSXGroupID": "f-30491066-0",
+          "CorrelationID": "f-30491066-0",
+          "IsAttachment": true,
+          "OriginalFilename": "Bukti Iklan_Ringkasan Risalah RUPS_Bisnis Indonesia_5 Juni 2017.pdf"
+        }
+      ]
+    },
+    {
+      "pengumuman": {
+        "Id": 318255,
+        "FinalId": 30491059,
+        "OldFinalId": null,
+        "NoPengumuman": "SIMP/019/CS/EXT/VI/17",
+        "TglPengumuman": "2017-06-05T16:24:30+07:00",
+        "JudulPengumuman": "Hasil Rapat Umum Para Pemegang Saham Tahunan",
+        "JenisPengumuman": "",
+        "Kode_Emiten": "SIMP                                                                                                ",
+        "CreatedDate": "2017-06-05T16:24:34.0600064+07:00",
+        "Form_Id": "E013",
+        "PerihalPengumuman": "Hasil Rapat Umum Para Pemegang Saham Tahunan",
+        "JMSXGroupID": "f-30491059-0",
+        "Divisi": "",
+        "KodeDivisi": "",
+        "JenisEmiten": "korporasi",
+        "EfekEmiten_Saham": true,
+        "EfekEmiten_Obligasi": false,
+        "EfekEmiten_EBA": false,
+        "EfekEmiten_ETF": false,
+        "EfekEmiten_SPEI": false
+      },
+      "attachments": [
+        {
+          "Id": 3201113,
+          "PDFFilename": "fd3bfc9cf6_6c49a545f2.pdf",
+          "FullSavePath": "http://www.newidx.com/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_EREP/201706/fd3bfc9cf6_6c49a545f2.pdf",
+          "JMSXGroupID": "f-30491059-0",
+          "CorrelationID": "f-30491059-0",
+          "IsAttachment": false,
+          "OriginalFilename": "E013.pdf"
+        },
+        {
+          "Id": 3201114,
+          "PDFFilename": "529f4f6a0a_b4cfda4633.pdf",
+          "FullSavePath": "http://www.newidx.com/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_EREP/201706/529f4f6a0a_b4cfda4633.pdf",
+          "JMSXGroupID": "f-30491059-0",
+          "CorrelationID": "f-30491059-0",
+          "IsAttachment": true,
+          "OriginalFilename": "Surat SIMP_Hasil RUPST SIMP_5 Jun 2017.pdf"
+        },
+        {
+          "Id": 3201115,
+          "PDFFilename": "b9d307db93_bef1b185b1.pdf",
+          "FullSavePath": "http://www.newidx.com/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_EREP/201706/b9d307db93_bef1b185b1.pdf",
+          "JMSXGroupID": "f-30491059-0",
+          "CorrelationID": "f-30491059-0",
+          "IsAttachment": true,
+          "OriginalFilename": "Ringkasan Risalah RUPST SIMP_31 Mei 2017.pdf"
+        }
+      ]
+    },
+    {
+      "pengumuman": {
+        "Id": 318254,
+        "FinalId": 30490686,
+        "OldFinalId": null,
+        "NoPengumuman": "072/PGS-CS/VI/2017",
+        "TglPengumuman": "2017-06-05T16:23:56+07:00",
+        "JudulPengumuman": "Laporan Hasil Public Expose - Tahunan",
+        "JenisPengumuman": "",
+        "Kode_Emiten": "PEGE                                                                                                ",
+        "CreatedDate": "2017-06-05T16:23:59.7270016+07:00",
+        "Form_Id": "E003",
+        "PerihalPengumuman": "Laporan Hasil Public Expose - Tahunan",
+        "JMSXGroupID": "f-30490686-0",
+        "Divisi": "",
+        "KodeDivisi": "",
+        "JenisEmiten": "korporasi",
+        "EfekEmiten_Saham": true,
+        "EfekEmiten_Obligasi": false,
+        "EfekEmiten_EBA": false,
+        "EfekEmiten_ETF": false,
+        "EfekEmiten_SPEI": false
+      },
+      "attachments": [
+        {
+          "Id": 3201111,
+          "PDFFilename": "5b04b2bb5f_8b701c1007.pdf",
+          "FullSavePath": "http://www.newidx.com/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_EREP/201706/5b04b2bb5f_8b701c1007.pdf",
+          "JMSXGroupID": "f-30490686-0",
+          "CorrelationID": "f-30490686-0",
+          "IsAttachment": false,
+          "OriginalFilename": "E003.pdf"
+        },
+        {
+          "Id": 3201112,
+          "PDFFilename": "d64f022e41_5d0a9cd12a.pdf",
+          "FullSavePath": "http://www.newidx.com/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_EREP/201706/d64f022e41_5d0a9cd12a.pdf",
+          "JMSXGroupID": "f-30490686-0",
+          "CorrelationID": "f-30490686-0",
+          "IsAttachment": true,
+          "OriginalFilename": "Laporan Hasil Public Expose 2017.pdf"
+        }
+      ]
+    }
+  ]
+}

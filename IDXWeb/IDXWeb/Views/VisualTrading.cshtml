@@ -1,0 +1,67 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+	Layout = "Master.cshtml";
+}
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (page.DocumentTypeId != 1237){
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>                    
+                } else {
+                    <li class="@cls"><a href="" class="disable"><span>@page.Name</span></li>
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            @if (Umbraco.TypedContent(CurrentPage.Id) != null){
+                <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).Name</h1>
+            }else {
+            	<h1 class="page-title">@CurrentPage.Name</h1>
+        	}
+        </div>
+        <div class="relative padding-space padding-space--big">
+            <a href="" class="btn-prev-icon --center"><span class="fa fa-chevron-left"></span></a>
+            <div class="holiday-slider">
+                <div class="holiday-slider-item">
+                    <img src="/assets/img/home.jpg" alt="">
+                </div>
+                <div class="holiday-slider-item">
+                    <img src="/assets/img/LQ45.jpg" alt="">
+                </div>
+                <div class="holiday-slider-item">
+                    <img src="/assets/img/West.jpg" alt="">
+                </div>
+                <div class="holiday-slider-item">
+                    <img src="/assets/img/Domestic.jpg" alt="">
+                </div>
+                <div class="holiday-slider-item">
+                    <img src="/assets/img/East.jpg" alt="">
+                </div>
+                <div class="holiday-slider-item">
+                    <img src="/assets/img/ExchangeMembers.jpg" alt="">
+                </div>
+                <div class="holiday-slider-item">
+                    <img src="/assets/img/Foreign.jpg" alt="">
+                </div>
+                <div class="holiday-slider-item">
+                    <img src="/assets/img/YukNabungSaham.jpg" alt="">
+                </div>
+            </div>
+            <a href="" class="btn-next-icon --center"><span class="fa fa-chevron-right"></span></a>
+        </div>
+    </div>
+</main>

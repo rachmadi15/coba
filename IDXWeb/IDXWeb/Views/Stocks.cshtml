@@ -1,0 +1,66 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+	Layout = "Master.cshtml";
+}
+
+@* the fun starts here *@
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (page.DocumentTypeId != 1237){
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>                    
+                } else {
+                    <li class="@cls"><a href="" class="disable"><span>@page.Name</span></li>
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+        </div>
+        <figure class="banner-wide-container">
+            <img src="/assets/img/equities.jpg" alt="" class="banner-wide-img">
+        </figure>
+        <div class="">
+            <p>Share (stock) is one of the most popular financial instruments. Issuing stock is one of the choices for company’s funding. Moreover, stock is investors' most favourite investment instrument because it offers them an interesting return rate.</p>
+            <p>Stock can be defined as a sign of capital participation of an individual or institution in a company or corporation. By investing in a company, the party has the claim for the company’s income, assets, and right to attend the General Meeting of Shareholders.</p>
+            <p>Basically, there are two benefits the investor can get by buying or having stock:</p>
+            <ol class="article-list">
+                <li class="article-item">
+                    <h2 class="article-item-title">Dividend</h2>
+                    <p>Dividend is profit sharing given by company and comes from the income. Dividend is given after getting the agreement from shareholders in the General Meeting. If an investor wants to receive dividend, he/she must own the stock for a relatively long period, until the ownership term is in the period where he/she is acknowledged as the shareholder who has the right to obtain the dividend.</p>
+                </li>
+                <li class="article-item">
+                    <h2 class="article-item-title">Capital Gain</h2>
+                    <p>Capital gain is the different between buying price and selling price. Capital gain is obtained through the trading activities carried out in the secondary market. For example, an investor buys ABC’s shares at Rp 3,000 per share and then sells it at Rp 3,500 per share. It means the investor gets capital gain of Rp 500 for every sold share.</p>
+                </li>
+            </ol>
+            <p>As investment instrument, stock has risks</p>
+            <ol class="article-list">
+                <li class="article-item">
+                    <h2 class="article-item-title">Capital Loss</h2>
+                    <p>It is the reverse of Capital Gain. It is a condition when the investor sells his/her shares at lower price than its buying price. For instance, PT XYZ’s shares are bought at Rp 2,000 per share, but aftermath the stock price experiences decrease to the level of Rp 1,400 per share. Afraid of continuous declines, the investor sells the shares at price of Rp 1.400. The investor has retain a capital loss of Rp 600 per share.</p>
+                </li>
+                <li class="article-item">
+                    <h2 class="article-item-title">Liquidity Risk</h2>
+                    <p>A company, whose shares are owned by public, is stated for bankruptcy by the Court or is being dismissed. In this case, the claiming rights of shareholders get the last priority after all the company’s liabilities are settled (by gathering the fund from selling the company’s assets). If there is an amount of rest of the company’s wealth, it will be shared proportionally to the shareholders. But, if there is no rest left, the shareholders will not receive anything out of the liquidation. This is the worst condition that might happen to shareholders. For that reason, a shareholder needs to observe every development in the company, which shares are owned.</p>
+                </li>
+            </ol>
+            <p>In secondary market or daily shares trading activities, stock prices fluctuate, either increase or decrease. Prices are formed from the demand and supply of the stock. In other words, prices are formed by supply and demand. Supply and demand are influenced by many factors, either by specific factors such as the company and industry’s performance where the stocks exist or macro factors such as the interest rate, inflation, currency rate, and non-economical factors like social and political conditions, and so on</p>
+        </div>
+    </div>
+    
+</main>

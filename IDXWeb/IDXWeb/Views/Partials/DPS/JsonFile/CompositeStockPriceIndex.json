@@ -1,0 +1,192 @@
+{
+    "title": "Indonesia Stock Exchange",
+    "subtitle": "Composite Stock Price Index and Stock Trading Volume<br>June 2018 - June 2019",
+    "series": [
+        {
+            "seriesName": "Trading Volume (LHS)",
+            "type": "column",
+            "yAxis": 0,
+            "valueSuffix": " m. shares",
+            "seriesColor": "#C3C3C3",
+            "seriesData": [
+                {
+                    "x": "Fri Mar 01 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 19767
+                },
+                {
+                    "x": "Mon Mar 04 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 8948
+                },
+                {
+                    "x": "Tue Mar 05 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 20910
+                },
+                {
+                    "x": "Wed Mar 06 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 8508
+                },
+                {
+                    "x": "Thu Mar 07 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 11639
+                },
+                {
+                    "x": "Fri Mar 08 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 16619
+                },
+                {
+                    "x": "Mon Mar 11 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 20428
+                },
+                {
+                    "x": "Tue Mar 12 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 6210
+                },
+                {
+                    "x": "Wed Mar 13 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 20399
+                },
+                {
+                    "x": "Thu Mar 14 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 21119
+                },
+                {
+                    "x": "Fri Mar 15 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 10732
+                },
+                {
+                    "x": "Mon Mar 18 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 23179
+                },
+                {
+                    "x": "Tue Mar 19 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 13285
+                },
+                {
+                    "x": "Wed Mar 20 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 18546
+                },
+                {
+                    "x": "Thu Mar 21 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 23270
+                },
+                {
+                    "x": "Fri Mar 22 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 11429
+                },
+                {
+                    "x": "Mon Mar 25 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 5437
+                },
+                {
+                    "x": "Tue Mar 26 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 23305
+                },
+                {
+                    "x": "Wed Mar 27 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 5234
+                },
+                {
+                    "x": "Thu Mar 28 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 7291
+                },
+                {
+                    "x": "Fri Mar 29 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 23858
+                }
+            ]
+        },
+        {
+            "seriesName": "Composite Index (RHS)",
+            "type": "line",
+            "yAxis": 1,
+            "valueSuffix": "",
+            "seriesColor": "#4A8CCC",
+            "seriesData": [
+                {
+                    "x": "Fri Mar 01 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 6604
+                },
+                {
+                    "x": "Mon Mar 04 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 6031
+                },
+                {
+                    "x": "Tue Mar 05 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 6111
+                },
+                {
+                    "x": "Wed Mar 06 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 5795
+                },
+                {
+                    "x": "Thu Mar 07 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 6014
+                },
+                {
+                    "x": "Fri Mar 08 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 6555
+                },
+                {
+                    "x": "Mon Mar 11 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 5700
+                },
+                {
+                    "x": "Tue Mar 12 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 6795
+                },
+                {
+                    "x": "Wed Mar 13 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 6031
+                },
+                {
+                    "x": "Thu Mar 14 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 6217
+                },
+                {
+                    "x": "Fri Mar 15 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 6730
+                },
+                {
+                    "x": "Mon Mar 18 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 5837
+                },
+                {
+                    "x": "Tue Mar 19 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 6730
+                },
+                {
+                    "x": "Wed Mar 20 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 6465
+                },
+                {
+                    "x": "Thu Mar 21 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 5694
+                },
+                {
+                    "x": "Fri Mar 22 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 6036
+                },
+                {
+                    "x": "Mon Mar 25 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 6221
+                },
+                {
+                    "x": "Tue Mar 26 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 6193
+                },
+                {
+                    "x": "Wed Mar 27 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 5794
+                },
+                {
+                    "x": "Thu Mar 28 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 5726
+                },
+                {
+                    "x": "Fri Mar 29 2019 07:00:00 GMT+0700 (Western Indonesia Time)",
+                    "y": 6097
+                }
+            ]
+        }
+    ]
+}

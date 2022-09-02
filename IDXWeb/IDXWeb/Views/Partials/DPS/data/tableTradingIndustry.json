@@ -1,0 +1,90 @@
+{
+    "data": [
+        {
+            "sector": "Agriculture",
+            "subSector": "Crops",
+            "regularVolume": 1500,
+            "regularValue": 1500,
+            "regularFreq": 1500,
+            "totalVolume": 2142292,
+            "totalValue": 2142292,
+            "totalFreq": 2142292,
+        },
+        {
+            "sector": "Mining",
+            "subSector": "Coal Mining",
+            "regularVolume": 1500,
+            "regularValue": 1500,
+            "regularFreq": 1500,
+            "totalVolume": 2142292,
+            "totalValue": 2142292,
+            "totalFreq": 2142292,
+        },
+        {
+            "sector": "Basic Industry and Chemicals",
+            "subSector": "Cement",
+            "regularVolume": 1500,
+            "regularValue": 1500,
+            "regularFreq": 1500,
+            "totalVolume": 2142292,
+            "totalValue": 2142292,
+            "totalFreq": 2142292,
+        }
+    ],
+    "columns": [
+        {
+            "columnName": "sector",
+            "decimal": 0,
+            "format": false,
+            "className": "text-center"
+        },
+        {
+            "columnName": "subSector",
+            "decimal": 0,
+            "format": false,
+            "className": "text-center"
+        },
+        {
+            "columnName": "regularVolume",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "regularValue",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "regularFreq",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": null,
+            "decimal": 0,
+            "format": false,
+            "className": "text-center"
+        },
+        {
+            "columnName": "totalVolume",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "totalValue",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "totalFreq",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        }
+    ]
+}

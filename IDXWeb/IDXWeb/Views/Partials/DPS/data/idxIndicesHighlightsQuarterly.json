@@ -1,0 +1,301 @@
+{
+    "data": [
+        {
+            "indexName": "Composite Index (IHSG)",
+            "quarterHighVal": 6507221,
+            "quarterHighDate": "Thu Apr 18 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "quarterLowVal": 6507221,
+            "quarterLowDate": "Fri May 17 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "quarterCloseVal": 6507221,
+            "quarterCloseDate": "Fri Jun 28 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "ytdChangeVal": 164131,
+            "ytdChangePercent": 2.65,
+            "qoqChangeVal": 559392,
+            "qoqChangePercent": 9.65,
+            "gainOneDayPercent": 9.92,
+            "gainOneDayDate": "Thu Apr 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "gainOneWeekPercent": 2.51,
+            "gainOneWeekDate": "Fri May 31 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "gainOneMonthPercent": 7.88,
+            "gainOneMonthDate": "Tue Apr 30 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "lossOneDayPercent": -1.49,
+            "lossOneDayDate": "Thu Apr 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "lossOneWeekPercent": -6.91,
+            "lossOneWeekDate": "Fri May 31 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "lossOneMonthPercent": -7.07,
+            "lossOneMonthDate": "Tue Apr 30 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+        },
+        {
+            "indexName": "Agriculture",
+            "quarterHighVal": 6507221,
+            "quarterHighDate": "Thu Apr 18 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "quarterLowVal": 6507221,
+            "quarterLowDate": "Fri May 17 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "quarterCloseVal": 6507221,
+            "quarterCloseDate": "Fri Jun 28 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "ytdChangeVal": 164131,
+            "ytdChangePercent": 2.65,
+            "qoqChangeVal": 559392,
+            "qoqChangePercent": 9.65,
+            "gainOneDayPercent": 9.92,
+            "gainOneDayDate": "Thu Apr 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "gainOneWeekPercent": 2.51,
+            "gainOneWeekDate": "Fri May 31 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "gainOneMonthPercent": 7.88,
+            "gainOneMonthDate": "Tue Apr 30 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "lossOneDayPercent": -1.49,
+            "lossOneDayDate": "Thu Apr 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "lossOneWeekPercent": -6.91,
+            "lossOneWeekDate": "Fri May 31 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "lossOneMonthPercent": -7.07,
+            "lossOneMonthDate": "Tue Apr 30 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "mostCloseValue": [
+                "gainOneDay",
+                "lossOneWeek",
+                "lossOneMonth"
+            ]
+        },
+        {
+            "indexName": "Mining",
+            "quarterHighVal": 6507221,
+            "quarterHighDate": "Thu Apr 18 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "quarterLowVal": 6507221,
+            "quarterLowDate": "Fri May 17 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "quarterCloseVal": 6507221,
+            "quarterCloseDate": "Fri Jun 28 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "ytdChangeVal": 164131,
+            "ytdChangePercent": 2.65,
+            "qoqChangeVal": 559392,
+            "qoqChangePercent": 9.65,
+            "gainOneDayPercent": 9.92,
+            "gainOneDayDate": "Thu Apr 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "gainOneWeekPercent": 2.51,
+            "gainOneWeekDate": "Fri May 31 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "gainOneMonthPercent": 7.88,
+            "gainOneMonthDate": "Tue Apr 30 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "lossOneDayPercent": -1.49,
+            "lossOneDayDate": "Thu Apr 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "lossOneWeekPercent": -6.91,
+            "lossOneWeekDate": "Fri May 31 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "lossOneMonthPercent": -7.07,
+            "lossOneMonthDate": "Tue Apr 30 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "mostCloseValue": "lossOneMonth"
+        },
+        {
+            "indexName": "Property, RE & Bld. Construction",
+            "quarterHighVal": 6507221,
+            "quarterHighDate": "Thu Apr 18 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "quarterLowVal": 6507221,
+            "quarterLowDate": "Fri May 17 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "quarterCloseVal": 6507221,
+            "quarterCloseDate": "Fri Jun 28 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "ytdChangeVal": 164131,
+            "ytdChangePercent": 2.65,
+            "qoqChangeVal": 559392,
+            "qoqChangePercent": 9.65,
+            "gainOneDayPercent": 9.92,
+            "gainOneDayDate": "Thu Apr 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "gainOneWeekPercent": 2.51,
+            "gainOneWeekDate": "Mon Jun 03 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "gainOneMonthPercent": 7.88,
+            "gainOneMonthDate": "Tue Apr 30 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "lossOneDayPercent": -1.49,
+            "lossOneDayDate": "Thu Apr 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "lossOneWeekPercent": -6.91,
+            "lossOneWeekDate": "Fri May 31 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "lossOneMonthPercent": -7.07,
+            "lossOneMonthDate": "Tue Apr 30 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "mostCloseValue": "gainOneWeek"
+        }
+    ],
+    "columns": [
+        {
+            "columnName": "indexName",
+            "decimal": 0,
+            "format": false,
+            "className": "text-left"
+        },
+        {
+            "columnName": "quarterHigh",
+            "decimal": 0,
+            "format": "nesting",
+            "nesting": [
+                {
+                    "columnName": "quarterHighVal",
+                    "format": true
+                },
+                {
+                    "columnName": "quarterHighDate",
+                    "format": "monthDay"
+                }
+            ],
+            "className": "nowrap"
+        },
+        {
+            "columnName": "quarterLow",
+            "decimal": 0,
+            "format": "nesting",
+            "nesting": [
+                {
+                    "columnName": "quarterLowVal",
+                    "format": true
+                },
+                {
+                    "columnName": "quarterLowDate",
+                    "format": "monthDay"
+                }
+            ],
+            "className": "nowrap"
+        },
+        {
+            "columnName": "quarterClose",
+            "decimal": 0,
+            "format": "nesting",
+            "nesting": [
+                {
+                    "columnName": "quarterCloseVal",
+                    "format": true
+                },
+                {
+                    "columnName": "quarterCloseDate",
+                    "format": "monthDay"
+                }
+            ],
+            "className": "nowrap"
+        },
+        {
+            "columnName": "ytdChange",
+            "decimal": 0,
+            "format": "nesting",
+            "nesting": [
+                {
+                    "columnName": "ytdChangeVal",
+                    "format": true
+                },
+                {
+                    "columnName": "ytdChangePercent",
+                    "format": "percent"
+                }
+            ],
+            "className": ""
+        },
+        {
+            "columnName": "qoqChange",
+            "decimal": 0,
+            "format": "nesting",
+            "nesting": [
+                {
+                    "columnName": "qoqChangeVal",
+                    "format": true
+                },
+                {
+                    "columnName": "qoqChangePercent",
+                    "format": "percent"
+                }
+            ],
+            "className": ""
+        },
+        {
+            "columnName": "gainOneDay",
+            "decimal": 0,
+            "format": "nesting",
+            "nesting": [
+                {
+                    "columnName": "gainOneDayPercent",
+                    "format": "percent"
+                },
+                {
+                    "columnName": "gainOneDayDate",
+                    "format": "monthDay"
+                }
+            ],
+            "className": "bg-increased nowrap"
+        },
+        {
+            "columnName": "gainOneWeek",
+            "decimal": 0,
+            "format": "nesting",
+            "nesting": [
+                {
+                    "columnName": "gainOneWeekPercent",
+                    "format": "percent"
+                },
+                {
+                    "columnName": "gainOneWeekDate",
+                    "format": "monthDay"
+                }
+            ],
+            "className": "bg-increased nowrap"
+        },
+        {
+            "columnName": "gainOneMonth",
+            "decimal": 0,
+            "format": "nesting",
+            "nesting": [
+                {
+                    "columnName": "gainOneMonthPercent",
+                    "format": "percent"
+                },
+                {
+                    "columnName": "gainOneMonthDate",
+                    "format": "monthDay"
+                }
+            ],
+            "className": "bg-increased nowrap"
+        },
+        {
+            "columnName": null,
+            "decimal": 0,
+            "format": false,
+            "className": ""
+        },
+        {
+            "columnName": "lossOneDay",
+            "decimal": 0,
+            "format": "nesting",
+            "nesting": [
+                {
+                    "columnName": "lossOneDayPercent",
+                    "format": "percent"
+                },
+                {
+                    "columnName": "lossOneDayDate",
+                    "format": "monthDay"
+                }
+            ],
+            "className": "bg-decreased nowrap"
+        },
+        {
+            "columnName": "lossOneWeek",
+            "decimal": 0,
+            "format": "nesting",
+            "nesting": [
+                {
+                    "columnName": "lossOneWeekPercent",
+                    "format": "percent"
+                },
+                {
+                    "columnName": "lossOneWeekDate",
+                    "format": "monthDay"
+                }
+            ],
+            "className": "bg-decreased nowrap"
+        },
+        {
+            "columnName": "lossOneMonth",
+            "decimal": 0,
+            "format": "nesting",
+            "nesting": [
+                {
+                    "columnName": "lossOneMonthPercent",
+                    "format": "percent"
+                },
+                {
+                    "columnName": "lossOneMonthDate",
+                    "format": "monthDay"
+                }
+            ],
+            "className": "bg-decreased nowrap"
+        }
+    ]
+}

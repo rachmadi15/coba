@@ -1,0 +1,10 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    var IsDPS = Model.Content.AncestorOrSelf("dpsHome") != null || Model.Content.AncestorOrSelf("statisticDigital") != null;
+}
+
+@if (IsDPS)
+{
+    <link rel="stylesheet" href="/assets/css/statistic.css" />
+    <script src="/assets/js/vendor/jquery.dataTables.min.js"></script>
+}

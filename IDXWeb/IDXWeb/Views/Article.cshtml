@@ -1,0 +1,56 @@
+﻿@inherits UmbracoTemplatePage
+@{
+	Layout = "Master.cshtml";
+}
+<main class="sticky-footer-container-item --pushed">
+        <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                if (page.Name != "Supporting Menu"){
+                    var cls = page.Id == CurrentPage.Id ? "current" : "";
+                    if (page.DocumentTypeId != 1237){
+                        <li class="@cls"><a href="@page.Url">@page.Name</a></li>
+                    } else {
+                        <li class="@cls"><a href="" class="disable"><span>@page.Name</span></a></li>
+                    }
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@CurrentPage.Name</h1>
+        </div>
+            <figure class="banner-wide-container">
+                @{
+                    var imageProperty = Model.Content.GetPropertyValue("articleImage");
+                    if (imageProperty != null)
+                    {
+                        var articleImage = Umbraco.Media(imageProperty.ToString());
+                        if (articleImage != null)
+                        {
+                            if(articleImage.Url != null){
+                            
+                                var imageUrl = articleImage.Url;
+    
+                                <img src="@imageUrl" alt="" class="banner-wide-img">
+                            }
+                        }
+                    }
+                }
+            </figure>
+        <div class="table-default-container article-container-default">
+            @Umbraco.TypedContent(CurrentPage.Id).Content
+        </div>
+    </div>
+</main>

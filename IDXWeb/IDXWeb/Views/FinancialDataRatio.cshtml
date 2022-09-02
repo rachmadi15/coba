@@ -1,0 +1,235 @@
+﻿@using System.Configuration
+@using IDXWeb.Models;
+@using Newtonsoft.Json;
+@using System.IO;
+
+
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+    var Sectors = new string[] {
+"Agriculture",
+"Mining",
+"Basic Industry and Chemicals",
+"Miscellaneous Industry",
+"Consumer Goods Industry",
+"Property, Real Estate and Construction",
+"Infrastructure, Utilities and Transportation",
+"Finance",
+"Trade, Services & Investment"
+};
+
+    var SubSectors = new string[] {
+"Crops",
+"Coal Mining",
+"Cement",
+"Footwear",
+"Housewear",
+"Building Construction",
+"Energy",
+"Insurance",
+"Healthcare"
+};
+    var counterSector = 1;
+    var counterSubSector = 1;
+}
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                <li class="@cls"><a href="@page.Url">@page.Name.ToLower()</a></li>
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">Statistik</h1>
+        </div>
+        <div class="content-tab-container block content-tab-container--center">
+            <div class="content-tab-item">
+                <a href="#monthly" class="content-tab-anchor statistic-tab-js is-active">Monthly</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#quarterly" class="content-tab-anchor statistic-tab-js">Quarterly</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#yearly" class="content-tab-anchor statistic-tab-js">Yearly</a>
+            </div>
+        </div>
+    </div>
+    <div class="statistic-main-content">
+        <div class="statistic-container is-active" id="monthly">
+            <div class="background-light-grey content-push">
+                <div class="container mb-16">
+                    <div class="statistic--title-area mb-20">
+                        <h2 class="mb-0">Summary Financial Ratio by Industry</h2>
+                        <div class="download-toggle-area">
+                            <button class="btn btn-primary download-toggle is-active" type="button" data-toggle="#searchList">
+                                Download
+                                <i class="fa fa-caret-down ml-8"></i>
+                                <ul class="download-list full-width" id="searchList">
+                                    <li><a href="#">PDF</a></li>
+                                    <li><a href="#">Excel</a></li>
+                                </ul>
+                            </button>
+                        </div>
+                    </div>
+                    <form class="report-search" action="">
+                        <div class="report-search-main">
+                            <i class="fa fa-search red fa-lg"></i>
+                            <input class="form-input" type="text" placeholder="Search this report">
+                            <button class="toggle-options btn btn-primary" type="button">
+                                <i class="fa fa-ellipsis-v fa-lg"></i>
+                            </button>
+                        </div>
+                        <div class="report-search-options">
+                            <div class="bzg">
+                                <div class="bzg_c" data-col="s4">
+                                    Sector:
+                                </div>
+                                <div class="bzg_c relative-toggle" data-col="s8,m6,l8">
+                                    <input type="text" readonly class="form-input form-dropdown" data-toggle="#sectorList" value="All Sectors">
+                                    <ul class="form-dropdown__list" id="sectorList">
+                                        <li><input type="checkbox" class="select-all" id="sector0" checked value="All Sectors"> <label for="sector0">All Sectors</label></li>
+                                        @foreach (var item in Sectors)
+                                        {
+                                            <li><input type="checkbox" id="sector@(counterSector)" checked value="@item"> <label for="sector@(counterSector)">@item</label></li>
+                                            counterSector++;
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="bzg">
+                                <div class="bzg_c" data-col="s4">
+                                    Sub Sector:
+                                </div>
+                                <div class="bzg_c relative-toggle" data-col="s8,m6,l8">
+                                    <input type="text" readonly class="form-input form-dropdown" data-toggle="#subSectorList" value="All Sub Sectors">
+                                    <ul class="form-dropdown__list" id="subSectorList">
+                                        <li><input type="checkbox" class="select-all" id="subSector0" checked value="All Sub Sectors"> <label for="subSector0">All Sub Sectors</label></li>
+                                        @foreach (var item in SubSectors)
+                                        {
+                                            <li><input type="checkbox" id="subSector@(counterSubSector)" checked value="@item"> <label for="subSector@(counterSubSector)">@item</label></li>
+                                            counterSubSector++;
+                                         }
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="bzg">
+                                <div class="bzg_c" data-col="s4">
+                                    Month:
+                                </div>
+                                <div class="bzg_c" data-col="s8,m6,l8">
+                                    <select class="form-input form-input--block" name="" id="">
+                                        <option value="">January</option>
+                                        <option value="">February</option>
+                                        <option value="">March</option>
+                                        <option value="">April</option>
+                                        <option value="">May</option>
+                                        <option value="">June</option>
+                                        <option value="">July</option>
+                                        <option value="">August</option>
+                                        <option value="">September</option>
+                                        <option value="">October</option>
+                                        <option value="">November</option>
+                                        <option value="">December</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="bzg">
+                                <div class="bzg_c" data-col="s4">
+                                    Year:
+                                </div>
+                                <div class="bzg_c" data-col="s8,m6,l8">
+                                    <select class="form-input form-input--block" name="" id="">
+                                        <option value="">2019</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="bzg">
+                                <div class="bzg_c">
+                                    <button class="btn btn-primary">
+                                        <i class="fa fa-filter mr-8"></i>
+                                        Filter
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="background-white content-push">
+                <div class="container mb-16">
+                    <div class="mb-16">
+                        <table class="statistic-table js-datatable" data-json="@Url.Action("GetApiData", "DigitalStatitic",new { urlName = "LINK_FINANCIAL_DATA_RATIO" })">
+                            <thead class="thead-plain">
+                                <tr>
+                                    <th rowspan="2">Sector</th>
+                                    <th rowspan="2">Sub Sector</th>
+                                    <th rowspan="2">Listed Stocks</th>
+                                    <th rowspan="2">Sharia</th>
+                                    <th rowspan="2">FS Date</th>
+                                    <th class="wide" rowspan="2">Fiscal Year End</th>
+                                    <th class="short" colspan="5">billion IDR</th>
+                                    <th class="wide" rowspan="2">Profit for the Period</th>
+                                    <th class="wide" rowspan="2">Profit attr. to owner's</th>
+                                    <th class="short" colspan="8">Annual</th>
+                                </tr>
+                                <tr>
+                                    <th class="short nowrap">Assets</th>
+                                    <th class="short nowrap">Liabilities</th>
+                                    <th class="short nowrap">Equity</th>
+                                    <th class="short nowrap">Sales</th>
+                                    <th class="short nowrap">EBT</th>
+                                    <th class="short nowrap">EPS<br>IDR</th>
+                                    <th class="short nowrap">Book Value,<br>IDR</th>
+                                    <th class="short nowrap">P/E Ratio,<br>X</th>
+                                    <th class="short nowrap">Price to BV,<br>X</th>
+                                    <th class="short nowrap">D/E Ratio,<br>X</th>
+                                    <th class="short nowrap">ROA,<br>%</th>
+                                    <th class="short nowrap">ROE,<br>%</th>
+                                    <th class="short nowrap">NPM,<br>%</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                    <div class="bzg bzg--no-gutter">
+                        <div class="bzg_c" data-col="l6">
+                            <p class="text-bold mb-8">Note:</p>
+                            <p class="mb-0">*)  These companies are excluded from the average PER computation</p>
+                            <p class="mb-16">**) These companies with negative equities are not computed for ROE</p>
+                        </div>
+                        <div class="bzg_c" data-col="s10,l4" data-offset="l2">
+                            <div class="bzg">
+                                <div class="bzg_c" data-col="s8">Average PER</div>
+                                <div class="bzg_c" data-col="s4">: 17.21</div>
+                                <div class="bzg_c" data-col="s8">Weighted Average PER</div>
+                                <div class="bzg_c" data-col="s4">: 17.42</div>
+                                <div class="bzg_c" data-col="s8">Average PBV</div>
+                                <div class="bzg_c" data-col="s4">: 17.42</div>
+                                <div class="bzg_c" data-col="s8">Weighted Average PBV</div>
+                                <div class="bzg_c" data-col="s4">: 17.42</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<?php include $path.'_partials/statistic-quarterly.php'; ?>
+            <?php include $path.'_partials/statistic-yearly.php'; ?>*@
+    </div>
+</main>
+
+

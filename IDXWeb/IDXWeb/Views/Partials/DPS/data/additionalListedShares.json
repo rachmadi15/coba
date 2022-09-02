@@ -1,0 +1,510 @@
+{
+  "data": [
+    {
+      "code": "ALDO",
+      "stockName": "Alkindo Naratama Tbk.",
+      "sharesNum": 226717431,
+      "listingType": "Right Issue",
+      "listingDate": "Mon Mar 04 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Mon Mar 04 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": null
+    },
+    {
+      "code": "BALI",
+      "stockName": "Bali Towerindo Sentra Tbk.",
+      "sharesNum": 201661300,
+      "listingType": "Warrant I",
+      "listingDate": "Thu Mar 14 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Mon Mar 18 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": null
+    },
+    {
+      "code": "BBYB",
+      "stockName": "Bank Yudha Bhakti Tbk.",
+      "sharesNum": 469591963,
+      "listingType": "Add. List. without RI",
+      "listingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": [
+        {
+          "sharesNum": 12354966,
+          "listingType": "Unlisted Shares",
+          "listingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+          "tradingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+        }
+      ]
+    },
+    {
+      "code": "BJTM",
+      "stockName": "BPD Jawa Timur Tbk.",
+      "sharesNum": 958600,
+      "listingType": "MESPOP II & III",
+      "listingDate": "Fri Mar 08 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Fri Mar 08 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": [
+        {
+          "sharesNum": 6717400,
+          "listingType": "MESPOP III",
+          "listingDate": "Fri Mar 01 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+          "tradingDate": "Wed Mar 20 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+        }
+      ]
+    },
+    {
+      "code": "ALDO",
+      "stockName": "Alkindo Naratama Tbk.",
+      "sharesNum": 226717431,
+      "listingType": "Right Issue",
+      "listingDate": "Mon Mar 04 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Mon Mar 04 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": null
+    },
+    {
+      "code": "BALI",
+      "stockName": "Bali Towerindo Sentra Tbk.",
+      "sharesNum": 201661300,
+      "listingType": "Warrant I",
+      "listingDate": "Thu Mar 14 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Mon Mar 18 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": null
+    },
+    {
+      "code": "BBYB",
+      "stockName": "Bank Yudha Bhakti Tbk.",
+      "sharesNum": 469591963,
+      "listingType": "Add. List. without RI",
+      "listingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": [
+        {
+          "sharesNum": 12354966,
+          "listingType": "Unlisted Shares",
+          "listingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+          "tradingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+        }
+      ]
+    },
+    {
+      "code": "BJTM",
+      "stockName": "BPD Jawa Timur Tbk.",
+      "sharesNum": 958600,
+      "listingType": "MESPOP II & III",
+      "listingDate": "Fri Mar 08 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Fri Mar 08 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": [
+        {
+          "sharesNum": 6717400,
+          "listingType": "MESPOP III",
+          "listingDate": "Fri Mar 01 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+          "tradingDate": "Wed Mar 20 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+        }
+      ]
+    },
+    {
+      "code": "ALDO",
+      "stockName": "Alkindo Naratama Tbk.",
+      "sharesNum": 226717431,
+      "listingType": "Right Issue",
+      "listingDate": "Mon Mar 04 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Mon Mar 04 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": null
+    },
+    {
+      "code": "BALI",
+      "stockName": "Bali Towerindo Sentra Tbk.",
+      "sharesNum": 201661300,
+      "listingType": "Warrant I",
+      "listingDate": "Thu Mar 14 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Mon Mar 18 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": null
+    },
+    {
+      "code": "BBYB",
+      "stockName": "Bank Yudha Bhakti Tbk.",
+      "sharesNum": 469591963,
+      "listingType": "Add. List. without RI",
+      "listingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": [
+        {
+          "sharesNum": 12354966,
+          "listingType": "Unlisted Shares",
+          "listingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+          "tradingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+        }
+      ]
+    },
+    {
+      "code": "BJTM",
+      "stockName": "BPD Jawa Timur Tbk.",
+      "sharesNum": 958600,
+      "listingType": "MESPOP II & III",
+      "listingDate": "Fri Mar 08 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Fri Mar 08 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": [
+        {
+          "sharesNum": 6717400,
+          "listingType": "MESPOP III",
+          "listingDate": "Fri Mar 01 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+          "tradingDate": "Wed Mar 20 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+        }
+      ]
+    },
+    {
+      "code": "ALDO",
+      "stockName": "Alkindo Naratama Tbk.",
+      "sharesNum": 226717431,
+      "listingType": "Right Issue",
+      "listingDate": "Mon Mar 04 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Mon Mar 04 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": null
+    },
+    {
+      "code": "BALI",
+      "stockName": "Bali Towerindo Sentra Tbk.",
+      "sharesNum": 201661300,
+      "listingType": "Warrant I",
+      "listingDate": "Thu Mar 14 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Mon Mar 18 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": null
+    },
+    {
+      "code": "BBYB",
+      "stockName": "Bank Yudha Bhakti Tbk.",
+      "sharesNum": 469591963,
+      "listingType": "Add. List. without RI",
+      "listingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": [
+        {
+          "sharesNum": 12354966,
+          "listingType": "Unlisted Shares",
+          "listingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+          "tradingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+        }
+      ]
+    },
+    {
+      "code": "BJTM",
+      "stockName": "BPD Jawa Timur Tbk.",
+      "sharesNum": 958600,
+      "listingType": "MESPOP II & III",
+      "listingDate": "Fri Mar 08 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Fri Mar 08 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": [
+        {
+          "sharesNum": 6717400,
+          "listingType": "MESPOP III",
+          "listingDate": "Fri Mar 01 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+          "tradingDate": "Wed Mar 20 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+        }
+      ]
+    },
+    {
+      "code": "ALDO",
+      "stockName": "Alkindo Naratama Tbk.",
+      "sharesNum": 226717431,
+      "listingType": "Right Issue",
+      "listingDate": "Mon Mar 04 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Mon Mar 04 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": null
+    },
+    {
+      "code": "BALI",
+      "stockName": "Bali Towerindo Sentra Tbk.",
+      "sharesNum": 201661300,
+      "listingType": "Warrant I",
+      "listingDate": "Thu Mar 14 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Mon Mar 18 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": null
+    },
+    {
+      "code": "BBYB",
+      "stockName": "Bank Yudha Bhakti Tbk.",
+      "sharesNum": 469591963,
+      "listingType": "Add. List. without RI",
+      "listingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": [
+        {
+          "sharesNum": 12354966,
+          "listingType": "Unlisted Shares",
+          "listingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+          "tradingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+        }
+      ]
+    },
+    {
+      "code": "BJTM",
+      "stockName": "BPD Jawa Timur Tbk.",
+      "sharesNum": 958600,
+      "listingType": "MESPOP II & III",
+      "listingDate": "Fri Mar 08 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Fri Mar 08 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": [
+        {
+          "sharesNum": 6717400,
+          "listingType": "MESPOP III",
+          "listingDate": "Fri Mar 01 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+          "tradingDate": "Wed Mar 20 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+        }
+      ]
+    },
+    {
+      "code": "ALDO",
+      "stockName": "Alkindo Naratama Tbk.",
+      "sharesNum": 226717431,
+      "listingType": "Right Issue",
+      "listingDate": "Mon Mar 04 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Mon Mar 04 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": null
+    },
+    {
+      "code": "BALI",
+      "stockName": "Bali Towerindo Sentra Tbk.",
+      "sharesNum": 201661300,
+      "listingType": "Warrant I",
+      "listingDate": "Thu Mar 14 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Mon Mar 18 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": null
+    },
+    {
+      "code": "BBYB",
+      "stockName": "Bank Yudha Bhakti Tbk.",
+      "sharesNum": 469591963,
+      "listingType": "Add. List. without RI",
+      "listingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": [
+        {
+          "sharesNum": 12354966,
+          "listingType": "Unlisted Shares",
+          "listingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+          "tradingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+        }
+      ]
+    },
+    {
+      "code": "BJTM",
+      "stockName": "BPD Jawa Timur Tbk.",
+      "sharesNum": 958600,
+      "listingType": "MESPOP II & III",
+      "listingDate": "Fri Mar 08 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Fri Mar 08 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": [
+        {
+          "sharesNum": 6717400,
+          "listingType": "MESPOP III",
+          "listingDate": "Fri Mar 01 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+          "tradingDate": "Wed Mar 20 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+        }
+      ]
+    },
+    {
+      "code": "ALDO",
+      "stockName": "Alkindo Naratama Tbk.",
+      "sharesNum": 226717431,
+      "listingType": "Right Issue",
+      "listingDate": "Mon Mar 04 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Mon Mar 04 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": null
+    },
+    {
+      "code": "BALI",
+      "stockName": "Bali Towerindo Sentra Tbk.",
+      "sharesNum": 201661300,
+      "listingType": "Warrant I",
+      "listingDate": "Thu Mar 14 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Mon Mar 18 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": null
+    },
+    {
+      "code": "BBYB",
+      "stockName": "Bank Yudha Bhakti Tbk.",
+      "sharesNum": 469591963,
+      "listingType": "Add. List. without RI",
+      "listingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": [
+        {
+          "sharesNum": 12354966,
+          "listingType": "Unlisted Shares",
+          "listingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+          "tradingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+        }
+      ]
+    },
+    {
+      "code": "BJTM",
+      "stockName": "BPD Jawa Timur Tbk.",
+      "sharesNum": 958600,
+      "listingType": "MESPOP II & III",
+      "listingDate": "Fri Mar 08 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Fri Mar 08 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": [
+        {
+          "sharesNum": 6717400,
+          "listingType": "MESPOP III",
+          "listingDate": "Fri Mar 01 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+          "tradingDate": "Wed Mar 20 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+        }
+      ]
+    },
+    {
+      "code": "ALDO",
+      "stockName": "Alkindo Naratama Tbk.",
+      "sharesNum": 226717431,
+      "listingType": "Right Issue",
+      "listingDate": "Mon Mar 04 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Mon Mar 04 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": null
+    },
+    {
+      "code": "BALI",
+      "stockName": "Bali Towerindo Sentra Tbk.",
+      "sharesNum": 201661300,
+      "listingType": "Warrant I",
+      "listingDate": "Thu Mar 14 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Mon Mar 18 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": null
+    },
+    {
+      "code": "BBYB",
+      "stockName": "Bank Yudha Bhakti Tbk.",
+      "sharesNum": 469591963,
+      "listingType": "Add. List. without RI",
+      "listingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": [
+        {
+          "sharesNum": 12354966,
+          "listingType": "Unlisted Shares",
+          "listingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+          "tradingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+        }
+      ]
+    },
+    {
+      "code": "BJTM",
+      "stockName": "BPD Jawa Timur Tbk.",
+      "sharesNum": 958600,
+      "listingType": "MESPOP II & III",
+      "listingDate": "Fri Mar 08 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Fri Mar 08 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": [
+        {
+          "sharesNum": 6717400,
+          "listingType": "MESPOP III",
+          "listingDate": "Fri Mar 01 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+          "tradingDate": "Wed Mar 20 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+        }
+      ]
+    },
+    {
+      "code": "ALDO",
+      "stockName": "Alkindo Naratama Tbk.",
+      "sharesNum": 226717431,
+      "listingType": "Right Issue",
+      "listingDate": "Mon Mar 04 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Mon Mar 04 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": null
+    },
+    {
+      "code": "BALI",
+      "stockName": "Bali Towerindo Sentra Tbk.",
+      "sharesNum": 201661300,
+      "listingType": "Warrant I",
+      "listingDate": "Thu Mar 14 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Mon Mar 18 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": null
+    },
+    {
+      "code": "BBYB",
+      "stockName": "Bank Yudha Bhakti Tbk.",
+      "sharesNum": 469591963,
+      "listingType": "Add. List. without RI",
+      "listingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": [
+        {
+          "sharesNum": 12354966,
+          "listingType": "Unlisted Shares",
+          "listingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+          "tradingDate": "Mon Mar 25 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+        }
+      ]
+    },
+    {
+      "code": "BJTM",
+      "stockName": "BPD Jawa Timur Tbk.",
+      "sharesNum": 958600,
+      "listingType": "MESPOP II & III",
+      "listingDate": "Fri Mar 08 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "tradingDate": "Fri Mar 08 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "childRows": [
+        {
+          "sharesNum": 6717400,
+          "listingType": "MESPOP III",
+          "listingDate": "Fri Mar 01 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+          "tradingDate": "Wed Mar 20 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+        }
+      ]
+    }
+  ],
+    "columns": [
+        {
+            "columnName": "count",
+            "decimal": 0,
+            "format": "count",
+            "className": "text-center"
+        },
+        {
+            "columnName": "code",
+            "decimal": 0,
+            "format": false,
+            "className": ""
+        },
+        {
+            "columnName": "stockName",
+            "decimal": 0,
+            "format": false,
+            "className": "nowrap"
+        },
+        {
+            "columnName": "sharesNum",
+            "decimal": 0,
+            "format": true,
+            "className": "text-right"
+        },
+        {
+            "columnName": "listingType",
+            "decimal": 0,
+            "format": false,
+            "className": "nowrap"
+        },
+        {
+            "columnName": null,
+            "decimal": 0,
+            "format": "timeFrom",
+            "className": "nowrap"
+        },
+        {
+            "columnName": "listingDate",
+            "decimal": 0,
+            "format": "fullDate",
+            "className": "text-center nowrap"
+        },
+        {
+            "columnName": null,
+            "decimal": 0,
+            "format": "timeTo",
+            "className": "text-center"
+        },
+        {
+            "columnName": "tradingDate",
+            "decimal": 0,
+            "format": "fullDate",
+            "className": "text-center nowrap"
+        }
+    ]
+}

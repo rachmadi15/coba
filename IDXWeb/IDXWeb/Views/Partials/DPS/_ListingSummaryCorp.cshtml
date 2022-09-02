@@ -1,0 +1,82 @@
+﻿@using System.Text
+@using Newtonsoft.Json
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    var query = Request.QueryString["q"];
+    byte[] queryBase64 = Convert.FromBase64String(query);
+    string queryJson = Encoding.UTF8.GetString(queryBase64);
+    dynamic querys = JsonConvert.DeserializeObject<dynamic>(queryJson);
+}
+@if (querys.type == "monthly")
+{
+    <thead class="thead-plain">
+        <tr>
+            <th rowspan="2">No.</th>
+            <th rowspan="2">Type</th>
+            <th class="short nowrap" colspan="3">Number of</th>
+            <th rowspan="2"></th>
+            <th class="short nowrap" colspan="2">Outstanding</th>
+            <th rowspan="2"></th>
+            <th class="short nowrap" colspan="4">Trading</th>
+        </tr>
+        <tr>
+            <th class="short nowrap">Issuer</th>
+            <th class="short nowrap sum">Issues</th>
+            <th class="short nowrap sum">Series</th>
+            <th class="short nowrap sum">b. IDR</th>
+            <th class="short nowrap sum">m. USD</th>
+            <th class="short nowrap sum">Vol., b. IDR</th>
+            <th class="short nowrap sum">Freq.</th>
+            <th class="short nowrap sum">Vol., m. USD</th>
+            <th class="short nowrap sum">Freq.</th>
+        </tr>
+    </thead>
+}
+else
+{
+
+    <thead class="thead-plain">
+        <tr>
+            <th rowspan="3">No.</th>
+            <th rowspan="3">Type</th>
+            <th class="short nowrap" colspan="3" rowspan="2">Number of</th>
+            <th rowspan="3"></th>
+            <th class="short nowrap" colspan="2" rowspan="2">Outstanding</th>
+            <th rowspan="3"></th>
+            <th class="short nowrap" colspan="9">Total Trading</th>
+        </tr>
+        <tr>
+            <th class="short nowrap" colspan="4" id="header-1"></th>
+            <th rowspan="2"></th>
+            <th class="short nowrap" colspan="4" id="header-2"></th>
+        </tr>
+        <tr>
+            <th class="short nowrap sum">Issuer</th>
+            <th class="short nowrap sum">Issues</th>
+            <th class="short nowrap sum">Series</th>
+            <th class="short nowrap sum">b. IDR</th>
+            <th class="short nowrap sum">m. USD</th>
+            <th class="short nowrap sum">Vol., b. IDR</th>
+            <th class="short nowrap sum">Freq., x</th>
+            <th class="short nowrap sum">Vol., m. USD</th>
+            <th class="short nowrap sum">Freq.</th>
+            <th class="short nowrap sum">Vol., b. IDR</th>
+            <th class="short nowrap sum">Freq.</th>
+            <th class="short nowrap sum">Vol., m. USD</th>
+            <th class="short nowrap sum">Freq.</th>
+        </tr>
+    </thead>
+    <script type="text/javascript">
+        function setDataTableHeader() {
+        
+            var year = $('#filterYear').val();
+            var quarter = $('#filterQuarter').val();
+            header1 = "Q"+ quarter + " " + year;
+            header2 = "Q1-Q"+ quarter + " " + year;
+
+            document.getElementById("header-1").innerHTML = header1;
+            document.getElementById("header-2").innerHTML = header2;
+
+        }
+    </script>
+}

@@ -1,0 +1,182 @@
+﻿@using System.Configuration
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+	Layout = "Master.cshtml";
+}
+
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (!page.Name.Contains("Detail")){
+                    if (page.DocumentTypeId != 1237){
+                        <li class="@cls"><a href="@page.Url">@page.Name</a></li>                    
+                    } else {
+                        <li class="@cls"><a href="" class="disable"><span>@page.Name</span></a></li>
+                    }
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+        </div>
+        <div class="company-profile-header">
+            <div class="company-profile-name">
+                <img id="emitenLogo" src="" alt="">
+                <span id="emitenName"></span>
+            </div>
+            <div class="company-profile-list">
+                <div>
+                    <label for="" class="form-label">@Umbraco.GetDictionaryValue("choose name")</label>
+                    <select name="" id="brokerList" class="form-option">
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main-content content-push">
+        <div class="container">
+            <div class="company-profile-content is-active" id="general">
+                <dl class="financial-report-list --big cf block-double">
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("code") PJ SPPA</dt>
+                    <dd class="financial-report-description"><span id="frCode"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("office address")</dt>
+                    <dd class="financial-report-description"><span id="frAddress"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("city")</dt>
+                    <dd class="financial-report-description"><span id="frCity"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("postal code")</dt>
+                    <dd class="financial-report-description"><span id="frPostalCode"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("phone number")</dt>
+                    <dd class="financial-report-description"><span id="frTelephone"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("fax")</dt>
+                    <dd class="financial-report-description"><span id="frFax"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("situs")</dt>
+                    <dd class="financial-report-description"><a id="frWebsite" href="" target="_blank"></a></dd>
+                    <dt class="financial-report-title">E-mail</dt>
+                    <dd class="financial-report-description"><span id="frEmail"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("SPPA - Nomor SPPJ_SPPA")</dt>
+                    <dd class="financial-report-description"><span id="frStdp">-</span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("user")</dt>
+                    <dd class="financial-report-description"><span id="frUser"></span></dd>
+                </dl>
+            </div>
+        </div>        
+    </div>
+</main>
+
+@section Scripts{
+    <script type="text/javascript">
+
+        $(function () {
+            getEmitenType();
+            getCompanyProfile();
+
+            var currentYear = moment().format('YYYY');
+
+            $('#mkbdFirstYear').text(currentYear);
+            $('#mkbdSecondYear').text(currentYear - 1);
+            $('#mkbdThirdYear').text(currentYear - 2);
+
+            $('#totalFirstYear').text(currentYear);
+            $('#totalSecondYear').text(currentYear - 1);
+            $('#totalThirdYear').text(currentYear - 2);
+
+            for (var i = 0; i < @ConfigurationManager.AppSettings["maxYear"]; i++) {
+                $('#yearList').append('<option value="' + (currentYear - i) + '">' + (currentYear - i) + '</option>');
+            }
+        });
+
+        function getParams(sParam){
+            var sPageURL = window.location.search.substring(1);
+            var sURLVariables = sPageURL.split('&');
+            for (var i = 0; i < sURLVariables.length; i++) {
+                var sParameterName = sURLVariables[i].split('=');
+                if (sParameterName[0] == sParam) {
+                    return sParameterName[1];
+                }
+            }
+        }
+
+        function getEmitenType() {
+            $('#brokerList').select2({
+                ajax: {
+                    url: '@Url.Action("GetSPPAProfile", "NewsAnnouncement")',
+                    delay: 250,
+                    data: function (params) {
+                        var query = {
+                            start: params.page || 1,
+                            keyword: params.term
+                        }
+                        return query;
+                    },
+                    processResults: function (data, params) {
+                        params.page = params.page || 1;
+
+                        var select2Data = $.map(data.Results, function (obj) {
+                            obj.id = obj.Id;
+                            obj.text = obj.Code + " - " + obj.Name;
+
+                            return obj;
+                        });
+
+                        return {
+                            results: select2Data,
+                            pagination: {
+                              more: (params.page * 10) < data.recordsTotal
+                            }
+                        };
+                    },
+                    cache: true
+                },
+                width:'280px',
+                placeholder: '@Umbraco.GetDictionaryValue("choose name")',
+                templateResult: function (item) { return item.Name; },
+                templateSelection: function (item) { return item.Name; },
+            });
+
+            $('#brokerList').on('change', function (e) {
+                var url = document.URL.replace('id=' + getParams('id'), 'id=' + $(this).val());
+                window.location.href = url;
+            });
+        }
+
+        function getCompanyProfile(){
+            var id = getParams('id');    
+
+            $.get('@Url.Action("GetSPPAProfileDetail", "NewsAnnouncement")?id=' + id, function (result) {
+                if (result != null) {
+                    setProfiles(result.Results[0]);
+                }
+            });
+        }
+
+        function setProfiles(profiles){
+        console.log(profiles)
+            $('#emitenLogo').attr('src', profiles.ImageUrl);
+            $('#emitenName').text(profiles.Name);
+            $('#frCode').text(profiles.Code != null && profiles.Code.length > 0 ? profiles.Code : '-');
+            $('#frCity').text(profiles.City != null && profiles.City.length > 0 ? profiles.City : '-');
+            $('#frStdp').text(profiles.STDP != null && profiles.STDP.length > 0 ? profiles.STDP : '-');
+            $('#frUser').append(profiles.User != null && profiles.User.length > 0 ? profiles.User : '-');
+            $('#frAddress').text(profiles.Address != null && profiles.Address.length > 0 ? profiles.Address : '-');
+            $('#frTelephone').text(profiles.Phone != null && profiles.Phone.length > 0 ? profiles.Phone : '-');
+            $('#frFax').text(profiles.Fax != null && profiles.Fax.length > 0 ? profiles.Fax : '-');
+            $('#frEmail').text(profiles.Email != null && profiles.Email.length > 0 ? profiles.Email : '-');
+            $('#frWebsite').text(profiles.Website != null && profiles.Website.length > 0 ? profiles.Website : '-').attr('href', 'http://' + profiles.Website);
+            $('#frPostalCode').text(profiles.PostalCode != null && profiles.PostalCode.trim().length > 0 ? profiles.PostalCode : '-');
+        }
+    </script>
+}

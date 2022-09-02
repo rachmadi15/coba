@@ -1,0 +1,674 @@
+﻿@using System.Configuration
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+	Layout = "Master.cshtml";
+}
+
+@section Styles {
+    <link href="@Url.Content("/assets/css/vendor/datatables.min.css")" rel="stylesheet" type="text/css" />
+}
+
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (page.DocumentTypeId != 1237){
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>                    
+                } else {
+                    <li class="@cls"><a href="" class="disable"><span>@page.Name</span></li>
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+        </div>
+        <div class="content-tab-container block --center">
+            <div class="content-tab-item">
+                <a href="#ipo" class="content-tab-anchor exchange-trade-tab-js is-active">New Listing</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#delisting" class="content-tab-anchor exchange-trade-tab-js">Delisting</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#relisting" class="content-tab-anchor exchange-trade-tab-js">Relisting</a>
+            </div>
+        </div>
+    </div>
+    <div class="main-content content-push">
+        <div class="exchange-trade-container is-active" id="ipo">
+            <div class="container">
+                <div action="" class="">
+                    <div class="block-half flex v-center">
+                        <span class="form-label-financial-report">@Umbraco.GetDictionaryValue("Choose Year")</span>
+                        <select id="yearList" name="year" id="" class="form-input form-input--block select2-js">
+                        </select>
+                    </div>
+                    <div class="block-half flex v-center">
+                        <span class="form-label-financial-report">@Umbraco.GetDictionaryValue("Stock")</span>
+                        <div class="form-radio">
+                            <input type="radio" class="form-input-custom-bullet" id="ipoRb1" name="ipoRb" checked="checked" value="*">
+                            <label for="ipoRb1" class="">@Umbraco.GetDictionaryValue("All")</label>
+                        </div>
+                        <div class="form-radio">
+                            <input type="radio" class="form-input-custom-bullet" id="ipoRb2" name="ipoRb" value="s">
+                            <label for="ipoRb2" class="">@Umbraco.GetDictionaryValue("Stock")</label>
+                        </div>
+                        <div class="form-radio">
+                            <input type="radio" class="form-input-custom-bullet" id="ipoRb3" name="ipoRb" value="o">
+                            <label for="ipoRb3" class="">@Umbraco.GetDictionaryValue("Bonds")</label>
+                        </div>
+                        <div class="form-radio">
+                            <input type="radio" class="form-input-custom-bullet" id="ipoRb4" name="ipoRb" value="so">
+                            <label for="ipoRb4" class="">@Umbraco.GetDictionaryValue("Others")</label>
+                        </div>
+                    </div>
+                    <div class="block flex v-center">
+                        <span class="form-label-financial-report">&nbsp;</span>
+                        <button class="btn btn-primary" onclick="getIpo()">@Umbraco.GetDictionaryValue("search")</button>
+                    </div>
+                </div>
+            </div>
+            <div class="main-content content-push">
+                <div class="container">
+                	<div class="block">
+	                <p>@Umbraco.GetDictionaryValue("Search by code")</p>
+	                <div class="">
+	                    <a href="" class="btn btn-alphabet ipo-alphabet">A</a>
+	                    <a href="" class="btn btn-alphabet ipo-alphabet">B</a>
+	                    <a href="" class="btn btn-alphabet ipo-alphabet">C</a>
+	                    <a href="" class="btn btn-alphabet ipo-alphabet">D</a>
+	                    <a href="" class="btn btn-alphabet ipo-alphabet">E</a>
+	                    <a href="" class="btn btn-alphabet ipo-alphabet">F</a>
+	                    <a href="" class="btn btn-alphabet ipo-alphabet">G</a>
+	                    <a href="" class="btn btn-alphabet ipo-alphabet">H</a>
+	                    <a href="" class="btn btn-alphabet ipo-alphabet">I</a>
+	                    <a href="" class="btn btn-alphabet ipo-alphabet">J</a>
+	                    <a href="" class="btn btn-alphabet ipo-alphabet">K</a>
+	                    <a href="" class="btn btn-alphabet ipo-alphabet">L</a>
+	                    <a href="" class="btn btn-alphabet ipo-alphabet">M</a>
+	                    <a href="" class="btn btn-alphabet ipo-alphabet">N</a>
+	                    <a href="" class="btn btn-alphabet ipo-alphabet">O</a>
+	                    <a href="" class="btn btn-alphabet ipo-alphabet">P</a>
+	                    <a href="" class="btn btn-alphabet ipo-alphabet">Q</a>
+	                    <a href="" class="btn btn-alphabet ipo-alphabet">R</a>
+	                    <a href="" class="btn btn-alphabet ipo-alphabet">S</a>
+	                    <a href="" class="btn btn-alphabet ipo-alphabet">T</a>
+	                    <a href="" class="btn btn-alphabet ipo-alphabet">U</a>
+	                    <a href="" class="btn btn-alphabet ipo-alphabet">V</a>
+	                    <a href="" class="btn btn-alphabet ipo-alphabet">W</a>
+	                    <a href="" class="btn btn-alphabet ipo-alphabet">X</a>
+	                    <a href="" class="btn btn-alphabet ipo-alphabet">Y</a>
+	                    <a href="" class="btn btn-alphabet ipo-alphabet">Z</a>
+	                    <a href="" class="btn btn-alphabet ipo-alphabet is-active">@Umbraco.GetDictionaryValue("all")</a>
+	                </div>
+	            </div>
+                    <div class="overflow-auto">
+                        <table id="ipoTable" class="table table--zebra table-content-page width-block">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>@Umbraco.GetDictionaryValue("code")</th>
+                                    <th>@Umbraco.GetDictionaryValue("name")</th>
+                                    <th>@Umbraco.GetDictionaryValue("listing date")</th>
+                                    <th>Delisting Date</th>
+                                    <th>IPO (Number of Shares)</th>
+                                    <th>@Umbraco.GetDictionaryValue("Listing Board")</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="text-right block">
+                        <a onclick="downloadIpo()" href="" class="btn btn-primary --rounded"><span class="fa fa-download"></span> @Umbraco.GetDictionaryValue("download")</a>
+                    </div>
+                </div>        
+            </div>
+        </div>        
+        <div class="exchange-trade-container" id="delisting">
+            <div class="container">
+                <div action="" class="">
+                    <div class="block-half flex v-center">
+                        <span class="form-label-financial-report">@Umbraco.GetDictionaryValue("Choose Year")</span>
+                        <select id="delistingYearList" name="year" class="form-input form-input--block select2-js">
+                        </select>
+                    </div>
+                    <div class="block flex v-center">
+                        <span class="form-label-financial-report">&nbsp;</span>
+                        <button class="btn btn-primary" onclick="getDelisting()">@Umbraco.GetDictionaryValue("search")</button>
+                    </div>
+                </div>
+            </div>
+            <div class="main-content content-push">
+                <div class="container">
+                    <div class="block">
+                    <p>@Umbraco.GetDictionaryValue("Search by code")</p>
+                    <div class="">
+                        <a href="" class="btn btn-alphabet delisting-alphabet">A</a>
+                        <a href="" class="btn btn-alphabet delisting-alphabet">B</a>
+                        <a href="" class="btn btn-alphabet delisting-alphabet">C</a>
+                        <a href="" class="btn btn-alphabet delisting-alphabet">D</a>
+                        <a href="" class="btn btn-alphabet delisting-alphabet">E</a>
+                        <a href="" class="btn btn-alphabet delisting-alphabet">F</a>
+                        <a href="" class="btn btn-alphabet delisting-alphabet">G</a>
+                        <a href="" class="btn btn-alphabet delisting-alphabet">H</a>
+                        <a href="" class="btn btn-alphabet delisting-alphabet">I</a>
+                        <a href="" class="btn btn-alphabet delisting-alphabet">J</a>
+                        <a href="" class="btn btn-alphabet delisting-alphabet">K</a>
+                        <a href="" class="btn btn-alphabet delisting-alphabet">L</a>
+                        <a href="" class="btn btn-alphabet delisting-alphabet">M</a>
+                        <a href="" class="btn btn-alphabet delisting-alphabet">N</a>
+                        <a href="" class="btn btn-alphabet delisting-alphabet">O</a>
+                        <a href="" class="btn btn-alphabet delisting-alphabet">P</a>
+                        <a href="" class="btn btn-alphabet delisting-alphabet">Q</a>
+                        <a href="" class="btn btn-alphabet delisting-alphabet">R</a>
+                        <a href="" class="btn btn-alphabet delisting-alphabet">S</a>
+                        <a href="" class="btn btn-alphabet delisting-alphabet">T</a>
+                        <a href="" class="btn btn-alphabet delisting-alphabet">U</a>
+                        <a href="" class="btn btn-alphabet delisting-alphabet">V</a>
+                        <a href="" class="btn btn-alphabet delisting-alphabet">W</a>
+                        <a href="" class="btn btn-alphabet delisting-alphabet">X</a>
+                        <a href="" class="btn btn-alphabet delisting-alphabet">Y</a>
+                        <a href="" class="btn btn-alphabet delisting-alphabet">Z</a>
+                        <a href="" class="btn btn-alphabet delisting-alphabet is-active">@Umbraco.GetDictionaryValue("all")</a>
+                    </div>
+                </div>
+                    <div class="overflow-auto">
+                        <table id="delistingTable" class="table table--zebra table-content-page width-block">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>@Umbraco.GetDictionaryValue("code")</th>
+                                    <th>@Umbraco.GetDictionaryValue("name")</th>
+                                    <th>@Umbraco.GetDictionaryValue("listing date")</th>
+                                    <th>Delisting Date</th>
+                                    <th>IPO (Number of Shares)</th>
+                                    <th>@Umbraco.GetDictionaryValue("Listing Board")</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="text-right block">
+                        <a onclick="downloadDelisting()" href="" class="btn btn-primary --rounded"><span class="fa fa-download"></span> @Umbraco.GetDictionaryValue("download")</a>
+                    </div>
+                </div>        
+            </div>  
+        </div>
+        <div class="exchange-trade-container" id="relisting">
+            <div class="container">
+                <div action="" class="">
+                    <div class="block-half flex v-center">
+                        <span class="form-label-financial-report">@Umbraco.GetDictionaryValue("Choose Year")</span>
+                        <select id="relistingYearList" name="year" class="form-input form-input--block select2-js">
+                        </select>
+                    </div>
+                    <div class="block-half flex v-center">
+                        <span class="form-label-financial-report">@Umbraco.GetDictionaryValue("Stock")</span>
+                        <div class="form-radio">
+                            <input type="radio" class="form-input-custom-bullet" id="relistingRb1" name="relistingRb" checked="checked" value="*">
+                            <label for="relistingRb1" class="">@Umbraco.GetDictionaryValue("All")</label>
+                        </div>
+                        <div class="form-radio">
+                            <input type="radio" class="form-input-custom-bullet" id="relistingRb2" name="relistingRb" value="s">
+                            <label for="relistingRb2" class="">@Umbraco.GetDictionaryValue("Stock")</label>
+                        </div>
+                        <div class="form-radio">
+                            <input type="radio" class="form-input-custom-bullet" id="relistingRb3" name="relistingRb" value="o">
+                            <label for="relistingRb3" class="">@Umbraco.GetDictionaryValue("Bonds")</label>
+                        </div>
+                        <div class="form-radio">
+                            <input type="radio" class="form-input-custom-bullet" id="relistingRb4" name="relistingRb" value="so">
+                            <label for="relistingRb4" class="">@Umbraco.GetDictionaryValue("Others")</label>
+                        </div>
+                    </div>
+                    <div class="block flex v-center">
+                        <span class="form-label-financial-report">&nbsp;</span>
+                        <button class="btn btn-primary" onclick="getRelisting()">@Umbraco.GetDictionaryValue("search")</button>
+                    </div>
+                </div>
+            </div>
+            <div class="main-content content-push">
+                <div class="container">
+                    <div class="block">
+                    <p>@Umbraco.GetDictionaryValue("Search by code")</p>
+                    <div class="">
+                        <a href="" class="btn btn-alphabet relisting-alphabet">A</a>
+                        <a href="" class="btn btn-alphabet relisting-alphabet">B</a>
+                        <a href="" class="btn btn-alphabet relisting-alphabet">C</a>
+                        <a href="" class="btn btn-alphabet relisting-alphabet">D</a>
+                        <a href="" class="btn btn-alphabet relisting-alphabet">E</a>
+                        <a href="" class="btn btn-alphabet relisting-alphabet">F</a>
+                        <a href="" class="btn btn-alphabet relisting-alphabet">G</a>
+                        <a href="" class="btn btn-alphabet relisting-alphabet">H</a>
+                        <a href="" class="btn btn-alphabet relisting-alphabet">I</a>
+                        <a href="" class="btn btn-alphabet relisting-alphabet">J</a>
+                        <a href="" class="btn btn-alphabet relisting-alphabet">K</a>
+                        <a href="" class="btn btn-alphabet relisting-alphabet">L</a>
+                        <a href="" class="btn btn-alphabet relisting-alphabet">M</a>
+                        <a href="" class="btn btn-alphabet relisting-alphabet">N</a>
+                        <a href="" class="btn btn-alphabet relisting-alphabet">O</a>
+                        <a href="" class="btn btn-alphabet relisting-alphabet">P</a>
+                        <a href="" class="btn btn-alphabet relisting-alphabet">Q</a>
+                        <a href="" class="btn btn-alphabet relisting-alphabet">R</a>
+                        <a href="" class="btn btn-alphabet relisting-alphabet">S</a>
+                        <a href="" class="btn btn-alphabet relisting-alphabet">T</a>
+                        <a href="" class="btn btn-alphabet relisting-alphabet">U</a>
+                        <a href="" class="btn btn-alphabet relisting-alphabet">V</a>
+                        <a href="" class="btn btn-alphabet relisting-alphabet">W</a>
+                        <a href="" class="btn btn-alphabet relisting-alphabet">X</a>
+                        <a href="" class="btn btn-alphabet relisting-alphabet">Y</a>
+                        <a href="" class="btn btn-alphabet relisting-alphabet">Z</a>
+                        <a href="" class="btn btn-alphabet relisting-alphabet is-active">@Umbraco.GetDictionaryValue("all")</a>
+                    </div>
+                </div>
+                    <div class="overflow-auto">
+                        <table id="relistingTable" class="table table--zebra table-content-page width-block">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>@Umbraco.GetDictionaryValue("code")</th>
+                                    <th>@Umbraco.GetDictionaryValue("name")</th>
+                                    <th>@Umbraco.GetDictionaryValue("listing date")</th>
+                                    <th>IPO (Number of Shares)</th>
+                                    <th>@Umbraco.GetDictionaryValue("Listing Board")</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="text-right block">
+                        <a onclick="downloadRelisting()" href="" class="btn btn-primary --rounded"><span class="fa fa-download"></span> @Umbraco.GetDictionaryValue("download")</a>
+                    </div>
+                </div>        
+            </div>            
+        </div>
+    </div>
+</main>
+
+@section Scripts{
+    <script type="text/javascript" src="/assets/js/vendor/datatables.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var currentYear = moment().format('YYYY');
+            for (var i = 0; i < @ConfigurationManager.AppSettings["maxYear"]; i++) {
+                $('select[name="year"]').each(function (e){
+                    $(this).append('<option value="' + (currentYear - i) + '">' + (currentYear - i) + '</option>');
+                });
+            }
+
+            setAlphabetHandler();
+
+            getIpo();
+            getRelisting();
+            getDelisting();
+        });
+
+        function setAlphabetHandler() {
+            $('.ipo-alphabet').on('click', function(e){
+                e.preventDefault();
+                $('.ipo-alphabet').removeClass('is-active');
+                $(this).addClass('is-active');
+                getIpo();
+            });
+
+            $('.delisting-alphabet').on('click', function(e){
+                e.preventDefault();
+                $('.delisting-alphabet').removeClass('is-active');
+                $(this).addClass('is-active');
+                getDelisting();
+            });
+
+            $('.relisting-alphabet').on('click', function(e){
+                e.preventDefault();
+                $('.relisting-alphabet').removeClass('is-active');
+                $(this).addClass('is-active');
+                getRelisting();
+            });
+        }
+
+        function getIpo(){
+            var year = $('#yearList option:selected').text();
+            var emitenType = $('input[name="ipoRb"]:checked').val();
+            var firstChar = '';
+
+            if ($('.ipo-alphabet.is-active').text() !== '@Umbraco.GetDictionaryValue("all")') {
+                firstChar = $('.ipo-alphabet.is-active').text();
+            }
+
+            var status = "ipo";
+            var indexFrom = 0;
+            var pageSize = 100;
+
+            $.get('@Url.Action("GetIpoRelisting", "ListingActivity")?emitenType=' + emitenType + '&year=' + year + '&status=' + 
+                status + '&indexFrom=' + indexFrom + '&pageSize=' + pageSize + '&firstChar=' + firstChar, function (result) {
+                    if($.fn.DataTable.isDataTable('#ipoTable')){
+                        var datatable = $('#ipoTable').DataTable();
+                        datatable.clear();
+                        datatable.rows.add(result.Result).draw();
+                    }else {
+                        $('#ipoTable').dataTable({
+                            'processing': true,
+                            'paging': true,
+                            'deferRender': true,
+                            'data': result.Result,
+                            'buttons': [{ 
+                                'extend': 'excelHtml5', 
+                                'title': function () {
+                                    return '@Umbraco.TypedContent(CurrentPage.Id).PageTitle' + '-' + status + '-' + $('#yearList option:selected').text();
+                                }
+                            }],
+                            'columns': [
+                                { 'data': 'TanggalPencatatan' },
+                                { 'data': 'KodeEmiten' },
+                                { 'data': 'NamaEmiten' },
+                                { 'data': 'TanggalPencatatan' },
+                                { 'data': 'Delisting' },
+                                { 'data': 'SahamIPOValue' },
+                                { 'data': 'PapanPencatatan' },
+                            ],
+                            'columnDefs': [
+                                {
+                                    'targets': [0],
+                                    'createdCell' : function (td, cellData, rowData, row, col) {
+                                        return $(td).addClass('text-center');
+                                    },
+                                },
+                                {
+                                    'targets': [1],
+                                    'createdCell' : function (td, cellData, rowData, row, col) {
+                                        return $(td).addClass('text-center');
+                                    },
+                                    'render' : function ( data, type, row, meta ) {
+                                        if (currentLang === 'en-us') {
+                                            return '<a href="@Umbraco.TypedContent("1641").Url?kodeEmiten=' + row.KodeEmiten + '">' + data + '</a>';
+                                        }
+                                        return '<a href="@Umbraco.TypedContent("1717").Url?kodeEmiten=' + row.KodeEmiten + '">' + data + '</a>';
+                                    }
+                                },{
+                                    'targets': 5,
+                                    'createdCell' : function (td, cellData, rowData, row, col) {
+                                        return $(td).addClass('text-right');
+                                    },
+                                    'render' : function ( data, type, row, meta ) {
+                                        return data.toLocaleString(currentLang);
+                                    }
+                                },
+                                {
+                                    'targets': [3,4],
+                                    'render' : function ( data, type, row, meta ) {
+                                        var tradeDate = data;
+                                        if (data) {
+                                            tradeDate = moment(data).locale(currentLang).format('DD MMM YYYY');
+                                        }
+
+                                        if (tradeDate === "01 Jan 0001") {
+                                            tradeDate = "";
+                                        }
+
+                                        return tradeDate;
+                                    }
+                                },
+                                {
+                                    'targets': 6,
+                                    'render' : function ( data, type, row, meta ) {
+                                        if (data === 'UTAMA')
+                                            return '@Umbraco.GetDictionaryValue("main board")';
+                                        else if (data === 'PENGEMBANGAN')
+                                            return '@Umbraco.GetDictionaryValue("development board")';
+                                        return data;
+                                    }
+                                },
+                            ],
+                            "rowCallback": function (row, data, iDisplayIndex) {
+                                var info = this.api().page.info();
+                                var page = info.page;
+                                var length = info.length;
+                                var index = (page * length + (iDisplayIndex + 1));
+                                $('td:eq(0)', row).html(index);
+                            },
+                            "order": [[ 0, "desc" ]],
+                        });
+                    }
+                });
+        }
+
+        function downloadIpo() {
+            $('#ipoTable').DataTable().buttons().trigger();
+        }
+
+        function downloadDelisting() {
+            $('#delistingTable').DataTable().buttons().trigger();
+        }
+
+        function downloadRelisting() {
+            $('#relistingTable').DataTable().buttons().trigger();
+        }
+
+        function getRelisting(){
+            var year = $('#relistingYearList option:selected').text();
+            var emitenType = $('input[name="relistingRb"]:checked').val();
+            var status = "relisting";
+            var indexFrom = 0;
+            var pageSize = 100;
+
+            var firstChar = '';
+
+            if ($('.relisting-alphabet.is-active').text() !== '@Umbraco.GetDictionaryValue("all")') {
+                firstChar = $('.relisting-alphabet.is-active').text();
+            }
+
+            $.get('@Url.Action("GetIpoRelisting", "ListingActivity")?emitenType=' + emitenType + '&year=' + year + '&status=' + 
+                status + '&indexFrom=' + indexFrom + '&pageSize=' + pageSize + '&firstChar=' + firstChar, function (result) {
+                    if($.fn.DataTable.isDataTable('#relistingTable')){
+                        var datatable = $('#relistingTable').DataTable();
+                        datatable.clear();
+                        datatable.rows.add(result.Result).draw();
+                    }else {
+                        $('#relistingTable').dataTable({
+                            'processing': true,
+                            'paging': true,
+                            'deferRender': true,
+                            'data': result.Result,
+                            'buttons': [{ 
+                                'extend': 'excelHtml5', 
+                                'title': function () {
+                                    return '@Umbraco.TypedContent(CurrentPage.Id).PageTitle' + '-' + status + '-' + $('#relistingYearList option:selected').text();
+                                }
+                            }],
+                            'columns': [
+                                { 'data': 'TanggalPencatatan' },
+                                { 'data': 'KodeEmiten' },
+                                { 'data': 'NamaEmiten' },
+                                { 'data': 'TanggalPencatatan' },
+                                { 'data': 'SahamIPOValue' },
+                                { 'data': 'PapanPencatatan' },
+                            ],
+                            'columnDefs': [
+                                {
+                                    'targets': [0],
+                                    'createdCell' : function (td, cellData, rowData, row, col) {
+                                        return $(td).addClass('text-center');
+                                    },
+                                },
+                                {
+                                    'targets': [1],
+                                    'createdCell' : function (td, cellData, rowData, row, col) {
+                                        return $(td).addClass('text-center');
+                                    },
+                                    'render' : function ( data, type, row, meta ) {
+                                        if (currentLang === 'en-us') {
+                                            return '<a href="@Umbraco.TypedContent("1641").Url?kodeEmiten=' + row.KodeEmiten + '">' + data + '</a>';
+                                        }
+                                        return '<a href="@Umbraco.TypedContent("1717").Url?kodeEmiten=' + row.KodeEmiten + '">' + data + '</a>';
+                                    }
+                                },
+                                {
+                                    'targets': 4,
+                                    'createdCell' : function (td, cellData, rowData, row, col) {
+                                        return $(td).addClass('text-right');
+                                    },
+                                    'render' : function ( data, type, row, meta ) {
+                                        return data.toLocaleString(currentLang);
+                                    }
+                                },
+                                {
+                                    'targets': [3],
+                                    'render' : function ( data, type, row, meta ) {
+                                        var tradeDate = data;
+                                        if (data) {
+                                            tradeDate = moment(data).locale(currentLang).format('DD MMM YYYY');
+                                        }
+
+                                        if (tradeDate === "01 Jan 0001") {
+                                            tradeDate = "";
+                                        }
+
+                                        return tradeDate;
+                                    }
+                                },
+                                {
+                                    'targets': 5,
+                                    'render' : function ( data, type, row, meta ) {
+                                        if (data === 'UTAMA')
+                                            return '@Umbraco.GetDictionaryValue("main board")';
+                                        else if (data === 'PENGEMBANGAN')
+                                            return '@Umbraco.GetDictionaryValue("development board")';
+                                        return data;
+                                    }
+                                },
+                            ],
+                            "rowCallback": function (row, data, iDisplayIndex) {
+                                var info = this.api().page.info();
+                                var page = info.page;
+                                var length = info.length;
+                                var index = (page * length + (iDisplayIndex + 1));
+                                $('td:eq(0)', row).html(index);
+                            },
+                            "order": [[ 0, "desc" ]],
+                        });
+                    }
+                });
+        }
+
+        function getDelisting(){
+            var year = $('#delistingYearList option:selected').text();
+            // var emitenType = $('input[name="delistingRb"]:checked').val();
+            var emitenType = '*';
+            var status = "";
+            var indexFrom = 0;
+            var pageSize = 100;
+
+            var firstChar = '';
+
+            if ($('.delisting-alphabet.is-active').text() !== '@Umbraco.GetDictionaryValue("all")') {
+                firstChar = $('.delisting-alphabet.is-active').text();
+            }
+
+            $.get('@Url.Action("GetDelisting", "ListingActivity")?emitenType=' + emitenType + '&year=' + year + '&status=' + 
+                status + '&indexFrom=' + indexFrom + '&pageSize=' + pageSize + '&firstChar=' + firstChar, function (result) {
+                if($.fn.DataTable.isDataTable('#delistingTable')){
+                    var datatable = $('#delistingTable').DataTable();
+                    datatable.clear();
+                    datatable.rows.add(result.Result).draw();
+                }else {
+                    $('#delistingTable').dataTable({
+                        'processing': true,
+                        'paging': true,
+                        'deferRender': true,
+                        'data': result.Result,
+                        'buttons': [{ 
+                            'extend': 'excelHtml5', 
+                            'title': function () {
+                                return '@Umbraco.TypedContent(CurrentPage.Id).PageTitle' + '-' + 'delisting' + '-' + $('#delistingYearList option:selected').text();
+                            }
+                        }],
+                        'columns': [
+                            { 'data': 'TanggalPencatatan' },
+                            { 'data': 'KodeEmiten' },
+                            { 'data': 'NamaEmiten' },
+                            { 'data': 'TanggalPencatatan' },
+                            { 'data': 'Delisting' },
+                            { 'data': 'SahamIPOValue' },
+                            { 'data': 'PapanPencatatan' },
+                        ],
+                        'columnDefs': [
+                            {
+                                'targets': [0],
+                                'createdCell' : function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-center');
+                                },
+                            },
+                            {
+                                'targets': [1],
+                                'createdCell' : function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-center');
+                                },
+                                'render' : function ( data, type, row, meta ) {
+                                    if (currentLang === 'en-us') {
+                                        return '<a href="@Umbraco.TypedContent("1641").Url?kodeEmiten=' + row.KodeEmiten + '">' + data + '</a>';
+                                    }
+                                    return '<a href="@Umbraco.TypedContent("1717").Url?kodeEmiten=' + row.KodeEmiten + '">' + data + '</a>';
+                                }
+                            },
+                            {
+                                'targets': 5,
+                                'createdCell' : function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-right');
+                                },
+                                'render' : function ( data, type, row, meta ) {
+                                    return data.toLocaleString(currentLang);
+                                }
+                            },
+                            {
+                                'targets': [3,4],
+                                'render' : function ( data, type, row, meta ) {
+                                    var tradeDate = data;
+                                    if (data) {
+                                        tradeDate = moment(data).locale(currentLang).format('DD MMM YYYY');
+                                    }
+
+                                    if (tradeDate === "01 Jan 0001") {
+                                        tradeDate = "";
+                                    }
+
+                                    return tradeDate;
+                                }
+                            },
+                            {
+                                'targets': 6,
+                                'render' : function ( data, type, row, meta ) {
+                                    if (data === 'UTAMA')
+                                        return '@Umbraco.GetDictionaryValue("main board")';
+                                    else if (data === 'PENGEMBANGAN')
+                                        return '@Umbraco.GetDictionaryValue("development board")';
+                                    return data;
+                                }
+                            },
+                        ],
+                        "rowCallback": function (row, data, iDisplayIndex) {
+                            var info = this.api().page.info();
+                            var page = info.page;
+                            var length = info.length;
+                            var index = (page * length + (iDisplayIndex + 1));
+                            $('td:eq(0)', row).html(index);
+                        },
+                        "order": [[ 0, "desc" ]],
+                    });
+                }
+            });
+        }
+    </script>
+}

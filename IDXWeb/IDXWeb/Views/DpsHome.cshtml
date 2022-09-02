@@ -1,0 +1,547 @@
+﻿@using IDXWeb.Models;
+@using Newtonsoft.Json;
+@using System.IO;
+@using System.Configuration
+@using Umbraco.Web.Models
+
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+    var root = Model.Content.AncestorOrSelf("home");
+    var downloadCodes = Model.Content.Children.Where(x => x.Properties.Any(p => p.PropertyTypeAlias == "downloadCode"))
+        .Select(x => new{ x.UrlName, DownloadCode=x.Properties.Where(p =>
+            p.PropertyTypeAlias == "downloadCode").ToArray().ElementAtOrDefault(0)})
+        .ToDictionary(x => x.UrlName, x=> (x.DownloadCode.HasValue) ? x.DownloadCode.DataValue : "0");
+    var downloadCodesJson = JsonConvert.SerializeObject(downloadCodes);
+    ViewBag.ShowFilterSubmit = false;
+}
+    <main class="sticky-footer-container-item --pushed">
+        <div class="container top-space">
+            @{
+                IEnumerable<IPublishedContent> pages = Model.Content.AncestorsOrSelf().OrderBy(x => x.Level);
+                string path = HttpContext.Current.Request.Url.AbsolutePath;
+            }
+            <ul class="breadcrumb block">
+                <li><a href="/"><span class="fa fa-home"></span></a></li>
+                @foreach (var page in pages)
+                {
+                    var cls = page.Id == Model.Content.Id ? "current" : "";
+                    if (page.DocumentTypeAlias == "emptyPage")
+                    {
+                        <li class="@cls"><a href="" class="disable"><span>@page.Name</span></a></li>
+                        continue;
+
+                    }
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>
+                }
+            </ul>
+            <div class="page-title-container">
+                <h1 class="page-title">@CurrentPage.Name</h1>
+            </div>
+            <div class="content-tab-container block --center">
+                <div class="content-tab-item">
+                    <a href="#tab" class="content-tab-anchor statistic-tab-js" id="content-tab-monthly" onclick="getMenu('', 'monthly')">@Umbraco.GetDictionaryValue("Monthly")</a>
+                </div>
+                <div class="content-tab-item">
+                    <a href="#tab" class="content-tab-anchor statistic-tab-js" id="content-tab-quarterly" onclick="getMenu('', 'quarterly')">@Umbraco.GetDictionaryValue("Quarterly")</a>
+                </div>
+                <div class="content-tab-item">
+                    <a href="#tab" class="content-tab-anchor statistic-tab-js" id="content-tab-yearly" onclick="getMenu('', 'yearly')">@Umbraco.GetDictionaryValue("Yearly")</a>
+                </div>
+            </div>
+        </div>
+        <div class="statistic-main-content">
+            <div class="statistic-container is-active" id="tab">
+                <div class="background-light-grey content-push">
+                    <div class="container">
+                        <div class="statistic--title-area mb-20">
+                            <h2 class="mb-0" id="reportTitle"></h2>
+                            @* <div class="download-toggle-area"> *@
+                            @*     <button class="btn btn-primary download-toggle is-active" type="button" data-toggle="#searchList"> *@
+                            @*         Download *@
+                            @*         <i class="fa fa-caret-down ml-8"></i> *@
+                            @*         <ul class="download-list full-width" id="searchList"> *@
+                            @*             <li><a href="#" onclick="getReport('zzz', 'pdf', true)">PDF</a></li> *@
+                            @*             <li><a href="#" onclick="getReport('zzz', 'excel', true)">Excel</a></li> *@
+                            @*         </ul> *@
+                            @*     </button> *@
+                            @* </div> *@
+                        </div>
+                        <form class="report-search" action="">
+                            <div class="report-search-main">
+                                <i class="fa fa-search red fa-lg"></i>
+                                <input id="searchBox" class="form-input" type="text" placeholder="Search this report">
+                                <button class="toggle-options btn btn-primary" type="button">
+                                    <i class="fa fa-ellipsis-v fa-lg"></i>
+                                </button>
+                            </div>
+                            <div class="report-search-options is-active">
+                                <div class="bzg">
+                                    <div class="bzg_c" data-col="s4">
+                                        Quarter:
+                                    </div>
+                                    <div class="bzg_c" data-col="s8,m6,l8">
+                                        <select class="form-input form-input--block" name="" id="filterQuarter">
+                                            <option value="1">1st Quarter</option>
+                                            <option value="2">2nd Quarter</option>
+                                            <option value="3">3rd Quarter</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="bzg">
+                                    <div class="bzg_c" data-col="s4">
+                                        Month:
+                                    </div>
+                                    <div class="bzg_c" data-col="s8,m6,l8">
+                                        <select class="form-input form-input--block" name="" id="filterMonth">
+                                            <option value="1">January</option>
+                                            <option value="2">February</option>
+                                            <option value="3">March</option>
+                                            <option value="4">April</option>
+                                            <option value="5">May</option>
+                                            <option value="6">June</option>
+                                            <option value="7">July</option>
+                                            <option value="8">August</option>
+                                            <option value="9">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="bzg">
+                                    <div class="bzg_c" data-col="s4">
+                                        Year:
+                                    </div>
+                                    <div class="bzg_c" data-col="s8,m6,l8">
+                                        <select class="form-input form-input--block" id="filterYear"></select>
+                                    </div>
+                                </div>
+                                <div class="bzg">
+                                    @*<div class="bzg_c">
+                                        <div id="filter-btn" style="text-decoration: none; color: white;" class="btn btn-primary">
+                                            <i class="fa fa-filter mr-8"></i>
+                                            submit
+                                        </div>
+                                    </div>*@
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="background-white content-push">
+                    <div class="container">
+                        <div id="menuContainer" class="statistic-accordion js-statistic-accordion">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*<?php include '_partials/statistic-quarterly.php'; ?>
+            <?php include '_partials/statistic-yearly.php'; ?>*@
+        </div>
+        <input type="hidden" id="filteredType" />
+    </main>
+
+@section Scripts{
+<script type="text/javascript" src="/assets/js/dps-home.js"></script>
+<script type="text/javascript" src="/assets/js/vendor/datatables.min.js"></script>
+<script type="text/javascript">
+    function deleteCookie(name) {
+        document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
+    function setCookie(name, value) {
+        var expires = "";
+        var days = 1;
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+//            console.log(name + "=" + (value || "") + expires + "; path=/");
+    }
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+    function setFilterOpt(init = false) {
+        var today = new Date();
+        //var today = new Date('2021-01-01');
+        year = today.getFullYear();
+        month = today.getMonth();
+        quarter = Math.floor((today.getMonth() + 1) / 3);
+
+        var filteredType =  $('#filteredType').val();
+        if (init) {
+            $('#filterYear').empty();
+            if (filteredType == 'yearly') {
+                month = 0;
+                quarter = 4;
+                year--;
+            } else if (filteredType == 'quarterly' && month <= 2) {
+                month = 0;
+                quarter = 3;
+                year--;
+            } else if (filteredType == 'monthly' && month <= 0) {
+                month = 12;
+                quarter = 0;
+                year--;
+            }
+
+            for(var i = 0; i < 3; i++) {
+                $('#filterYear').append('<option>' + (year - i) + '</option>');
+            }
+
+            $('#filterMonth').val(month);
+            $('#filterQuarter').val(quarter);
+            $('#filterYear').val(year);
+        }
+
+        filteredYear =  $('#filterYear').val();
+        quarterFilter = $('#filterQuarter > option');
+        monthFilter = $('#filterMonth > option');
+        yearFilter = $('#filterYear > option');
+
+        quarterFilter.each(function () {
+            $(this).prop("disabled", false);
+            if ($(this).val() > quarter && year == filteredYear && (new Date()).getFullYear() == filteredYear) {
+                if ($(this).val() === $('#filterQuarter').val()) {
+                    $('#filterQuarter').val('');
+                }
+                $(this).prop("disabled", true);
+                return;
+            }
+        });
+
+        monthFilter.each(function () {
+            $(this).prop("disabled", false);
+            if ($(this).val() > month && year == filteredYear) {
+                if ($(this).val() === $('#filterMonth').val()) {
+                    $('#filterMonth').val('');
+                }
+                $(this).prop("disabled", true);
+            }
+        });
+    }
+
+    $('#filterYear').change(function() {
+        setFilterOpt();
+        updateFilterQuery();
+        getMenu($('#searchBox').val(), $('#filteredType').val(), false);
+    })
+
+    function setTitle() {
+        var filteredType = $('#filteredType').val();
+        var periodYear = $('#filterYear').val();
+        var periodMonth = $('#filterMonth').val();
+        var periodQuarter = $('#filterQuarter').val();
+        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        title = "@Umbraco.Field("title")";
+        extTitle = " -";
+        if (periodQuarter || periodMonth || periodYear) {
+            if (filteredType == "quarterly") {
+                sup = ['st', 'nd', 'rd', 'th'];
+                title = "@(string.IsNullOrEmpty(Umbraco.Field("titleQuarterly").ToString()) ? Umbraco.Field("title") : Umbraco.Field("titleQuarterly"))";
+                extTitle += (periodQuarter !== '' && periodQuarter !== null ? " " + "Q" + periodQuarter : '');
+            } else if (filteredType == "monthly" || filteredType == "") {
+                extTitle += (typeof months[periodMonth - 1] === 'undefined' ? '' : " " + months[periodMonth - 1]);
+            }
+        }
+
+        if (title == "") {
+            title = "@Umbraco.AssignedContentItem.Name";
+        }
+        title = title + extTitle + " " + periodYear;
+        $("#reportTitle").html(title);
+    }
+</script>
+<script type="text/javascript">
+    $(function () {
+        getYear();
+    });
+    function getYear() {
+//            $.get('@Url.Action("GetApiData", "DigitalStatitic", new { urlName = "LINK_AVAILABLE_YEAR" })', function (result) {
+//                for (var i = 0; i < result.length; i++) {
+//                    $('#filterYear').append('<option value="' + result[i] + '">' + result[i] + '</option>');
+//                }
+//                setFilterOpt()
+//                getMenu('', getCookie("filteredType"))
+//            });
+
+//            $.get('@Url.Action("GetApiData", "DigitalStatitic", new { urlName = "LINK_ACTIVE_PERIOD" })', function (result) {
+
+
+//                if (getCookie("filteredQuarter") == undefined || getCookie("filteredQuarter") == "") {
+//                    quarter = Math.floor((result.month + 2)/3)
+//                    setCookie("filteredQuarter", quarter);
+//                }
+//                if (getCookie("filteredYear") == undefined || getCookie("filteredYear") == "") {
+//                    setCookie("filteredYear", result.year);
+//
+//                }
+//                if (getCookie("filteredMonth") == undefined || getCookie("filteredMonth") == "") {
+//                    setCookie("filteredMonth", result.month);
+//                }
+//                $('#filterYear').val(getCookie("filteredYear"));
+//                $('#filterMonth').val(getCookie("filteredMonth"));
+//                $('#filterQuarter').val(getCookie("filteredQuarter"));
+        
+        setFilterOpt(true);
+        //setTitle()
+        date = new Date();
+        month = date.getMonth();
+        year = date.getFullYear()
+        quarter = Math.floor((parseInt(month) + 2)/3)
+        for (var i = year; i >= year-2; i--) {
+            $('#filterYear').append('<option value="' + i + '">' + i + '</option>');
+        }
+
+        $('#filterYear').val(year);
+        $('#filterMonth').val(month);
+        $('#filterQuarter').val(quarter-1);
+//            });
+    }
+</script>
+
+@* monthly *@
+<script type="text/javascript">
+    var digitalStatisticChildren = JSON.parse('@downloadCodesJson'.split("&quot;").join("\""));
+    function getQuaryParamReport(tipe) {
+        var periodYear = $('#filterYear').val();
+        var periodMonth = $('#filterMonth').val();
+        var filteredType = $('#filteredType').val();
+        var periodQuarter = $('#filterQuarter').val();
+        var dateFiltered = $('#dateFiltered').val();
+        var startDate = $('#startDate').val();
+        var endDate = $('#endDate').val();
+        var queryparam = "&type=" + tipe;
+        if (periodYear != undefined) {
+            queryparam += '&periodYear=' + periodYear;
+        }
+        if (periodMonth != undefined && filteredType == "monthly") {
+            queryparam += '&periodMonth=' + periodMonth;
+
+        }
+        if (periodQuarter != undefined && filteredType == "quarterly") {
+            queryparam += '&periodQuarter=' + periodQuarter;
+        }
+
+        if (dateFiltered != undefined) {
+            queryparam += '&dateFiltered=' + dateFiltered;
+        }
+
+        if (startDate != undefined) {
+            queryparam += '&startDate=' + startDate;
+        }
+        if (endDate != undefined) {
+            queryparam += '&endDate=' + endDate;
+        }
+        return queryparam;
+    }
+
+    function getReport(id, tipe, isAll) {
+        dictsId = [];
+
+        subFirstArg = "Q"+periodQuarter+" "+ periodYear;
+        subSecondArg = "Q1Q"+periodQuarter+" "+ periodYear;
+        $.getJSON(path[filteredType], function(data) {
+            $.each(data, function(key, val) {
+                if (id == val.id || isAll) {
+                    dictsId.push(val.id)
+                    dicts = []
+                    $.each(val.links, function(k, value) {
+                        if (digitalStatisticChildren[value.url] != null && digitalStatisticChildren[value.url] != 0) {
+                            dict = {
+                                filename: value.name.replace("{1}", subFirstArg).replace("{2}", subSecondArg),
+                                filecode: digitalStatisticChildren[value.url],
+                                url: value.url+(val.name.includes("Cumulative Data") ? "?cumulative=true" : "")
+                            }
+                            dicts.push(dict)
+                        }
+                    });
+                    setCookie("reportFileCodes"+val.id, btoa(JSON.stringify(dicts)));
+                }
+            })
+            newQueryparam = getQuaryParamReport(tipe)
+            newQueryparam += '&filename=bulk';
+            newQueryparam += '&filecode='+ btoa(JSON.stringify(dictsId));
+
+            var url = '@Url.Action("GetReportData", "DigitalStatitic", new { xyzz = 0 })' + newQueryparam;
+            window.open(url, '_blank');
+
+        })
+    }
+    function setFilter(init = true) {
+        var filteredType = $('#filteredType').val();
+        getMenu($('#searchBox').val(), filteredType, init);
+    }
+
+    function getFilterQuery() {
+        var periodQuarter = $('#filterQuarter').val();
+        var month = $('#filterMonth').val();
+        var type = $('#filteredType').val();
+        if (type == 'yearly') {
+            periodQuarter = 4;
+        } else if (type === 'monthly') {
+            periodQuarter = 0;
+        } else if (type === 'quarterly') {
+            month = 0;
+        }
+
+        var query = JSON.stringify({
+            year: $('#filterYear').val(),
+            month: month,
+            quarter: periodQuarter,
+            type: type
+        });
+
+        return query;
+    }
+
+    function updateFilterQuery() {
+        var query = getFilterQuery();
+        var hashed = btoa(query);
+        $('li.dps-menu-link').each(function () {
+            //$(this).attr('data-query', query);
+            var linkDom = $(this).find('a.statistic-link');
+            var link = linkDom.attr('href');
+            var linkSegments = link.split('?');
+            var querySegments = linkSegments[1].split('&');
+            var hashedSegmentIndex = querySegments.findIndex(x => x.startsWith('q='));
+            if (querySegments[hashedSegmentIndex] == null) return;
+            querySegments[hashedSegmentIndex] = 'q=' + hashed;
+            var newQuery = querySegments.join('&');
+            linkDom.attr('href', linkSegments[0] + '?' + newQuery);
+        });
+        setTitle();
+    }
+
+    function getMenu(search, type, init = true) {
+        //setFilterOpt(init);
+        if ($('#filteredType').val() === 'monthly' && type === 'quarterly') {
+            var quarter = Math.floor((parseInt($('#filterMonth').val()) + 2) / 3);
+            $('#filterQuarter').val(quarter);
+        }
+        $('#filteredType').val(type);
+        
+        setFilterOpt(init);
+
+        var periodYear = $('#filterYear').val();
+        var periodQuarter = $('#filterQuarter').val();
+
+        var query = getFilterQuery();
+        n = ["st", "nd", "rd", "th"];
+        months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        monthQuarter = periodQuarter * 3;
+        firstArg = periodQuarter +
+            "<sup>" +
+            n[periodQuarter - 1] +
+            "</sup> Quarter Data";
+        secondArg = "("+months[monthQuarter - 3]+" - "+months[monthQuarter - 1]+" "+ periodYear +")";
+        thrithArg = "("+months[0]+" - "+months[monthQuarter - 1]+" "+ periodYear +")";
+        subFirstArg = (periodQuarter != null ? "Q"+periodQuarter+" " : "") + periodYear;
+        subSecondArg = periodQuarter == 1 ? subFirstArg : "Q1Q"+periodQuarter+" "+ periodYear;
+
+        if (periodQuarter === '' || periodQuarter === null) {
+            firstArg = '';
+            secondArg = ' ' + periodYear;
+            subSecondArg = subFirstArg;
+            thrithArg = '';
+        }
+
+        path = {
+            "monthly": "/umbraco/Surface/DPSMenu/Monthly",
+            "quarterly": "/umbraco/Surface/DPSMenu/Quarterly",
+            "yearly": "/umbraco/Surface/DPSMenu/Quarterly"
+        }
+        $('#filterMonth').parent().parent().css('display', 'none')
+        $('#filterQuarter').parent().parent().css('display', 'none')
+
+        if (type == 'monthly') {
+            $('#filterMonth').parent().parent().css('display', 'flex')
+        }
+        if (type == 'quarterly') {
+            $('#filterQuarter').parent().parent().css('display', 'flex')
+        }
+
+        $.getJSON(path[type] + "?lang=@(root.Name)", function (data) {
+            var items = [];
+            var count = 0;
+            $.each(data, function (key, val) {
+                if (type == "quarterly" && ["Laporan4", "Laporan6"].includes(val.id) && periodQuarter == 1) {
+                    return true;
+                }
+                if (val.links.find(a => a.name.toLowerCase().includes(search.toLowerCase())) || search.toLowerCase() == "") {
+                    count++;
+                    var html = '<div class="accordion-item" id="monthly' + count + '">'
+                        + '<div class= "accordion-head" data-collapse="#monthly' + count + '" >'
+                        + '<div>'
+                        + val.name.replace("{0}", firstArg).replace("{1}", secondArg).replace("{2}", thrithArg).replace("{B}", count)
+                        + '</div>'
+                        + '<div class="ml-4" style="flex-shrink: 0;">'
+                        + '<div class="accordion-head__icon">'
+                        + '<i class="fa fa-angle-up"></i>'
+                        + '<i class="fa fa-angle-down"></i>'
+                        + '</div>'
+                        + '</div>'
+                        + '</div>'
+                        + '<div class="accordion-body">'
+                        + '<ul class="list-nostyle ml-8">';
+                    var ascii = 65;
+                    $.each(val.links, function (kunci, value) {
+                        if (type == "quarterly" && ["Laporan8"].includes(val.id) && value.name.includes("50") && value.name.includes("{1}") && periodQuarter == 1) {
+                            return true;
+                        }
+                        if (value.name.toLowerCase().includes(search.toLowerCase()) || search.toLowerCase() == "") {
+                            var encrypted = btoa(query);
+                            html += '<li class="dps-menu-link mb-4" data-query="' + query + '"><a class="statistic-link" href="@path' + value.url + "?q=" + encrypted + (value.name.includes("{2}") ? "&cumulative=true" : "") + '">' + value.name.replace("{1}", subFirstArg).replace("{2}", subSecondArg).replace("{A}", String.fromCharCode(ascii++)) + '</a></li>';
+                        }
+                    });
+                    html += '</ul>'
+                        + '</div>'
+                        + '</div>';
+
+                    items.push(html);
+                }
+            });
+            $("#menuContainer").html(items.join(""));
+            setTitle()
+        });
+    }
+
+    $('#searchBox').on('keyup', function () {
+        getMenu($(this).val(), $('#filteredType').val());
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+//            var currentYear = moment().format('YYYY');
+//            for (var i = 0; i < @ConfigurationManager.AppSettings["maxYear"]; i++) {
+//                $('select[name="year"]').each(function (e){
+//                    var option = $('<option value="' + (currentYear - i) + '">' + (currentYear - i) + '</option>');
+//                    $(this).append(option);
+//                });
+//            }
+        var filteredType = $('#filteredType').val();
+        if (typeof filteredType === 'undefined' || filteredType === null || filteredType === '') {
+            filteredType = 'monthly';
+            $('#filteredType').val(filteredType);
+        }
+        $('#content-tab-' + filteredType).addClass('is-active');
+
+        getMenu("", ($('#filteredType').val() || "monthly"));
+        setFilterOpt(true);
+        $('#filterMonth').on('change', updateFilterQuery);
+        $('#filterQuarter').on('change', function () {
+            getMenu($('#searchBox').val(), 'quarterly', false);
+        });
+    });
+</script>
+}

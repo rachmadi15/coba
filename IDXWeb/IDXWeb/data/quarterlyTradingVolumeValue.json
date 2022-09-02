@@ -1,0 +1,76 @@
+{
+    "chartName": "Monthly Trading in Volume and Value, January 2018 - June 2019",
+    "categories": [
+        "2017",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "2018",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "2019",
+        "Q1",
+        "Q2"
+    ],
+    "series": [
+        {
+            "seriesName": "Volume (Billion Shares)",
+            "seriesData": [
+                {
+                    "y": 2770,
+                    "color": "#222"
+                },
+                1000,
+                520,
+                500,
+                750,
+                {
+                    "y": 2370,
+                    "color": "#222"
+                },
+                750,
+                500,
+                520,
+                600,
+                {
+                    "y": 1700,
+                    "color": "#222"
+                },
+                900,
+                800
+            ],
+            "seriesColor": "#4A8AC8"
+        },
+        {
+            "seriesName": "Value (Trillion Rp)",
+            "seriesData": [
+                {
+                    "y": 1730,
+                    "color": "#C3C3C3"
+                },
+                450,
+                480,
+                400,
+                500,
+                {
+                    "y": 2000,
+                    "color": "#C3C3C3"
+                },
+                530,
+                480,
+                490,
+                500,
+                {
+                    "y": 1200,
+                    "color": "#C3C3C3"
+                },
+                620,
+                580
+            ],
+            "seriesColor": "#7cb5ec"
+        }
+    ]
+}

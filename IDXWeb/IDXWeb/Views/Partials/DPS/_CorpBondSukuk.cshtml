@@ -1,0 +1,49 @@
+﻿<thead class="thead-plain" data-unorderable="0,10,13">
+    <tr>
+        <th rowspan="2">No.</th>
+        <th rowspan="2">Sector</th>
+        <th rowspan="2" class="short">Sub Sector Code</th>
+        <th rowspan="2">Sub Sector</th>
+        <th rowspan="2">Issuer Code</th>
+        <th rowspan="2">Issuer</th>
+        <th rowspan="2">Series</th>
+        <th rowspan="2">Series Code</th>
+        <th class="short" colspan="2">Date</th>
+        <th rowspan="2"></th>
+        <th class="short nowrap" colspan="2">Nominal<br>b. IDR/m. USD</th>
+        <th rowspan="2"></th>
+        <th class="short nowrap" colspan="2">Volume<br>(b. IDR/m. USD)</th>
+        <th rowspan="2">Coupon / Ijarah</th>
+        <th rowspan="2">Rating</th>
+        <th rowspan="2">Tenure</th>
+        <th rowspan="2">Trustee</th>
+    </tr>
+<tr>
+    <th class="short nowrap">Listing</th>
+    <th class="short nowrap">Maturity</th>
+    <th class="short nowrap">Issued</th>
+    <th class="short nowrap">Outstanding</th>
+    <th class="short nowrap" id="header-1">Dec-17</th>
+    <th class="short nowrap" id="header-2">YTD 2019</th>
+</tr>
+</thead>
+<script type="text/javascript">
+
+    function setDataTableHeader() {
+        months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        filteredType = $('#filteredType').val();
+        year = $('#filterYear').val();
+        month = $('#filterMonth').val();
+        quarter = $('#filterQuarter').val();
+        header1 = "Q"+ quarter + " " + year;
+        header2 = "YTD " + year;
+        if (filteredType == "monthly") {
+            header1 = months[month-1] + " " + year;
+            header2 = "YTD " + year;
+        }
+
+        document.getElementById("header-1").innerHTML = header1;
+        document.getElementById("header-2").innerHTML = header2;
+
+    }
+</script>

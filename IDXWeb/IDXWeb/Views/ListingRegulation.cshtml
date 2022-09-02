@@ -1,0 +1,94 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+}
+
+@section Styles {
+    <link href="@Url.Content("/assets/css/jquery.dataTables.min.css")" rel="stylesheet" type="text/css" />
+}
+
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (page.DocumentTypeId != 1237){
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>
+                } else {
+                    <li class="@cls"><a href="" class="disable"><span>@page.Name</span></a></li>
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+        </div>
+        <p>@Umbraco.GetDictionaryValue("Listing Regulations Disclaimer")</p>
+        <table id="listingRegulationsTable" class="table table--zebra table-content-page">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>@Umbraco.GetDictionaryValue("Number of Decree")</th>
+                    <th>@Umbraco.GetDictionaryValue("Description")</th>
+                    <th>@Umbraco.GetDictionaryValue("Size") KB</th>
+                    <th>@Umbraco.GetDictionaryValue("Download")</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+@section Scripts{
+    <script type="text/javascript" src="/assets/js/vendor/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            getListingRegulations();
+        });
+
+        function getListingRegulations() {
+            $.get('@Url.Action("GetRegulationItem", "Regulation")?nodeId=' + @CurrentPage.Id, function (result) {
+                $('#listingRegulationsTable').dataTable({
+                    'processing': true,
+                    'info': false,
+                    'deferRender': true,
+                    'data': result,
+                    'columns': [
+                        { 'data': 'numberOfDecree' },
+                        { 'data': 'numberOfDecree' },
+                        { 'data': 'description' },
+                        { 'data': 'attachmentSize' },
+                        { 'data': 'attachment' }
+                    ],
+                    'columnDefs': [
+                    {
+                        'targets': 4,
+                        'render' : function (td, cellData, rowData, row, col) {
+                            return '<td><a href="' + td + '" class="red" target="_blank"><span class="fa fa-file"></span> @Umbraco.GetDictionaryValue("Download") (' + (currentLang == 'en-us' ? 'English' : 'Bahasa') + ')</a></td>';
+                        }
+                    },
+                ],
+                    "rowCallback": function (row, data, iDisplayIndex) {
+                        var info = this.api().page.info();
+                        var page = info.page;
+                        var length = info.length;
+                        var index = (page * length + (iDisplayIndex + 1));
+                        $('td:eq(0)', row).html(index);
+                    },
+                });
+            });
+        }
+    </script>
+}

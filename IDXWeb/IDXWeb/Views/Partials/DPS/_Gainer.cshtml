@@ -1,0 +1,56 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+<thead class="thead-plain">
+    <tr>
+        <th rowspan="2">No.</th>
+        <th rowspan="2">Code</th>
+        <th rowspan="2">Listed Stocks</th>
+        <th class="short" colspan="3">Closing Price</th>
+        <th rowspan="2">Dilution<br>Factors</th>
+        <th class="short" colspan="2">Change</th>
+    </tr>
+    <tr>
+        <th class="short text-right" id="header-g-1"></th>
+        <th class="short text-right" id="header-g-2"></th>
+        <th class="short text-right" id="header-g-3"></th>
+        <th class="short text-right">Price</th>
+        <th class="short text-right">%</th>
+    </tr>
+</thead>
+
+<script type="text/javascript">
+    function setUpperHeaderTitle() {
+        var filteredType = $('#filteredType').val();
+        var periodYear = $('#filterYear').val();
+        var periodMonth = $('#filterMonth').val();
+        var periodQuarter = $('#filterQuarter').val();
+        year = periodYear;
+        header1 = year - 1;
+        header2 = header1 + "*";
+        header3 = year;
+        months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        if (filteredType == "monthly") {
+            month = periodMonth;
+            header1 = months[(month == 1 ? 13 : month) - 2] + "-" + (month == 1 ? year-1 : year);
+            header2 = header1 + "*";
+            header3 = months[month - 1] + "-" + year;
+        }
+    
+        if (filteredType == "quarterly" || filteredType == "yearly") {
+            quarter = periodQuarter;
+            month = quarter * 3;
+            header1 = months[(month == 3 ? 15 : month) - 4] + "-" + (month == 1 ? year-1 : year);
+            header2 = header1 + "*";
+            header3 = months[month - 1] + "-" + year;
+            isCumulative = @(string.IsNullOrEmpty(Request.QueryString["cumulative"]) ? "false" : Request.QueryString["cumulative"]);
+            if (isCumulative) {
+                header1 = months[11] + "-" + (year-1).toString();
+                header2 = header1 + "*";
+            }
+        }
+        document.getElementById("header-g-1").innerHTML = header1;
+        document.getElementById("header-g-2").innerHTML = header2;
+        document.getElementById("header-g-3").innerHTML = header3;
+
+    }
+
+</script>

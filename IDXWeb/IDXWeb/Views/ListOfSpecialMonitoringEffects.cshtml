@@ -1,0 +1,267 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+}
+
+@section Styles {
+    <link href="@Url.Content("/assets/css/vendor/datatables.min.css")" rel="stylesheet" type="text/css" />
+}
+
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic>
+                pages = new Stack<dynamic>
+                    ();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (page.DocumentTypeId != 1237)
+                {
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>
+                }
+                else
+                {
+                    <li class="@cls"><a href="" class="disable"><span>@page.Name</span></li>
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            @if (Umbraco.TypedContent(CurrentPage.Id) != null)
+            {
+                <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).Name</h1>
+            }
+        </div>
+        <div action="" class="block-double">
+            @*<div class="block flex v-center">
+                    <span class="form-label-announcement">@Umbraco.GetDictionaryValue("keyword")</span>
+                    <input id="keywordInput" type="text" class="form-input form-input--block" placeholder="@Umbraco.GetDictionaryValue("keyword")">
+                </div>*@
+            <div class="block flex v-center">
+                <span class="form-label-announcement">@Umbraco.GetDictionaryValue("in date from")</span>
+                <div class="calendar-box width-block">
+                    <input id="dateFromInput" type="date" class="form-input form-input--block date-picker-js">
+                </div>
+                <span class="form-label-announcement">@Umbraco.GetDictionaryValue("to")</span>
+                <div class="calendar-box width-block">
+                    <input id="dateToInput" type="date" class="form-input form-input--block date-picker-js">
+                </div>
+            </div>
+
+            <div class="block flex v-center">
+                <span class="form-label-announcement">&nbsp;</span>
+                <button id="searchBtn" class="btn btn-primary" onclick="getMonitoringEffectsHistory()">@Umbraco.GetDictionaryValue("search")</button>
+            </div>
+            <div class="text-center">
+                <div class="mb-24">
+                    <b>@Umbraco.GetDictionaryValue("date") :</b>
+                    <span id="monitoringEffectsActDate">Tuesday, 02-Jan-2018 </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main-content content-push">
+        <div class="container">
+            <div class="block">
+                <table id="monitoringEffectsActTable" class="table table--zebra table-content-page width-block">
+                    <thead>
+                        <tr>
+                            <th class="text-center">No</th>
+                            <th class="text-center">@Umbraco.GetDictionaryValue("Stock Code")</th>
+                            <th class="text-center">@Umbraco.GetDictionaryValue("Emiten Name")</th>
+                            <th class="text-center">@Umbraco.GetDictionaryValue("In Date")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div hidden="true">
+                <table id="downloadMonitoringEffectsActTable" class="table table--zebra table-content-page">
+                    <thead>
+                        <tr>
+                            <th class="text-center">@Umbraco.GetDictionaryValue("Stock Code")</th>
+                            <th class="text-center">@Umbraco.GetDictionaryValue("Emiten Name")</th>
+                            <th class="text-center">@Umbraco.GetDictionaryValue("In Date")</th>
+                            <th class="text-center">@Umbraco.GetDictionaryValue("Out Date")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-right block">
+                <a onclick="downloadMonitoringEffectsHistory()" href="" class="btn btn-primary --rounded"><span class="fa fa-download"></span> @Umbraco.GetDictionaryValue("download")</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+@section Scripts{
+    @*<script type="text/javascript" src="/assets/js/vendor/jquery.dataTables.min.js"></script>*@
+    <script type="text/javascript" src="/assets/js/vendor/datatables.min.js"></script>
+    <script defer src="https://cdn.datatables.net/plug-ins/1.10.12/sorting/datetime-moment.js"></script>
+    <script type="text/javascript">
+    $(function () {
+        $('#monitoringEffectsActDate').text(moment().format('dddd, DD-MMM-YYYY'));
+        getMonitoringEffectsHistory();
+    });
+
+    function getMonitoringEffectsHistory() {
+        var dateFromFilter = $('#dateFromInput').val();
+        var dateToFilter = $('#dateToInput').val();
+        //var keywordFilter = $('#keywordInput').val();
+
+        if (dateFromFilter !== "") {
+            dateFromFilter = moment(dateFromFilter, "DD-MM-YYYY").format('YYYYMMDD');
+        } else {
+            dateFromFilter = moment(1).format('YYYYMMDD');
+        }
+
+        if (dateToFilter !== "") {
+            dateToFilter = moment(dateToFilter, "DD-MM-YYYY").format('YYYYMMDD');
+        } else {
+            dateToFilter = moment().format('YYYYMMDD');
+        }
+        //if (keywordFilter !== "") {
+        //    keywordFilter = '&name=' + keywordFilter;
+        //}
+
+        if ($.fn.DataTable.isDataTable('#monitoringEffectsActTable')) {
+            var datatable = $('#monitoringEffectsActTable').DataTable();
+            datatable.clear();
+            var url = '@Url.Action("GetMonitoringEffectsHistory", "SpecialMonitoringEffects")' + '?startDate=' + dateFromFilter + '&endDate=' + dateToFilter;
+            datatable.ajax.url(url).load();
+            datatable.draw();
+        } else {
+            var url = '@Url.Action("GetMonitoringEffectsHistory", "SpecialMonitoringEffects")' + '?startDate=' + dateFromFilter + '&endDate=' + dateToFilter;
+
+            $('#monitoringEffectsActTable').dataTable({
+                'ajax': {
+                    'url': url,
+                },
+                'filter': true,
+                'sort': true,
+                'serverSide': false,
+                'processing': true,
+                'paging': true,
+                'deferRender': true,
+                'columns': [
+                    { 'data': 'Kode' },
+                    { 'data': 'Kode' },
+                    { 'data': 'Nama' },
+                    { 'data': 'TanggalMasuk'}
+                ],
+                'order' : [[0, 'asc']],
+                'columnDefs': [
+                    {
+                        'targets': [0,1,2],
+                        'createdCell': function (td, cellData, rowData, row, col) {
+                            return $(td).addClass('text-center');
+                        },
+                    },
+                    {
+                        'targets': [3],
+                        'createdCell': function (td, cellData, rowData, row, col) {
+                            return $(td).addClass('text-center');
+                        },
+                        'render': function (data, type, row, meta) {
+                            if (data != null) {
+                                return moment(data).format('DD-MM-YYYY')
+                            } else {
+                                return '';
+                            }
+                        }
+                    },
+                ],
+                "rowCallback": function (row, data, iDisplayIndex) {
+                    var info = this.api().page.info();
+                    var page = info.page;
+                    var length = info.length;
+                    var index = (page * length + (iDisplayIndex + 1));
+                    $('td:eq(0)', row).html(index);
+                },
+            });
+        }
+    }
+
+    function downloadMonitoringEffectsHistory() {
+        var startDate = moment().add(-3, 'years');
+        var endDate = moment();
+        var startDateFilter = startDate.format('YYYYMMDD');
+        var endDateFilter = endDate.format('YYYYMMDD');
+
+        $.fn.dataTable.moment('DD-MM-YYYY');
+        var isDatatable = $.fn.DataTable.isDataTable('#downloadMonitoringEffectsActTable');
+
+        $.get('@Url.Action("DownloadMonitoringEffectsHistory", "SpecialMonitoringEffects")?startDate=' + startDateFilter, function (response){
+            if(!isDatatable){
+                $('#downloadMonitoringEffectsActTable').DataTable({
+                    'paging': true,
+                    'data': response.Results,
+                    'buttons': [{
+                        'extend': 'excelHtml5',
+                        'title': function () {
+                            return '@Umbraco.TypedContent(CurrentPage.Id).PageTitle' + '-' + startDateFilter + '-' + endDateFilter;
+                        }
+                    }],
+                    'columns': [
+                        { 'data': 'Kode' },
+                        { 'data': 'Nama' },
+                        { 'data': 'TanggalMasuk' },
+                        { 'data': 'TanggalKeluar'}
+                    ],
+                    'order': [[0, 'asc'],[2,'asc'],[3,'desc']],
+                    'columnDefs': [
+                        {
+                            'targets': [0, 1],
+                            'createdCell': function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-center');
+                            },
+                        },
+                        {
+                            'targets': [2,3],
+                            'createdCell': function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-center');
+                            },
+                            'render': function (data, type, row, meta) {
+                                if (data != null) {
+                                    return moment(data).format('DD-MM-YYYY')
+                                } else {
+                                    return '';
+                                }
+                            }
+                        },
+                    ],
+                    "rowCallback": function (row, data, iDisplayIndex) {
+                        var info = this.api().page.info();
+                        var page = info.page;
+                        var length = info.length;
+                        var index = (page * length + (iDisplayIndex + 1));
+                        $('td:eq(0)', row).html(index);
+                    },
+                });
+            } else {
+                var datatable = $('#downloadMonitoringEffectsActTable').DataTable();
+                datatable.clear();
+                datatable.rows.add(response.Results).draw();
+            }
+
+            $('#downloadMonitoringEffectsActTable').DataTable().buttons().trigger();
+        });
+    }
+
+    </script>
+}

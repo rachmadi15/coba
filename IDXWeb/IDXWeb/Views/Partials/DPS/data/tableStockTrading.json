@@ -1,0 +1,144 @@
+{
+    "data": [
+        {
+            "sector": "Agriculture",
+            "subSector": "Crops",
+            "code": "BISI",
+            "stockName": "Bisi Internasional Tbk.",
+            "sharia": true,
+            "totalMarketCapt": 4410,
+            "regularVolume": 1500,
+            "regularValue": 1500,
+            "regularFreq": 1500,
+            "regularDays": 21,
+            "totalVolume": 2142292,
+            "totalValue": 2142292,
+            "totalFreq": 2142292,
+            "totalDays": 21
+        },
+        {
+            "sector": "Mining",
+            "subSector": "Coal Mining",
+            "code": "BISI",
+            "stockName": "Bisi Internasional Tbk.",
+            "sharia": true,
+            "totalMarketCapt": 4210,
+            "regularVolume": 1500,
+            "regularValue": 1500,
+            "regularFreq": 1500,
+            "regularDays": 21,
+            "totalVolume": 2142292,
+            "totalValue": 2142292,
+            "totalFreq": 2142292,
+            "totalDays": 21
+        },
+        {
+            "sector": "Basic Industry and Chemicals",
+            "subSector": "Cement",
+            "code": "BISI",
+            "stockName": "Bisi Internasional Tbk.",
+            "sharia": false,
+            "totalMarketCapt": 4410,
+            "regularVolume": 1500,
+            "regularValue": 1500,
+            "regularFreq": 1500,
+            "regularDays": 18,
+            "totalVolume": 2142292,
+            "totalValue": 2142292,
+            "totalFreq": 2142292,
+            "totalDays": 100
+        }
+    ],
+    "columns": [
+        {
+            "columnName": "sector",
+            "decimal": 0,
+            "format": false,
+            "className": "text-center"
+        },
+        {
+            "columnName": "subSector",
+            "decimal": 0,
+            "format": false,
+            "className": "text-center"
+        },
+        {
+            "columnName": "code",
+            "decimal": 0,
+            "format": false,
+            "className": "text-center"
+        },
+        {
+            "columnName": "stockName",
+            "decimal": 0,
+            "format": false,
+            "className": "text-center"
+        },
+        {
+            "columnName": "sharia",
+            "decimal": 0,
+            "format": "yesNo",
+            "className": "text-center"
+        },
+        {
+            "columnName": "totalMarketCapt",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "regularVolume",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "regularValue",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "regularFreq",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "regularDays",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": null,
+            "decimal": 0,
+            "format": false,
+            "className": "text-center"
+        },
+        {
+            "columnName": "totalVolume",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "totalValue",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "totalFreq",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "totalDays",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        }
+    ]
+}

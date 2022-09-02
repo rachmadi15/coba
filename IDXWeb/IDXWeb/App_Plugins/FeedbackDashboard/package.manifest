@@ -1,0 +1,26 @@
+﻿{
+	propertyEditors: [
+		{
+			alias: "FeedbackDashboard",
+			name: "Feedback Dashboard",
+			icon: "icon-thumbnails",
+			group: "Other",
+			editor: {
+				view: "~/App_Plugins/FeedbackDashboard/Index.html"
+			}
+		}
+	],
+	javascript: [
+		"~/App_Plugins/FeedbackDashboard/js/highcharts.src.js",
+		"~/App_Plugins/FeedbackDashboard/js/moment.min.js",
+		"~/App_Plugins/FeedbackDashboard/Timeline.js",
+		"~/App_Plugins/FeedbackDashboard/OverallRating.js",
+		"~/App_Plugins/FeedbackDashboard/TodaysFeedback.js",
+		"~/App_Plugins/FeedbackDashboard/FeedbackDashboard.controller.js"
+	],
+	css: [
+		"~/App_Plugins/FeedbackDashboard/css/card.min.css",
+		"~/App_Plugins/FeedbackDashboard/css/flexboxgrid.min.css",
+		"~/App_Plugins/FeedbackDashboard/css/style.css"
+	]
+}

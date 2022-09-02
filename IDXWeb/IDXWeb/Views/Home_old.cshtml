@@ -1,0 +1,1238 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+    //var backgroundImage = Model.Content.HeroBackgroundImage != null ? Model.Content.HeroBackgroundImage.Url : String.Empty;
+}
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+<main class="main-homepage main-content sticky-footer-container-item --pushed">
+    <div class="container">
+        <div class="flexbox v-center top-space-half block">
+            <div class="homepage-left-container">
+                <div class="main-slider">
+                    @{
+                        for (int i = 1; i <= 5; i++)
+                        {
+                            var bannerIndex = 0;
+                            for (int sortNumber = 1; sortNumber <= 5; sortNumber++)
+                            {
+                                var bannerSortNumberString = "banner" + sortNumber + "SortNumber";
+                                int bannerSortNumber = (int)Umbraco.TypedContent((int)CurrentPage.Id).GetPropertyValue(bannerSortNumberString);
+                                if (bannerSortNumber == i)
+                                {
+                                    bannerIndex = sortNumber;
+                                    break;
+                                }
+                            }
+
+                            if (bannerIndex > 0 && Umbraco.Field("banner" + bannerIndex + "TopTitle").ToString() != string.Empty)
+                            {
+                                <a href="@Umbraco.Field("banner" + bannerIndex + "Link")" class="main-slider-item">
+                                    <div class="main-slider-img-container">
+                                        @{
+                                            var banner1 = Model.Content.GetPropertyValue<IPublishedContent>("banner" + bannerIndex + "Image");
+                                            if (banner1 != null)
+                                            {
+                                                var banner1Image = banner1.Url;
+                                                <img src="@banner1Image" alt="" class="main-slider-img" />
+                                            }
+                                        }
+                                    </div>
+                                    <div class="main-slider-text">
+                                        <span class="main-slider-text-top">@Umbraco.Field("banner" + bannerIndex + "TopTitle")</span>
+                                        <span class="main-slider-text-middle">@Umbraco.Field("banner" + bannerIndex + "MiddleTitle")</span>
+                                        <span class="main-slider-text-bottom">@Umbraco.Field("banner" + bannerIndex + "BottomTitle")</span>
+                                    </div>
+                                </a>
+                            }
+                        }
+
+                    }
+                </div>
+            </div>
+            <div class="homepage-right-container">
+                <div class="">
+                    <a href="@Umbraco.AssignedContentItem.GetPropertyValue("iDXChannelLink")" class="content-link-wide-btn">
+                        @Umbraco.AssignedContentItem.GetPropertyValue("iDXChannelTitle")
+                    </a>
+                    <a href="@Umbraco.AssignedContentItem.GetPropertyValue("stLink")" class="content-link-wide-btn">
+                        @Umbraco.AssignedContentItem.GetPropertyValue("stLinkTitle")
+                    </a>
+                    <a href="@Umbraco.TypedContent(Model.Content.GetPropertyValue<int>("ndLink")).Url" class="content-link-wide-btn">
+                        @Umbraco.AssignedContentItem.GetPropertyValue("ndLinkTitle")
+                    </a>
+                    <a href="@Umbraco.AssignedContentItem.GetPropertyValue("rdLink")" class="content-link-wide-btn last">
+                        @Umbraco.AssignedContentItem.GetPropertyValue("rdLinkTitle")
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="white-container --visible">
+            <div class="flexbox v-center">
+                <div class="homepage-left-container">
+                    <div class="container-space">
+                        <div class="market-overview-container">
+                            <h2 class="section-title">@Umbraco.GetDictionaryValue("MarketOverview")</h2>
+                            <div class="market-overview-content">
+                                <div class="market-overview-chart-list">
+                                    <div id="marketIndexList" class="market-overview-slider">
+                                    </div>
+                                    <div class="table-detail-link">
+                                        @{
+                                            var marketOverviewLink = Umbraco.TypedContent(Model.Content.GetPropertyValue<int>("marketOverviewLink"));
+                                            var link = "";
+                                            if (marketOverviewLink != null)
+                                            {
+                                                link = marketOverviewLink.Url;
+                                            }
+                                            <a href="@link" class="">@Umbraco.GetDictionaryValue("more")</a>
+                                        }
+                                        <div class="">
+                                            <button type="button" class="slick-prev">
+                                                <span class="fa fa-angle-left"></span>
+                                            </button>
+                                            <button type="button" class="slick-next">
+                                                <span class="fa fa-angle-right"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="market-overview-chart-stock-container">
+                                    <div class="market-overview-chart-stock is-active" id="jci1">
+                                        <div class="market-overview-chart-stock-header">
+                                            <div class="market-overview-chart-stock-header-top">
+                                                <span class="market-overview-chart-stock-header-title"></span>
+                                                <div class="market-overview-chart-stock-header-search">
+                                                    <div class="search-box small">
+                                                        <select name="code" id="" class="form-input form-input--block select2-js emitenList"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="market-overview-chart-stock-header-bottom">
+                                                <div class="market-overview-chart-filter">
+                                                    <a href="" class="market-overview-chart-filter-item is-active ">1D</a>
+                                                    <a href="" class="market-overview-chart-filter-item">1W</a>
+                                                    <a href="" class="market-overview-chart-filter-item">1M</a>
+                                                    <a href="" class="market-overview-chart-filter-item">1Q</a>
+                                                    <a href="" class="market-overview-chart-filter-item">1Y</a>
+                                                </div>
+                                                <div>
+                                                    <span id="graphicPrice"></span>
+                                                    <span id="graphicPercent"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="market-overview-chart-stock-item">
+                                            <div id="chartContainer" class="chart-stock"></div>
+                                            <div id="chartDisclaimerContainer" class="table-detail-link">
+                                                <span><small>*@Umbraco.GetDictionaryValue("disclaimer MarketOverview")</small></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="homepage-right-container">
+                    <div class="table-information-container container-space">
+                        <span class="table-title">@Umbraco.AssignedContentItem.GetPropertyValue("tradingSummaryTitle")</span>
+                        <div class="table-subtitle-container text-caps">
+                            <a href="#equities" class="table-subtitle trading-summary-title-js is-active">@Umbraco.GetDictionaryValue("equities")</a>
+                            <a href="#bonds" class="table-subtitle trading-summary-title-js">@Umbraco.GetDictionaryValue("bonds")</a>
+                            <a href="#derivatives" class="table-subtitle trading-summary-title-js">@Umbraco.GetDictionaryValue("derivatives")</a>
+                        </div>
+                        <div class="corporate-action-container trading-summary-content-js is-active" id="equities">
+                            <table id="tradeSummaryTable" class="table table--zebra custom-table text-caps" style="height: 150px;">
+                                <thead class="text-center">
+                                    <tr class="background-dark-grey">
+                                        <th></th>
+                                        <th>@Umbraco.GetDictionaryValue("value") <span class="text-description-detail text-normal">@Umbraco.GetDictionaryValue("bill. Rupiah")</span></th>
+                                        <th>Volume <span class="text-description-detail text-normal">@Umbraco.GetDictionaryValue("mill. Shares")</span></th>
+                                        <th class="mobile-break">@Umbraco.GetDictionaryValue("frequency")</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center"></tbody>
+                            </table>
+                            <div class="table-detail-link">
+                                @{
+                                    var equitiesLink = Umbraco.TypedContent(Model.Content.GetPropertyValue<int>("equities"));
+                                    link = "";
+                                    if (equitiesLink != null)
+                                    {
+                                        link = equitiesLink.Url;
+                                    }
+                                    <a href="@link" class="">@Umbraco.GetDictionaryValue("more")</a>
+                                }
+                            </div>
+                        </div>
+                        <div class="corporate-action-container trading-summary-content-js" id="bonds">
+                            <table id="bondsTable" class="table table--zebra custom-table custom-table text-caps" style="height: 150px;">
+                                <thead class="text-center">
+                                    <tr class="background-dark-grey">
+                                        <th></th>
+                                        <th>Volume</th>
+                                        <th class="mobile-break">@Umbraco.GetDictionaryValue("frequency")</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center"></tbody>
+                            </table>
+                            <div class="table-detail-link">
+                                @{
+                                    var bondLink = Umbraco.TypedContent(Model.Content.GetPropertyValue<int>("bondLink"));
+                                    link = "";
+                                    if (bondLink != null)
+                                    {
+                                        link = bondLink.Url;
+                                    }
+                                    <a href="@link" class="">@Umbraco.GetDictionaryValue("more")</a>
+                                }
+                            </div>
+                        </div>
+                        <div class="corporate-action-container trading-summary-content-js" id="derivatives">
+                            <table id="derivativesTable" class="table table--zebra custom-table custom-table--3 text-caps" style="height: 150px;">
+                                <thead class="text-center">
+                                    <tr class="background-dark-grey">
+                                        <th></th>
+                                        <th>Volume</th>
+                                        <th class="mobile-break">@Umbraco.GetDictionaryValue("frequency")</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center"></tbody>
+                            </table>
+                            <div class="table-detail-link">
+                                @{
+                                    var derivativesLink = Umbraco.TypedContent(Model.Content.GetPropertyValue<int>("derivativesLink"));
+                                    link = "";
+                                    if (derivativesLink != null)
+                                    {
+                                        link = derivativesLink.Url;
+                                    }
+                                    <a href="@link" class="">@Umbraco.GetDictionaryValue("more")</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flexbox v-center">
+                <div class="homepage-left-container --visible">
+                    <div class="table-information-container container-space">
+                        <span class="table-title">@Umbraco.AssignedContentItem.GetPropertyValue("stockInformationTitle")</span>
+                        <div class="table-subtitle-container">
+                            <a href="#corporateAct" class="table-subtitle tab-anchor-js is-active">@Umbraco.AssignedContentItem.GetPropertyValue("stockInformationTab1Title")</a>
+                            <a href="#disclosure" class="table-subtitle tab-anchor-js">@Umbraco.AssignedContentItem.GetPropertyValue("stockInformationTab2Title")</a>
+                            <a href="#newListing" class="table-subtitle tab-anchor-js">@Umbraco.AssignedContentItem.GetPropertyValue("stockInformationTab3Title")</a>
+                            <a href="#UMA" class="table-subtitle tab-anchor-js">@Umbraco.AssignedContentItem.GetPropertyValue("stockInformationTab4Title")</a>
+                            <a href="#suspend" class="table-subtitle tab-anchor-js">@Umbraco.AssignedContentItem.GetPropertyValue("stockInformationTab5Title")</a>
+                            <a href="#etd" class="table-subtitle tab-anchor-js">@Umbraco.GetDictionaryValue("etd")</a>
+                            <a href="#td" class="table-subtitle tab-anchor-js">@Umbraco.GetDictionaryValue("td")</a>
+                        </div>
+                        <div class="table-information-content is-active" id="corporateAct">
+                            <div id="listedCompanyCalendar" class="stock-calendar-js"></div>
+                            <div class="table-detail-link">
+                                @{
+                                    var corpActionLink = Umbraco.TypedContent(Model.Content.GetPropertyValue<int>("corpActionLink"));
+                                    link = "";
+                                    if (corpActionLink != null)
+                                    {
+                                        link = corpActionLink.Url;
+                                    }
+                                    <a href="@link" class="">@Umbraco.GetDictionaryValue("more")</a>
+                                }
+                            </div>
+                        </div>
+                        <div class="table-information-content" id="disclosure">
+                            <table id="corpActionTable" class="table table--zebra table--fixed">
+                                <thead class="text-center">
+                                    <tr style="height: 61px;">
+                                        <th style="width: 110px">@Umbraco.GetDictionaryValue("date")</th>
+                                        <th style="width: 110px">@Umbraco.GetDictionaryValue("code")</th>
+                                        <th>@Umbraco.GetDictionaryValue("activities")</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <div class="table-detail-link">
+                                @{
+                                    var disclosureLin = Umbraco.TypedContent(Model.Content.GetPropertyValue<int>("disclosureLin"));
+                                    link = "";
+                                    if (disclosureLin != null)
+                                    {
+                                        link = disclosureLin.Url;
+                                    }
+                                    <a href="@link" class="">@Umbraco.GetDictionaryValue("more")</a>
+                                }
+                            </div>
+                        </div>
+                        <div class="table-information-content" id="newListing">
+                            <table id="relistingTable" class="table table--zebra">
+                                <thead class="text-center">
+                                    <tr style="height: 61px;">
+                                        <th>@Umbraco.GetDictionaryValue("date")</th>
+                                        <th>@Umbraco.GetDictionaryValue("code")</th>
+                                        <th>@Umbraco.GetDictionaryValue("name")</th>
+                                        <th>IPO (Shares)</th>
+                                        <th>@Umbraco.GetDictionaryValue("board")</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center"></tbody>
+                            </table>
+                            <div class="table-detail-link">
+                                @{
+                                    var newListingLink = Umbraco.TypedContent(Model.Content.GetPropertyValue<int>("newListingLink"));
+                                    link = "";
+                                    if (newListingLink != null)
+                                    {
+                                        link = newListingLink.Url;
+                                    }
+                                    <a href="@link" class="">@Umbraco.GetDictionaryValue("more")</a>
+                                }
+                            </div>
+                        </div>
+                        <div class="table-information-content" id="UMA">
+                            <table id="umaTable" class="table table--zebra">
+                                <thead class="text-center">
+                                    <tr style="height: 61px;">
+                                        <th style="width: 110px">@Umbraco.GetDictionaryValue("date")</th>
+                                        <th style="width: 90px">@Umbraco.GetDictionaryValue("code")</th>
+                                        <th>@Umbraco.GetDictionaryValue("information")</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center"></tbody>
+                            </table>
+                            <div class="table-detail-link">
+                                @{
+                                    var umaLink = Umbraco.TypedContent(Model.Content.GetPropertyValue<int>("umaLink"));
+                                    link = "";
+                                    if (umaLink != null)
+                                    {
+                                        link = umaLink.Url;
+                                    }
+                                    <a href="@link" class="">@Umbraco.GetDictionaryValue("more")</a>
+                                }
+                            </div>
+                        </div>
+                        <div class="table-information-content" id="suspend">
+                            <table id="suspendTable" class="table table--zebra table--fixed">
+                                <thead class="text-center">
+                                    <tr style="height: 61px;">
+                                        <th style="width: 110px">@Umbraco.GetDictionaryValue("date")</th>
+                                        <th style="width: 90px">@Umbraco.GetDictionaryValue("code")</th>
+                                        <th style="width: 90px">Status</th>
+                                        <th>@Umbraco.GetDictionaryValue("information")</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center"></tbody>
+                            </table>
+                            <div class="table-detail-link">
+                                @{
+                                    var suspendLink = Umbraco.TypedContent(Model.Content.GetPropertyValue<int>("suspendLink"));
+                                    link = "";
+                                    if (suspendLink != null)
+                                    {
+                                        link = suspendLink.Url;
+                                    }
+                                    <a href="@link" class="">@Umbraco.GetDictionaryValue("more")</a>
+                                }
+                            </div>
+                        </div>
+                        <div class="table-information-content" id="etd">
+                            <table id="etdTable" class="table table--zebra table--fixed">
+                                <thead class="text-center">
+                                    <tr style="height: 61px;">
+                                        <th style="width: 110px">@Umbraco.GetDictionaryValue("date")</th>
+                                        <th>@Umbraco.GetDictionaryValue("information")</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <div class="table-detail-link">
+                                @{
+                                    var etdLink = Umbraco.TypedContent(Model.Content.GetPropertyValue<int>("etdLink"));
+                                    link = "";
+                                    if (etdLink != null)
+                                    {
+                                        link = etdLink.Url + "?type=etd";
+                                    }
+                                    <a href="@link" class="">@Umbraco.GetDictionaryValue("more")</a>
+                                }
+                            </div>
+                        </div>
+                        <div class="table-information-content" id="td">
+                            <table id="tdTable" class="table table--zebra table--fixed">
+                                <thead class="text-center">
+                                    <tr style="height: 61px;">
+                                        <th style="width: 110px">@Umbraco.GetDictionaryValue("date")</th>
+                                        <th>@Umbraco.GetDictionaryValue("information")</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <div class="table-detail-link">
+                                @{
+                                    var tdLink = Umbraco.TypedContent(Model.Content.GetPropertyValue<int>("tdLink"));
+                                    link = "";
+                                    if (tdLink != null)
+                                    {
+                                        link = tdLink.Url + "?type=td";
+                                    }
+                                    <a href="@link" class="">@Umbraco.GetDictionaryValue("more")</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="homepage-right-container">
+                    <div class="table-information-container container-space">
+                        <span class="table-title">@Umbraco.AssignedContentItem.GetPropertyValue("top5Title")</span>
+                        <div class="table-subtitle-container two">
+                            <a href="#byValue" class="table-subtitle top-5-title-js is-active">@Umbraco.AssignedContentItem.GetPropertyValue("byValue")</a>
+                            <a href="#byVolume" class="table-subtitle top-5-title-js">@Umbraco.AssignedContentItem.GetPropertyValue("byVolume")</a>
+                            <a href="#gainers" class="table-subtitle top-5-title-js">@Umbraco.AssignedContentItem.GetPropertyValue("top5GainerTitle")</a>
+                            <a href="#frequent" class="table-subtitle top-5-title-js">@Umbraco.AssignedContentItem.GetPropertyValue("top5FrequentTitle")</a>
+                        </div>
+                        <div class="corporate-action-container top-5-content-js is-active" id="byValue">
+                            <table id="topValueTable" class="table table--zebra table-top-5" style="height: 397px;">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th>@Umbraco.GetDictionaryValue("code")</th>
+                                        <th>@Umbraco.GetDictionaryValue("value") <span class="text-description-detail text-normal">(Rp)</span></th>
+                                        <th>Volume <span class="text-description-detail text-normal">(@Umbraco.GetDictionaryValue("Shares"))</span></th>
+                                        <th>@Umbraco.GetDictionaryValue("price") <span class="text-description-detail text-normal">(Rp)</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center"></tbody>
+                            </table>
+                            <div class="table-detail-link">
+                                @{
+                                    var topStockLink = Umbraco.TypedContent(Model.Content.GetPropertyValue<int>("topStockLink"));
+                                    link = "";
+                                    if (topStockLink != null)
+                                    {
+                                        link = topStockLink.Url;
+                                    }
+                                    <a href="@link" class="">@Umbraco.GetDictionaryValue("more")</a>
+                                }
+
+                            </div>
+                        </div>
+                        <div class="corporate-action-container top-5-content-js" id="byVolume">
+                            <table id="topVolumeTable" class="table table--zebra table-top-5" style="height: 397px;">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th>@Umbraco.GetDictionaryValue("code")</th>
+                                        <th>@Umbraco.GetDictionaryValue("value") <span class="text-description-detail text-normal">(Rp)</span></th>
+                                        <th>Volume <span class="text-description-detail text-normal">(@Umbraco.GetDictionaryValue("Shares"))</span></th>
+                                        <th>@Umbraco.GetDictionaryValue("price") <span class="text-description-detail text-normal">(Rp)</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center"></tbody>
+                            </table>
+                            <div class="table-detail-link">
+                                <a href="@link" class="">@Umbraco.GetDictionaryValue("more")</a>
+                            </div>
+                        </div>
+                        <div class="corporate-action-container top-5-content-js" id="gainers">
+                            <table id="topGainerTable" class="table table--zebra table-top-5" style="height: 397px;">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th>@Umbraco.GetDictionaryValue("code")</th>
+                                        <th>@Umbraco.GetDictionaryValue("price") <span class="text-description-detail text-normal">(Rp)</span></th>
+                                        <th>@Umbraco.GetDictionaryValue("change")</th>
+                                        <th>@Umbraco.GetDictionaryValue("percentage") <span class="text-description-detail text-normal">(%)</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center"></tbody>
+                            </table>
+                            <div class="table-detail-link">
+                                <a href="@link" class="">@Umbraco.GetDictionaryValue("more")</a>
+                            </div>
+                        </div>
+                        <div class="corporate-action-container top-5-content-js" id="frequent">
+                            <table id="topFrequentTable" class="table table--zebra table-top-5" style="height: 397px;">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th>@Umbraco.GetDictionaryValue("code")</th>
+                                        <th>@Umbraco.GetDictionaryValue("price") <span class="text-description-detail text-normal">(Rp)</span></th>
+                                        <th>Market Cap <span class="text-description-detail text-normal">(Rp)</span></th>
+                                        <th>Frequent <span class="text-description-detail text-normal">(x)</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center"></tbody>
+                            </table>
+                            <div class="table-detail-link">
+                                <a href="@link" class="">@Umbraco.GetDictionaryValue("more")</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flexbox v-center">
+            <div class="homepage-left-container clear-left">
+                <div class="container-space">
+                    <div class="market-overview-container">
+                        <div class="flexbox v-center v-center--spread block">
+                            <h2 class="section-title">@Umbraco.AssignedContentItem.GetPropertyValue("newsTitle")</h2>
+                            <div class="news-homepage-link-more">
+                                @{
+                                    var newsLink = Umbraco.TypedContent(Model.Content.GetPropertyValue<int>("newsLink"));
+                                    var linkChar = "/";
+                                    if (newsLink != null)
+                                    {
+                                        linkChar = newsLink.Url;
+                                    }
+                                    <a href="@linkChar" class="link-more">@Umbraco.GetDictionaryValue("see all")</a>
+                                }
+                            </div>
+                        </div>
+                        <div class="news-homepage-content" ng-controller="NewsController">
+                            <div class="news-homepage-container">
+                                <div class="news-homepage-item-container" ng-repeat="news in latestNews">
+                                    <a href="@Umbraco.TypedContent(Request.Url.ToString().Contains("en-us") ? 1942 : 1945).Url ?id={{news.Id}}&newsId={{news.ItemId}}" class="news-homepage-item">
+                                        <figure class="news-homepage-figure">
+                                            <img ng-src="{{news.ImageUrl}}" alt="" class="news-homepage-img">
+                                            <figcaption class="news-homepage-figcaption">
+                                                <span class="news-homepage-figcaption-title">{{news.Title}}</span>
+                                                <time class="news-homepage-figcaption-date">{{news.PublishedDate | date:'dd MMMM yyyy'}}</time>
+                                            </figcaption>
+                                        </figure>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="homepage-right-container">
+                <div class="container-space clear-right mobile-clear">
+                    <div class="white-container">
+                        <div class="others-site-container">
+                            <div class="others-site-item">
+                                <a href="@Umbraco.AssignedContentItem.GetPropertyValue("yukNabungSahamLink")" target="_blank" class="others-site-anchor">
+                                    <span class="others-site-img-container">
+                                        <img src="/assets/img/logo-yns.png" alt="" class="others-site-img">
+                                    </span>
+                                    <span class="others-site-description">
+                                        <span class="others-site-description-title green">Yuk Nabung Saham</span>
+                                        <span class="others-site-description-text">Saving the <b>STOCK</b>,<br />own the <b>COMPANY</b></span>
+                                    </span>
+                                </a>
+                            </div>
+                            <div class="others-site-item">
+                                <a href="@Umbraco.AssignedContentItem.GetPropertyValue("goPublicLink")" target="_blank" class="others-site-anchor">
+                                    <span class="others-site-img-container">
+                                        <img src="/assets/img/logo-pigp.png" alt="" class="others-site-img">
+                                    </span>
+                                    <span class="others-site-description">
+                                        <span class="others-site-description-title red">Go Public</span>
+                                        <span class="others-site-description-text">Toward a Growth <br /><b>Transformation</b> of a Company</span>
+                                    </span>
+                                </a>
+                            </div>
+                            <div class="others-site-item">
+                                <a href="@Umbraco.AssignedContentItem.GetPropertyValue("sekolahPasarModalLink")" target="_blank" class="others-site-anchor">
+                                    <span class="others-site-img-container">
+                                        <img src="/assets/img/logo-spm.png" alt="" class="others-site-img">
+                                    </span>
+                                    <span class="others-site-description">
+                                        <span class="others-site-description-title green">Sekolah Pasar Modal</span>
+                                        <span class="others-site-description-text">It's never too late <br />to <b>Start Investing</b></span>
+                                    </span>
+                                </a>
+                            </div>
+                            <div class="others-site-item">
+                                    <a href="http://172.16.1.112:8002" class="others-site-anchor">
+                                        <span class="others-site-img-container">
+                                            <img src="/assets/img/logo-idx-islamic.png" alt="" class="others-site-img">
+                                        </span>
+                                        <span class="others-site-description">
+                                            <span class="others-site-description-title red">IDX Islamic</span>
+                                            <span class="others-site-description-text">The Integrated <b><br/>Sharia Capital Market</b></span>
+                                        </span>
+                                    </a>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pop-up-background calendar-background-js">
+        <div class="calendar-pop-up">
+            <a href="" class="calendar-pop-up-close calendar-pop-up-js"><span class="fa fa-times"></span></a>
+            <dl class="pop-up-grid-list">
+                <dt class="pop-up-grid-title">@Umbraco.GetDictionaryValue("date")</dt>
+                <dd class="pop-up-grid-description calendar-pop-up-date"></dd>
+                <dt class="pop-up-grid-title">@Umbraco.GetDictionaryValue("event")</dt>
+                <dd class="pop-up-grid-description calendar-pop-up-title"></dd>
+                <dt class="pop-up-grid-title">@Umbraco.GetDictionaryValue("location")</dt>
+                <dd class="pop-up-grid-description calendar-pop-up-location"></dd>
+                <dt class="pop-up-grid-title">@Umbraco.GetDictionaryValue("description")</dt>
+                <dd class="pop-up-grid-description calendar-pop-up-description"></dd>
+            </dl>
+        </div>
+    </div>
+    @{
+        var isShowPopup = (bool)Umbraco.AssignedContentItem.GetPropertyValue("showPopup");
+        var expiryTime = (DateTime)Umbraco.AssignedContentItem.GetPropertyValue("popupExpiry");
+        var isExpired = expiryTime != DateTime.MinValue && expiryTime.CompareTo(DateTime.Now) < 0;
+        var isActive = "";
+        if (isShowPopup && !isExpired)
+        {
+            isActive = "is-active";
+        }
+    }
+    <div class="pop-up-background alert-background-js @isActive">
+        <div class="alert-dual-container">
+            <a href="" class="calendar-pop-up-close calendar-pop-up-js"><span class="fa fa-times"></span></a>
+            <div class="alert-dual-item">
+                @if (Request.Url.ToString().Contains("en-us"))
+                {
+                    <div class="alert-dual-content">
+                        @Umbraco.Field("englishVersion")
+                    </div>
+                }
+                else
+                {
+                    <div class="alert-dual-content">
+                        @Umbraco.Field("indonesiaVersion")
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="pop-up-background alert-background-js@(Session["feedback_submitted"] != null ? " is-active" : " ")">
+        <div class="alert-dual-container">
+            <a href="" class="calendar-pop-up-close calendar-pop-up-js"><span class="fa fa-times"></span></a>
+            <h3 style="padding: 20px; width: 100%;text-align: center; margin: 0;">@umbraco.library.GetDictionaryItem("user_feedback_thanks")</h3>
+        </div>
+        @{ Session["feedback_submitted"] = null; }
+    </div>
+</main>
+
+@section Scripts{
+    <script type="text/javascript">
+        var maxCount = 7;
+        var currentCode = "";
+        var chart = null;
+
+        $(function () {
+            $('#chartDisclaimerContainer').hide();
+
+            getCorpAction();
+            getRelistingData();
+            getUmaData();
+            getSuspendData();
+            getEtd();
+            getTd();
+            getTopValue();
+            getTopVolume();
+            getTopGainer();
+            getTopFrequent();
+            getTradeSummary();
+            getBondSummary();
+            getDerivativeSummary();
+
+            getEmitenType();
+            getIndexList(currentLang);
+
+            getCalendar();
+
+            $.get('@Url.Action("GetMarketTime", "Helper")?culture=' + currentLang, function (result) {
+                var jsonResult = $.parseJSON(result);
+                // waiting until trading time okay
+                // var tradingTime = moment(jsonResult, 'dddd, DD MMM YYYY | HH:mm:ss ').
+                $('#tradingTime').text(moment().format('dddd, HH:mm') + ' WIB');
+            });
+        });
+
+        function getUmaData() {
+            $.get('@Url.Action("GetUmaData", "Home")?resultCount=' + maxCount,
+                function(result) {
+                    var jsonResult = $.parseJSON(result);
+                    for (var i = 0; i < jsonResult.Results.length; i++) {
+                        var informationName = jsonResult.Results[i].Attachment.split('/').pop();
+
+                        if (informationName == null) {
+                            informationName = "";
+                        }
+
+                        $('#umaTable tbody').append('<tr>' +
+                            '<td>' +
+                            moment(jsonResult.Results[i].UMADate, "YYYY-MM-DDTHH:mm:ss").format('DD MMM YYYY') +
+                            '</td>' +
+                            '<td class="red">' +
+                            jsonResult.Results[i].CompanyID +
+                            '</td>' +
+                            '<td class="ellipsis-popup text-left"><span class="text-ellipsis"><a target="_blank" href="' +
+                            jsonResult.Results[i].Attachment +
+                            '">' +
+                            ((jsonResult.Results[i].Judul !== null && jsonResult.Results[i].Judul !== '') ? jsonResult.Results[i].Judul : informationName) +
+                            '</a></span><span class="ellipsis-popup-container">' +
+                            ((jsonResult.Results[i].Judul !== null && jsonResult.Results[i].Judul !== '') ? jsonResult.Results[i].Judul : informationName) +
+                            '</span></td>' +
+                            '</tr>');
+                    }
+                });
+        }
+
+        function getSuspendData() {
+            $.get('@Url.Action("GetSuspendData", "Home")?resultCount=' + maxCount,
+                function(result) {
+                    var jsonResult = $.parseJSON(result);
+                    for (var i = 0; i < jsonResult.Results.length; i++) {
+                        $('#suspendTable tbody').append('<tr>' +
+                            '<td>' +
+                            moment(jsonResult.Results[i].Date, "YYYY-MM-DDTHH:mm:ss").format('DD MMM YYYY') +
+                            '</td>' +
+                            '<td>' +
+                            jsonResult.Results[i].Kode +
+                            '</td>' +
+                            '<td>' +
+                            jsonResult.Results[i].Info_Type +
+                            '</td>' +
+                            '<td class="ellipsis-popup"><span class="text-ellipsis"><a target="_blank" href="' +
+                            jsonResult.Results[i].Data_Download +
+                            '">' +
+                            jsonResult.Results[i].Judul +
+                            '</a></span><span class="ellipsis-popup-container">' +
+                            jsonResult.Results[i].Judul +
+                            '</span></td>' +
+                            '</tr>');
+                    }
+                });
+        }
+
+        function getRelistingData() {
+            $.get('@Url.Action("GetRelistingData", "Home")?resultCount=' + maxCount,
+                function(result) {
+                    var jsonResult = $.parseJSON(result);
+                    for (var i = 0; i < jsonResult.Activities.length; i++) {
+                        $('#relistingTable tbody').append('<tr><td>' +
+                            moment(jsonResult.Activities[i].TanggalPencatatan, "YYYY-MM-DDTHH:mm:ss").format('DD MMM YYYY') +
+                            '</td><td>' +
+                            jsonResult.Activities[i].KodeEmiten +
+                            '</td><td>' +
+                            jsonResult.Activities[i].NamaEmiten +
+                            '</td><td class="text-right">' +
+                            jsonResult.Activities[i].SahamIPOValue.toLocaleString(currentLang) +
+                            '</td><td>' +
+                            jsonResult.Activities[i].PapanPencatatan +
+                            '</td></tr>');
+                    }
+                });
+        }
+
+        function getCorpAction() {
+            $.get('@Url.Action("GetAnnouncement", "ListedCompany")?pageSize=' + maxCount + '&indexFrom=0' + '&language=' + currentLang,
+                function (result) {
+                    var jsonResult = result.Replies;
+                    for (var i = 0; i < jsonResult.length; i++) {
+                        if(jsonResult[i] != null && jsonResult[i] != undefined){
+                            var path = jsonResult[i].attachments[0] != undefined ? jsonResult[i].attachments[0].FullSavePath : '@disclosureLin.Url';
+                            $('#corpActionTable tbody').append('<tr><td class="text-center">' +
+                                moment(jsonResult[i].pengumuman.TglPengumuman, "YYYY-MM-DDTHH:mm:ss").format('DD MMM YYYY') +
+                                '</td><td class="text-center red">' +
+                                jsonResult[i].pengumuman.Kode_Emiten +
+                                '</td><td class="ellipsis-popup"><span class="text-ellipsis"><a target="_blank" href="' +
+                                path +
+                                '">' +
+                                jsonResult[i].pengumuman.JudulPengumuman +
+                                '</a></span><span class="ellipsis-popup-container">' +
+                                jsonResult[i].pengumuman.JudulPengumuman +
+                                '</span></td></tr>');
+                        }
+                    }
+                });
+        }
+
+        function getEtd() {
+            $.get('@Url.Action("GetEtdTd", "NewsAnnouncement")?type=etd&indexFrom=1&pageSize=' + maxCount,
+                function (result) {
+                    for (var i = 0; i < result.Results.length; i++) {
+                        $('#etdTable tbody').append('<tr><td class="text-center">' +
+                            moment(result.Results[i].Date, "YYYY-MM-DDTHH:mm:ss").format('DD MMM YYYY') +
+                            '</td><td class="ellipsis-popup"><span class="text-ellipsis"><a target="_blank" href="' +
+                            result.Results[i].Data_Download +
+                            '">' +
+                            result.Results[i].Judul +
+                            '</a></span><span class="ellipsis-popup-container">' +
+                            result.Results[i].Judul +
+                            '</span></td></tr>');
+                    }
+                });
+        }
+
+        function getTd() {
+            $.get('@Url.Action("GetEtdTd", "NewsAnnouncement")?type=td&indexFrom=1&pageSize=' + maxCount,
+                function (result) {
+                    for (var i = 0; i < result.Results.length; i++) {
+                        $('#tdTable tbody').append('<tr><td class="text-center">' +
+                            moment(result.Results[i].Date, "YYYY-MM-DDTHH:mm:ss").format('DD MMM YYYY') +
+                            '</td><td class="ellipsis-popup"><span class="text-ellipsis"><a target="_blank" href="' +
+                            result.Results[i].Data_Download +
+                            '">' +
+                            result.Results[i].Judul +
+                            '</a></span><span class="ellipsis-popup-container">' +
+                            result.Results[i].Judul +
+                            '</span></td></tr>');
+                    }
+                });
+        }
+
+        function getTopValue() {
+            $.get('@Url.Action("GetTopValue", "Home")?resultCount=' + maxCount,
+                function (result) {
+                    var jsonResult = $.parseJSON(result);
+                    for (var i = 0; i < maxCount; i++) {
+                        $('#topValueTable tbody').append(
+                            '<tr><td class="text-center">' +
+                            '<a href="@Umbraco.TypedContent(Request.Url.ToString().Contains("en-us") ? 1641 : 1717).Url?kodeEmiten=' + jsonResult[i].Code + '#trading">' +
+                                jsonResult[i].Code +
+                            '</a></td><td class="text-right">' +
+                            jsonResult[i].Value.toLocaleString(currentLang) +
+                            '</td><td class="text-right">' +
+                            jsonResult[i].Volume.toLocaleString(currentLang) +
+                            '</td><td class="text-right">' +
+                            jsonResult[i].Price.toLocaleString(currentLang) +
+                            '</td></tr>');
+                    }
+                });
+        }
+
+        function getTopVolume() {
+            $.get('@Url.Action("getTopVolume", "Home")?resultCount=' + maxCount,
+                function (result) {
+                    var jsonResult = $.parseJSON(result);
+                    for (var i = 0; i < maxCount; i++) {
+                        $('#topVolumeTable tbody').append('<tr><td class="text-center">' +
+                            '<a href="@Umbraco.TypedContent(Request.Url.ToString().Contains("en-us") ? 1641 : 1717).Url?kodeEmiten=' + jsonResult[i].Code + '#trading">' +
+                                jsonResult[i].Code +
+                            '</a></td><td class="text-right">' +
+                            jsonResult[i].Value.toLocaleString(currentLang) +
+                            '</td><td class="text-right">' +
+                            jsonResult[i].Volume.toLocaleString(currentLang) +
+                            '</td><td class="text-right">' +
+                            jsonResult[i].Price.toLocaleString(currentLang) +
+                            '</td></tr>');
+                    }
+                });
+        }
+
+        function getTopGainer() {
+            $.get('@Url.Action("GetTopGainer", "Home")?resultCount=' + maxCount,
+                function (result) {
+                    var jsonResult = $.parseJSON(result);
+                    for (var i = 0; i < maxCount; i++) {
+                        $('#topGainerTable tbody').append('<tr><td class="text-center">' +
+                            '<a href="@Umbraco.TypedContent(Request.Url.ToString().Contains("en-us") ? 1641 : 1717).Url?kodeEmiten=' + jsonResult[i].Code + '#trading">' +
+                                jsonResult[i].Code +
+                            '</a></td><td class="text-right">' +
+                            jsonResult[i].Price.toLocaleString(currentLang) +
+                            '</td><td class="text-right">' +
+                            jsonResult[i].Change +
+                            '</td><td class="text-right">' +
+                            jsonResult[i].Percent +
+                            ' %</td></tr>');
+                    }
+                });
+        }
+
+        function getTopFrequent() {
+            $.get('@Url.Action("GetTopFrequent", "Home")?resultCount=' + maxCount,
+                function (result) {
+                    var jsonResult = $.parseJSON(result);
+                    for (var i = 0; i < maxCount; i++) {
+                        $('#topFrequentTable tbody').append('<tr><td class="text-center">' +
+                            '<a href="@Umbraco.TypedContent(Request.Url.ToString().Contains("en-us") ? 1641 : 1717).Url?kodeEmiten=' + jsonResult[i].Code + '#trading">' +
+                                jsonResult[i].Code +
+                            '</a></td><td class="text-right">' +
+                            jsonResult[i].Price.toLocaleString(currentLang) +
+                            '</td><td class="text-right">' +
+                            jsonResult[i].Value.toLocaleString(currentLang) +
+                            '</td><td class="text-right">' +
+                            jsonResult[i].Frequency.toLocaleString(currentLang) +
+                            '</td></tr>');
+                    }
+                });
+        }
+
+        function getTradeSummary() {
+            $.get('@Url.Action("GetTradeSummary", "Home")',
+                function (result) {
+                    var jsonResult = $.parseJSON(result);
+                    for (var i = 0; i < jsonResult.length; i++) {
+                        var descriptionText = jsonResult[i].DESCRIPTION;
+                        if (descriptionText === 'Stock') {
+                            descriptionText = '@Umbraco.GetDictionaryValue("stock")';
+                        }
+
+                        if (descriptionText === 'Warrant') {
+                            descriptionText = '@Umbraco.GetDictionaryValue("warrant")';
+                        }
+
+                        if (descriptionText !== 'Right') {
+                            $('#tradeSummaryTable tbody').append('<tr><td class="background-dark-grey text-bold text-left"><small>' +
+                            descriptionText +
+                            '</small></td><td class="text-right">' +
+                            (Math.abs(Number(jsonResult[i].Value)) / 1.0e+6).toLocaleString(currentLang) +
+                            '</td><td class="text-right">' +
+                            (Math.abs(Number(jsonResult[i].Volume)) / 1.0e+3).toLocaleString(currentLang) +
+                            '</td><td class="text-right">' +
+                            jsonResult[i].Frequency.toLocaleString(currentLang) +
+                            '</td></tr>');
+                        }
+                    }
+                });
+        }
+
+        function getBondSummary() {
+            $.get('@Url.Action("GetBondSummary", "Home")',
+                function (result) {
+                    var jsonResult = $.parseJSON(result);
+                    for (var i = 0; i < jsonResult.length; i++) {
+                        $('#bondsTable tbody').append('<tr><td class="background-dark-grey text-bold text-left">' +
+                            jsonResult[i].DESCRIPTION +
+                            '</td><td class="text-right">' +
+                            jsonResult[i].Volume.toLocaleString(currentLang) +
+                            '</td><td class="text-right">' +
+                            jsonResult[i].Frequency.toLocaleString(currentLang) +
+                            '</td></tr>');
+                    }
+                });
+        }
+
+        function getDerivativeSummary() {
+            $.get('@Url.Action("GetDerivativeSummary", "Home")',
+                function (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        $('#derivativesTable tbody').append('<tr><td class="background-dark-grey text-bold text-left">' +
+                            result[i].DESCRIPTION +
+                            '</td><td class="text-right">' +
+                            result[i].Volume.toLocaleString(currentLang) +
+                            '</td><td class="text-right">' +
+                            result[i].Frequency.toLocaleString(currentLang) +
+                            '</td></tr>');
+                    }
+                });
+        }
+
+        function getEmitenType() {
+            $.get('@Url.Action("GetEmiten", "Helper")?emitenType=s', function (result) {
+                $('.emitenList').append('<option value="">' + "@Umbraco.GetDictionaryValue("choose emiten")" + '</option>');
+                for (var i = 0; i < result.length; i++) {
+                    $('.emitenList').each(function(){
+                        $(this).append('<option value="' + result[i].KodeEmiten + '">' + result[i].KodeEmiten + '</option>');
+                    });
+                }
+
+                $('.emitenList').on('change', function(e){
+                    // $('.market-overview-chart-filter').removeClass('is-active');
+                    var indexCode = $('.emitenList option:selected').text();
+                    $.get('@Url.Action("GetStockInfo", "Home")?code=' + indexCode, function (result) {
+                        var price = result.Price.toLocaleString(currentLang);
+                        var percent = result.Percent.toLocaleString(currentLang) + '%';
+
+                        $('.market-overview-chart-filter-item').removeClass('is-active');
+                        $($('.market-overview-chart-filter-item')[0]).addClass('is-active');
+
+                        onChartChange(indexCode, price, percent, "1D");
+
+                        $('#chartDisclaimerContainer').show();
+                    });
+                });
+            });
+        }
+
+        function getIndexList(cultureInfo) {
+            $.get('@Url.Action("GetIndexList", "Home")?cultureInfo=' + cultureInfo,
+                function (result) {
+                    var jsonResult = $.parseJSON(result);
+                    var pageSize = 6;
+                    var pageCount = Math.ceil(jsonResult.length/pageSize,0);
+                    var html = "";
+                    for(var i = 0; i < pageCount; i++) {
+                        var indexItemHtml = "";
+                        for (var j = i * pageSize; j < i * pageSize + pageSize; j++) {
+                            if (j >= jsonResult.length) break;
+
+                            var percentColour = (jsonResult[j].Change.indexOf('-') < 0 ? 'green' : 'red');
+
+                            var indexValue = 0;
+                            if (jsonResult[j].Time !== null && jsonResult[j].Time.substr(5) == '16:00') {
+                                indexValue = jsonResult[j].Closing;
+                            }else{
+                                indexValue = jsonResult[j].Current;
+                            }
+
+                            indexItemHtml += '<li class="market-overview-chart-item ' + (j == 0 ? 'is-active' : '') + '">' +
+                                '<a href="#" class="market-content-container tab-market-js ' + (j == 0 ? 'is-active' : '') + '">' +
+                                    '<span class="market-content-name">' + jsonResult[j].IndexCode + '</span>' +
+                                    '<span class="market-content-price">' + indexValue + '</span>' +
+                                    '<span class="market-content-precentage ' + percentColour + '">' + jsonResult[j].Percent + '</span>' +
+                                '</a>' +
+                            '</li>';
+
+                            if (j == 0){
+                                $('.market-overview-chart-filter-item').removeClass('is-active');
+                                $($('.market-overview-chart-filter-item')[0]).addClass('is-active');
+                                onChartChange(jsonResult[j].IndexCode, indexValue, jsonResult[j].Percent, "1D");
+                            }
+                        }
+                        html +=
+                        '<div>' +
+                            '<ul class="list-nostyle">' +
+                                indexItemHtml +
+                            '</ul>' +
+                        '</div>'
+                    }
+
+                    $('#marketIndexList').append(html);
+
+                    $('.market-overview-slider').slick({
+                       prevArrow: $('.slick-prev'),
+                       nextArrow: $('.slick-next')
+                    });
+
+                    $('.tab-market-js').on('click', function(e) {
+                        var indexCode = $(this).find('.market-content-name').text();
+                        var indexChange = $(this).find('.market-content-price').text();
+                        var indexPercent = $(this).find('.market-content-precentage').text();
+
+                        $('.market-overview-chart-filter-item').removeClass('is-active');
+                        $($('.market-overview-chart-filter-item')[0]).addClass('is-active');
+
+                        onChartChange(indexCode, indexChange, indexPercent, "1D");
+                        e.preventDefault();
+                        $('.tab-market-js').removeClass('is-active');
+                        $(this).addClass('is-active');
+
+                        $('#chartDisclaimerContainer').hide();
+                    });
+
+                    $(".market-overview-chart-filter-item").on('click', function(e) {
+                        if (e.target.text !== undefined) {
+                            onChartChange(currentCode, "", "", e.target.text);
+                        }
+                        e.preventDefault();
+                        $('.market-overview-chart-filter-item').removeClass('is-active');
+                        $(this).addClass('is-active');
+                    });
+                }
+            );
+        }
+
+        function onChartChange(indexCode, indexChange, indexPercent, period){
+            currentCode = indexCode;
+
+            $('.market-overview-chart-stock-header-title').text(indexCode);
+
+            var indexColor = (indexPercent.indexOf('-') < 0 ? 'green' : 'red');
+
+            if (indexChange !== "" && indexPercent !== ""){
+                $('#graphicPrice').text(indexChange);
+                $('#graphicPercent').text(indexPercent);
+
+                $('#graphicPrice').removeClass('green red').addClass(indexColor);
+                $('#graphicPercent').removeClass('green red').addClass(indexColor);
+            }
+
+            renderIndexChart(indexCode, period);
+        }
+
+        function renderIndexChart(indexCode, period){
+            var indexTitle = $('.market-overview-chart-stock-header-title').text();
+            var dropdownTitle = $('.emitenList option:selected').text();
+
+            var chartUrl = "@Url.Action("GetIndexChart", "Helper")";
+
+            if (dropdownTitle == indexTitle){
+                chartUrl = "@Url.Action("GetStockChart", "Helper")";
+                indexCode = dropdownTitle;
+            }
+
+            $.getJSON(chartUrl + '?indexCode=' + indexCode + '&period=' + period, function(response) {
+                var startDate = null;
+                var endDate = null;
+
+                if (response.Period === "1D") {
+                    startDate = parseInt(response.StartDate);
+                    endDate = parseInt(response.EndDate);
+                }
+
+                var chartData = response.ChartData != null
+                    ? response.ChartData.map(row => [row.Date, row.Close])
+                    : null;
+
+                var chart = new Highcharts.Chart({
+                    chart: {
+                        zoomType: 'x',
+                        ignoreHiddenSeries : false,
+                        height: 160,
+                        spacing: [0,0,0,0],
+                        marginTop: 20,
+                        renderTo: 'chartContainer'
+                    },
+                    buttons: {
+                        printButton: {
+                            enabled: false
+                        },
+                        exportButton: {
+                            enabled: false
+                        }
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    credits: { enabled: false },
+                    legend: { enabled: false },
+                    title: { text: null },
+                    xAxis: {
+                        type: 'datetime',
+                        gridLineWidth: 1,
+                        min: startDate,
+                        max: endDate,
+                        ordinal: false,
+                        endOnTick: false,
+                        startOnTick: false,
+                    },
+                    yAxis: {
+                        title: null,
+                        gridLineWidth: 1,
+                        min: response.MinPrice,
+                        max: response.MaxPrice,
+                        plotLines: [{
+                            color: '#FF0000',
+                            width: 2,
+                            dashStyle: 'shortdash',
+                            value: response.OpenPrice // Need to set this probably as a var.
+                        }],
+                    },
+                    plotOptions: {
+                        area: {
+                            fillColor: {
+                                linearGradient: {
+                                    x1: 0,
+                                    y1: 0,
+                                    x2: 0,
+                                    y2: 1
+                                },
+                                stops: [
+                                    [0, Highcharts.getOptions().colors[0]],
+                                    [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                                ]
+                            },
+                            marker: {
+                                radius: 2
+                            },
+                            lineWidth: 1,
+                            negativeColor: 'red',
+                            color: 'green',
+                            states: {
+                                hover: {
+                                    lineWidth: 1
+                                }
+                            },
+                            threshold: response.OpenPrice
+                        }
+                    },
+                    series: [{
+                        name: response.IndexCode,
+                        type: 'area',
+                        data: chartData
+                    }]
+                });
+            });
+        }
+
+        var allEventSources = [];
+
+        function getCalendar(current){
+            var currentDate = current !== '' && current !== undefined ? current : moment().format('YYYYMMDD');
+            var url = '@Url.Action("GetCalendar", "Home")?range=m&date=' + currentDate;
+            $.getJSON(url, function(response){
+                allEventSources.push(getUrlParam(url, 'date').slice(0,-2));
+                renderCalendar(response.Results);
+
+                $('.fc-prev-button').on('click', function(e){
+                    showNextPrevMonth();
+                });
+
+                $('.fc-next-button').on('click', function(e){
+                    showNextPrevMonth();
+                });
+            });
+        }
+
+        function showNextPrevMonth(){
+            var currentDate = $('#listedCompanyCalendar').fullCalendar('getDate').format('YYYYMMDD');
+            var url = '@Url.Action("GetCalendar", "Home")?range=m&date=' + currentDate;
+            if ($.inArray(getUrlParam(url, 'date').slice(0,-2), allEventSources) === -1) {
+                allEventSources.push(getUrlParam(url, 'date').slice(0,-2));
+                $.getJSON(url, function(response){
+                    $('#listedCompanyCalendar').fullCalendar( 'addEventSource', response.Results);
+                });
+            }
+        }
+
+        function renderCalendar(results) {
+            // $('#listedCompanyCalendar').fullCalendar('destroy');
+            $('#listedCompanyCalendar').fullCalendar({
+                events: results,
+                cache: true,
+                eventLimit: true,
+                fixedWeekCount : false,
+                contentHeight: 355,
+                eventColor: '#9F0E0F',
+                eventLimitText: 'Event',
+                displayEventTime: false,
+                locale: currentLang,
+                views: {
+                    agenda: {
+                        eventLimit: 1
+                    },
+                    month: {
+                        columnFormat: 'ddd'
+                    }
+                },
+                header: {
+                    left:   '',
+                    center: 'prev,title,next',
+                    right:  ''
+                },
+                eventRender: function(event, element) {
+                    element.click( function() {
+                        $('.calendar-pop-up-date').html(moment(event.start).format('DD MMMM YYYY'))
+                        $('.calendar-pop-up-title').html(event.title)
+                        $('.calendar-pop-up-description').html(event.description)
+                        $('.calendar-pop-up-location').html(event.location == '' ? '-' : event.location)
+                        $('.calendar-pop-up').addClass('is-active');
+                        $('.calendar-background-js').addClass('is-active')
+                        $('body').addClass('overflow-hidden')
+                    })
+                }
+            });
+
+            // $('#listedCompanyCalendar').fullCalendar('render');
+        }
+
+    </script>
+
+    <script>
+        const app = angular.module('app')
+        app.controller('NewsController', ['$scope', '$http', function($scope, $http){
+
+            $scope.latestNews = [];
+            getLatestNews();
+
+            function getLatestNews() {
+                $http.get('@Url.Action("GetNewsSearch", "NewsAnnouncement")?pageNumber=1&pageSize=3&locale=' + currentLang + '&isHeadline=1').then(function (result) {
+                    $scope.latestNews = result.data.Items;
+                });
+            }
+
+        }])
+    </script>
+}

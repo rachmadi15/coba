@@ -1,0 +1,627 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "DPSMaster.cshtml";
+    var en = Model.Content.AncestorOrSelf("home").Name == "en-us";
+    var query = Request.QueryString["q"];
+    var urlName1 = Model.Content.GetPropertyValue<string>("firstApiLinkName");
+    var urlName2 = Model.Content.GetPropertyValue<string>("secondApiLinkName");
+    var urlName3 = Model.Content.GetPropertyValue<string>("thirdApiLinkName");
+    var chart1Class = Umbraco.Field("firstChartClass");
+    var chart2Class = Umbraco.Field("secondChartClass");
+    var chart3Class = Umbraco.Field("thirdChartClass");
+
+    var isCumulative = string.IsNullOrEmpty(Request.QueryString["cumulative"]) ? "false" : Request.QueryString["cumulative"];
+    var downloadCode = Model.Content.GetPropertyValue<string>("downloadCode");
+    var fileName = Umbraco.Field("title").ToString();
+    var printState = Request.QueryString["print"];
+    var month = Request.QueryString["month"];
+    var year = Request.QueryString["year"];
+    var quarter = Request.QueryString["quarter"];
+    var date = Request.QueryString["date"];
+    var start = Request.QueryString["start"];
+    var end = Request.QueryString["end"];
+    var animation = "";
+    var isPrint = false;
+    if (printState == "pdf")
+    {
+        isPrint = true;
+        animation = "no-animation";
+    }
+    if(!string.IsNullOrEmpty(year)){
+        HttpCookie typeC = new HttpCookie("filteredType");
+        typeC.Value = "yearly";
+        Response.Cookies.Add(typeC);
+        HttpCookie yearC = new HttpCookie("filteredYear");
+        yearC.Value = year;
+        Response.Cookies.Add(yearC);
+    }
+    if(!string.IsNullOrEmpty(quarter)){
+        HttpCookie quarterC = new HttpCookie("filteredQuarter");
+        quarterC.Value = quarter;
+        Response.Cookies.Add(quarterC);
+
+        HttpCookie typeC = new HttpCookie("filteredType");
+        typeC.Value = "quarterly";
+        Response.Cookies.Add(typeC);
+
+    }
+    if (!string.IsNullOrEmpty(month))
+    {
+        HttpCookie monthC = new HttpCookie("filteredMonth");
+        HttpCookie typeC = new HttpCookie("filteredType");
+        typeC.Value = "monthly";
+        Response.Cookies.Add(typeC);
+
+        monthC.Value = month;
+        Response.Cookies.Add(monthC);
+    }
+
+    if(start != ""&& start != null){
+        HttpCookie startC = new HttpCookie("startDate");
+        HttpCookie endC = new HttpCookie("endDate");
+        startC.Value = start;
+        endC.Value = end;
+        Response.Cookies.Add(startC);
+        Response.Cookies.Add(endC);
+    }
+    if(date != "" && date != null)
+    {
+        HttpCookie dateC = new HttpCookie("filteredDate");
+        dateC.Value = date;
+        Response.Cookies.Add(dateC);
+    }
+}
+
+<style>
+    .statistic-container {
+        position: relative;
+    }
+    .statistic-container > .background-white.content-push > .container {
+        min-height: 300px;
+    }
+    .table-loading > label {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
+
+<div id="table-loading" class="table-loading">
+    <img src="~/assets/img/Rolling-1s-200px.svg" alt="">
+    <label>Loading...</label>
+</div>
+<div class="background-white content-push">
+    <div class="container">
+        <div class="mb-16">
+            @if (Umbraco.Field("firstChartTitle").ToString() != "")
+            {
+                <p class="red mb-4 text-bold">@Umbraco.Field("firstChartTitle").ToString()</p>
+            }
+            @if (Umbraco.Field("FirstChartSubTitle").ToString() != "")
+            {
+                <p class="mb-12">@Umbraco.Field("FirstChartSubTitle").ToString()</p>
+            }
+            <div id="firstChart" class="@chart1Class @animation" data-chart="@Url.Action("GetApiData", "DigitalStatitic",new { urlName = urlName1, query = query, isPrint, cumulative = isCumulative })"></div>
+        </div>
+        @if (urlName2 != "-")
+        {
+            <div class="mb-16">
+                @if (Umbraco.Field("secondChartTitle").ToString() != "")
+                {
+                    <p class="red mb-12 text-bold">@Umbraco.Field("secondChartTitle").ToString()</p>
+                }
+                @if (Umbraco.Field("secondChartSubTitle").ToString() != "")
+                {
+                    <p class="mb-12">@Umbraco.Field("secondChartSubTitle").ToString()</p>
+                }
+                <div id="secondChart" class="@chart2Class @animation" data-chart="@Url.Action("GetApiData", "DigitalStatitic",new { urlName = urlName2, query = query, isPrint, cumulative = isCumulative })"></div>
+            </div>
+        }
+        @if (urlName3 != "-")
+        {
+            <div class="mb-16">
+                @if (Umbraco.Field("thirdChartTitle").ToString() != "")
+                {
+                    <p class="red mb-12 text-bold">@Umbraco.Field("thirdChartTitle").ToString()</p>
+                }
+                @if (Umbraco.Field("thirdChartSubtitle").ToString() != "")
+                {
+                    <p class="mb-12">@Umbraco.Field("thirdChartSubtitle").ToString()</p>
+                }
+                <div id="thirdChart" class="@chart3Class @animation" data-chart="@Url.Action("GetApiData", "DigitalStatitic",new { urlName = urlName3, query = query, isPrint, cumulative = isCumulative })"></div>
+            </div>
+        }
+        @if (Umbraco.Field("notes").ToString() != "")
+        {
+            <div class="mb-16">
+                <p class="text-bold mb-4">Notes</p><br />
+                @Html.Raw(Umbraco.Field("notes").ToString())
+            </div>
+        }
+    </div>
+</div>
+@section Scripts{
+
+    <script type="text/javascript">
+        var loadedData = 0;
+        var dataAmount = 1;
+        var Title = ""
+        var Title = ""
+        var SubTitle = ""
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+        var loader = $('#table-loading');
+        var isErrorHandled = false;
+
+        //setTimeout(function () { getData(); }, 1000);
+        function hideLoader() {
+            loadedData += 1;
+            if (loadedData >= dataAmount) {
+                loader.fadeOut();
+            }
+            $('#firstChart').show();
+            $('#secondChart').show();
+            $('#thirdChart').show();
+        }
+
+        var handleError = function () {
+            hideLoader();
+            if (isErrorHandled) return;
+            var message = 'Failed to load statistic data. Please try again later.';
+            @if(!en) {
+                <text>message = 'Gagal mengambil data statistik. Cobalah beberapa saat lagi.';</text>
+            }
+            alert(message);
+            isErrorHandled = true;
+        }
+
+        function showLoader() {
+            loadedData = 0;
+            loader.fadeIn();
+            $('#firstChart').hide();
+            $('#secondChart').hide();
+            $('#thirdChart').hide();
+        }
+        hideLoader();
+
+        function mapSeriesData(res, className, chart) {
+            var periodYear = $('#filterYear').val();
+            var periodMonth = $('#filterMonth').val();
+            var periodQuarter = $('#filterQuarter').val();
+            var filteredType = $('#filteredType').val();
+
+            var until = months[periodMonth - 1] + " " + periodYear;
+            var fromyear = periodYear - 1
+            var from = months[periodMonth - 1] + " " + fromyear;
+            var dateFiltered = $('#dateFiltered').val();
+            var startDate = $('#startDate').val();
+            var endDate = $('#endDate').val();
+
+            if (filteredType == "quarterly") {
+                var until = "Q"+periodQuarter + " " + periodYear;
+                var fromyear = periodYear - 1
+                var from = "Q"+periodQuarter + " " + fromyear;
+            }
+
+            var seriesData = [];
+            if (className == "total-trading-investor-js") {
+                res.series.map(function (data, i) {
+                    var entry = {
+                        gapSize: 1,
+                        name: data.seriesName,
+                        data: data.seriesData.map(function (dt) {
+                            return {
+                                x: new Date(dt.x).getTime(),
+                                y: dt.y
+                            };
+                        }),
+                        pointInterval: 24 * 3600 * 1000
+                    };
+                    seriesData.push(entry);
+                });
+            } else if (className == "net-purchase-foreigners-js") {
+                res.seriesData.map(function (data, i) {
+                    var entry = {
+                        gapSize: 1,
+                        name: null,
+                        data: res.seriesData.map(function (dt) {
+                            return {
+                                x: new Date(dt.x).getTime(),
+                                y: dt.y
+                            };
+                        }),
+                        negativeColor: Highcharts.getOptions().colors[1],
+                        showInLegend: false
+                    };
+
+                    seriesData.push(entry);
+                });
+            } else if (className == "total-trading-investor-quarterly-js") {
+                chart.xAxis[0].setCategories(res.categories);
+                res.series.map(function (data, i) {
+                    var entry = {
+                        gapSize: 1,
+                        name: data.seriesName,
+                        data: data.seriesData
+                    };
+                    seriesData.push(entry);
+                });
+            }else if (className == "total-trading-value-investor-quarterly-js") {
+                Title = res.chartName;
+                res.series.map(function (data, i) {
+                    seriesData.push({
+                        gapSize: 1,
+                        name: data.seriesName,
+                        data: data.seriesData,
+                        showInLegend: false
+                    });
+                });
+            } else if (className == "net-purchase-foreigners-quarterly-js") {
+                chart.xAxis[0].setCategories(res.categories);
+                seriesData.push({
+                    gapSize: 1,
+                    name: null,
+                    data: res.data,
+                    negativeColor: Highcharts.getOptions().colors[1],
+                    showInLegend: false
+                });
+            } else if (className == "composite-stock-price-index-js") {
+                Title = "Composite Stock Price Index and Stock Trading Volume";
+                SubTitle = '<br>' + from + " - " + until;
+                res.series.map(function (data, i) {
+                    var entry = {
+                        name: data.seriesName,
+                        type: data.type,
+                        yAxis: data.yAxis,
+                        data: data.seriesData.map(function (dt) {
+                            return {
+                                x: new Date(dt.x).getTime(),
+                                y: dt.y
+                            };
+                        }),
+                        tooltip: {
+                            valueSuffix: data.valueSuffix
+                        }
+                    };
+
+                    seriesData.push(entry);
+                });
+            } else if (className == "chart-candlestick-js") {
+                SubTitle = res.subtitle;
+                var entry = {
+                    type: 'candlestick',
+                    name: res.title,
+                    data: res.data,
+                    color: '#9F0E0F',
+                    dataGrouping: {
+                        units: [['month', [1, 3, 6]]],
+                        forced: true
+                    },
+                    tooltip: {
+                        pointFormat: 'Open: {point.open}<br/>Hi: {point.high}<br/>Low: {point.low}<br/>Close: {point.close}<br/>'
+                    }
+                };
+                seriesData.push(entry);
+            } else if (className == "quarterly-trading-volume-value-js") {
+                chart.xAxis[0].setCategories(res.categories);
+                res.series.map(function (data, i) {
+                    var entry = {
+                        name: data.seriesName,
+                        data: data.seriesData
+                    };
+
+                    seriesData.push(entry);
+                });
+            } else if (className == "monthly-trading-volume-value-js") {
+                chart.xAxis[0].setCategories(res.categories);
+                res.series.map(function (data, i) {
+                    var entry = {
+                        name: data.seriesName,
+                        data: data.seriesData
+                    };
+
+                    seriesData.push(entry);
+                });
+            } else if (className == "chart-composite-js") {
+                chart.xAxis[0].setCategories(res.days);
+                Title = "Daily Composite Stock Price Index and Stock Trading";
+                SubTitle = '<br>' +  until;
+                res.series.map(function (data, i) {
+                    var entry = {
+                        name: data.seriesName,
+                        type: data.type,
+                        yAxis: data.yAxis,
+                        data: data.seriesData
+                    };
+
+                    seriesData.push(entry);
+                });
+            } else if (className == "jakarta-composite-index-js") {
+                Title = "";
+                SubTitle = '<br>' + res.subtitle;
+                res.series.map(function (data, i) {
+                    var entry = {
+                        name: data.seriesName,
+                        type: 'line',
+                        data: data.seriesData.map(function (dt) {
+                            return {
+                                x: new Date(dt.x).getTime(),
+                                y: dt.y
+                            };
+                        }),
+                        tooltip: {
+                            valueSuffix: '%',
+                            valueDecimals: 2
+                        },
+                        color: '#' + Math.floor(Math.random() * 16777215).toString(16)
+                        // pointInterval: 24 * 3600 * 1000
+                    };
+                    seriesData.push(entry);
+                });
+            } else if (className == "daily-trading-js") {
+                Title = "";
+                SubTitle = "";
+                res.series.map(function (data, i) {
+                    var entry = {
+                        gapSize: 1,
+                        name: data.seriesName,
+                        data: data.seriesData.map(function (dt) {
+                            return {
+                                x: new Date(dt.x).getTime(),
+                                y: dt.y
+                            };
+                        }),
+                        pointInterval: 24 * 3600 * 1000
+                    };
+
+                    seriesData.push(entry);
+                });
+            } else if (className == "bars-industry-js") {
+                chart.xAxis[0].setCategories(res.sectors);
+                res.series.map(function (data, i) {
+                    seriesData.push({
+                        name: data.seriesName,
+                        data: data.seriesData
+                    });
+                });
+            } else if (className == "trading-market-js") {
+                var showValue = false;
+                res.series.map(function (data, i) {
+                    var entry = {
+                        gapSize: 1,
+                        name: data.seriesName,
+                        data: data.seriesData.map(function (dt) {
+                            var result = {
+                                x: new Date(dt.x).getTime(),
+                                y: dt.y
+                            };
+
+                            if (!showValue && dt.value != null) {
+                                showValue = true;
+                            }
+                            if (showValue) result.value = dt.value;
+                            return result;
+                        }),
+                        pointInterval: 31 * 24 * 3600 * 1000
+                    };
+
+                    seriesData.push(entry);
+                });
+            }
+            return seriesData;
+        }
+
+        function getData(type) {
+            var periodYear = $('#filterYear').val();
+            var periodMonth = $('#filterMonth').val();
+            isErrorHandled = false;
+            loadedData = 0;
+            dataAmount = 1;
+
+//            setCookie("filteredQuarter", $('#filterQuarter').val());
+//            setCookie("filteredYear", $('#filterYear').val());
+//            setCookie("filteredMonth", $('#filterMonth').val());
+
+            if (type != undefined) {
+                $('#filteredType').val(type);
+//                setCookie("filteredType", type);
+                setTabVisibility()
+            }
+
+            //Loader in
+            showLoader();
+
+            var filteredType = $('#filteredType').val();
+            var dateFiltered = $('#dateFiltered').val();
+            var startDate = $('#startDate').val();
+            var endDate = $('#endDate').val();
+            var periodQuarter = $('#filterQuarter').val();
+
+            var queryparam = "&"
+
+            if (periodYear != undefined) {
+//                setCookie("filterYear", periodYear);
+                queryparam += 'periodYear=' + periodYear;
+            }
+            if (periodMonth != undefined) {
+//                setCookie("filterMonth", periodMonth);
+                queryparam += '&periodMonth=' + periodMonth;
+
+            }
+            if (periodQuarter != undefined) {
+                queryparam += '&periodQuarter=' + periodQuarter;
+            }
+            queryparam += '&periodType=' + filteredType;
+            if(startDate != undefined) {
+                queryparam += '&startDate=' + startDate;
+            }
+            if (endDate != undefined) {
+                queryparam += '&endDate=' + endDate;
+            }
+            if (dateFiltered != undefined) {
+                queryparam += '&dateFiltered=' + dateFiltered;
+            }
+            if (periodQuarter != undefined) {
+                queryparam += '&periodQuarter=' + periodQuarter;
+
+            }
+            queryparam += '&cumulative=' + @isCumulative;
+            var url = '@Url.Action("GetApiDataSearch", "DigitalStatitic", new { urlName = urlName1, query = query })' + queryparam;
+            var url2 = "";
+            var url3 = "";
+
+            if ("@urlName2" !== "" && "@urlName2" !== "-") {
+                dataAmount += 1;
+                url2  = '@Url.Action("GetApiDataSearch", "DigitalStatitic", new { urlName = urlName2, query = query })' + queryparam;
+            }
+
+            if ("@urlName3" !== "" && "@urlName3" !== "-") {
+                dataAmount += 1;
+                url3  = '@Url.Action("GetApiDataSearch", "DigitalStatitic", new { urlName = urlName3, query = query })' + queryparam;
+            }
+
+            $.ajax({
+                url: url,
+                method: 'GET',
+                success: function (res) {
+                    var chart = $('#firstChart').highcharts();
+                    var seriesData = [];
+
+                    seriesData = mapSeriesData(res, "@chart1Class", chart);
+
+                    // Clear series
+                    while (chart.series.length > 0) {
+                        chart.series[0].remove(false);
+                    }
+
+                    for (var i = 0; i < seriesData.length; i++) {
+                        chart.addSeries(seriesData[i], false);
+                    }
+
+                    chart.setTitle(null, { text: Title + SubTitle });
+                    chart.redraw();
+                },
+                error: handleError,
+                complete: hideLoader
+            })
+
+            if (url2 != "") {
+                $.ajax({
+                    url: url2,
+                    method: 'GET',
+                    success: function (res) {
+                        var seriesData = [];
+                        var chart = $('#secondChart').highcharts();
+
+                        seriesData = mapSeriesData(res, "@chart2Class", chart);
+
+                        for (i = 0; i < seriesData.length; i++) {
+                            if (chart.series[i] != undefined) {
+                                chart.series[i].setData(seriesData[i].data);
+                            }
+                        }
+
+                        chart.setTitle(null, { text: Title + SubTitle });
+                    },
+                    error: handleError,
+                    complete: hideLoader
+                });
+            }
+
+            if (url3 != "") {
+                $.ajax({
+                    url: url3,
+                    method: 'GET',
+                    success: function (res) {
+                        var seriesData = [];
+                        var chart = $('#thirdChart').highcharts();
+
+                        seriesData = mapSeriesData(res, "@chart3Class", chart);
+
+                        for (i = 0; i < seriesData.length; i++) {
+                            if (chart.series[i] != undefined) {
+                                chart.series[i].setData(seriesData[i].data);
+                            }
+                        }
+
+                        chart.setTitle(null, { text: Title + SubTitle });
+                        hideLoader()
+                    },
+                    error: handleError,
+                    complete: hideLoader
+                });
+            }
+            setTitle();
+        }
+
+        function getReport(tipe) {
+            var periodYear = $('#filterYear').val();
+            var periodMonth = $('#filterMonth').val();
+            var periodQuarter = $('#filterQuarter').val();
+            var dateFiltered = $('#dateFiltered').val();
+            var startDate = $('#startDate').val();
+            var filteredType = $('#filteredType').val();
+            var endDate = $('#endDate').val();
+            var queryparam = "type="+(tipe == "pdf" ? "oldPdf" : tipe);
+            queryparam += '&periodType=' + filteredType;
+
+            if (periodYear != undefined) {
+//                setCookie("filterYear", periodYear);
+                queryparam += '&periodYear=' + periodYear;
+            }
+            if (periodMonth != undefined) {
+//                setCookie("filterMonth", periodMonth);
+                queryparam += '&periodMonth=' + periodMonth;
+
+            }
+            if (periodQuarter != undefined) {
+                queryparam += '&periodQuarter=' + periodQuarter;
+            }
+
+            if (dateFiltered != undefined) {
+                queryparam += '&dateFiltered=' + dateFiltered;
+            }
+
+            if (startDate != undefined) {
+                queryparam += '&startDate=' + startDate;
+            }
+            if (endDate != undefined) {
+                queryparam += '&endDate=' + endDate;
+            }
+            queryparam += '&cumulative=' + @isCumulative;
+            filename = "@Umbraco.Field("title")";
+            if (filteredType == "quarterly") {
+                filename = "@(string.IsNullOrEmpty(Umbraco.Field("titleQuarterly").ToString()) ? Umbraco.Field("title") : Umbraco.Field("titleQuarterly"))";
+            }
+            queryparam += '&filename='+filename;
+            if (tipe == "pdf") {
+                var loc = window.location.href;
+
+                queryparam += '&filecode='+loc;
+                var url = '@Url.Action("GetReportData", "DigitalStatitic", new { xyzz = 123 })' + queryparam;
+                //printDiv("mainStatistik");
+                window.print();
+                return;
+            } else {
+                queryparam += '&filename=' + '@fileName';
+                var url = '@Url.Action("GetReportData", "DigitalStatitic", new { filecode = downloadCode })';
+                console.log(url);
+                url += (url.includes('?') ? '&' : '?') + queryparam;
+            }
+            window.open(url, '_blank');
+        }
+        @*$(function () {
+            $('#download-excel').hide();
+        });*@
+    </script>
+
+    @if (Umbraco.Field("searching").ToString() == "True")
+    {
+        <script type="text/javascript">
+            // #myInput is a <input type="text"> element
+            $('#searchBox').on('keyup', function () {
+                $('#currentTable').DataTable().search(this.value).draw();
+            });
+        </script>
+    }
+}

@@ -1,0 +1,737 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+}
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1) {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages) {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (page.DocumentTypeId != 1237) {
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>
+                }
+                else {
+                    <li class="@cls"><a href="" class="disable"><span>@page.Name</span></a></li>
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+        </div>
+        <div class="content-tab-container block --center">
+            <div class="content-tab-item">
+                <a href="#tradingAct" class="content-tab-anchor etp-trading-tab-js is-active">@Umbraco.GetDictionaryValue("trading activity")</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#marketSum" class="content-tab-anchor etp-trading-tab-js">@Umbraco.GetDictionaryValue("Market Summary")</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#marketHistory" class="content-tab-anchor etp-trading-tab-js">@Umbraco.GetDictionaryValue("Market History")</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#marketChart" class="content-tab-anchor etp-trading-tab-js">@Umbraco.GetDictionaryValue("Market Chart")</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#mostActive" class="content-tab-anchor etp-trading-tab-js">@Umbraco.GetDictionaryValue("Most Active")</a>
+            </div>
+        </div>
+        <div class="etp-trading-container is-active" id="tradingAct">
+            <div class="text-center">
+                <p><b>@Umbraco.GetDictionaryValue("date") :</b> <span name="dataDate"></span>  <b>@Umbraco.GetDictionaryValue("time") :</b> <span name="dataTime"></span></p>
+            </div>
+            <table id="tradingActTable" class="table table--zebra table-content-page width-block">
+                <thead>
+                    <tr>
+                        <th class="text-center">No</th>
+                        <th class="text-center">Contract Code</th>
+                        <th class="text-center">Best Bid</th>
+                        <th class="text-center">Best Offer</th>
+                        <th class="text-center">Reff Price</th>
+                        <th class="text-center">@Umbraco.GetDictionaryValue("High")</th>
+                        <th class="text-center">@Umbraco.GetDictionaryValue("Low")</th>
+                        <th class="text-center">@Umbraco.GetDictionaryValue("Last")</th>
+                        <th class="text-center">@Umbraco.GetDictionaryValue("Change")*</th>
+                        <th class="text-center">Volume</th>
+                        <th class="text-center">@Umbraco.GetDictionaryValue("Value")</th>
+                        <th class="text-center">@Umbraco.GetDictionaryValue("frequency")</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="etp-trading-container" id="marketSum">
+            <div class="text-center">
+                <p><b>@Umbraco.GetDictionaryValue("date") :</b> <span name="dataDate"></span>  <b>@Umbraco.GetDictionaryValue("time") :</b> <span name="dataTime"></span></p>
+            </div>
+            <table id="marketSumTable" class="table table--zebra table-content-page width-block">
+                <thead>
+                    <tr>
+                        <th class="text-center">No</th>
+                        <th class="text-center">Contract Code</th>
+                        <th class="text-center">Reff Price</th>
+                        <th class="text-center">@Umbraco.GetDictionaryValue("High")</th>
+                        <th class="text-center">@Umbraco.GetDictionaryValue("Low")</th>
+                        <th class="text-center">Settle</th>
+                        <th class="text-center">@Umbraco.GetDictionaryValue("Change")*</th>
+                        <th class="text-center">Volume</th>
+                        <th class="text-center">@Umbraco.GetDictionaryValue("Value")</th>
+                        <th class="text-center">@Umbraco.GetDictionaryValue("Frequency")</th>
+                        <th class="text-center">Open Interest</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="text-center">
+                <p><b>@Umbraco.GetDictionaryValue("date") :</b> <span name="dataDate"></span>  <b>@Umbraco.GetDictionaryValue("time") :</b> <span name="dataTime"></span></p>
+            </div>
+            <table id="marketSumPrevTable" class="table table--zebra table-content-page width-block">
+                <thead>
+                    <tr>
+                        <th class="text-center">No</th>
+                        <th class="text-center">Contract Code</th>
+                        <th class="text-center">Reff Price</th>
+                        <th class="text-center">@Umbraco.GetDictionaryValue("High")</th>
+                        <th class="text-center">@Umbraco.GetDictionaryValue("Low")</th>
+                        <th class="text-center">Settle</th>
+                        <th class="text-center">@Umbraco.GetDictionaryValue("Change")*</th>
+                        <th class="text-center">Volume</th>
+                        <th class="text-center">@Umbraco.GetDictionaryValue("Value")</th>
+                        <th class="text-center">@Umbraco.GetDictionaryValue("frequency")</th>
+                        <th class="text-center">Open Interest</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="etp-trading-container" id="marketHistory">
+            <div>
+                <div class="block flex v-center">
+                    <span class="form-label-announcement">@Umbraco.GetDictionaryValue("date")</span>
+                    <div class="calendar-box width-block">
+                        <input id="dateFilter" type="date" class="form-input form-input--block date-picker-js">
+                    </div>
+                </div>
+                <div class="block-double">
+                    <button class="btn btn-primary" onclick="getMarketHist()">@Umbraco.GetDictionaryValue("search")</button>
+                </div>
+            </div>
+            <table id="marketHistoryTable" class="table table--zebra table-content-page width-block">
+                <thead>
+                    <tr>
+                        <th class="text-center">No</th>
+                        <th class="text-center">Contract Code</th>
+                        <th class="text-center">@Umbraco.GetDictionaryValue("Date")</th>
+                        <th class="text-center">Reff Price</th>
+                        <th class="text-center">@Umbraco.GetDictionaryValue("High")</th>
+                        <th class="text-center">@Umbraco.GetDictionaryValue("Low")</th>
+                        <th class="text-center">Settle</th>
+                        <th class="text-center">@Umbraco.GetDictionaryValue("Change")*</th>
+                        <th class="text-center">Volume</th>
+                        <th class="text-center">@Umbraco.GetDictionaryValue("Value")</th>
+                        <th class="text-center">@Umbraco.GetDictionaryValue("frequency")</th>
+                        <th class="text-center">Open Interest</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="etp-trading-container" id="marketChart">
+            <div class="grid-2">
+                <div class="white-container padding-space">
+                    <div class="container-space">
+                        <div class="future-chart-container">
+                            <h2>Filter</h2>
+                            <div class="future-chart-content">
+                                <div class="future-chart-chart-stock-container">
+                                    <div class="market-overview-chart-stock is-active" id="jci1">
+                                        <div class="market-overview-chart-stock-header">
+                                            <div class="market-overview-chart-stock-header-search">
+                                                <div class="search-box small">
+                                                    <select name="code" id="" class="form-input form-input--block select2-js contractCodeList"></select>
+                                                </div>
+                                            </div>
+                                            <div class="market-overview-chart-stock-header-bottom">
+                                                <div class="market-overview-chart-filter">
+                                                    <a href="" class="market-overview-chart-filter-item is-active ">1D</a>
+                                                    <a href="" class="market-overview-chart-filter-item">1W</a>
+                                                    <a href="" class="market-overview-chart-filter-item">1M</a>
+                                                    <a href="" class="market-overview-chart-filter-item">1Y</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="market-overview-chart-stock-item">
+                                            <div id="chartContainer" class="chart-future"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="etp-trading-container" id="mostActive">
+            <div class="content-tab-container block --center">
+                <div class="content-tab-item">
+                    <a href="#brokersContainer" class="content-tab-anchor exchange-trade-tab-js is-active">Broker</a>
+                </div>
+                <div class="content-tab-item">
+                    <a href="#seriesContainer" class="content-tab-anchor exchange-trade-tab-js">Series</a>
+                </div>
+            </div>
+            <div id="brokersContainer" class="exchange-trade-container is-active">
+                <div class="text-center">
+                    <p><b>@Umbraco.GetDictionaryValue("date") :</b> <span name="dataDate"></span>  <b>@Umbraco.GetDictionaryValue("time") :</b> <span name="dataTime"></span></p>
+                </div>
+                <table id="brokersTable" class="table table--zebra table-content-page width-block">
+                    <thead>
+                        <tr>
+                            <th class="text-center">No.</th>
+                            <th class="text-center">Firm Id</th>
+                            <th class="text-center">Name</th>
+                            <th class="text-center">Volume</th>
+                            <th class="text-center">@Umbraco.GetDictionaryValue("Value")</th>
+                            <th class="text-center">@Umbraco.GetDictionaryValue("frequency")</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div id="seriesContainer" class="exchange-trade-container">
+                <div class="text-center">
+                    <p><b>@Umbraco.GetDictionaryValue("date") :</b> <span name="dataDate"></span>  <b>@Umbraco.GetDictionaryValue("time") :</b> <span name="dataTime"></span></p>
+                </div>
+                <table id="seriesTable" class="table table--zebra table-content-page width-block">
+                    <thead>
+                        <tr>
+                            <th class="text-center">No</th>
+                            <th class="text-center">Contract Code</th>
+                            <th class="text-center">Reff Price</th>
+                            <th class="text-center">@Umbraco.GetDictionaryValue("Last")</th>
+                            <th class="text-center">@Umbraco.GetDictionaryValue("Change")*</th>
+                            <th class="text-center">Volume</th>
+                            <th class="text-center">@Umbraco.GetDictionaryValue("Value")</th>
+                            <th class="text-center">@Umbraco.GetDictionaryValue("frequency")</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+@section Scripts{
+    <script type="text/javascript" src="/assets/js/vendor/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#dateFilter').val(moment().add(-1, 'days').format('DD-MM-YYYY'));
+            getTradingActivity();
+            getMarketSum();
+            getMarketHist();
+            getMarketPrev();
+            getMostActiveBroker();
+            getMostActiveContract();
+            getLatestDataTime();
+            getChartFuture('1M');
+			getContractCode();
+
+			$(".market-overview-chart-filter-item").on('click', function(e) {
+				if (e.target.text !== undefined) {
+				var code = $('.contractCodeList option:selected').text();
+					getChartFuture(e.target.text, code);
+				}
+				e.preventDefault();
+				$('.market-overview-chart-filter-item').removeClass('is-active');
+				$(this).addClass('is-active');
+			});
+        });
+
+        function getLatestDataTime(){
+            $.getJSON('@Url.Action("GetOTCLatestDataTime", "BondSukuk")', function (result) {
+                $('span[name="dataDate"]').text(moment(result).locale(currentLang).format("dddd, DD-MMM-YYYY"));
+                $('span[name="dataTime"]').text(moment(result).locale(currentLang).format("HH:mm:ss"));
+            });
+        }
+
+        function getTradingActivity(){
+            $.get('@Url.Action("GetFutureToday", "DerivativesData")',
+                function (result) {
+                    var jsonResult = $.parseJSON(result);
+                    $('#tradingActTable').dataTable({
+                        'processing': true,
+                        'info': false,
+                        'deferRender': true,
+                        'data': jsonResult,
+                        'columns': [
+                            { 'data': 'CodeContract' },
+                            { 'data': 'CodeContract' },
+                            { 'data': 'BestBid' },
+                            { 'data': 'BestOffer' },
+                            { 'data': 'Opens' },
+                            { 'data': 'High' },
+                            { 'data': 'Low' },
+                            { 'data': 'Last' },
+                            { 'data': 'Change' },
+                            { 'data': 'Volume' },
+                            { 'data': 'Val' },
+                            { 'data': 'Freq' },
+                        ],
+                        'columnDefs': [
+                            {
+                                'targets': [0],
+                                'createdCell' : function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-center');
+                                }
+                            },
+                            {
+                                'targets': [2,3,4,5,6,7,8,9,10,11],
+                                'createdCell' : function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-right');
+                                },
+                                'render' : function ( data, type, row, meta ) {
+                                    if(data != null)
+                                        return data.toLocaleString(currentLang);
+                                    else
+                                        return '';
+                                }
+                            }
+                        ],
+                        "rowCallback": function (row, data, iDisplayIndex) {
+                            var info = this.api().page.info();
+                            var page = info.page;
+                            var length = info.length;
+                            var index = (page * length + (iDisplayIndex + 1));
+                            $('td:eq(0)', row).html(index);
+                        },
+                    });
+                });
+        }
+
+        function getMarketSum(){
+            $.get('@Url.Action("GetMarketSummary", "DerivativesData")', function (result) {
+                var jsonResult = $.parseJSON(result);
+                $('#marketSumTable').dataTable({
+                    'processing': true,
+                    'info': false,
+                    'deferRender': true,
+                    'data': jsonResult,
+                    'columns': [
+                        { 'data': 'CodeContract' },
+                        { 'data': 'CodeContract' },
+                        { 'data': 'Opens' },
+                        { 'data': 'High' },
+                        { 'data': 'Low' },
+                        { 'data': 'Settle' },
+                        { 'data': 'Change' },
+                        { 'data': 'Volume' },
+                        { 'data': 'Value' },
+                        { 'data': 'Freq' },
+                        { 'data': 'OpenInterest' },
+                    ],
+                    'columnDefs': [
+                        {
+                            'targets': [0],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-center');
+                            }
+                        },
+                        {
+                            'targets': [2,3,4,5,6,7,8,9],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-right');
+                            },
+                            'render' : function ( data, type, row, meta ) {
+                                if(data != null)
+                                    return data.toLocaleString(currentLang);
+                                else
+                                    return '';
+                            }
+                        }
+                    ],
+                    "rowCallback": function (row, data, iDisplayIndex) {
+                        var info = this.api().page.info();
+                        var page = info.page;
+                        var length = info.length;
+                        var index = (page * length + (iDisplayIndex + 1));
+                        $('td:eq(0)', row).html(index);
+                    },
+                });
+            });
+        }
+
+        function getMarketPrev(){
+            $.get('@Url.Action("GetMarketSummaryPrevious", "DerivativesData")', function (result) {
+                var jsonResult = $.parseJSON(result);
+                $('#marketSumPrevTable').dataTable({
+                    'processing': true,
+                    'info': false,
+                    'deferRender': true,
+                    'data': jsonResult,
+                    'columns': [
+                        { 'data': 'CodeContract' },
+                        { 'data': 'CodeContract' },
+                        { 'data': 'Opens' },
+                        { 'data': 'High' },
+                        { 'data': 'Low' },
+                        { 'data': 'Settle' },
+                        { 'data': 'Change' },
+                        { 'data': 'Volume' },
+                        { 'data': 'Value' },
+                        { 'data': 'Freq' },
+                        { 'data': 'OpenInterest' },
+                    ],
+                    'columnDefs': [
+                        {
+                            'targets': [0],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-center');
+                            }
+                        },
+                        {
+                            'targets': [2,3,4,5,6,7,8,9],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-right');
+                            },
+                            'render' : function ( data, type, row, meta ) {
+                                if(data != null)
+                                return data.toLocaleString(currentLang);
+                                else
+                                return '';
+                            }
+                        }
+                    ],
+                    "rowCallback": function (row, data, iDisplayIndex) {
+                        var info = this.api().page.info();
+                        var page = info.page;
+                        var length = info.length;
+                        var index = (page * length + (iDisplayIndex + 1));
+                        $('td:eq(0)', row).html(index);
+                    },
+                });
+            });
+        }
+
+        function getMarketHist(){
+                var dateFilter = $('#dateFilter').val();
+                if (dateFilter !== ""){
+                    dateFilter = moment(dateFilter, "DD-MM-YYYY").format('YYYYMMDD');
+                }
+                if($.fn.DataTable.isDataTable('#marketHistoryTable')){
+                    var datatable = $('#marketHistoryTable').DataTable();
+                    datatable.clear();
+                    var url = '@Url.Action("GetMarketHistory", "DerivativesData")' + '?date=' + dateFilter;
+                    datatable.ajax.url(url).load();
+                    datatable.draw();
+                }else{
+                    var url = "@(Url.Action("GetMarketHistory", "DerivativesData"))" + "?date=" + dateFilter;
+                    $('#marketHistoryTable').dataTable({
+                        'ajax': {
+                            'url': url,
+                            },
+                        'filter': false,
+                        'sort': false,
+                        'serverSide': true,
+                        'processing': true,
+                        'paging': true,
+                        'deferRender': true,
+                        'columns': [
+                            { 'data': 'No' },
+                            { 'data': 'ContractCode' },
+                            { 'data': 'TradeDate' },
+                            { 'data': 'ReffPrice' },
+                            { 'data': 'High' },
+                            { 'data': 'Low' },
+                            { 'data': 'Settle' },
+                            { 'data': 'Change' },
+                            { 'data': 'Volume' },
+                            { 'data': 'Value' },
+                            { 'data': 'Frequency' },
+                            { 'data': 'OpenInterest' }
+                        ],
+                        'columnDefs': [
+                            {
+                                'targets': [0, 1],
+                                'createdCell' : function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-center');
+                                }
+                            },
+                            {
+                                'targets': [2],
+                                'render' : function(data, type, row, meta){
+                                    return moment(data, "YYYY-MM-DDT00:00:00").locale(currentLang).format('DD/MM/YYYY');
+                                }
+                            },
+                            {
+                                'targets': [3,4,5,6,7,8,10,11],
+                                'createdCell' : function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-right');
+                                },
+                                'render' : function ( data, type, row, meta ) {
+                                    if(data != null)
+                                    return data.toLocaleString(currentLang);
+                                    else
+                                    return '';
+                                }
+                            }
+                        ],
+                        "rowCallback": function (row, data, iDisplayIndex) {
+                            var info = this.api().page.info();
+                            var page = info.page;
+                            var length = info.length;
+                            var index = (page * length + (iDisplayIndex + 1));
+                            $('td:eq(0)', row).html(index);
+                        },
+                    });
+                }
+        }
+
+        function getChartFuture(period, code) {
+            var chartUrl = '@Url.Action("GetFuturesChart", "DerivativesData")';
+
+            $.getJSON(chartUrl + '?period=' + period + '&contractCode=' + code, function (response) {
+                var data = [];
+                var dataOpenInt = [];
+				var volumeList = [];
+				var openIntList = [];
+
+                for (var i in response.ChartData) {
+                    if (response.ChartData.hasOwnProperty(i)) {
+						volumeList = $.map(response.ChartData, function(n, i){
+							return n.Volume;
+						});
+						openIntList = $.map(response.ChartData, function(n, i){
+							return n.OpenInterest;
+						});
+                        data = $.map(response.ChartData, function (n, i) {
+                           return [[ Date.parse(n.Date), n.Volume ]];
+                        });
+                        dataOpenInt = $.map(response.ChartData, function (n, i) {
+                            return [[Date.parse(n.Date), n.OpenInterest]];
+                        });
+                    }
+                }
+
+                var startDate = null;
+                var endDate = null;
+
+                startDate = Date.parse(response.StartDate);
+                endDate = Date.parse(response.EndDate);
+
+				var maxVolume = Math.max.apply(Math, volumeList);
+				var maxOpenInt = Math.max.apply(Math, openIntList);
+
+
+                var chart = new Highcharts.Chart({
+                    title: { text: 'Open Interest vs Volume' },
+                    chart: {
+                        zoomType: 'x',
+                        ignoreHiddenSeries : false,
+                        height: 300,
+                        spacing: [0,0,0,0],
+                        marginTop: 20,
+                        renderTo: 'chartContainer'
+                    },
+                    buttons: {
+                        printButton: {
+                            enabled: false
+                        },
+                        exportButton: {
+                            enabled: false
+                        }
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    credits: { enabled: false },
+                    legend: { enabled: false },
+                    title: { text: null },
+                    xAxis: [{
+                        type: 'datetime',
+                        gridLineWidth: 1,
+                        min: startDate,
+                        max: endDate,
+                        //ordinal: false,
+                        //endOnTick: false,
+                        //startOnTick: false,
+                        crosshair: true,
+                        index: 2,
+                        height: '100%',
+                    }],
+                    yAxis: [{
+						title: 'Open Interest',
+						gridLineWidth: 1,
+						labels: { align: 'right' },
+						height: '100%',
+						opposite: false,
+						tickWidth: 1,
+						tickLength: 5,
+						tickPosition: 'outside'
+					},{
+						title: 'Volume',
+						gridLineWidth: 1,
+						labels: { align: 'left' },
+						height: '100%',
+						opposite: true,
+						tickWidth: 1,
+						tickLength: 5,
+						offset: 0,
+						tickPosition: 'inside'
+					}
+					],
+					tooltip: {
+						shape: 'square',
+						headerShape: 'callout',
+						borderWidth: 0,
+						shadow: false,
+						shared: true,
+                    },
+                    series: [{
+						name: 'Open Interest',
+						id: 'future-openint',
+						type: 'line',
+						data: dataOpenInt,
+					}, {
+                        name: 'Volume',
+                        id: 'future-volume',
+                        type: 'column',
+                        data: data,
+						yaxis: 1,
+                    },
+
+                    ],
+
+                });
+            });
+
+        }
+
+        function getMostActiveBroker(){
+            $.get('@Url.Action("GetMostActiveBroker", "DerivativesData")', function (result) {
+                var jsonResult = $.parseJSON(result);
+                $('#brokersTable').dataTable({
+                    'processing': true,
+                    'info': false,
+                    'deferRender': true,
+                    'data': jsonResult,
+                    'columns': [
+                        { 'data': 'FirmID' },
+                        { 'data': 'FirmID' },
+                        { 'data': 'FirmName' },
+                        { 'data': 'Vol' },
+                        { 'data': 'Val' },
+                        { 'data': 'Frek' },
+                    ],
+                    'columnDefs': [
+                        {
+                            'targets': [0],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-center');
+                            }
+                        },
+                        {
+                            'targets': [3,4,5],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-right');
+                            },
+                            'render' : function ( data, type, row, meta ) {
+                                if(data != null)
+                                return data.toLocaleString(currentLang);
+                                else
+                                return '';
+                            }
+                        }
+                    ],
+                    "rowCallback": function (row, data, iDisplayIndex) {
+                        var info = this.api().page.info();
+                        var page = info.page;
+                        var length = info.length;
+                        var index = (page * length + (iDisplayIndex + 1));
+                        $('td:eq(0)', row).html(index);
+                    },
+                });
+            });
+        }
+
+        function getContractCode() {
+            $.get('@Url.Action("GetContractCodeList", "DerivativesData")', function (result) {
+                for (var i = 0; i < result.length; i++) {
+                    $('.contractCodeList').each(function(){
+                        $(this).append('<option value="' + result[i] + '">' + result[i] + '</option>');
+                    });
+                }
+
+                $('.contractCodeList').on('change', function(e){
+                    var indexCode = $('.contractCodeList option:selected').text();
+					console.log($('.market-overview-chart-filter-item'));
+					console.log($('.market-overview-chart-filter-item.is-active'));
+                    var period = $('.market-overview-chart-filter-item.is-active')[0].innerText;
+					console.log(period);
+					getChartFuture(period, indexCode);
+                });
+            });
+        }
+
+        function getMostActiveContract(){
+            $.get('@Url.Action("GetMostActiveContract", "DerivativesData")', function (result) {
+                var jsonResult = $.parseJSON(result);
+                $('#seriesTable').dataTable({
+                    'processing': true,
+                    'info': false,
+                    'deferRender': true,
+                    'data': jsonResult,
+                    'columns': [
+                        { 'data': 'No' },
+                        { 'data': 'CodeContract' },
+                        { 'data': 'Opens' },
+                        { 'data': 'OpenInt' },
+                        { 'data': 'Change' },
+                        { 'data': 'Volume' },
+                        { 'data': 'Value' },
+                        { 'data': 'Freq' },
+                    ],
+                    'columnDefs': [
+                        {
+                            'targets': [0],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-center');
+                            }
+                        },
+                        {
+                            'targets': [2,3,4,5,6,7],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-right');
+                            },
+                            'render' : function ( data, type, row, meta ) {
+                                if(data != null)
+                                return data.toLocaleString(currentLang);
+                                else
+                                return '';
+                            }
+                        }
+                    ],
+                    "rowCallback": function (row, data, iDisplayIndex) {
+                        var info = this.api().page.info();
+                        var page = info.page;
+                        var length = info.length;
+                        var index = (page * length + (iDisplayIndex + 1));
+                        $('td:eq(0)', row).html(index);
+                    },
+                });
+            });
+        }
+
+    </script>
+}

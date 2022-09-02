@@ -1,0 +1,148 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+}
+
+<main class="sticky-footer-container-item --pushed" ng-controller="SuspenseController as annoucnementCtrl">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (page.DocumentTypeId != 1237){
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>                    
+                } else {
+                    <li class="@cls"><a href="" class="disable"><span>@page.Name</span></a></li>
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+        </div>
+        <div action="" class="block-double">
+            <div class="block flex v-center">
+                <span class="form-label-announcement">@Umbraco.GetDictionaryValue("keyword")</span>
+                <input id="keywordInput" type="text" class="form-input form-input--block" placeholder="@Umbraco.GetDictionaryValue("keyword")" maxlength="100">
+            </div>
+            <div class="block flex v-center">
+                <span class="form-label-announcement">@Umbraco.GetDictionaryValue("from")</span>
+                <div class="calendar-box width-block">
+                    <input id="dateFrom" type="date" class="form-input form-input--block date-picker-js">
+                </div>
+                <span class="form-label-announcement">@Umbraco.GetDictionaryValue("to")</span>
+                <div class="calendar-box width-block">
+                    <input id="dateTo" type="date" class="form-input form-input--block date-picker-js">
+                </div>
+            </div>
+            <div class="block flex v-center">
+                <span class="form-label-announcement">@Umbraco.GetDictionaryValue("choose type")</span>
+                <div class="form-radio">
+                    <input type="radio" class="form-input-custom-bullet otc-radio-js" value="0" id="allRb" name="optionType">
+                    <label for="allRb" class="">@Umbraco.GetDictionaryValue("All")</label>
+                </div>
+                <div class="form-radio">
+                    <input type="radio" class="form-input-custom-bullet otc-radio-js" value="spt" id="suspendRb" name="optionType">
+                    <label for="suspendRb" class="">@Umbraco.GetDictionaryValue("suspend")</label>
+                </div>
+                <div class="form-radio">
+                    <input type="radio" class="form-input-custom-bullet otc-radio-js" value="upt" id="unsuspendRb" name="optionType">
+                    <label for="unsuspendRb" class="">@Umbraco.GetDictionaryValue("unsuspend")</label>
+                </div>
+            </div>
+
+            <div class="block flex v-center">
+                <span class="form-label-announcement">&nbsp;</span>
+                <button id="searchButton" class="btn btn-primary">@Umbraco.GetDictionaryValue("search")</button>
+            </div>
+        </div>
+    </div>
+    <div class="main-content content-push">
+        <div class="container">
+            <div class="block white-container">
+                <div class="loader-box" ng-class="{'is-active' : loading}">
+                    <div class="loader-container">
+                        <img src="/assets/img/ajax-loader.gif" alt="">
+                    </div>
+                </div>
+                <div class="padding-space padding-space--big flexbox">
+                    <div class="block v-center" dir-paginate="res in users | itemsPerPage: limit" total-items="totalUsers" current-page="pagination.current">
+                        <time class="flex-10">{{res.Date | date:'dd MMM yyyy'}}</time>
+                        <a href="{{res.Data_Download}}" target="_blank" class="red flex-90"><b>{{res.Judul}}</b></a>
+                    </div>
+                </div>
+            </div>
+            <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+        </div>
+    </div>
+</main>
+
+@section Scripts{
+    <script>
+        const app = angular.module('app', ['angularUtils.directives.dirPagination'])
+        app.controller('SuspenseController', ['$scope', '$http', function($scope, $http){
+
+            $scope.users = [];
+            $scope.totalUsers = 0;
+            $scope.currentPage = 1;
+            $scope.limit = 10;
+            $scope.loading = false;
+            getResultsPage(1);
+
+            $scope.pagination = {
+                current: 1
+            };
+
+            $('input[name=optionType][value=0]').attr('checked', true);
+            $('input[name=optionType]').on('click', function (e){
+                $('input[name=optionType]').attr('checked', false);
+                $(this).attr('checked', true);
+            });
+
+            $('#searchButton').on('click', function(e){
+                getResultsPage(1);
+            });
+
+            $scope.pageChanged = function(newPage) {
+                getResultsPage(newPage);
+            };
+
+            function getResultsPage(pageNumber) {
+                $scope.loading = true;
+                var dateFrom = $('#dateFrom').val() !== '' ? moment($('#dateFrom').val(), 'DD-MM-YYYY').format('YYYYMMDD') : '';
+                var dateTo = $('#dateTo').val() !== '' ? moment($('#dateTo').val(), 'DD-MM-YYYY').format('YYYYMMDD') : '';
+                var option = $('input[name="optionType"]:checked').val();
+
+                if (option == '0' || option == undefined) {
+                    option = '';
+                }
+                
+                $http.get('@Url.Action("GetSuspension", "NewsAnnouncement")' + 
+                    '?indexFrom=' + (pageNumber) + 
+                    '&dateFrom=' + dateFrom + 
+                    '&dateTo=' + dateTo + 
+                    '&pageSize=' + $scope.limit + 
+                    '&type=' + option + 
+                    '&keyword=' + $('#keywordInput').val() +
+                    '&language=' + currentLang)
+                .then( function(result) {                    
+                    var data = result.data;
+                    $scope.users = data.Results;
+                    $scope.totalUsers = data.ResultCount;
+                    $scope.loading = false;
+                });
+            }
+
+        }])
+    </script>
+}

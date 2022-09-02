@@ -1,0 +1,184 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+}
+
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (page.DocumentTypeId != 1237){
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>                    
+                } else {
+                    <li class="@cls"><a href="" class="disable"><span>@page.Name</span></li>
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+        </div>
+        <form action="" class="block-double">
+            <div class="block flex v-center">
+                <span class="form-label-announcement">@Umbraco.GetDictionaryValue("name")</span>
+                <input type="text" class="form-input form-input--block" placeholder="@Umbraco.GetDictionaryValue("enter name")">
+            </div>
+            <div class="block flex v-center">
+                <span class="form-label-announcement">@Umbraco.GetDictionaryValue("choose")</span>
+                <div class="form-radio">
+                    <input type="radio" class="form-input-custom-bullet otc-radio-js" value="stocks" id="stocks" name="companyProfileType" checked="checked">
+                    <label for="stocks" class="">@Umbraco.GetDictionaryValue("All")</label>
+                </div>
+                <div class="form-radio">
+                    <input type="radio" class="form-input-custom-bullet otc-radio-js" value="bonds" id="bonds" name="companyProfileType">
+                    <label for="bonds" class="">@Umbraco.GetDictionaryValue("Local")</label>
+                </div>
+                <div class="form-radio">
+                    <input type="radio" class="form-input-custom-bullet otc-radio-js" value="bonds" id="bonds" name="companyProfileType">
+                    <label for="bonds" class="">@Umbraco.GetDictionaryValue("Join Venture")</label>
+                </div>
+            </div>
+            <div class="block flex v-center">
+                <span class="form-label-announcement">@Umbraco.GetDictionaryValue("License")</span>
+                <div class="filter-checkbox-item">
+                    <input type="checkbox" class="form-input-custom-bullet" id="" name="licenseFilter" data-column="0">
+                    <label for="">@Umbraco.GetDictionaryValue("Fixed Income")</label>
+                </div>
+                <div class="filter-checkbox-item">
+                    <input type="checkbox" class="form-input-custom-bullet" id="" name="licenseFilter" data-column="1">
+                    <label for="">@Umbraco.GetDictionaryValue("Derivative")</label>
+                </div>
+                <div class="filter-checkbox-item">
+                    <input type="checkbox" class="form-input-custom-bullet" id="" name="licenseFilter" data-column="2">
+                    <label for="">Margin</label>
+                </div>
+                <div class="filter-checkbox-item">
+                    <input type="checkbox" class="form-input-custom-bullet" id="" name="licenseFilter" data-column="3">
+                    <label for="">@Umbraco.GetDictionaryValue("Underwriter")</label>
+                </div>
+                <div class="filter-checkbox-item">
+                    <input type="checkbox" class="form-input-custom-bullet" id="" name="licenseFilter" data-column="4">
+                    <label for="">@Umbraco.GetDictionaryValue("Investment Manager")</label>
+                </div>
+            </div>
+            <div class="block flex v-center">
+                <span class="form-label-announcement">&nbsp;</span>
+                <button class="btn btn-primary">@Umbraco.GetDictionaryValue("Search")</button>
+            </div>
+        </form>
+    </div>
+    <div class="main-content content-push">
+        <div class="container">
+            <div class="block">
+                <p>@Umbraco.GetDictionaryValue("search by name")</p>
+                <div class="">
+                    <a href="" class="btn btn-alphabet is-active">A</a>
+                    <a href="" class="btn btn-alphabet">B</a>
+                    <a href="" class="btn btn-alphabet">C</a>
+                    <a href="" class="btn btn-alphabet">D</a>
+                    <a href="" class="btn btn-alphabet">E</a>
+                    <a href="" class="btn btn-alphabet">F</a>
+                    <a href="" class="btn btn-alphabet">G</a>
+                    <a href="" class="btn btn-alphabet">H</a>
+                    <a href="" class="btn btn-alphabet">I</a>
+                    <a href="" class="btn btn-alphabet">J</a>
+                    <a href="" class="btn btn-alphabet">K</a>
+                    <a href="" class="btn btn-alphabet">L</a>
+                    <a href="" class="btn btn-alphabet">M</a>
+                    <a href="" class="btn btn-alphabet">N</a>
+                    <a href="" class="btn btn-alphabet">O</a>
+                    <a href="" class="btn btn-alphabet">P</a>
+                    <a href="" class="btn btn-alphabet">Q</a>
+                    <a href="" class="btn btn-alphabet">R</a>
+                    <a href="" class="btn btn-alphabet">S</a>
+                    <a href="" class="btn btn-alphabet">T</a>
+                    <a href="" class="btn btn-alphabet">U</a>
+                    <a href="" class="btn btn-alphabet">V</a>
+                    <a href="" class="btn btn-alphabet">W</a>
+                    <a href="" class="btn btn-alphabet">X</a>
+                    <a href="" class="btn btn-alphabet">Y</a>
+                    <a href="" class="btn btn-alphabet">Z</a>
+                    <a href="" class="btn btn-alphabet">ALL</a>
+                </div>
+            </div>
+            <div class="block">
+                <table id="exchangeMemberTable" class="table table--zebra table-content-page">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>@Umbraco.GetDictionaryValue("code")</th>
+                            <th>@Umbraco.GetDictionaryValue("name")</th>
+                            <th>@Umbraco.GetDictionaryValue("License")</th>
+                        </tr>
+                    </thead>
+                    <tbody>                        
+                    </tbody>
+                </table>
+            </div>
+        </div>        
+    </div>
+</main>
+
+@section Scripts{
+    <script type="text/javascript" src="/assets/js/vendor/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        var currentLang = document.URL.indexOf("id-id") > 0 ? "id-id" : "en-us";
+        
+         $(function () {
+            getAllBrokers();
+        });
+
+         function getAllBrokers(){
+            $.get('@Url.Action("GetBroker", "ExchangeMember")', function (result) {
+                if($.fn.DataTable.isDataTable('#exchangeMemberTable')){
+                    var datatable = $('#exchangeMemberTable').DataTable();
+                    datatable.clear();
+                    datatable.rows.add(result.Items).draw();
+                } else {
+                    var table = $('#exchangeMemberTable').dataTable({
+                        'processing': true,
+                        'paging': true,
+                        'deferRender': true,
+                        'data': result.Items,
+                        'columns': [
+                            { 'data': 'Code' },
+                            { 'data': 'Code' },
+                            { 'data': 'Name' },
+                            { 'data': 'License' },
+                        ],
+                        'columnDefs': [
+                            {
+                                'targets': 2,
+                                'render' : function ( data, type, row, meta ) {
+                                    if (currentLang === 'en-us') {
+                                        return '<a href="/en-us/members-participants/exchange-members-profiles/exchange-members-profiles-detail?kodeEmiten=' + row.Code + '#finance">' + data + '</a>';
+                                    }
+                                    return '<a href="/id-id/anggota-bursa-dan-partisipan/profil-anggota-bursa/detail-profil-anggota-bursa?kodeEmiten=' + row.Code + '#finance">' + data + '</a>';
+                                }
+                            },
+                        ],
+                        "rowCallback": function (row, data, iDisplayIndex) {
+                            var info = this.api().page.info();
+                            var page = info.page;
+                            var length = info.length;
+                            var index = (page * length + (iDisplayIndex + 1));
+                            $('td:eq(0)', row).html(index);
+                        },
+                    });                    
+                }
+            });
+         }
+    </script>
+}

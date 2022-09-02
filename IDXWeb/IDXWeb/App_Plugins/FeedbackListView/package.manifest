@@ -1,0 +1,8 @@
+﻿{
+	javascript: [
+		"~/App_Plugins/FeedbackListView/FeedbackListView.controller.js"
+	],
+	css: [
+		"~/App_Plugins/FeedbackListView/style.css"
+	]
+}

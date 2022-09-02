@@ -1,0 +1,156 @@
+﻿@using System.Configuration
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+	Layout = "Master.cshtml";
+}
+
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (!page.Name.Contains("Detail")){
+                    if (page.DocumentTypeId != 1237){
+                        <li class="@cls"><a href="@page.Url">@page.Name</a></li>                    
+                    } else {
+                        <li class="@cls"><a href="" class="disable"><span>@page.Name</span></a></li>
+                    }
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+        </div>
+        <div class="company-profile-header">
+            <div class="company-profile-name">
+                <img id="emitenLogo" src="" alt="">
+                <span id="emitenName"></span>
+            </div>
+            <div class="company-profile-list">
+                <form action="">
+                    <label for="" class="form-label">@Umbraco.GetDictionaryValue("choose name")</label>
+                    <div class="option-box">
+                        <select name="" id="brokerList" class="form-option">
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="main-content content-push">
+        <div class="container">
+            <div class="company-profile-content is-active" id="general">
+                <dl class="financial-report-list --big cf block-double">
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("office address")</dt>
+                    <dd class="financial-report-description"><span id="frAddress"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("city")</dt>
+                    <dd class="financial-report-description"><span id="frCity"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("postal code")</dt>
+                    <dd class="financial-report-description"><span id="frPostalCode"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("phone number")</dt>
+                    <dd class="financial-report-description"><span id="frTelephone"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("fax")</dt>
+                    <dd class="financial-report-description"><span id="frFax"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("situs")</dt>
+                    <dd class="financial-report-description"><a id="frWebsite" href="" target="_blank"></a></dd>                    
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("user")</dt>
+                    <dd class="financial-report-description"><span id="frUser"></span></dd>
+                </dl>
+            </div>
+        </div>        
+    </div>
+</main>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            getEmitenType();
+            getCompanyProfile();
+
+            var currentYear = moment().format('YYYY');
+
+            $('#mkbdFirstYear').text(currentYear);
+            $('#mkbdSecondYear').text(currentYear - 1);
+            $('#mkbdThirdYear').text(currentYear - 2);
+
+            $('#totalFirstYear').text(currentYear);
+            $('#totalSecondYear').text(currentYear - 1);
+            $('#totalThirdYear').text(currentYear - 2);
+
+            for (var i = 0; i < @ConfigurationManager.AppSettings["maxYear"]; i++) {
+                $('#yearList').append('<option value="' + (currentYear - i) + '">' + (currentYear - i) + '</option>');
+            }
+        });
+
+        function getParams(sParam){
+            var sPageURL = window.location.search.substring(1);
+            var sURLVariables = sPageURL.split('&');
+            for (var i = 0; i < sURLVariables.length; i++) {
+                var sParameterName = sURLVariables[i].split('=');
+                if (sParameterName[0] == sParam) {
+                    return sParameterName[1];
+                }
+            }
+        }
+
+        function getEmitenType() {
+            $.get('@Url.Action("GetPrimaryDealer", "ExchangeMember")?start=0&length=200', function (result) {
+                $('#brokerList').append('<option value="">' + '@Umbraco.GetDictionaryValue("choose name")' + '</option>');
+                for (var i = 0; i < result.data.length; i++) {
+                    $('#brokerList').each(function(){
+                        $(this).append('<option value="' + result.data[i].Code + '">' + result.data[i].Name + '</option>');
+                    });
+                }
+            });
+
+            $('#brokerList').on('change', function (e) {
+                var url = document.URL.replace('kodeEmiten=' + getParams('kodeEmiten'), 'kodeEmiten=' + $(this).val());
+                window.location.href = url;
+            });
+        }
+
+        function getCompanyProfile(){
+            var emitenCode = getParams('kodeEmiten');            
+
+            var emitenType = $('input[name="companyProfileType"]:checked').val();
+            var indexFrom = 1;
+            var pageSize = 1;
+
+            $.get('@Url.Action("GetPrimaryDealerDetail", "ExchangeMember")?code=' + emitenCode, function (result) {
+                if (result != null) {
+                    setProfiles(result);
+                }
+            });
+        }
+
+        function setProfiles(profiles){
+            $('#emitenLogo').attr('src', profiles.Logo);
+            $('#emitenName').text(profiles.Name);
+            $('#frCity').text(profiles.City);            
+            var htmlUserList = '<ul>';
+            for (var i = 0; i < profiles.Users.length; i++) {
+                htmlUserList += '<li>' + profiles.Users[i].UserName + '</li>';
+            }
+            htmlUserList += '</ul>';
+            $(htmlUserList).appendTo('#frUser');
+
+            $('#frAddress').text(profiles.Address);
+            $('#frTelephone').text(profiles.Phone);
+            $('#frFax').text(profiles.Fax);
+            $('#frWebsite').text(profiles.Website).attr('href', 'http://' + profiles.Website);
+            $('#frPostalCode').text((profiles.Zip.trim().length > 0 ? profiles.Zip : '-'));
+        }
+    </script>
+}

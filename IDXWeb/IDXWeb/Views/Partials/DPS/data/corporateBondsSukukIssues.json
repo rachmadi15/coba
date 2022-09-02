@@ -1,0 +1,177 @@
+{
+    "data": [
+        {
+            "status": true,
+            "issuerCode": "SMAR",
+            "issuer": "PT Smart Tbk.",
+            "series": "Obligasi Berkelanjutan I SMART Tahap I Tahun 2012 Seri B",
+            "code": "SMAR01BCN1",
+            "sector": "Agriculture",
+            "subSector": "Plantation",
+            "listingDate": "Mon Sep 02 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "maturityDate": "Mon Sep 02 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "issuedNominal": 327,
+            "outstandingNominal": 327,
+            "monthVolume": 132,
+            "ytdVolume": 112,
+            "couponIjarah": 10.24,
+            "rating": "A+",
+            "tenure": "3Y",
+            "trutee": "PT Bank Mega Tbk."
+        },
+        {
+            "status": null,
+            "issuerCode": "SMAR",
+            "issuer": "PT Smart Tbk.",
+            "series": "Obligasi Berkelanjutan I SMART Tahap I Tahun 2012 Seri B",
+            "code": "SMAR01BCN1",
+            "sector": "Agriculture",
+            "subSector": "Plantation",
+            "listingDate": "Wed Jul 04 2012 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "maturityDate": "Wed Jul 04 2012 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "issuedNominal": 327,
+            "outstandingNominal": 327,
+            "monthVolume": 132,
+            "ytdVolume": 112,
+            "couponIjarah": 10.24,
+            "rating": "A+",
+            "tenure": "3Y",
+            "trutee": "PT Bank Mega Tbk."
+        },
+        {
+            "status": false,
+            "issuerCode": "SMAR",
+            "issuer": "PT Smart Tbk.",
+            "series": "Obligasi Berkelanjutan I SMART Tahap I Tahun 2012 Seri B",
+            "code": "SMAR01BCN1",
+            "sector": "Agriculture",
+            "subSector": "Plantation",
+            "listingDate": "Wed Jul 04 2012 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "maturityDate": "Wed Jul 04 2012 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "issuedNominal": 327,
+            "outstandingNominal": 327,
+            "monthVolume": 132,
+            "ytdVolume": 112,
+            "couponIjarah": 10.24,
+            "rating": "A+",
+            "tenure": "3Y",
+            "trutee": "PT Bank Mega Tbk."
+        }
+    ],
+    "columns": [
+        {
+            "columnName": "status",
+            "decimal": 0,
+            "format": "checkCross",
+            "className": "text-center"
+        },
+        {
+            "columnName": "issuerCode",
+            "decimal": 0,
+            "format": false,
+            "className": "text-center nowrap"
+        },
+        {
+            "columnName": "issuer",
+            "decimal": 0,
+            "format": false,
+            "className": "text-center nowrap"
+        },
+        {
+            "columnName": "series",
+            "decimal": 0,
+            "format": false,
+            "className": "text-center nowrap"
+        },
+        {
+            "columnName": "code",
+            "decimal": 0,
+            "format": false,
+            "className": "text-center nowrap"
+        },
+        {
+            "columnName": "sector",
+            "decimal": 0,
+            "format": false,
+            "className": "text-center nowrap"
+        },
+        {
+            "columnName": "subSector",
+            "decimal": 0,
+            "format": false,
+            "className": "text-center nowrap"
+        },
+        {
+            "columnName": "listingDate",
+            "decimal": 0,
+            "format": "fullDateDigit",
+            "className": "text-center nowrap"
+        },
+        {
+            "columnName": "maturityDate",
+            "decimal": 0,
+            "format": "fullDateDigit",
+            "className": "text-center nowrap"
+        },
+        {
+            "columnName": null,
+            "decimal": 0,
+            "format": false,
+            "className": ""
+        },
+        {
+            "columnName": "issuedNominal",
+            "decimal": 0,
+            "format": true,
+            "className": "text-right nowrap"
+        },
+        {
+            "columnName": "outstandingNominal",
+            "decimal": 0,
+            "format": true,
+            "className": "text-right nowrap"
+        },
+        {
+            "columnName": null,
+            "decimal": 0,
+            "format": false,
+            "className": ""
+        },
+        {
+            "columnName": "monthVolume",
+            "decimal": 0,
+            "format": true,
+            "className": "text-right nowrap"
+        },
+        {
+            "columnName": "ytdVolume",
+            "decimal": 0,
+            "format": true,
+            "className": "text-right nowrap"
+        },
+        {
+            "columnName": "couponIjarah",
+            "decimal": 2,
+            "format": "percent",
+            "className": "text-center nowrap"
+        },
+        {
+            "columnName": "rating",
+            "decimal": 0,
+            "format": false,
+            "className": "text-center nowrap"
+        },
+        {
+            "columnName": "tenure",
+            "decimal": 0,
+            "format": false,
+            "className": "text-center nowrap"
+        },
+        {
+            "columnName": "trutee",
+            "decimal": 0,
+            "format": false,
+            "className": "text-center nowrap"
+        }
+    ]
+}

@@ -1,0 +1,518 @@
+﻿@using System.Configuration
+@using IDXWeb.Models;
+@using Newtonsoft.Json;
+@using System.IO;
+
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+    var isActive = "  is-active";
+    if (Umbraco.Field("searching").ToString() != "True") {
+        isActive = " is-active";
+    }
+    var downloadCode = Umbraco.Field("downloadCode").ToString();
+    var isCumulative = string.IsNullOrEmpty(Request.QueryString["cumulative"]) ? "false" : Request.QueryString["cumulative"];
+    var printState = Request.QueryString["print"];
+    var month = Request.QueryString["month"];
+    var periodType = Request.QueryString["periodType"];
+    var year = Request.QueryString["year"];
+    var quarter = Request.QueryString["quarter"];
+    var date = Request.QueryString["date"];
+    var start = Request.QueryString["start"];
+    var end = Request.QueryString["end"];
+    var query = Request.QueryString["q"];
+
+    string[] months = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
+    var periode = "";
+    if (!string.IsNullOrEmpty(year)) {
+        HttpCookie typeC = new HttpCookie("filteredType");
+        typeC.Value = "yearly";
+        // Response.Cookies.Add(typeC);
+        HttpCookie yearC = new HttpCookie("filteredYear");
+        yearC.Value = year;
+        // Response.Cookies.Add(yearC);
+        periode = "(" + year + ")";
+    }
+    if (!string.IsNullOrEmpty(quarter)) {
+        HttpCookie quarterC = new HttpCookie("filteredQuarter");
+        quarterC.Value = quarter;
+        // Response.Cookies.Add(quarterC);
+
+        HttpCookie typeC = new HttpCookie("filteredType");
+        typeC.Value = "quarterly";
+        // Response.Cookies.Add(typeC);
+
+        periode = "(Q" + quarter + " - " + year + ")";
+    }
+    if (!string.IsNullOrEmpty(month)) {
+        HttpCookie monthC = new HttpCookie("filteredMonth");
+        HttpCookie typeC = new HttpCookie("filteredType");
+        typeC.Value = "monthly";
+        // Response.Cookies.Add(typeC);
+
+        monthC.Value = month;
+        // Response.Cookies.Add(monthC);
+        periode = "(" + months[Convert.ToInt32(month) - 1] + " - " + year + ")";
+    }
+
+    if (start != "" && start != null) {
+        HttpCookie startC = new HttpCookie("startDate");
+        HttpCookie endC = new HttpCookie("endDate");
+        startC.Value = start;
+        endC.Value = end;
+        // Response.Cookies.Add(startC);
+        // Response.Cookies.Add(endC);
+        periode = "(" + start + " - " + end + ")";
+    }
+    if (date != "" && date != null) {
+        HttpCookie dateC = new HttpCookie("filteredDate");
+        dateC.Value = date;
+        // Response.Cookies.Add(dateC);
+        periode = "(" + date + ")";
+    }
+}
+
+@* the fun starts here *@
+
+<main class="sticky-footer-container-item --pushed">
+    <h1>@month</h1>
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1) {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages) {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (page.DocumentTypeId != 1237) {
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>
+                } else {
+                    <li class="@cls"><a href="" class="disable"><span>@page.Name</span></a></li>
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">Digital Statistic</h1>
+        </div>
+        @* <div class="content-tab-container block --center"> *@
+        @*     <div class="content-tab-item"> *@
+        @*         <a href="#tab" class="content-tab-anchor statistic-tab-js" id="content-tab-monthly" onclick="getData('monthly')">@Umbraco.GetDictionaryValue("Monthly")</a> *@
+        @*     </div> *@
+        @*     <div class="content-tab-item"> *@
+        @*         <a href="#tab" class="content-tab-anchor statistic-tab-js" id="content-tab-quarterly" onclick="getData('quarterly')">@Umbraco.GetDictionaryValue("Quarterly")</a> *@
+        @*     </div> *@
+        @*     <div class="content-tab-item"> *@
+        @*         <a href="#tab" class="content-tab-anchor statistic-tab-js" id="content-tab-yearly" onclick="getData('yearly')">@Umbraco.GetDictionaryValue("Yearly")</a> *@
+        @*     </div> *@
+        @* </div> *@
+    </div>
+    <div class="statistic-main-content" id="section-to-print">
+        <div class="statistic-container is-active" id="tab">
+            <div id="filter-container" class="background-light-grey content-push">
+                <div class="container">
+                    <div class="statistic--title-area mb-20">
+                        <h2 class="mb-0" id="reportTitle">@Umbraco.Field("title")</h2>
+                        @if (printState != "pdf") {
+                            <div class="download-toggle-area no-print">
+                                <button class="btn btn-primary download-toggle is-active" type="button" data-toggle="#searchList">
+                                    @Umbraco.GetDictionaryValue("Download")
+                                    <i class="fa fa-caret-down ml-8"></i>
+                                    <ul class="download-list full-width" id="searchList">
+                                        <li><a id="download-pdf" onclick="getReport('pdf')" href="javascript:void(0)">PDF</a></li>
+                                        <li><a id="download-excel" onclick="getReport('excel')" href="javascript:void(0)">Excel</a></li>
+                                    </ul>
+                                </button>
+                            </div>
+                        }
+                    </div>
+                    @if (printState != "pdf") {
+                        <form class="report-search no-print" action="">
+                            @if (Umbraco.Field("searching").ToString() == "True") {
+                                <div class="report-search-main">
+                                    <i class="fa fa-search red fa-lg"></i>
+                                    <input id="searchBox" class="form-input" type="text" placeholder="Search this report">
+                                    @*@if (!(Umbraco.Field("periodeFilter").ToString() != "True" && Umbraco.Field("dateFilter").ToString() != "True" && Umbraco.Field("indexFilter").ToString() != "True" && Umbraco.Field("startEndDate").ToString() != "True"))
+                                        {
+                                            @*<button class="toggle-options btn btn-primary" type="button">
+                                                <i class="fa fa-ellipsis-v fa-lg"></i>
+                                            </button>
+                                        } *@
+                                </div>
+                            }
+
+                            <div class="report-search-options @isActive">
+                                <div class="bzg">
+                                    <div class="bzg_c" data-col="s4">
+                                        Quarter:
+                                    </div>
+                                    <div class="bzg_c" data-col="s8,m6,l8">
+                                        <select class="form-input form-input--block" name="" id="filterQuarter">
+                                            <option value="1">1st Quarter</option>
+                                            <option value="2">2nd Quarter</option>
+                                            <option value="3">3rd Quarter</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="bzg">
+                                    <div class="bzg_c" data-col="s4">
+                                        Month:
+                                    </div>
+                                    <div class="bzg_c" data-col="s8,m6,l8">
+                                        <select class="form-input form-input--block" name="" id="filterMonth">
+                                            <option value="1">January</option>
+                                            <option value="2">February</option>
+                                            <option value="3">March</option>
+                                            <option value="4">April</option>
+                                            <option value="5">May</option>
+                                            <option value="6">June</option>
+                                            <option value="7">July</option>
+                                            <option value="8">August</option>
+                                            <option value="9">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12" selected>December</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="bzg">
+                                    <div class="bzg_c" data-col="s4">
+                                        Year:
+                                    </div>
+                                    <div class="bzg_c" data-col="s8,m6,l8">
+                                        <select class="form-input form-input--block" id="filterYear"></select>
+                                    </div>
+                                </div>
+                                <div class="bzg">
+                                    <div class="bzg_c">
+                                        <a style=" text-decoration: none; color: white;" class="btn btn-primary" href="javascript:void(0)" onclick="getData()">
+                                            <i class="fa fa-filter mr-8"></i>
+                                            Submit
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    }
+                </div>
+            </div>
+            @RenderBody()
+        </div>
+    </div>
+    <input type="hidden" id="filteredType" />
+</main>
+@section Scripts{
+    <script src="~/assets/js/dps.js"></script>
+    <script src="~/assets/js/dps-charts.js"></script>
+    <script src="~/assets/js/dps-datatables.js"></script>
+    <script src="~/assets/js/dps-slider.js"></script>
+    <script type="text/javascript">
+        function setTitle() {
+            var periodYear = '@printState' != "pdf" ? $('#filterYear').val() : '@year';
+            var filteredType = '@printState' != "pdf" ? $('#filteredType').val() : '@periodType';
+            var periodMonth = '@printState' != "pdf" ? $('#filterMonth').val() : '@month';
+            var periodQuarter = '@printState' != "pdf" ? $('#filterQuarter').val() : '@quarter';
+            var dateFiltered = '@printState' != "pdf" ? $('#dateFiltered').val() : '@date';
+            var startDate = '@printState' != "pdf" ? $('#startDate').val() : '@start';
+            var endDate = '@printState' != "pdf" ? $('#endDate').val() : '@end';
+            isCumulative = '@isCumulative'
+            var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            title = "@Umbraco.Field("title")";
+            extTitle = "";
+            if (filteredType == "yearly") periodQuarter = 4;
+            if (periodQuarter || periodMonth || periodYear) {
+                if (filteredType == "quarterly" || filteredType == "yearly") {
+                    sup = ['st', 'nd', 'rd', 'th'];
+                    title = "@(string.IsNullOrEmpty(Umbraco.Field("titleQuarterly").ToString()) ? Umbraco.Field("title") : Umbraco.Field("titleQuarterly"))";
+                    extTitle = " - " + (isCumulative.toLowerCase() == 'true' ? (periodQuarter > 1 ? "Q1" : "") : "") +"Q" + periodQuarter + " " + periodYear;
+                }
+                if (filteredType == "monthly") {
+                    extTitle = " - " + months[periodMonth - 1] + " " + periodYear;
+                }
+            }
+            if (dateFiltered) {
+                extTitle = " - (" + dateFiltered + ")";
+            }
+            if (startDate && endDate) {
+                extTitle = " - (" + startDate.replaceAll("-", " ") + " - " + endDate.replaceAll("-", " ") + ")";
+            }
+
+            if (title == "") {
+                title = "@Umbraco.AssignedContentItem.Name";
+            }
+            title = title + extTitle;
+            $("#reportTitle").html(title);
+        }
+        function createFooter(table, data) {
+            table.find('tfoot').empty();
+            if (typeof data === 'undefined' || data.footer == null || data.footer.length <= 0) return;
+
+            if (table.children("tfoot") == null || table.children("tfoot").length <= 0) {
+                table.append("<tfoot></tfoot>")
+            }
+            table = table.children('tfoot')
+            var footerHtml = ""
+            data.footer.forEach((item, index) => {
+                footerHtml += "<tr>"
+                data.columns.forEach((col, i) => {
+                    if (col.columnName != "group") {
+                        var check = item[col.columnName] == undefined || item[col.columnName] == null || item[col.columnName] == 0
+                        var val = check || item[col.columnName] == "0001-01-01T00:00:00" ? "" : item[col.columnName]
+                        footerHtml += "<td class='no-border " + col.className + "'>" + val.toLocaleString() + "</td>"
+                    }
+                })
+                footerHtml += "</tr>"
+            })
+            table.html(footerHtml)
+        }
+        function printDiv(divName) {
+            var printContents = document.getElementById(divName).innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+
+            window.print();
+
+            document.body.innerHTML = originalContents;
+
+        }
+        function setCookie(name, value) {
+            var expires = "";
+            var days = 1;
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") +";"+ expires + "; path=/";
+
+        }
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+        function minDate() {
+            var year = getCookie("filteredYear");
+            var month = getCookie("filteredMonth");
+            return year + "-" + month + "-01";
+        }
+        function maxDate() {
+            var year = getCookie("filteredYear");
+            var month = getCookie("filteredMonth");
+            return year + "-" + month + "-31";
+        }
+        function setPrintFilterVal() {
+            $('#filterYear').val('@year');
+            $('#filterMonth').val('@month');
+            $('#filterQuarter').val('@quarter');
+            $('#filteredType').val('@periodType');
+        }
+        function setFilterOpt(init = false) {
+            var today = new Date();
+            var month = today.getMonth();
+            var year = today.getFullYear();
+            quarter = Math.floor((parseInt(month) + 2) / 3)
+            var selectedMonth = '', selectedQuarter = '', selectedYear = '';
+            var filteredType = "monthly";
+            if ('@query' != "") {
+                query = JSON.parse(atob('@query'));
+                selectedMonth = query.month;
+                selectedQuarter = query.quarter;
+                selectedYear = query.year;
+
+                filteredType = query.type;
+
+                if ('@downloadCode' == "FDRBond") {
+                    filteredType = "quarterly";
+                    selectedQuarter = quarter;
+                    selectedYear = year;
+                    if (month <= 3) {
+                        selectedQuarter = 3;
+                        selectedYear = year - 1;
+                    }
+                }
+            }
+
+            $('#filteredType').val(filteredType);
+
+            if (filteredType == 'yearly') {
+                month = 0;
+                quarter = 4;
+                year--;
+            } else if (filteredType == 'quarterly' && today.getMonth() <= 3) {
+                month = 0;
+                quarter = 3;
+                year--;
+            } else if (filteredType == 'monthly' && today.getMonth() <= 0) {
+                month = 12;
+                quarter = 0;
+                year--;
+            }
+            if (init) {
+                $('#filterYear').empty();
+                for(var i = 0; i < 3; i++) {
+                    $('#filterYear').append('<option>' + (year - i) + '</option>');
+                }
+
+                $('#filterMonth').val(selectedMonth);
+                $('#filterQuarter').val(selectedQuarter);
+                $('#filterYear').val(selectedYear);
+            }
+
+            filteredYear =  $('#filterYear').val()
+
+            quarterFilter = $('#filterQuarter > option')
+            monthFilter = $('#filterMonth > option')
+
+            quarterFilter.each(function() {
+                $(this).prop( "disabled", false);
+                if ($(this).val() > quarter && year == filteredYear && (new Date()).getFullYear() == filteredYear) {
+                    if ($(this).val() === $('#filterQuarter').val()) {
+                        $('#filterQuarter').val('');
+                    }
+                    $(this).prop("disabled", true);
+                }
+            })
+            monthFilter.each(function() {
+                $(this).prop( "disabled", false);
+                if ($(this).val() > month && year == filteredYear) {
+                    if ($(this).val() === $('#filterMonth').val()) {
+                        $('#filterMonth').val('');
+                    }
+                    $(this).prop( "disabled", true);
+                }
+            })
+
+            if (filteredType === 'quarterly' && ($('#filterQuarter').val() === null || $('#filterQuarter').val() === '')) {
+                var quarter = Math.floor((parseInt($('#filterMonth').val()) - 1) / 3);
+                if (quarter <= 0) {
+                    $('#filterYear').val(parseInt($('#filterYear').val()) - 1);
+                    quarter = 4;
+                }
+                $('#filterQuarter').val(quarter);
+                $('#currentTable').addClass('no-wrap');
+            }
+        }
+        $('#filterYear').change(function() {
+            setFilterOpt()
+        })
+        $(function () {
+            setTitle()
+            if ('@printState' == "pdf")
+            {
+                setPrintFilterVal()
+            }
+        });
+    </script>
+    @RenderSection("scripts", required: false)
+    @if (Umbraco.Field("periodeFilter").ToString() == "True") {
+        <script type="text/javascript">
+            $(function () {
+                getYear();
+                setTabVisibility();
+            });
+
+            function setTabVisibility() {
+                var filteredType = $('#filteredType').val();
+                $('#filterMonth').parent().parent().css('display', 'none')
+                $('#filterQuarter').parent().parent().css('display', 'none')
+
+                if (filteredType == 'monthly') {
+                    $('#filterMonth').parent().parent().css('display', 'flex')
+                }
+                if (filteredType == 'quarterly') {
+                    $('#filterQuarter').parent().parent().css('display', 'flex')
+                }
+            }
+
+            function getYear() {
+//            $.get('@Url.Action("GetApiData", "DigitalStatitic", new { urlName = "LINK_AVAILABLE_YEAR" })', function (result) {
+//                for (var i = 0; i < result.length; i++) {
+//                    $('#filterYear').append('<option value="' + result[i] + '">' + result[i] + '</option>');
+//                }
+//                setFilterOpt()
+//                if ('@printState' == "pdf")
+//                {
+//                    setPrintFilterVal()
+//                }
+//                setTitle()
+//            });
+//
+//
+//           $.get('@Url.Action("GetApiData", "DigitalStatitic", new { urlName = "LINK_ACTIVE_PERIOD" })', function (result) {
+//               date = new Date();
+//               month = date.getMonth() + 1
+//               year = date.getFullYear()
+//               quarter = Math.floor((parseInt(month) + 2)/3)
+//
+////               if (getCookie("filteredQuarter") == undefined || getCookie("filteredQuarter") == "") {
+////                   quarter = Math.floor((result.month + 2)/3)
+////                   setCookie("filteredQuarter", quarter);
+////               }
+////               if (getCookie("filteredYear") == undefined || getCookie("filteredYear") == "") {
+////                   setCookie("filteredYear", result.year);
+////
+////               }
+////               if (getCookie("filteredMonth") == undefined || getCookie("filteredMonth") == "") {
+////                   setCookie("filteredMonth", result.month);
+////               }
+//               $('#filterYear').val(year);
+//               $('#filterMonth').val(month);
+//               $('#filterQuarter').val(quarter);
+//               if ('@printState' == "pdf")
+//               {
+//                   setPrintFilterVal()
+//               }
+//               setTitle()
+//            });
+
+                setFilterOpt(true);
+
+                setTitle();
+
+                setTabVisibility();
+                if (typeof setUpperHeaderTitle == "function") {
+                    setUpperHeaderTitle()
+                }
+                if (typeof setBellowHeaderTitle == "function") {
+                    setBellowHeaderTitle()
+                }
+                if (typeof setDataTableHeader == "function") {
+                    setDataTableHeader()
+                }
+                if ('@printState' == "pdf")
+                {
+                    setPrintFilterVal()
+                }
+            }
+        </script>
+    }
+    @if (Umbraco.Field("indexFilter").ToString() == "True") {
+        <script type="text/javascript">
+            $(function () {
+                getIndex();
+            });
+            function getIndex() {
+                $.get('@Url.Action("GetApiData", "DigitalStatitic", new { urlName = "LINK_MASTER_INDEX" })', function (result) {
+                    for (var i = 0; i < result.length; i++) {
+
+                        $('#indexList').append('<li><input type="checkbox" id="index' + i + '" checked value="' + result[i] + '"> <label for="index' + i +'")">'+result[i]+'</label></li>');
+                    }
+
+                });
+            }
+        </script>
+    }
+}

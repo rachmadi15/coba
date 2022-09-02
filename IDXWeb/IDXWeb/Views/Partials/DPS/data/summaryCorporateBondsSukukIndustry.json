@@ -1,0 +1,56 @@
+{
+    "data": [
+        {
+            "sector": "Agriculture",
+            "subSector": "Plantation",
+            "issuedNominal": 327,
+            "outstandingNominal": 327,
+            "monthVolume": 132,
+            "ytdVolume": 112
+        }
+    ],
+    "columns": [
+        {
+            "columnName": "sector",
+            "decimal": 0,
+            "format": false,
+            "className": "text-center nowrap"
+        },
+        {
+            "columnName": "subSector",
+            "decimal": 0,
+            "format": false,
+            "className": "text-center nowrap"
+        },
+        {
+            "columnName": "issuedNominal",
+            "decimal": 0,
+            "format": true,
+            "className": "text-right nowrap"
+        },
+        {
+            "columnName": "outstandingNominal",
+            "decimal": 0,
+            "format": true,
+            "className": "text-right nowrap"
+        },
+        {
+            "columnName": null,
+            "decimal": 0,
+            "format": false,
+            "className": ""
+        },
+        {
+            "columnName": "monthVolume",
+            "decimal": 0,
+            "format": true,
+            "className": "text-right nowrap"
+        },
+        {
+            "columnName": "ytdVolume",
+            "decimal": 0,
+            "format": true,
+            "className": "text-right nowrap"
+        }
+    ]
+}

@@ -1,0 +1,38 @@
+﻿[
+  {
+    "classification" : "Agriculture (21)",
+    "subSector" : "Crops"
+  },
+  {
+    "classification" : "Mining (47)",
+    "subSector" : "Coal Mining"
+  },
+  {
+    "classification" : "Basic Industry and Chemicals (71)",
+    "subSector" : "Cement"
+  },
+  {
+    "classification" : "Miscellaneous Industry (46)",
+    "subSector" : "Footwear"
+  },
+  {
+    "classification" : "Consumer Goods Industry (52)",
+    "subSector" : "Housewear"
+  },
+  {
+    "classification" : "Property, Real Estate and Construction (76)",
+    "subSector" : "Building Construction"
+  },
+  {
+    "classification" : "Infrastructure, Utilities and Transportation (74)",
+    "subSector" : "Energy"
+  },
+  {
+    "classification" : "Finance (90)",
+    "subSector" : "Insurance"
+  },
+  {
+    "classification" : "Trade, Services & Investment (156)",
+    "subSector" : "Healthcare"
+  }
+]

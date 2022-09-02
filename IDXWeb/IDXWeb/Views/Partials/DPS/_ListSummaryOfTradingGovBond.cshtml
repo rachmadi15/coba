@@ -1,0 +1,47 @@
+﻿@using System.Text
+@using Newtonsoft.Json
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    var query = Request.QueryString["q"];
+    byte[] queryBase64 = Convert.FromBase64String(query);
+    string queryJson = Encoding.UTF8.GetString(queryBase64);
+    dynamic querys = JsonConvert.DeserializeObject<dynamic>(queryJson);
+}
+@if (querys.type == "monthly")
+{
+    <thead class="thead-plain">
+        <tr>
+            <th rowspan="2" class="short">No.</th>
+            <th rowspan="2" class="short">Type of<br> Bond</th>
+            <th rowspan="2" class="text-left">Type Name of Bond</th>
+            <th rowspan="2" class="short">Nominal Value*,<br> b. IDR/b.USD</th>
+            <th colspan="3" class="short">Trading</th>
+        </tr>
+        <tr>
+            <th class="short">Volume<br> b.IDR</th>
+            <th class="short">Value<br> b.IDR</th>
+            <th class="short">Freq.</th>
+        </tr>
+    </thead>
+}
+else
+{
+    <thead class="thead-plain">
+        <tr>
+            <th rowspan="2" class="short">No.</th>
+            <th rowspan="2" class="short">Type of<br> Bond</th>
+            <th rowspan="2" class="text-left">Type Name of Bond</th>
+            <th rowspan="2" class="short">Nominal Value*,<br> b. IDR/b.USD</th>
+            <th colspan="3" class="short">This Quarter Trading</th>
+            <th colspan="3" class="short">This Year Trading</th>
+        </tr>
+    <tr>
+        <th class="short">Volume<br> b.IDR</th>
+        <th class="short">Value<br> b.IDR</th>
+        <th class="short">Freq.</th>
+        <th class="short">Volume<br> b.IDR</th>
+        <th class="short">Value<br> b.IDR</th>
+        <th class="short">Freq.</th>
+    </tr>
+    </thead>
+}

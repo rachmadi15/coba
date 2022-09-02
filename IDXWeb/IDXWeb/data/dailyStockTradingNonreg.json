@@ -1,0 +1,99 @@
+{
+    "data": [
+        {
+            "date": "Fri Mar 01 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "negotiatedVolume": 247161959,
+            "negotiatedValue": 1203772496308,
+            "negotiatedFreq": 30926,
+            "cashVolume": 606644272,
+            "cashValue": 1351529632324,
+            "cashFreq": 72962
+        },
+        {
+            "date": "Fri Mar 01 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "negotiatedVolume": 247133758,
+            "negotiatedValue": 888625879912,
+            "negotiatedFreq": 30900,
+            "cashVolume": 606647077,
+            "cashValue": 1203154948670,
+            "cashFreq": 72992
+        },
+        {
+            "date": "Fri Mar 01 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "negotiatedVolume": 247153538,
+            "negotiatedValue": 970099719395,
+            "negotiatedFreq": 30863,
+            "cashVolume": 606649607,
+            "cashValue": 1365732693552,
+            "cashFreq": 72989
+        },
+        {
+            "date": "Sat Mar 02 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "negotiatedVolume": 247186136,
+            "negotiatedValue": 1206655112504,
+            "negotiatedFreq": 30946,
+            "cashVolume": 606648684,
+            "cashValue": 1267625939389,
+            "cashFreq": 72991
+        },
+        {
+            "date": "Sat Mar 02 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "negotiatedVolume": 247176964,
+            "negotiatedValue": 1044599876824,
+            "negotiatedFreq": 30940,
+            "cashVolume": 606646617,
+            "cashValue": 1142650690598,
+            "cashFreq": 72974
+        }
+    ],
+    "columns": [
+        {
+            "columnName": "date",
+            "decimal": 0,
+            "format": "fullDate",
+            "className": "text-center nowrap"
+        },
+        {
+            "columnName": "negotiatedVolume",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "negotiatedValue",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "negotiatedFreq",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": null,
+            "decimal": 0,
+            "format": false,
+            "className": ""
+        },
+        {
+            "columnName": "cashVolume",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "cashValue",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "cashFreq",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        }
+    ]
+}

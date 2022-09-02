@@ -1,0 +1,127 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+	Layout = "Master.cshtml";
+}
+
+@section Styles {
+	<link href="@Url.Content("/assets/css/vendor/datatables.min.css")" rel="stylesheet" type="text/css" />
+}
+
+<main class="sticky-footer-container-item --pushed">
+	<div class="container top-space">
+		@{
+			IPublishedContent current = (CurrentPage);
+			Stack<dynamic> pages = new Stack<dynamic>();
+			while (current.Level > 1)
+			{
+				pages.Push(current);
+				current = current.Parent;
+			}
+		}
+
+		<ul class="breadcrumb block">
+			<li><a href="/"><span class="fa fa-home"></span></a></li>
+			@foreach (var page in pages)
+			{
+				var cls = page.Id == CurrentPage.Id ? "current" : "";
+				if (page.DocumentTypeId != 1237)
+				{
+					<li class="@cls"><a href="@page.Url">@page.Name</a></li>
+
+				}
+				else
+				{
+					<li class="@cls"><a href="" class="disable"><span>@page.Name</span></a></li>
+				}
+			}
+		</ul>
+		<div class="page-title-container">
+			<h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+		</div>
+	</div>
+	<div class="main-content content-push">
+		<div class="container">
+			<div class="block">
+				<table id="issuerTable" class="table table--zebra table-content-page">
+					<thead>
+						<tr>
+							<th>No</th>
+							<th>@Umbraco.GetDictionaryValue("SW - Issuer - Symbol")</th>
+							<th>@Umbraco.GetDictionaryValue("SW - Issuer - Company")</th>
+							<th>@Umbraco.GetDictionaryValue("SW - Issuer - Link Website")</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</main>
+
+@section Scripts{
+	<script type="text/javascript" src="/assets/js/vendor/datatables.min.js"></script>
+	<script type="text/javascript">
+        $(function () {
+            getIssuerList();
+        });
+
+        function getIssuerList(){
+
+            if($.fn.DataTable.isDataTable('#issuerTable')){
+                var datatable = $('#issuerTable').DataTable();
+                datatable.clear();
+                var url = '@Url.Action("GetIssuerList", "StructuredWarrant")';
+                datatable.ajax.url(url).load();
+                datatable.draw();
+            } else {
+                $('#issuerTable').dataTable({
+                    'ajax': {
+                    'url': '@Url.Action("GetIssuerList", "StructuredWarrant")',
+                    },
+                    'filter': false,
+                    'sort': false,
+                    'serverSide': true,
+                    'processing': true,
+                    'paging': true,
+                    'deferRender': true,
+                    'columns': [
+                        { 'data': 'IntRow' },
+                        { 'data': 'Simbol' },
+                        { 'data': 'IssuerCompany'},
+                        { 'data': 'LinkWebsite' },
+                    ],
+                    'columnDefs': [
+                        {
+                            'targets': [0,1],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-center');
+                            }
+                        },
+                        {
+                            'targets': [3],
+                            'render': function (data, type, row, meta) {
+                                var url = data;
+                                if (url.includes('http') == false && url.includes('https') == false)
+                                    url = 'http://' + url;
+                                else if(url.includes('https'))
+                                    data.replace('https', '');
+								else if(url.includes('http'))
+                                    data.replace('http', '');
+                                return '<a target=”_blank” href="' + url + '">' + data + '</a>'; 
+                            }
+                        }
+                    ],
+                    "rowCallback": function (row, data, iDisplayIndex) {
+                        var info = this.api().page.info();
+                        var page = info.page;
+                        var length = info.length;
+                        var index = (page * length + (iDisplayIndex + 1));
+                        $('td:eq(0)', row).html(index);
+                    },
+                });
+            }
+        }
+
+	</script>
+}

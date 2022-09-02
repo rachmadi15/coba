@@ -1,0 +1,66 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    var root = Model.Content.DocumentTypeAlias != "islamicHome" ? Model.Content.Ancestor("islamicHome") : Model.Content;
+    var icons = new string[] { "group", "book", "calendar" };
+    var test = HttpContext.Current.Request.Url;
+}
+<div class="sticky-footer-container-item">
+    <header class="site-header-container">
+        <div class="container">
+            <div class="site-header-left-container">
+                <button class="btn-icon btn-nav text-primary mobile-only mr-10 mobile-nav-trigger-js">
+                    <i class="fas fa-bars fa-fw fa-2x"></i>
+                </button>
+                <a href="@(root.Url)" class="site-header-logo">
+                    <img src="~/assets/islamic/img/logo.png" alt="">
+                </a>
+            </div>
+            <div class="site-header-right-container">
+                <div class="mobile-nav-container">
+                    <button class="btn btn-icon mb-10 text-primary mobile-nav-trigger-js mobile-only">
+                        <i class="fas fa-times fa-fw fa-2x"></i>
+                    </button>
+                    <ul class="list-nostyle site-header-nav nav-list">
+                    @{ int i = 0; }
+                    @foreach (var group in root.Children.Where(o => o.DocumentTypeAlias == "islamicPageGroup"))
+                    {
+                        <li class="nav-item">
+                            <button class="@icons[i]">
+                                <span></span>
+                            </button>
+                            <div class="site-header-subnav">
+                                <span class="text-primary d-block text-caps text-medium nav-trigger-js">
+                                    <b>@group.Name</b>
+                                    <i class="fas fa-chevron-down fa-fw mobile-only"></i>
+                                </span>
+                                <ul class="list-nostyle subnav-list">
+                                @foreach (var page in group.Children)
+                                {
+                                    <li class="subnav-item">
+                                        <a href="@page.Url">@page.Name</a>
+                                    </li>
+                                }
+                                </ul>
+                            </div>
+                        </li>
+                        i++;
+                    }
+                    </ul>
+                </div>
+                <div class="site-header-search">
+                    <button class="btn btn-icon text-primary">
+                        <i class="fas fa-search fa-fw"></i>
+                    </button>
+                </div>
+                <div class="site-header-lang desktop-only">
+                    @{ var url = HttpContext.Current.Request.Url; }
+                    <a href="@(url.AbsolutePath.Contains("id-id") ? url.AbsolutePath.Replace("id-id", "en-us") : "/en-us" + url.AbsolutePath )" class="site-header-lang-anchor@(root.Name == "en-us" ? " is-active" : "")"><b>EN</b></a>
+                    <a href="@(HttpContext.Current.Request.Url.AbsolutePath.Replace("en-us", "id-id"))" class="site-header-lang-anchor@(root.Name == "id-id" ? " is-active" : "")"><b>ID</b></a>
+                </div>
+                <a href="@root.Descendant("islamicBecomeAnInvestor").Url" class="btn btn-primary">
+                    Open Sharia Account
+                </a>
+            </div>
+        </div>
+    </header>
+</div>

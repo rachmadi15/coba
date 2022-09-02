@@ -1,0 +1,90 @@
+{
+  "data": [
+    {
+      "code": "BISI",
+      "stockName": "Bisi Internasional Tbk.",
+      "sdBs": "-",
+      "currency": "IDR",
+      "cashDiv": 100,
+      "cumDiv": 20,
+      "exDiv": 20200000000,
+      "recordDate": "4 apr 19",
+      "paymentDate": "23 apr 19",
+      "note": "F2018"
+    },
+    {
+      "code": "BBCA",
+      "stockName": "Bank BCA.",
+      "sdBs": "-",
+      "currency": "IDR",
+      "cashDiv": 100,
+      "cumDiv": 20,
+      "exDiv": 20200000000,
+      "recordDate": "4 apr 19",
+      "paymentDate": "23 apr 19",
+      "note": "F2018"
+    }
+  ],
+  "columns": [
+    {
+      "columnName": "code",
+      "decimal": 0,
+      "format": false,
+      "className": "text-center"
+    },
+    {
+      "columnName": "stockName",
+      "decimal": 0,
+      "format": false,
+      "className": "text-center"
+    },
+    {
+      "columnName": "sdBs",
+      "decimal": 0,
+      "format": false,
+      "className": "text-center"
+    },
+    {
+      "columnName": "currency",
+      "decimal": 0,
+      "format": false,
+      "className": "text-center"
+    },
+    {
+      "columnName": "cashDiv",
+      "decimal": 0,
+      "format": true,
+      "className": "text-center"
+    },
+    {
+      "columnName": "cumDiv",
+      "decimal": 0,
+      "format": true,
+      "className": "text-center"
+    },
+    {
+      "columnName": "exDiv",
+      "decimal": 0,
+      "format": true,
+      "className": "text-center"
+    },
+    {
+      "columnName": "recordDate",
+      "decimal": 0,
+      "format": false,
+      "className": "text-center"
+    },
+    {
+      "columnName": "paymentDate",
+      "decimal": 0,
+      "format": false,
+      "className": "text-center"
+    },
+    {
+      "columnName": "note",
+      "decimal": 0,
+      "format": false,
+      "className": "text-center"
+    }
+  ]
+}

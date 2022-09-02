@@ -1,0 +1,32 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+<thead class="thead-plain">
+    <tr>
+        <th>Index Name / Month</th>
+        <th id="header-1"></th>
+        <th id="header-2"></th>
+        <th id="header-3"></th>
+    </tr>
+</thead>
+
+
+<script type="text/javascript">
+    function setDataTableHeader() {
+        months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        filteredType = $('#filteredType').val();
+        year = $('#filterYear').val();
+        month = $('#filterMonth').val();
+        quarter = $('#filterQuarter').val();
+        if (filteredType == "monthly") {
+            quarter = Math.floor((parseInt(month) + 2)/3)
+        }
+        month = quarter * 3;
+        header1 = months[month - 3];
+        header2 = months[month - 2];
+        header3 = months[month - 1];
+
+        document.getElementById("header-1").innerHTML = header1;
+        document.getElementById("header-2").innerHTML = header2;
+        document.getElementById("header-3").innerHTML = header3;
+
+    }
+</script>

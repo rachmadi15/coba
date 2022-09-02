@@ -1,0 +1,82 @@
+{
+  "data": [
+    {
+      "code": "BISI",
+      "stockName": "Bisi Internasional Tbk.",
+      "ssRs": "ss",
+      "ratio": "1:5",
+      "oldValue": 100,
+      "newValue": 20,
+      "addListedShares": 20200000000,
+      "listedShares": 25200000000,
+      "listingDate": "4 apr 19"
+    },
+    {
+      "code": "BBCA",
+      "stockName": "Bank BCA",
+      "ssRs": "ss",
+      "ratio": "1:5",
+      "oldValue": 100,
+      "newValue": 20,
+      "addListedShares": 20200000000,
+      "listedShares": 25200000000,
+      "listingDate": "4 apr 19"
+    }
+  ],
+  "columns": [
+    {
+      "columnName": "code",
+      "decimal": 0,
+      "format": false,
+      "className": "text-center"
+    },
+    {
+      "columnName": "stockName",
+      "decimal": 0,
+      "format": false,
+      "className": "text-center"
+    },
+    {
+      "columnName": "ssRs",
+      "decimal": 0,
+      "format": false,
+      "className": "text-center"
+    },
+    {
+      "columnName": "ratio",
+      "decimal": 0,
+      "format": false,
+      "className": "text-center"
+    },
+    {
+      "columnName": "oldValue",
+      "decimal": 0,
+      "format": true,
+      "className": "text-center"
+    },
+    {
+      "columnName": "newValue",
+      "decimal": 0,
+      "format": true,
+      "className": "text-center"
+    },
+    {
+      "columnName": "addListedShares",
+      "decimal": 0,
+      "format": true,
+      "className": "text-center"
+    },
+    {
+      "columnName": "listedShares",
+      "decimal": 0,
+      "format": true,
+      "className": "text-center"
+    },
+    {
+      "columnName": "listingDate",
+      "decimal": 0,
+      "format": false,
+      "className": "text-center"
+    }
+  ]
+}

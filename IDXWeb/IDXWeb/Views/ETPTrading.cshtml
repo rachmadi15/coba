@@ -1,0 +1,711 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+}
+
+@section Styles {
+    <link href="@Url.Content("/assets/css/jquery.dataTables.min.css")" rel="stylesheet" type="text/css" />
+}
+
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (page.DocumentTypeId != 1237)
+                {
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>
+
+                }
+                else
+                {
+                    <li class="@cls"><a href="" class="disable"><span>@page.Name</span></li>
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+        </div>
+
+        <div class="content-tab-container block content-tab-container--center wrap">
+            <div class="content-tab-item">
+                <a href="#tradingAct" class="content-tab-anchor content-tab-anchor--wide etp-trading-tab-js is-active">Trading Activities</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#marketSum" class="content-tab-anchor content-tab-anchor--wide etp-trading-tab-js">Market Snapshot</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#dailySum" class="content-tab-anchor content-tab-anchor--wide etp-trading-tab-js">Daily Summary</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#securitiesList" class="content-tab-anchor content-tab-anchor--wide etp-trading-tab-js">Securities List</a>
+            </div>
+        </div>
+        <div class="etp-trading-main-content">
+            <div class="etp-trading-container is-active" id="tradingAct">
+                <div class="background-light-grey content-push">
+                    <div class="container">
+                            <div class="bzg flex v-center mb-8">
+                                <div class="bzg_c" data-col="s2">Date</div>
+                                <div class="bzg_c" data-col="s9">
+                                    <div class="calendar-box width-block">
+                                        <input id="dateTradeActivity" type="date" class="form-input form-input--block date-picker-js">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bzg flex v-center">
+                                <div class="bzg_c" data-col="s2"></div>
+                                <div class="bzg_c" data-col="s9">
+                                    <button id="searchTradeActivity" class="btn btn-primary">Search</button>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+
+                <div class="background-white content-push">
+                    <div class="container">
+                        <div class="text-center">
+                            <div class="mb-24">
+                                <b>@Umbraco.GetDictionaryValue("date") :</b>
+                                <span id="tradeActDate">Tuesday, 02-Jan-2018 </span>
+                            </div>
+                        </div>
+                        <div class="table-wrapper">
+                            <table class="statistic-table show-entry-info js-datatable no-ordering" id="tableTradingActivity">
+                                <thead class="thead-plain">
+                                    <tr>
+                                        <th class="text-center">No</th>
+                                        <th class="text-center">Time</th>
+                                        <th class="text-center">Instrument</th>
+                                        <th class="text-center">Price</th>
+                                        <th class="text-center">Yield</th>
+                                        <th class="text-center">Volume</th>
+                                        <th class="text-center">Value</th>
+                                        <th class="text-center">Settlement</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                            <i>@Umbraco.GetDictionaryValue("ETP Trading - Trade Activity - Disclaimer")</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="etp-trading-container" id="marketSum">
+                <div class="background-white content-push">
+                    <div class="container">
+                        <div class="text-center">
+                            <div class="mb-24"><b>@Umbraco.GetDictionaryValue("date") :</b> 
+                                <span id="marketSumDate"></span>
+                            </div>
+                        </div>
+                        <div class="table-wrapper">
+                            <table class="statistic-table show-entry-info js-datatable no-ordering" id="tableMarketSnapshot">
+                                <thead class="thead-plain">
+                                    <tr>
+                                        <th class="text-center" rowspan="2">No</th>
+                                        <th class="text-center" rowspan="2">Instrument</th>
+                                        <th class="text-center" colspan="2">Indicatives</th>
+                                        <th class="text-center" colspan="2">Order</th>
+                                        <th class="text-center" colspan="3">Trade</th>
+                                        <th class="text-center" rowspan="2">Date</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center">Best Bid</th>
+                                        <th class="text-center">Best Ask</th>
+                                        <th class="text-center">Best Bid</th>
+                                        <th class="text-center">Best Ask</th>
+                                        <th class="text-center">Highest Price</th>
+                                        <th class="text-center">Lowest Price</th>
+                                        <th class="text-center">Latest</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="etp-trading-container" id="dailySum">
+                <div class="background-light-grey content-push">
+                    <div class="container">
+                        <div class="bzg flex v-center mb-8">
+                            <div class="bzg_c" data-col="s2">Date</div>
+                            <div class="bzg_c" data-col="s9">
+                                <div class="calendar-box width-block">
+                                    <input id="dateDailySum" type="date" class="form-input form-input--block date-picker-js">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bzg flex v-center">
+                            <div class="bzg_c" data-col="s2"></div>
+                            <div class="bzg_c" data-col="s9">
+                                <button id="searchDailySum" class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="background-white content-push">
+                    <div class="container">
+                        <div class="text-center">
+                            <div class="mb-24">
+                                <b>@Umbraco.GetDictionaryValue("date") :</b>
+                                <span id="dailySumDate">Tuesday, 02-Jan-2018 </span>
+                            </div>
+                        </div>
+                        <div class="table-wrapper">
+                            <table class="statistic-table show-entry-info js-datatable no-ordering" id="tableDailySummary">
+                                <thead class="thead-plain">
+                                    <tr>
+                                        <th class="text-center" rowspan="2">No</th>
+                                        <th class="text-left" rowspan="2">Instrument</th>
+                                        <th class="text-left" colspan="2">Indicatives</th>
+                                        <th class="text-left" colspan="3">Order</th>
+                                        <th class="text-left" colspan="6">Trade</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center">Best Bid</th>
+                                        <th class="text-center">Best Ask</th>
+                                        <th class="text-center">Best Bid</th>
+                                        <th class="text-center">Best Ask</th>
+                                        <th class="text-center">Order Freq</th>
+                                        <th class="text-center">Highest Price</th>
+                                        <th class="text-center">Lowest Price</th>
+                                        <th class="text-center">Latest Price</th>
+                                        <th class="text-center">Trade Freq</th>
+                                        <th class="text-center">Total Vol</th>
+                                        <th class="text-center">Total Value</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="etp-trading-container" id="dealerList">
+                <div class="background-light-grey content-push">
+                    <div class="container">
+                        <div class="bzg flex v-center mb-8">
+                            <div class="bzg_c" data-col="s2">Member ID</div>
+                            <div class="bzg_c" data-col="s9">
+                                <select class="form-input form-input--block">
+                                    <option selected disabled value="-1">Member ID</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="bzg flex v-center">
+                            <div class="bzg_c" data-col="s2"></div>
+                            <div class="bzg_c" data-col="s9">
+                                <button class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="background-white content-push">
+                    <div class="container">
+                        <div class="text-center">
+                            <div class="mb-24"><b>@Umbraco.GetDictionaryValue("date") :</b> Tuesday, 02-Jan-2018  <b>Time :</b> 05:00:00 PM</div>
+                        </div>
+                        <div class="table-wrapper">
+                            <table class="statistic-table show-entry-info js-datatable no-ordering">
+                                <thead class="thead-plain">
+                                    <tr>
+                                        <th class="text-center">No</th>
+                                        <th class="text-center">Member ID</th>
+                                        <th class="text-center">Name</th>
+                                        <th class="text-center">PDs Bonds</th>
+                                        <th class="text-center">PDs Sukuk</th>
+                                        <th class="text-center">PLTE Participant</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">1</td>
+                                        <td class="text-center">AAA101</td>
+                                        <td class="text-center">Dealer A</td>
+                                        <td class="text-center">1</td>
+                                        <td class="text-center">1</td>
+                                        <td class="text-center">1</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="etp-trading-container" id="securitiesList">
+                <div class="background-light-grey content-push">
+                    <div class="container">
+                        <div class="bzg flex v-center mb-8">
+                            <div class="bzg_c" data-col="s2">Ticker</div>
+                            <div class="bzg_c" data-col="s9">
+                                <select name="code" id="inputTicker" class="form-input form-input--block select2-js" style="width: 100%"></select>
+                            </div>
+                        </div>
+                        <div class="bzg flex v-center">
+                            <div class="bzg_c" data-col="s2"></div>
+                            <div class="bzg_c" data-col="s9">
+                                <button id="searchTicker" class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="background-white content-push">
+                    <div class="container">
+                        <div class="text-center">
+                            <div class="mb-24"><b>@Umbraco.GetDictionaryValue("date") : </b><span id="securityDate"> Tuesday, 02-Jan-2018 </span> <b>Time :</b> <span id="securityTime"> 05:00:00 PM </span> </div>
+                        </div>
+                        <div class="table-wrapper">
+                            <table class="statistic-table show-entry-info js-datatable no-ordering" id="tableSecurityList">
+                                <thead class="thead-plain">
+                                    <tr>
+                                        <th class="text-center">No</th>
+                                        <th class="text-center">Ticker</th>
+                                        <th class="text-center">First Trading Date</th>
+                                        <th class="text-center">Maturity Date</th>
+                                        <th class="text-center">Coupon</th>
+                                        <th class="text-center">Coupon Freq</th>
+                                        <th class="text-center">Long Name</th>
+                                        <th class="text-center">ISIN</th>
+                                        <th class="text-center">Rating</th>
+                                        <th class="text-center">Currency Code</th>
+                                        <th class="text-center">Amount Out Standing</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+@section Scripts{
+    <script type="text/javascript" src="/assets/js/vendor/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#dateTradeActivity').val(moment().format('DD-MM-YYYY'));
+            $('#dateDailySum').val(moment().format('DD-MM-YYYY'));
+            $('#tradeActDate').text(moment().format('dddd, DD-MMM-YYYY'));
+            $('#dailySumDate').text(moment().format('dddd, DD-MMM-YYYY'));
+            $('#marketSumDate').text(moment().format('dddd, DD-MMM-YYYY'));
+
+            getTradeActivity();
+            getMarketSnapshot();
+            getDailySummary();
+            getSecurityList();
+            getTickerList();
+
+            $('#searchTradeActivity').on('click', function (e) {
+                getTradeActivity();
+            });
+            $('#searchDailySum').on('click', function (e) {
+                getDailySummary();
+            });
+            $('#searchTicker').on('click', function (e) {
+                getSecurityList();
+            })
+        });
+
+        function getMarketSnapshot() {
+
+                if ($.fn.DataTable.isDataTable('#tableMarketSnapshot')) {
+                    var datatable = $('#tableMarketSnapshot').DataTable();
+                    datatable.clear();
+                    var url = '@Url.Action("GetETPMarketSnapshot", "BondSukuk")';
+                    datatable.ajax.url(url).load();
+                    datatable.draw();
+                } else {
+                    var url = "@(Url.Action("GetETPMarketSnapshot", "BondSukuk"))";
+                    var chart = $('#tableMarketSnapshot').dataTable({
+                        'ajax': {
+                            'url': url,
+                            'type' : 'GET'
+                        },
+                        'processing': true,
+                        'sort' : false,
+                        'columns': [
+                            { 'data': 'No' },
+                            { 'data': 'Instrument' },
+                            { 'data': 'IndicativeBestBid' },
+                            { 'data': 'IndicativeBestAsk' },
+                            { 'data': 'OrderBestBid' },
+                            { 'data': 'OrderBestAsk' },
+                            { 'data': 'TradeHighestPrice' },
+                            { 'data': 'TradeLowestPrice' },
+                            { 'data': 'TradeLatest' },
+                            { 'data': 'Tanggal'}
+                        ],
+                        'columnDefs': [
+                            {
+                                'targets': [0, 1],
+                                'createdCell': function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-center');
+                                }
+                            },
+                            {
+                                'targets': [2, 3, 4, 5, 6, 7, 8],
+                                'createdCell': function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-right');
+                                },
+                                'render': function (data, type, row, meta) {
+                                    if(data != null)
+                                    return data.toLocaleString(currentLang, {style: 'decimal', maximumFractionDigits: 10});
+                                    else
+                                    return data;
+                                }
+                            },
+                            {
+                                'targets' :[9],
+                                'visible' : false,
+                                'render': function (data, type, row, meta) {
+                                    if(data != null){
+                                        $('#marketSumDate').text(moment(data).format('dddd, DD-MMM-YYYY'));
+                                        return data.toLocaleString(currentLang);
+                                    }
+                                    else
+                                    return data;
+                                }
+                            }
+                        ],
+                        "rowCallback": function (row, data, iDisplayIndex) {
+                            var info = this.api().page.info();
+                            var page = info.page;
+                            var length = info.length;
+                            var index = (page * length + (iDisplayIndex + 1));
+                            $('td:eq(0)', row).html(index);
+                        },
+                    });
+
+                }
+        }
+
+        function getTradeActivity() {
+                var dateFilter = $('#dateTradeActivity').val();
+            if (dateFilter != null && dateFilter != '') {
+                dateFilter = moment(dateFilter, "DD-MM-YYYY").format('YYYYMMDD');
+                var dateTxt = moment(dateFilter).format('dddd, DD-MMM-YYYY');
+                $('#tradeActDate').text(dateTxt);
+            } else {
+                dateFilter = "";
+            }
+
+                if ($.fn.DataTable.isDataTable('#tableTradingActivity')) {
+                    var datatable = $('#tableTradingActivity').DataTable();
+                    datatable.clear();
+                    var url = '@Url.Action("GetETPTradeActivity", "BondSukuk")' + '?date=' + dateFilter;
+                    datatable.ajax.url(url).load();
+                    datatable.draw();
+                } else {
+                    var url = "@(Url.Action("GetETPTradeActivity", "BondSukuk"))" + "?date=" + dateFilter;
+                    var chart = $('#tableTradingActivity').dataTable({
+                        'ajax': {
+                            'url': url,
+                            'type': 'GET'
+                        },
+                        'filter': true,
+                        'sort': false,
+                        'processing': true,
+                        'paging': true,
+                        'deferRender': true,
+                        'columns': [
+                            { 'data': 'No' },
+                            { 'data': 'Date' },
+                            { 'data': 'Instrument' },
+                            { 'data': 'Price' },
+                            { 'data': 'Yield' },
+                            { 'data': 'Volume' },
+                            { 'data': 'Value' },
+                            { 'data': 'Settlement' }
+                        ],
+                        'columnDefs': [
+                            {
+                                'targets': [0, 1, 2],
+                                'createdCell': function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-center');
+                                }
+                            },
+                            {
+                                'targets': [1],
+                                'render': function (data, type, row, meta){
+                                    if(data != null && data != '')
+                                    return moment(data).format('HH:mm');
+                                    else
+                                    return '';
+                                }
+                            },
+                            {
+                                'targets': [4],
+                                'createdCell': function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-right');
+                                },
+                                'render': function (data, type, row, meta) {
+                                    if(data != null)
+                                    return data.toLocaleString(currentLang, {style: 'decimal', maximumFractionDigits: 3});
+                                    else
+                                    return data;
+                                }
+                            },
+                            {
+                                'targets': [3],
+                                'createdCell': function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-right');
+                                },
+                                'render': function (data, type, row, meta) {
+                                    if(data != null)
+                                    return data.toLocaleString(currentLang, {style: 'decimal', maximumFractionDigits: 10});
+                                    else
+                                    return data;
+                                }
+                            },
+                            {
+                                'targets': [5, 6],
+                                'createdCell': function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-right');
+                                },
+                                'render': function (data, type, row, meta) {
+                                    if(data != null)
+                                    return data.toLocaleString(currentLang, {style: 'decimal', maximumFractionDigits: 0});
+                                    else
+                                    return data;
+                                }
+                            },
+                            {
+                                'targets': [7],
+                                'createdCell': function (td, cellData, rowData, row, col){
+                                    return $(td).addClass('text-center');
+                                },
+                                'render': function (data, type, row, meta){
+                                    if(data == null)
+                                        return '-';
+                                    else
+                                        return moment(data).format('DD-MMM-YYYY')
+
+                                }
+                            },
+                            {
+                                'targets': [2],
+                                'searchable': true
+                            }
+
+                        ],
+                        "rowCallback": function (row, data, iDisplayIndex) {
+                            var info = this.api().page.info();
+                            var page = info.page;
+                            var length = info.length;
+                            var index = (page * length + (iDisplayIndex + 1));
+                            $('td:eq(0)', row).html(index);
+                        },
+                    });
+                }
+        }
+
+        function getDailySummary() {
+                var dateFilter = $('#dateDailySum').val();
+            if (dateFilter != null && dateFilter != '') {
+                dateFilter = moment(dateFilter, "DD-MM-YYYY").format('YYYYMMDD');
+                var dateTxt = moment(dateFilter).format('dddd, DD-MMM-YYYY');
+                $('#dailySumDate').text(dateTxt);
+            } else {
+                dateFilter = "";
+            }
+
+                if ($.fn.DataTable.isDataTable('#tableDailySummary')) {
+                    var datatable = $('#tableDailySummary').DataTable();
+                    datatable.clear();
+                    var url = '@Url.Action("GetETPDailySummary", "BondSukuk")' + '?date=' + dateFilter;
+                    datatable.ajax.url(url).load();
+                    datatable.draw();
+                } else {
+                    var url = "@(Url.Action("GetETPDailySummary", "BondSukuk"))" + "?date=" + dateFilter;
+                    var chart = $('#tableDailySummary').dataTable({
+                        'ajax': {
+                            'url': url,
+                            'type': 'GET'
+                        },
+                        'filter': true,
+                        'sort': false,
+                        'processing': true,
+                        'paging': true,
+                        'deferRender': true,
+                        'columns': [
+                            { 'data': 'No' },
+                            { 'data': 'Instrument' },
+                            { 'data': 'IndicativeBestBid' },
+                            { 'data': 'IndicativeBestAsk' },
+                            { 'data': 'OrderBestBid' },
+                            { 'data': 'OrderBestAsk' },
+                            { 'data': 'OrderFreq' },
+                            { 'data': 'TradeHighestPrice' },
+                            { 'data': 'TradeLowestPrice' },
+                            { 'data': 'TradeLatestPrice' },
+                            { 'data': 'TradeFreq' },
+                            { 'data': 'TradeTotalVolume' },
+                            { 'data': 'TradeTotalValue' }
+                        ],
+                        'columnDefs': [
+                            {
+                                'targets': [0, 1],
+                                'createdCell': function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-center');
+                                }
+                            },
+                            {
+                                'targets': [2, 3, 4, 5, 6, 7, 8, 9, 10],
+                                'createdCell': function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-right');
+                                },
+                                'render': function (data, type, row, meta) {
+                                    if(data != null)
+                                    return data.toLocaleString(currentLang, {style: 'decimal', maximumFractionDigits: 10});
+                                    else
+                                    return data;
+                                }
+                            },
+                            {
+                                'targets': [11, 12],
+                                'createdCell': function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-right');
+                                },
+                                'render': function (data, type, row, meta) {
+                                    if(data != null)
+                                    return data.toLocaleString(currentLang, {style: 'decimal', maximumFractionDigits: 0});
+                                    else
+                                    return data;
+                                }
+                            }
+                        ],
+                        "rowCallback": function (row, data, iDisplayIndex) {
+                            var info = this.api().page.info();
+                            var page = info.page;
+                            var length = info.length;
+                            var index = (page * length + (iDisplayIndex + 1));
+                            $('td:eq(0)', row).html(index);
+                        },
+                    });
+
+                }
+        }
+
+        function getSecurityList() {
+				var ticker = $('#inputTicker option:selected').val();
+				if(ticker == null) ticker = '';
+
+                if ($.fn.DataTable.isDataTable('#tableSecurityList')) {
+                    var datatable = $('#tableSecurityList').DataTable();
+                    datatable.clear();
+                    var url = '@Url.Action("GetETPSecurityList", "BondSukuk")' + '?ticker=' + ticker;
+                    datatable.ajax.url(url).load();
+                    datatable.draw();
+                } else {
+                    var url = "@(Url.Action("GetETPSecurityList", "BondSukuk"))" + '?ticker=' + ticker;
+
+                     var chart = $('#tableSecurityList').dataTable({
+                        'ajax': {
+                            'url': url,
+                        },
+                        'filter': false,
+                        'sort': false,
+                        'processing': true,
+                        'paging': true,
+                        'deferRender': true,
+                        'columns': [
+                            { 'data': 'No' },
+                            { 'data': 'Ticker' },
+                            { 'data': 'FirstTradingDate'},
+                            { 'data': 'MaturityDate' },
+                            { 'data': 'Coupon' },
+                            { 'data': 'CouponFreq' },
+                            { 'data': 'LongName' },
+                            { 'data': 'Isin' },
+                            { 'data': 'Rating' },
+                            { 'data': 'CurrencyCode' },
+                            { 'data': 'AmountOutStanding' },
+                            { 'data': 'Date'}
+                        ],
+                        'columnDefs': [
+                            {
+                                'targets': [0, 1, 2, 3, 4, 5, 6, 7, 9, 10],
+                                'createdCell': function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-center');
+                                }
+                            },
+                            {
+                                'targets': [2, 3, 11],
+                                'render' :function(data, type, row, meta){
+                                    if(data != null)
+                                        return moment(data).format('DD-MMM-YYYY');
+                                    else
+                                        return '-';
+
+                                }
+                            },
+                            {
+                                'targets': [4, 5, 8, 10],
+                                'createdCell': function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-right');
+                                },
+                                'render': function (data, type, row, meta) {
+                                    if (data != null)
+                                        return data.toLocaleString(currentLang, {style: 'decimal', maximumFractionDigits: 10});
+                                    else
+                                        return '';
+                                }
+                            },
+                            {
+                                'targets': [11],
+                                'visible': false,
+                            }
+                        ],
+                        "rowCallback": function (row, data, iDisplayIndex) {
+                            var info = this.api().page.info();
+                            var page = info.page;
+                            var length = info.length;
+                            var index = (page * length + (iDisplayIndex + 1));
+                            $('td:eq(0)', row).html(index);
+                        },
+                     });
+
+                    $('#securityDate').text(moment().format('dddd, DD-MMM-YYYY'));
+                    $('#securityTime').text(moment().format('HH:mm'))
+                }
+
+        }
+
+		function getTickerList() {
+			$.get('@Url.Action("GetETPTickerList", "BondSukuk")', function (result) {
+				for (var i = 0; i < result.length; i++) {
+				    if(i == 0){
+				        $('#inputTicker').append('<option value="">Ticker</option>');
+				    }
+
+					$('#inputTicker').each(function(){
+						$(this).append('<option value="' + result[i] + '">' + result[i] + '</option>');
+					});
+				}
+			});
+		}
+
+
+
+    </script>
+    <style>
+        #tableSecurityList tbody tr, #tableSecurityList tbody td {
+            padding: 8px 4px !important; /* e.g. change 8x to 4px here */
+        }
+    </style>
+}

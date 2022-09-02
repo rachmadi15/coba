@@ -1,0 +1,101 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+	Layout = "Master.cshtml";
+}
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (page.DocumentTypeId != 1237){
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>                    
+                } else {
+                    <li class="@cls"><a href="" class="disable"><span>@page.Name</span></li>
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+        </div>
+        <p><b>@Umbraco.GetDictionaryValue("date") :</b> <span id="dateText"></span>  <b>@Umbraco.GetDictionaryValue("time") :</b> <span id="timeText"></span></p>
+        <table id="tradingSummaryTable" class="table table--zebra table-content-page">
+            <thead>
+                <tr>
+                    <th>@Umbraco.GetDictionaryValue("Description")</th>
+                    <th>Volume</th>
+                    <th>@Umbraco.GetDictionaryValue("value")</th>
+                    <th>@Umbraco.GetDictionaryValue("frequency")</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            getTradingSummary();
+        });
+
+        function getTradingSummary(){
+            $.get('@Url.Action("GetTradeSummary", "Home")',
+                function (result) {
+                    var jsonResult = $.parseJSON(result);
+                    var volumeTotal = 0;
+                    var valueTotal = 0;
+                    var frequencyTotal = 0;
+                    for (var i = 0; i < jsonResult.length; i++) {
+                        var descriptionText = jsonResult[i].DESCRIPTION;
+                        if (descriptionText === 'Stock') {
+                            descriptionText = '@Umbraco.GetDictionaryValue("stock")';
+                        }
+
+                        if (descriptionText === 'Warrant') {
+                            descriptionText = '@Umbraco.GetDictionaryValue("warrant")';
+                        }
+                        
+                        $('#tradingSummaryTable tbody').append('<tr><td class="text-center">' +
+                            descriptionText +
+                            '</td><td class="text-right">' +
+                            jsonResult[i].Volume.toLocaleString(currentLang) +
+                            '</td><td class="text-right">' +
+                            jsonResult[i].Value.toLocaleString(currentLang) +
+                            '</td><td class="text-right">' +
+                            jsonResult[i].Frequency.toLocaleString(currentLang) +
+                            '</td></tr>');
+                        volumeTotal += parseInt(jsonResult[i].Volume);
+                        valueTotal += parseInt(jsonResult[i].Value);
+                        frequencyTotal += parseInt(jsonResult[i].Frequency);
+                    }
+
+                    $('#tradingSummaryTable tbody').append('<tr><td class="text-center">' +
+                            'Total' +
+                            '</td><td class="text-right">' +
+                            volumeTotal.toLocaleString(currentLang) +
+                            '</td><td class="text-right">' +
+                            valueTotal.toLocaleString(currentLang) +
+                            '</td><td class="text-right">' +
+                            frequencyTotal.toLocaleString(currentLang) +
+                            '</td></tr>');
+
+                    $('#dateText').text(moment(jsonResult[0].Dates).locale(currentLang).format('dddd, DD-MMM-YYYY'));
+                    $('#timeText').text(moment(jsonResult[0].Dates).locale(currentLang).format('HH:mm:ss'));
+                });       
+        }
+
+    </script>
+}

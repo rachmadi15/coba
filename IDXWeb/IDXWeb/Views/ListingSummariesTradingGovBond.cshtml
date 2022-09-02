@@ -1,0 +1,164 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@using IDXWeb.Models;
+@using Newtonsoft.Json;
+@using System.IO;
+
+@{
+
+    Layout = "Master.cshtml";
+}
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                <li class="@cls"><a href="@page.Url">@page.Name.ToLower()</a></li>
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">Statistik</h1>
+        </div>
+        <div class="content-tab-container block content-tab-container--center">
+            <div class="content-tab-item">
+                <a href="#monthly" class="content-tab-anchor statistic-tab-js is-active">Monthly</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#quarterly" class="content-tab-anchor statistic-tab-js">Quarterly</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#yearly" class="content-tab-anchor statistic-tab-js">Yearly</a>
+            </div>
+        </div>
+    </div>
+    <div class="statistic-main-content">
+        <div class="statistic-container is-active" id="monthly">
+            <div class="background-light-grey content-push">
+                <div class="container mb-16">
+                    <div class="statistic--title-area mb-20">
+                        <h2 class="mb-0">Additional Listed Shares</h2>
+                        <div class="download-toggle-area">
+                            <button class="btn btn-primary download-toggle is-active" type="button" data-toggle="#searchList">
+                                Download
+                                <i class="fa fa-caret-down ml-8"></i>
+                                <ul class="download-list full-width" id="searchList">
+                                    <li><a href="#">PDF</a></li>
+                                    <li><a href="#">Excel</a></li>
+                                </ul>
+                            </button>
+                        </div>
+                    </div>
+                    <form class="report-search" action="">
+                        <div class="report-search-main">
+                            <i class="fa fa-search red fa-lg"></i>
+                            <input class="form-input" type="text" placeholder="Search this report">
+                            <button class="toggle-options btn btn-primary" type="button">
+                                <i class="fa fa-ellipsis-v fa-lg"></i>
+                            </button>
+                        </div>
+                        <div class="report-search-options">
+                            <div class="bzg">
+                                <div class="bzg_c" data-col="s4">
+                                    Month:
+                                </div>
+                                <div class="bzg_c" data-col="s8,m6,l8">
+                                    <select class="form-input form-input--block" name="" id="">
+                                        <option value="">January</option>
+                                        <option value="">February</option>
+                                        <option value="">March</option>
+                                        <option value="">April</option>
+                                        <option value="">May</option>
+                                        <option value="">June</option>
+                                        <option value="">July</option>
+                                        <option value="">August</option>
+                                        <option value="">September</option>
+                                        <option value="">October</option>
+                                        <option value="">November</option>
+                                        <option value="">December</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="bzg">
+                                <div class="bzg_c" data-col="s4">
+                                    Year:
+                                </div>
+                                <div class="bzg_c" data-col="s8,m6,l8">
+                                    <select class="form-input form-input--block" name="" id="">
+                                        <option value="">2019</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="bzg">
+                                <div class="bzg_c">
+                                    <button class="btn btn-primary">
+                                        <i class="fa fa-filter mr-8"></i>
+                                        Filter
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="background-white content-push">
+                <div class="container mb-16">
+                    <div class="table-wrapper mb-16">
+                        <table class="statistic-table js-datatable no-ordering no-paging" data-json="/data/listingSummariesTradingGovBond.json">
+                            <thead class="thead-plain">
+                                <tr>
+                                    <th rowspan="2">No.</th>
+                                    <th rowspan="2">Type</th>
+                                    <th class="short nowrap">Number of</th>
+                                    <th rowspan="2"></th>
+                                    <th class="short nowrap" colspan="2">Outstanding</th>
+                                    <th rowspan="2"></th>
+                                    <th class="short nowrap" colspan="4">Trading</th>
+                                </tr>
+                                <tr>
+                                    <th class="short nowrap">Series</th>
+                                    <th class="short nowrap">b. IDR</th>
+                                    <th class="short nowrap">m. USD</th>
+                                    <th class="short nowrap">Vol., b. IDR</th>
+                                    <th class="short nowrap">Freq., x</th>
+                                    <th class="short nowrap">Vol., m. USD</th>
+                                    <th class="short nowrap">Freq., x</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-right"></tbody>
+                            <tfoot class="text-right">
+                                <tr>
+                                    <td></td>
+                                    <td class="text-left">Total</td>
+                                    <td class="text-center">117</td>
+                                    <td></td>
+                                    <td>417,257</td>
+                                    <td>47.5</td>
+                                    <td></td>
+                                    <td>28,341</td>
+                                    <td>2,492</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<?php include $path.'_partials/statistic-quarterly.php'; ?>
+            <?php include $path.'_partials/statistic-yearly.php'; ?>*@
+    </div>
+</main>
+
+

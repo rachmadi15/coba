@@ -1,0 +1,177 @@
+{
+  "data": [
+    {
+      "date": "Fri Mar 01 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "corpvol": 606649555,
+      "corpfreq": 156,
+      "govvol": 606649555,
+      "govfreq": 23,
+      "absvol": 606649555,
+      "absfreq": 23,
+      "totalvol": 606649555,
+      "totalfreq": 179
+    },
+    {
+      "date": "Fri Mar 04 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "corpvol": 606649555,
+      "corpfreq": 156,
+      "govvol": 606649555,
+      "govfreq": 23,
+      "absvol": 606649555,
+      "absfreq": 23,
+      "totalvol": 606649555,
+      "totalfreq": 179
+    },
+    {
+      "date": "Fri Mar 05 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "corpvol": 606649555,
+      "corpfreq": 156,
+      "govvol": 606649555,
+      "govfreq": 23,
+      "absvol": 606649555,
+      "absfreq": 23,
+      "totalvol": 606649555,
+      "totalfreq": 179
+    },
+    {
+      "date": "Fri Mar 06 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "corpvol": 606649555,
+      "corpfreq": 156,
+      "govvol": 606649555,
+      "govfreq": 23,
+      "absvol": 606649555,
+      "absfreq": 23,
+      "totalvol": 606649555,
+      "totalfreq": 179
+    },
+    {
+      "date": "Fri Mar 08 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "corpvol": 606649555,
+      "corpfreq": 156,
+      "govvol": 606649555,
+      "govfreq": 23,
+      "absvol": 606649555,
+      "absfreq": 23,
+      "totalvol": 606649555,
+      "totalfreq": 179
+    },
+    {
+      "date": "Fri Mar 09 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "corpvol": 606649555,
+      "corpfreq": 156,
+      "govvol": 606649555,
+      "govfreq": 23,
+      "absvol": 606649555,
+      "absfreq": 23,
+      "totalvol": 606649555,
+      "totalfreq": 179
+    },
+    {
+      "date": "Fri Mar 10 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "corpvol": 606649555,
+      "corpfreq": 156,
+      "govvol": 606649555,
+      "govfreq": 23,
+      "absvol": 606649555,
+      "absfreq": 23,
+      "totalvol": 606649555,
+      "totalfreq": 179
+    },
+    {
+      "date": "Fri Mar 11 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "corpvol": 606649555,
+      "corpfreq": 156,
+      "govvol": 606649555,
+      "govfreq": 23,
+      "absvol": 606649555,
+      "absfreq": 23,
+      "totalvol": 606649555,
+      "totalfreq": 179
+    },
+    {
+      "date": "Fri Mar 12 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "corpvol": 606649555,
+      "corpfreq": 156,
+      "govvol": 606649555,
+      "govfreq": 23,
+      "absvol": 606649555,
+      "absfreq": 23,
+      "totalvol": 606649555,
+      "totalfreq": 179
+    }
+  ],
+  "columns": [
+    {
+      "columnName": "date",
+      "decimal": 0,
+      "format": "fullDate",
+      "className": "text-center nowrap"
+    },
+    {
+      "columnName": "corpvol",
+      "decimal": 0,
+      "format": true,
+      "className": ""
+    },
+    {
+      "columnName": "corpfreq",
+      "decimal": 0,
+      "format": true,
+      "className": ""
+    },
+    {
+      "columnName": null,
+      "decimal": 0,
+      "format": true,
+      "className": ""
+    },
+    {
+      "columnName": "govvol",
+      "decimal": 0,
+      "format": true,
+      "className": ""
+    },
+    {
+      "columnName": "govfreq",
+      "decimal": 0,
+      "format": true,
+      "className": ""
+    },
+    {
+      "columnName": null,
+      "decimal": 0,
+      "format": true,
+      "className": ""
+    },
+    {
+      "columnName": "absvol",
+      "decimal": 0,
+      "format": true,
+      "className": ""
+    },
+    {
+      "columnName": "absfreq",
+      "decimal": 0,
+      "format": true,
+      "className": ""
+    },
+    {
+      "columnName": null,
+      "decimal": 0,
+      "format": true,
+      "className": ""
+    },
+    {
+      "columnName": "totalvol",
+      "decimal": 0,
+      "format": true,
+      "className": ""
+    },
+    {
+      "columnName": "totalfreq",
+      "decimal": 0,
+      "format": true,
+      "className": ""
+    }
+  ]
+}

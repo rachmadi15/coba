@@ -1,0 +1,123 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+	Layout = "Master.cshtml";
+}
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (page.DocumentTypeId != 1237){
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>                    
+                } else {
+                    <li class="@cls"><a href="" class="disable"><span>@page.Name</span></li>
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+        </div>
+        <!-- <div class="fullpage-calendar-js block" data-calendar="/data/stocksCalendar.json"></div> -->
+        <div id="listedCompanyCalendar" class="fullpage-calendar-js block" data-calendar="/data/stocksCalendar.json"></div>
+    </div>
+    <div class="pop-up-background">
+        <div class="calendar-pop-up">
+            <a href="" class="calendar-pop-up-close calendar-pop-up-js"><span class="fa fa-times"></span></a>
+            <dl class="pop-up-grid-list">
+                <dt class="pop-up-grid-title">@Umbraco.GetDictionaryValue("date")</dt>
+                <dd class="pop-up-grid-description calendar-pop-up-date"></dd>
+                <dt class="pop-up-grid-title">@Umbraco.GetDictionaryValue("event")</dt>
+                <dd class="pop-up-grid-description calendar-pop-up-title"></dd>
+                <dt class="pop-up-grid-title">@Umbraco.GetDictionaryValue("location")</dt>
+                <dd class="pop-up-grid-description calendar-pop-up-location"></dd>
+                <dt class="pop-up-grid-title">@Umbraco.GetDictionaryValue("description")</dt>
+                <dd class="pop-up-grid-description calendar-pop-up-description"></dd>
+            </dl>
+        </div>  
+    </div>
+</main>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function(){
+            getCalendar();
+        });
+
+        var allEventSources = [];
+
+        function getCalendar(current){
+            var currentDate = current !== '' && current !== undefined ? current : moment().format('YYYYMMDD');
+            var url = '@Url.Action("GetCalendar", "Home")?range=m&date=' + currentDate;
+            $.getJSON(url, function(response){
+                allEventSources.push(getUrlParam(url, 'date').slice(0,-2));
+                renderCalendar(response.Results);
+
+                $('.fc-prev-button').on('click', function(e){
+                    showNextPrevMonth();
+                });
+
+                $('.fc-next-button').on('click', function(e){
+                    showNextPrevMonth();
+                });        
+            });
+        }
+
+        function showNextPrevMonth(){
+            var currentDate = $('#listedCompanyCalendar').fullCalendar('getDate').format('YYYYMMDD');
+            var url = '@Url.Action("GetCalendar", "Home")?range=m&date=' + currentDate;
+            if ($.inArray(getUrlParam(url, 'date').slice(0,-2), allEventSources) === -1) {
+                allEventSources.push(getUrlParam(url, 'date').slice(0,-2));
+                $.getJSON(url, function(response){
+                    $('#listedCompanyCalendar').fullCalendar( 'addEventSource', response.Results);
+                });                
+            }
+        }
+
+        function renderCalendar(results) {
+            $('#listedCompanyCalendar').fullCalendar({
+                events: results,
+                eventLimit: true,
+                fixedWeekCount : false,
+                eventColor: '#9F0E0F',
+                eventLimitText: 'Event',
+                displayEventTime: false,
+                views: {
+                    agenda: {
+                        eventLimit: 0
+                    },
+                    month: {
+                        columnFormat: 'dddd'
+                    }
+                },               
+                header: {
+                    left:   '',
+                    center: 'prev,title,next',
+                    right:  ''
+                },
+                eventRender: function(event, element) {
+                    element.click( function() {
+                        $('.calendar-pop-up-date').html(moment(event.start).format('DD MMMM YYYY'))
+                        $('.calendar-pop-up-title').html(event.title)
+                        $('.calendar-pop-up-description').html(event.description)
+                        $('.calendar-pop-up-location').html(event.location == '' ? '-' : event.location)
+                        $('.calendar-pop-up').addClass('is-active');
+                        $('.pop-up-background').addClass('is-active')
+                        $('body').addClass('overflow-hidden')
+                    })
+                }
+            });
+        }
+    </script>
+}

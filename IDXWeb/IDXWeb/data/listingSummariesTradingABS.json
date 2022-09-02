@@ -1,0 +1,138 @@
+{
+    "data": [
+        {
+            "type": "Bonds Conventional",
+            "issuerNum": 105,
+            "issuesNum": 306,
+            "seriesNum": 574,
+            "outstandingIDR": 367791,
+            "tradingIDRVol": 23721,
+            "tradingIDRFreq": 1993
+        },
+        {
+            "type": "Bonds Subordinate",
+            "issuerNum": 17,
+            "issuesNum": 34,
+            "seriesNum": 38,
+            "outstandingIDR": 25334,
+            "tradingIDRVol": 1027,
+            "tradingIDRFreq": 189
+        },
+        {
+            "type": "Bonds Conversion",
+            "issuerNum": null,
+            "issuesNum": null,
+            "seriesNum": null,
+            "outstandingIDR": null,
+            "tradingIDRVol": 4,
+            "tradingIDRFreq": 20
+        },
+        {
+            "type": "Bonds Zero Coupon",
+            "issuerNum": null,
+            "issuesNum": null,
+            "seriesNum": null,
+            "outstandingIDR": null,
+            "tradingIDRVol": null,
+            "tradingIDRFreq": null
+        },
+        {
+            "type": "Bonds Ijarah",
+            "issuerNum": 10,
+            "issuesNum": 32,
+            "seriesNum": 84,
+            "outstandingIDR": 13476,
+            "tradingIDRVol": 2336,
+            "tradingIDRFreq": 212
+        },
+        {
+            "type": "Bonds Mudaraba",
+            "issuerNum": 9,
+            "issuesNum": 17,
+            "seriesNum": 34,
+            "outstandingIDR": 8207,
+            "tradingIDRVol": 1159,
+            "tradingIDRFreq": 72
+        },
+        {
+            "type": "Bonds Mudaraba Subordinate",
+            "issuerNum": 1,
+            "issuesNum": 1,
+            "seriesNum": 1,
+            "outstandingIDR": 1000,
+            "tradingIDRVol": 24,
+            "tradingIDRFreq": 4
+        },
+        {
+            "type": "Bonds Wakalah",
+            "issuerNum": 1,
+            "issuesNum": 2,
+            "seriesNum": 6,
+            "outstandingIDR": 1450,
+            "tradingIDRVol": 70,
+            "tradingIDRFreq": 2,
+        }
+    ],
+    "columns": [
+        {
+            "columnName": "count",
+            "decimal": 0,
+            "format": "count",
+            "className": "text-right nowrap"
+        },
+        {
+            "columnName": "type",
+            "decimal": 0,
+            "format": false,
+            "className": "text-left nowrap"
+        },
+        {
+            "columnName": "issuerNum",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "issuesNum",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "seriesNum",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": null,
+            "decimal": 0,
+            "format": false,
+            "className": ""
+        },
+        {
+            "columnName": "outstandingIDR",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": null,
+            "decimal": 0,
+            "format": false,
+            "className": ""
+        },
+        {
+            "columnName": "tradingIDRVol",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "tradingIDRFreq",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        }
+    ]
+}

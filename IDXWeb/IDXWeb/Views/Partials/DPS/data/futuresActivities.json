@@ -1,0 +1,450 @@
+{
+    "data": [
+        {
+            "year": 2016,
+            "asterisk": true,
+            "days": 244,
+            "volumeTotal": 148,
+            "freqTotal": 152,
+            "volumeAvgDaily": 0.61,
+            "freqAvgDaily": 0.68,
+            "contractsNum": 4,
+            "months": [
+                {
+                    "month": 1,
+                    "days": 243,
+                    "volumeTotal": 160,
+                    "freqTotal": 138,
+                    "volumeAvgDaily": 0.65,
+                    "freqAvgDaily": 0.72,
+                    "contractsNum": 4
+                },
+                {
+                    "month": 2,
+                    "days": 244,
+                    "volumeTotal": 160,
+                    "freqTotal": 143,
+                    "volumeAvgDaily": 0.64,
+                    "freqAvgDaily": 0.6,
+                    "contractsNum": 5
+                },
+                {
+                    "month": 3,
+                    "days": 242,
+                    "volumeTotal": 141,
+                    "freqTotal": 144,
+                    "volumeAvgDaily": 0.64,
+                    "freqAvgDaily": 0.66,
+                    "contractsNum": 7
+                },
+                {
+                    "month": 4,
+                    "days": 241,
+                    "volumeTotal": 146,
+                    "freqTotal": 143,
+                    "volumeAvgDaily": 0.67,
+                    "freqAvgDaily": 0.61,
+                    "contractsNum": 9
+                },
+                {
+                    "month": 5,
+                    "days": 243,
+                    "volumeTotal": 153,
+                    "freqTotal": 157,
+                    "volumeAvgDaily": 0.73,
+                    "freqAvgDaily": 0.7,
+                    "contractsNum": 6
+                },
+                {
+                    "month": 6,
+                    "days": 243,
+                    "volumeTotal": 157,
+                    "freqTotal": 155,
+                    "volumeAvgDaily": 0.67,
+                    "freqAvgDaily": 0.69,
+                    "contractsNum": 5
+                },
+                {
+                    "month": 7,
+                    "days": 241,
+                    "volumeTotal": 149,
+                    "freqTotal": 147,
+                    "volumeAvgDaily": 0.6,
+                    "freqAvgDaily": 0.62,
+                    "contractsNum": 4
+                },
+                {
+                    "month": 8,
+                    "days": 244,
+                    "volumeTotal": 152,
+                    "freqTotal": 143,
+                    "volumeAvgDaily": 0.68,
+                    "freqAvgDaily": 0.62,
+                    "contractsNum": 5
+                },
+                {
+                    "month": 9,
+                    "days": 243,
+                    "volumeTotal": 159,
+                    "freqTotal": 143,
+                    "volumeAvgDaily": 0.72,
+                    "freqAvgDaily": 0.64,
+                    "contractsNum": 4
+                },
+                {
+                    "month": 10,
+                    "days": 243,
+                    "volumeTotal": 160,
+                    "freqTotal": 153,
+                    "volumeAvgDaily": 0.66,
+                    "freqAvgDaily": 0.75,
+                    "contractsNum": 8
+                },
+                {
+                    "month": 11,
+                    "days": 242,
+                    "volumeTotal": 145,
+                    "freqTotal": 147,
+                    "volumeAvgDaily": 0.64,
+                    "freqAvgDaily": 0.67,
+                    "contractsNum": 9
+                }
+            ]
+        },
+        {
+            "year": 2017,
+            "days": 241,
+            "volumeTotal": 145,
+            "freqTotal": 139,
+            "volumeAvgDaily": 0.68,
+            "freqAvgDaily": 0.72,
+            "contractsNum": 5,
+            "months": [
+                {
+                    "month": 0,
+                    "days": 240,
+                    "volumeTotal": 154,
+                    "freqTotal": 152,
+                    "volumeAvgDaily": 0.64,
+                    "freqAvgDaily": 0.74,
+                    "contractsNum": 3
+                },
+                {
+                    "month": 1,
+                    "days": 241,
+                    "volumeTotal": 153,
+                    "freqTotal": 143,
+                    "volumeAvgDaily": 0.63,
+                    "freqAvgDaily": 0.75,
+                    "contractsNum": 9
+                },
+                {
+                    "month": 2,
+                    "days": 244,
+                    "volumeTotal": 146,
+                    "freqTotal": 139,
+                    "volumeAvgDaily": 0.61,
+                    "freqAvgDaily": 0.72,
+                    "contractsNum": 7
+                },
+                {
+                    "month": 3,
+                    "days": 241,
+                    "volumeTotal": 151,
+                    "freqTotal": 136,
+                    "volumeAvgDaily": 0.65,
+                    "freqAvgDaily": 0.7,
+                    "contractsNum": 5
+                },
+                {
+                    "month": 4,
+                    "days": 243,
+                    "volumeTotal": 149,
+                    "freqTotal": 144,
+                    "volumeAvgDaily": 0.66,
+                    "freqAvgDaily": 0.75,
+                    "contractsNum": 7
+                },
+                {
+                    "month": 5,
+                    "days": 240,
+                    "volumeTotal": 140,
+                    "freqTotal": 139,
+                    "volumeAvgDaily": 0.74,
+                    "freqAvgDaily": 0.63,
+                    "contractsNum": 4
+                },
+                {
+                    "month": 6,
+                    "days": 242,
+                    "volumeTotal": 148,
+                    "freqTotal": 146,
+                    "volumeAvgDaily": 0.62,
+                    "freqAvgDaily": 0.65,
+                    "contractsNum": 4
+                },
+                {
+                    "month": 7,
+                    "days": 241,
+                    "volumeTotal": 159,
+                    "freqTotal": 143,
+                    "volumeAvgDaily": 0.67,
+                    "freqAvgDaily": 0.61,
+                    "contractsNum": 5
+                },
+                {
+                    "month": 8,
+                    "days": 244,
+                    "volumeTotal": 156,
+                    "freqTotal": 142,
+                    "volumeAvgDaily": 0.61,
+                    "freqAvgDaily": 0.71,
+                    "contractsNum": 6
+                },
+                {
+                    "month": 9,
+                    "days": 241,
+                    "volumeTotal": 142,
+                    "freqTotal": 139,
+                    "volumeAvgDaily": 0.7,
+                    "freqAvgDaily": 0.65,
+                    "contractsNum": 9
+                },
+                {
+                    "month": 10,
+                    "days": 242,
+                    "volumeTotal": 159,
+                    "freqTotal": 145,
+                    "volumeAvgDaily": 0.71,
+                    "freqAvgDaily": 0.65,
+                    "contractsNum": 4
+                },
+                {
+                    "month": 11,
+                    "days": 240,
+                    "volumeTotal": 157,
+                    "freqTotal": 147,
+                    "volumeAvgDaily": 0.66,
+                    "freqAvgDaily": 0.73,
+                    "contractsNum": 4
+                }
+            ]
+        },
+        {
+            "year": 2018,
+            "days": 241,
+            "volumeTotal": 157,
+            "freqTotal": 136,
+            "volumeAvgDaily": 0.64,
+            "freqAvgDaily": 0.61,
+            "contractsNum": 8,
+            "months": [
+                {
+                    "month": 0,
+                    "days": 241,
+                    "volumeTotal": 159,
+                    "freqTotal": 156,
+                    "volumeAvgDaily": 0.62,
+                    "freqAvgDaily": 0.71,
+                    "contractsNum": 4
+                },
+                {
+                    "month": 1,
+                    "days": 241,
+                    "volumeTotal": 157,
+                    "freqTotal": 153,
+                    "volumeAvgDaily": 0.64,
+                    "freqAvgDaily": 0.62,
+                    "contractsNum": 3
+                },
+                {
+                    "month": 2,
+                    "days": 241,
+                    "volumeTotal": 141,
+                    "freqTotal": 154,
+                    "volumeAvgDaily": 0.67,
+                    "freqAvgDaily": 0.68,
+                    "contractsNum": 5
+                },
+                {
+                    "month": 3,
+                    "days": 240,
+                    "volumeTotal": 146,
+                    "freqTotal": 146,
+                    "volumeAvgDaily": 0.63,
+                    "freqAvgDaily": 0.65,
+                    "contractsNum": 3
+                },
+                {
+                    "month": 4,
+                    "days": 243,
+                    "volumeTotal": 159,
+                    "freqTotal": 151,
+                    "volumeAvgDaily": 0.63,
+                    "freqAvgDaily": 0.68,
+                    "contractsNum": 8
+                },
+                {
+                    "month": 5,
+                    "days": 243,
+                    "volumeTotal": 151,
+                    "freqTotal": 140,
+                    "volumeAvgDaily": 0.61,
+                    "freqAvgDaily": 0.7,
+                    "contractsNum": 8
+                },
+                {
+                    "month": 6,
+                    "days": 242,
+                    "volumeTotal": 141,
+                    "freqTotal": 145,
+                    "volumeAvgDaily": 0.64,
+                    "freqAvgDaily": 0.73,
+                    "contractsNum": 3
+                },
+                {
+                    "month": 7,
+                    "days": 243,
+                    "volumeTotal": 147,
+                    "freqTotal": 157,
+                    "volumeAvgDaily": 0.61,
+                    "freqAvgDaily": 0.74,
+                    "contractsNum": 3
+                },
+                {
+                    "month": 8,
+                    "days": 243,
+                    "volumeTotal": 147,
+                    "freqTotal": 149,
+                    "volumeAvgDaily": 0.65,
+                    "freqAvgDaily": 0.67,
+                    "contractsNum": 9
+                },
+                {
+                    "month": 9,
+                    "days": 240,
+                    "volumeTotal": 154,
+                    "freqTotal": 157,
+                    "volumeAvgDaily": 0.72,
+                    "freqAvgDaily": 0.66,
+                    "contractsNum": 4
+                },
+                {
+                    "month": 10,
+                    "days": 240,
+                    "volumeTotal": 155,
+                    "freqTotal": 157,
+                    "volumeAvgDaily": 0.72,
+                    "freqAvgDaily": 0.61,
+                    "contractsNum": 3
+                },
+                {
+                    "month": 11,
+                    "days": 244,
+                    "volumeTotal": 150,
+                    "freqTotal": 151,
+                    "volumeAvgDaily": 0.7,
+                    "freqAvgDaily": 0.74,
+                    "contractsNum": 3
+                }
+            ]
+        },
+        {
+            "year": 2019,
+            "days": 80,
+            "volumeTotal": 4,
+            "freqTotal": 4,
+            "volumeAvgDaily": 0.05,
+            "freqAvgDaily": 0.05,
+            "contractsNum": 9,
+            "months": [
+                {
+                    "month": 0,
+                    "days": 22,
+                    "volumeTotal": null,
+                    "freqTotal": null,
+                    "volumeAvgDaily": null,
+                    "freqAvgDaily": null,
+                    "contractsNum": 3
+                },
+                {
+                    "month": 1,
+                    "days": 19,
+                    "volumeTotal": null,
+                    "freqTotal": null,
+                    "volumeAvgDaily": null,
+                    "freqAvgDaily": null,
+                    "contractsNum": 9
+                },
+                {
+                    "month": 2,
+                    "days": 20,
+                    "volumeTotal": 2,
+                    "freqTotal": 2,
+                    "volumeAvgDaily": 0.74,
+                    "freqAvgDaily": 0.66,
+                    "contractsNum": 9
+                },
+                {
+                    "month": 3,
+                    "days": 19,
+                    "volumeTotal": 2,
+                    "freqTotal": 2,
+                    "volumeAvgDaily": 0.61,
+                    "freqAvgDaily": 0.6,
+                    "contractsNum": 3
+                }
+            ]
+        }
+    ],
+    "columns": [
+        {
+            "columnName": "year",
+            "decimal": 0,
+            "format": false,
+            "className": "text-center"
+        },
+        {
+            "columnName": "days",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "volumeTotal",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "freqTotal",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": null,
+            "decimal": 0,
+            "format": false,
+            "className": ""
+        },
+        {
+            "columnName": "volumeAvgDaily",
+            "decimal": 2,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "freqAvgDaily",
+            "decimal": 2,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "contractsNum",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        }
+    ]
+}

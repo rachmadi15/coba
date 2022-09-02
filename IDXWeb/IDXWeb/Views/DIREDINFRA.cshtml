@@ -1,0 +1,281 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+}
+
+@section Styles {
+    <link href="@Url.Content("/assets/css/jquery.dataTables.min.css")" rel="stylesheet" type="text/css" />
+}
+
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1) {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages) {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (page.DocumentTypeId != 1237) {
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>
+
+                }
+                else {
+                    <li class="@cls"><a href="" class="disable"><span>@page.Name</span></li>
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+        </div>
+        @{/*-------------------------------Tab-------------------------------------*/}
+        <div class="content-tab-container block --center">
+            <div class="content-tab-item">
+                <a href="#direMarket" class="content-tab-anchor etp-trading-tab-js is-active">DIRE</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#dinfraMarket" class="content-tab-anchor etp-trading-tab-js">DINFRA</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="main-content content-push">
+        <div class="container">
+            @{/*---------------------------------------DIRE-------------------------------*/}
+            <div class="etp-trading-container is-active" id="direMarket">
+                <div id="dire-filter" class="dataTables_filter">
+                    <label>
+                        Search:
+                        <input type="search" class="" placeholder="" aria-controls="tradingActTable">
+                    </label>
+                </div>
+                <table id="direTable" class="table table--zebra table-content-page  width-block">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>@Umbraco.GetDictionaryValue("code")</th>
+                            <th>@Umbraco.GetDictionaryValue("name")</th>
+                            <th>@Umbraco.GetDictionaryValue("invest_manager")</th>
+                            <th>@Umbraco.GetDictionaryValue("record_date")</th>
+                            <th>@Umbraco.GetDictionaryValue("open_price")</th>
+                            <th>@Umbraco.GetDictionaryValue("close_price")</th>
+                            <th>@Umbraco.GetDictionaryValue("last_dividend")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
+            @{/*--------------------------------DINFRA----------------------------------------*/}
+            <div class="etp-trading-container" id="dinfraMarket">
+                <div id="dinfra-filter" class="dataTables_filter">
+                    <label>
+                        Search:
+                        <input type="search" class="" placeholder="" aria-controls="tradingActTable">
+                    </label>
+                </div>
+                <table id="dinfraTable" class="table table--zebra table-content-page  width-block">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>@Umbraco.GetDictionaryValue("code")</th>
+                            <th>@Umbraco.GetDictionaryValue("name")</th>
+                            <th>@Umbraco.GetDictionaryValue("invest_manager")</th>
+                            <th>@Umbraco.GetDictionaryValue("record_date")</th>
+                            <th>@Umbraco.GetDictionaryValue("open_price")</th>
+                            <th>@Umbraco.GetDictionaryValue("close_price")</th>
+                            <th>@Umbraco.GetDictionaryValue("last_dividend")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+@section Scripts{
+    <script type="text/javascript" src="/assets/js/vendor/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            getDireMarket();
+            getDinfraMarket();
+        });
+
+        function getDireMarket(){
+            if($.fn.DataTable.isDataTable('#direTable')){
+                var datatable = $('#direTable').DataTable();
+                datatable.clear();
+                var url = '@Url.Action("GetDireMarket", "EDD")';
+                datatable.ajax.url(url).load();
+                datatable.draw();
+            } else {
+                $('#direTable')
+                    .on('xhr.dt', function (e, settings, json, xhr) {
+                        $('#dire-filter').show();
+                    })
+                    .dataTable({
+                    'ajax': {
+                        'url': '@Url.Action("GetDireMarket", "EDD")',
+                        'data': function(d) {
+                            d.search = $('#dire-filter input').val();
+                        }
+                    },
+                    'filter': false,
+                    'sort': true,
+                    'serverSide': true,
+                    'processing': true,
+                    "order": [[4, "desc"]],
+                    'paging': true,
+                    'deferRender': true,
+                    'columns': [
+                        { 'data': 'Kode' },
+                        { 'data': 'Kode' },
+                        { 'data': 'NamaProduk' },
+                        { 'data': 'ManajemenInvestasi' },
+                        { 'data': 'TanggalPencatatan' },
+                        { 'data': 'HargaPencatatanAwal' },
+                        { 'data': 'HargaPenutupanHarian' },
+                        { 'data': 'LastDividend' },
+                    ],
+                    'columnDefs': [
+                        {
+                            'targets': [0,1,2,3,4],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-center');
+                            }
+                        },
+                        {
+                            targets: [1,2,3,4,5,6,7],
+                            orderable: true,
+                        },
+                        {
+                            'targets': 4,
+                            'render' : function ( data, type, row, meta ) {
+                                var datetime = data;
+                                if (data) {
+                                    datetime = moment(data).locale(currentLang).format('DD MMM YYYY');
+                                }
+                                return datetime;
+                            }
+                        },
+                        {
+                            'targets': [5, 6, 7],
+                            'render' : function (data, type, row, meta){
+							        if(data != null){
+                                        return data.toLocaleString(currentLang);
+							        }
+							        return '';
+                            }
+                        }
+                    ],
+                    "rowCallback": function (row, data, iDisplayIndex) {
+                        var info = this.api().page.info();
+                        var page = info.page;
+                        var length = info.length;
+                        var index = (page * length + (iDisplayIndex + 1));
+                        $('td:eq(0)', row).html(index);
+                    },
+                });
+                $('#dire-filter input').keyup(function () {
+                    var datatable = $('#direTable').DataTable();
+                    datatable.clear();
+                    datatable.draw();
+                });
+			}
+		}
+
+
+        function getDinfraMarket(){
+            if($.fn.DataTable.isDataTable('#dinfraTable')){
+                var datatable = $('#dinfraTable').DataTable();
+                datatable.clear();
+                var url = '@Url.Action("GetDinfraMarket", "EDD")';
+                datatable.ajax.url(url).load();
+                datatable.draw();
+            } else {
+                $('#dinfraTable')
+                .on('xhr.dt', function (e, settings, json, xhr) {
+                    $('#dinfra-filter').show();
+                })
+                .dataTable({
+                    'ajax': {
+                        'url': '@Url.Action("GetDinfraMarket", "EDD")',
+                        'data': function (d) {
+                            d.search = $('#dinfra-filter input').val();
+                        }
+                    },
+                    'filter': false,
+                    'sort': true,
+                    'serverSide': true,
+                    'processing': true,
+                    "order": [[4, "desc"]],
+                    'paging': true,
+                    'deferRender': true,
+                    'columns': [
+                        { 'data': 'Kode' },
+                        { 'data': 'Kode' },
+                        { 'data': 'NamaProduk' },
+                        { 'data': 'ManajemenInvestasi' },
+                        { 'data': 'TanggalPencatatan' },
+                        { 'data': 'HargaPencatatanAwal' },
+                        { 'data': 'HargaPenutupanHarian' },
+                        { 'data': 'LastDividend' },
+                    ],
+                    'columnDefs': [
+                        {
+                            'targets': [0,1,2,3,4],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-center');
+                            }
+                        },
+                        {
+                            "targets": [1, 2, 3, 4, 5, 6, 7],
+                            "orderable": true,
+                        },
+                        {
+                            'targets': 4,
+                            'render': function (data, type, row, meta) {
+                                var datetime = data;
+                                if (data) {
+                                    datetime = moment(data).locale(currentLang).format('DD MMM YYYY');
+                                }
+                                return datetime;
+                            }
+                        },
+                        {
+                            'targets': [5, 6, 7],
+                            'render' : function (data, type, row, meta){
+							        if(data != null){
+                                        return data.toLocaleString(currentLang);
+							        }
+							        return '';
+                            }
+                        }
+                    ],
+                    "rowCallback": function (row, data, iDisplayIndex) {
+                        var info = this.api().page.info();
+                        var page = info.page;
+                        var length = info.length;
+                        var index = (page * length + (iDisplayIndex + 1));
+                        $('td:eq(0)', row).html(index);
+                    }
+                });
+                $('#dinfra-filter input').keyup(function () {
+                    var datatable = $('#dinfraTable').DataTable();
+                    datatable.clear();
+                    datatable.draw();
+                });
+			}
+		}
+    </script>
+}

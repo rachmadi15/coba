@@ -1,0 +1,1083 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+}
+
+@section Styles {
+    <link href="@Url.Content("/assets/css/vendor/datatables.min.css")" rel="stylesheet" type="text/css" />
+}
+
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (page.DocumentTypeId != 1237)
+                {
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>
+
+                }
+                else
+                {
+                    <li class="@cls"><a href="" class="disable"><span>@page.Name</span></li>
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+        </div>
+        <div class="content-tab-container block --center">
+            <div class="content-tab-item">
+                <a href="#latesTrade" class="content-tab-anchor exchange-trade-tab-js is-active">@Umbraco.GetDictionaryValue("Latest Trade Report")</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#tradeReport" class="content-tab-anchor exchange-trade-tab-js">@Umbraco.GetDictionaryValue("Trade Report Summary")</a>
+            </div>
+            <div class="content-tab-item">
+                    <a href="#mostAct" class="content-tab-anchor exchange-trade-tab-js">Most Active</a>
+                </div>
+            <div class="content-tab-item">
+                <a href="#cancelledReport" class="content-tab-anchor exchange-trade-tab-js">@Umbraco.GetDictionaryValue("Cancelled Report")</a>
+            </div>
+        </div>
+    </div>
+    <div class="exchange-trade-container is-active" id="latesTrade">
+        <div class="container">
+            <div>
+                <div class="block flex v-center">
+                    <span class="form-label-financial-report">@Umbraco.GetDictionaryValue("Type of Securities")</span>
+                    <div class="form-radio">
+                        <input type="radio" class="form-input-custom-bullet" id="ltrRb1" name="ltrRb" checked="checked" value="all">
+                        <label for="ltrRb1" class="">@Umbraco.GetDictionaryValue("All")</label>
+                    </div>
+                    <div class="form-radio">
+                        <input type="radio" class="form-input-custom-bullet" id="ltrRb2" name="ltrRb" value="gov">
+                        <label for="ltrRb2" class="">@Umbraco.GetDictionaryValue("Government")</label>
+                    </div>
+                    <div class="form-radio">
+                        <input type="radio" class="form-input-custom-bullet" id="ltrRb3" name="ltrRb" value="corp">
+                        <label for="ltrRb3" class="">@Umbraco.GetDictionaryValue("Corporate")</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-content content-push">
+            <div class="container">
+                <ul class="content-tab-container --center block-double">
+                    <li class="content-tab-item"><a href="" class="ltrToday content-tab-anchor company-profile-anchor-js is-active">@Umbraco.GetDictionaryValue("Today Reporting")</a></li>
+                    <li class="content-tab-item"><a href="" class="ltrToday content-tab-anchor company-profile-anchor-js">@Umbraco.GetDictionaryValue("Today Trade")</a></li>
+                </ul>
+                <div class="text-center">
+                    <h3>@Umbraco.GetDictionaryValue("Beneficiary of Securities Transaction Report")</h3>
+                    <h4>@Umbraco.GetDictionaryValue("List of Bond Transaction")</h4>
+                    <p><b>@Umbraco.GetDictionaryValue("date") :</b> <span name="dataDate"></span>  <b>@Umbraco.GetDictionaryValue("time") :</b> <span name="dataTime"></span></p>
+                </div>
+                <div class="overflow-auto">
+                    <table id="ltrTableReporting" class="table table--zebra table-content-page table-thead-nowrap">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Bond ID</th>
+                                <th>Rating</th>
+                                <th>Coupon</th>
+                                <th>TTM</th>
+                                <th>Maturity</th>
+                                <th>@Umbraco.GetDictionaryValue("price")</th>
+                                <th>Yield</th>
+                                <th>Vol BIO(IDR)</th>
+                                <th>Val BIO(IDR)</th>
+                                <th>Trade Date</th>
+                                <th>Settlement Date</th>
+                                <th>Trade Time</th>
+                                <th>2nd Leg Price</th>
+                                <th>Term (Repo)</th>
+                                <th>Transact Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="flexbox v-center v-center--spread block">
+                    <div class="">
+                        <span><small><i>@Umbraco.GetDictionaryValue("disclaimer otc")</i></small></span>
+                    </div>
+
+                    <!-- <div class="text-right block">
+                        <a href="" class="btn btn-primary --rounded"><span class="fa fa-download"></span> @Umbraco.GetDictionaryValue("download")</a>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="exchange-trade-container" id="tradeReport">
+        <div class="container">
+            <div>
+                <div class="block flex v-center">
+                    <span class="form-label-financial-report">@Umbraco.GetDictionaryValue("Type of Securities")</span>
+                    <div class="form-radio">
+                        <input type="radio" class="form-input-custom-bullet" id="trsRb1" name="trsRb" checked="checked" value="all">
+                        <label for="trsRb1" class="">@Umbraco.GetDictionaryValue("All")</label>
+                    </div>
+                    <div class="form-radio">
+                        <input type="radio" class="form-input-custom-bullet" id="trsRb2" name="trsRb" value="gov">
+                        <label for="trsRb2" class="">@Umbraco.GetDictionaryValue("Government")</label>
+                    </div>
+                    <div class="form-radio">
+                        <input type="radio" class="form-input-custom-bullet" id="trsRb3" name="trsRb" value="corp">
+                        <label for="trsRb3" class="">@Umbraco.GetDictionaryValue("Corporate")</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-content content-push">
+            <div class="container">
+                <ul class="content-tab-container --center block-double">
+                    <li class="content-tab-item"><a href="" class="trsToday content-tab-anchor company-profile-anchor-js is-active">@Umbraco.GetDictionaryValue("Today Reporting")</a></li>
+                    <li class="content-tab-item"><a href="" class="trsToday content-tab-anchor company-profile-anchor-js">@Umbraco.GetDictionaryValue("Today Trade")</a></li>
+                </ul>
+                <div class="text-center">
+                    <h3>@Umbraco.GetDictionaryValue("Beneficiary of Securities Transaction Report")</h3>
+                    <h4>@Umbraco.GetDictionaryValue("Trade Report Summary")</h4>
+                    <p><b>@Umbraco.GetDictionaryValue("date") :</b> <span name="dataDate"></span>  <b>@Umbraco.GetDictionaryValue("time") :</b> <span name="dataTime"></span></p>
+                </div>
+                <div id="trsReportingContainer" class="overflow-auto">
+                    <table id="trsTableReporting" class="table table--zebra table-content-page table-thead-nowrap width-block">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Bond ID</th>
+                                <th>Bond Name</th>
+                                <th>Rating</th>
+                                <th>TTM</th>
+                                <th>Mature Date</th>
+                                <th>Freq</th>
+                                <th>Total Vol BIO(IDR)</th>
+                                <th>Total Val BIO(IDR)</th>
+                                <th>@Umbraco.GetDictionaryValue("Description")</th>
+                                <th>High</th>
+                                <th>Low</th>
+                                <th>Last</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="trsTradeContainer" class="overflow-auto" hidden="true">
+                    <table id="trsTableTrade" class="table table--zebra table-content-page table-thead-nowrap width-block">
+                        <thead>
+                            <tr>
+                                <th class="text-center" rowspan="3">No</th>
+                                <th class="text-center" rowspan="3">Bond ID</th>
+                                <th class="text-center" rowspan="3">Rating</th>
+                                <th class="text-center" rowspan="3">Coupon</th>
+                                <th class="text-center" rowspan="3">Maturity</th>
+                                <th class="text-center" rowspan="3">Freq</th>
+                                <th class="text-center" rowspan="3">Total Vol BIO(IDR)</th>
+                                <th class="text-center" rowspan="3">Total Val BIO(IDR)</th>
+                                <th class="text-center" colspan="9">Price</th>
+                                <th class="text-center" rowspan="3">Transact Type</th>
+                            </tr>
+                            <tr>
+                                <th class="text-center" colspan="3">High</th>
+                                <th class="text-center" colspan="3">Low</th>
+                                <th class="text-center" colspan="3">Last</th>
+                            </tr>
+                            <tr>
+                                <th>Today</th>
+                                <th>Prev</th>
+                                <th>@Umbraco.GetDictionaryValue("change")</th>
+                                <th>Today</th>
+                                <th>Prev</th>
+                                <th>@Umbraco.GetDictionaryValue("change")</th>
+                                <th>Today</th>
+                                <th>Prev</th>
+                                <th>@Umbraco.GetDictionaryValue("change")</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- <div class="text-right block">
+                    <a href="" class="btn btn-primary --rounded"><span class="fa fa-download"></span> @Umbraco.GetDictionaryValue("download")</a>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <div class="exchange-trade-container" id="mostAct">
+        <div class="container">
+            <div action="" class="">
+                <div id="bondsTypeContainer" class="block flex v-center">
+                    <span class="form-label-financial-report">Choose Type</span>
+                    <div class="form-radio form-radio--inline">
+                        <input type="radio" class="form-input-custom-bullet" id="bondTypeRb1" name="bondTypeRb" checked="checked" value="gov">
+                        <label for="bondTypeRb1" class="">Goverment Securities</label>
+                    </div>
+                    <div class="form-radio form-radio--inline">
+                        <input type="radio" class="form-input-custom-bullet" id="bondTypeRb2" name="bondTypeRb" value="corp">
+                        <label for="bondTypeRb2" class="">Corporate @Umbraco.GetDictionaryValue("bonds")</label>
+                    </div>
+                </div>
+                <div id="participantsTypeContainer" class="block flex v-center" style="display: none;">
+                    <span class="form-label-financial-report">Choose Type</span>
+                    <div class="form-radio form-radio--inline">
+                        <input type="radio" class="form-input-custom-bullet" id="participantTypeRb1" name="participantTypeRb" checked="checked" value="all">
+                        <label for="participantTypeRb1" class="">@Umbraco.GetDictionaryValue("All")</label>
+                    </div>
+                    <div class="form-radio form-radio--inline">
+                        <input type="radio" class="form-input-custom-bullet" id="participantTypeRb2" name="participantTypeRb" value="bank">
+                        <label for="participantTypeRb2" class="">Bank</label>
+                    </div>
+                    <div class="form-radio form-radio--inline">
+                        <input type="radio" class="form-input-custom-bullet" id="participantTypeRb3" name="participantTypeRb" value="securities">
+                        <label for="participantTypeRb3" class="">Securities Company</label>
+                    </div>
+                    <div class="form-radio form-radio--inline">
+                        <input type="radio" class="form-input-custom-bullet" id="participantTypeRb4" name="participantTypeRb" value="custodian">
+                        <label for="participantTypeRb4" class="">Custodian Bank</label>
+                    </div>
+                </div>
+                <div class="block flex v-center">
+                    <span class="form-label-financial-report">&nbsp;</span>
+                    <button class="btn btn-primary" onclick="getMostActive();">@Umbraco.GetDictionaryValue("search")</button>
+                </div>
+            </div>
+        </div>
+        <div class="main-content content-push">
+            <div class="container">
+                <ul class="content-tab-container --center block-double">
+                    <li class="content-tab-item">
+                        <a href="" class="mostActTab content-tab-anchor company-profile-anchor-js is-active" data-lang="bond">Bonds</a>
+                    </li>
+                    <li class="content-tab-item">
+                        <a href="" class="mostActTab content-tab-anchor company-profile-anchor-js" data-lang="participant">Participants</a>
+                    </li>
+                </ul>
+                <div id="bondsGovernmentContainer">
+                    <div class="text-center">
+                        <h3>Beneficiary of Securities Transaction Report</h3>
+                        <h4>Top 10 Activity in Goverment Bond</h4>
+                        <p><b>@Umbraco.GetDictionaryValue("date") :</b> <span name="dataDate"></span>  <b>@Umbraco.GetDictionaryValue("time") :</b> <span name="dataTime"></span></p>
+                    </div>
+                    <div class="block overflow-auto">
+                        <table id="bondsGovernmentTable" class="table table--zebra table-content-page">
+                            <thead>
+                                <tr>
+                                    <th rowspan="3">No</th>
+                                    <th rowspan="3">Bond ID</th>
+                                    <th rowspan="3">Coupon</th>
+                                    <th rowspan="3">Maturity</th>
+                                    <th rowspan="3">Freq</th>
+                                    <th rowspan="3">Total Volume MIO(IDR)</th>
+                                    <th rowspan="3">Total Value(IDR)</th>
+                                    <th colspan="9">Price</th>
+                                    <th rowspan="3">Transact Type</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3">High</th>
+                                    <th colspan="3">Low</th>
+                                    <th colspan="3">Last</th>
+                                </tr>
+                                <tr>
+                                    <th>Today</th>
+                                    <th>Prev</th>
+                                    <th>@Umbraco.GetDictionaryValue("change")</th>
+                                    <th>Today</th>
+                                    <th>Prev</th>
+                                    <th>@Umbraco.GetDictionaryValue("change")</th>
+                                    <th>Today</th>
+                                    <th>Prev</th>
+                                    <th>@Umbraco.GetDictionaryValue("change")</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="bondsCorporateContainer" hidden="hidden">
+                    <div class="text-center">
+                        <h3>Beneficiary of Securities Transaction Report</h3>
+                        <h4>Top 10 Activity in Corporate Bond</h4>
+                        <p><b>@Umbraco.GetDictionaryValue("date") :</b> <span name="dataDate"></span>  <b>@Umbraco.GetDictionaryValue("time") :</b> <span name="dataTime"></span></p>
+                    </div>
+                    <div class="block overflow-auto">
+                        <table id="bondsCorporateTable" class="table table--zebra table-content-page">
+                            <thead>
+                                <tr>
+                                    <th rowspan="3">No</th>
+                                    <th rowspan="3">Bond ID</th>
+                                    <th rowspan="3">Rating</th>
+                                    <th rowspan="3">Coupon</th>
+                                    <th rowspan="3">Maturity</th>
+                                    <th rowspan="3">Freq</th>
+                                    <th rowspan="3">Total Volume MIO(IDR)</th>
+                                    <th rowspan="3">Total Value(IDR)</th>
+                                    <th colspan="9">Price</th>
+                                    <th rowspan="3">Transact Type</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3">High</th>
+                                    <th colspan="3">Low</th>
+                                    <th colspan="3">Last</th>
+                                </tr>
+                                <tr>
+                                    <th>Today</th>
+                                    <th>Prev</th>
+                                    <th>@Umbraco.GetDictionaryValue("change")</th>
+                                    <th>Today</th>
+                                    <th>Prev</th>
+                                    <th>@Umbraco.GetDictionaryValue("change")</th>
+                                    <th>Today</th>
+                                    <th>Prev</th>
+                                    <th>@Umbraco.GetDictionaryValue("change")</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="participantsContainer" hidden="hidden">
+                    <div class="text-center">
+                        <h3>Beneficiary of Securities Transaction Report</h3>
+                        <h4>Top 10 Activity in Corporate Bond</h4>
+                        <p><b>@Umbraco.GetDictionaryValue("date") :</b> <span name="dataDate"></span>  <b>@Umbraco.GetDictionaryValue("time") :</b> <span name="dataTime"></span></p>
+                    </div>
+                    <div class="block overflow-auto">
+                        <table id="participantsCorporateTable" class="table table--zebra table-content-page">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Firm ID</th>
+                                    <th>Participant</th>
+                                    <th>Total Freq</th>
+                                    <th>Total Vol BIO(IDR)</th>
+                                    <th>Total Val BIO(IDR)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="text-center">
+                        <h3>Beneficiary of Securities Transaction Report</h3>
+                        <h4>Top 10 Activity in Government Bond</h4>
+                        <p><b>@Umbraco.GetDictionaryValue("date") :</b> <span name="dataDate"></span>  <b>@Umbraco.GetDictionaryValue("time") :</b> <span name="dataTime"></span></p>
+                    </div>
+                    <div class="block overflow-auto">
+                        <table id="participantsGovernmentTable" class="table table--zebra table-content-page">
+                            <thead>
+                            <th>No.</th>
+                            <th>Firm ID</th>
+                            <th>Participant</th>
+                            <th>Total Freq</th>
+                            <th>Total Vol BIO(IDR)</th>
+                            <th>Total Val BIO(IDR)</th>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="exchange-trade-container" id="cancelledReport">
+        <div class="main-content content-push">
+            <div class="container">
+                <div class="text-center">
+                    <h3>Beneficiary of Securities Transaction Report</h3>
+                    <h4>Cancelled Report</h4>
+                    <p><b>@Umbraco.GetDictionaryValue("date") :</b> <span name="dataDate"></span>  <b>@Umbraco.GetDictionaryValue("time") :</b> <span name="dataTime"></span></p>
+                </div>
+                <div class="block overflow-auto">
+                    <table id="cancelledReportTable" class="table table--zebra table-content-page">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Bond ID</th>
+                                <th>Bond Name</th>
+                                <th>@Umbraco.GetDictionaryValue("price")</th>
+                                <th>Yield</th>
+                                <th>Vol BIO(IDR)</th>
+                                <th>Val BIO(IDR)</th>
+                                <th>Rating</th>
+                                <th>Coupon</th>
+                                <th>TTM</th>
+                                <th>Maturity</th>
+                                <th>Trade Date</th>
+                                <th>Settlement Date</th>
+                                <th>2nd Leg Price</th>
+                                <th>Term (Repo)</th>
+                                <th>Transact Type</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table_body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+@section Scripts{
+    <script type="text/javascript" src="/assets/js/vendor/datatables.min.js"></script>
+    <script type="text/javascript">
+        var currentLang = document.URL.indexOf("en-us") > 0 ? "en-us" : "id-id";
+
+        $(function () {
+            /*addLatestTradeReportEvent();
+            getLatestTradeReport();
+
+            addTransactionReportSummaryEvent();
+            getTransactionReportSummary();
+
+            addMostActiveEvent();
+            getMostActive(); */
+
+        });
+
+        function getLatestDataTime(){
+            $.getJSON('@Url.Action("GetOTCLatestDataTime", "BondSukuk")', function (result) {
+                $('span[name="dataDate"]').text(moment(result).locale(currentLang).format("dddd, DD-MMM-YYYY"));
+                $('span[name="dataTime"]').text(moment(result).locale(currentLang).format("HH:mm:ss"));
+            });
+        }
+
+        function addLatestTradeReportEvent() {
+            $('input[name="ltrRb"]').on('click', function(e) {
+                getLatestTradeReport();
+            });
+
+            $('.ltrToday').on('click', function(e) {
+                e.preventDefault();
+                $('.ltrToday').removeClass('is-active');
+                $(this).addClass('is-active');
+                getLatestTradeReport();
+            });
+        }
+
+        function getLatestTradeReport(){
+            var isGov = $('input[name="ltrRb"]:checked').val() == 'gov';
+            var isCorp = $('input[name="ltrRb"]:checked').val() == 'corp';
+
+            var baseUrl = '@Url.Action("GetOTCLatestReporting", "BondSukuk")';
+
+            if ($('.ltrToday.is-active').text() === '@Umbraco.GetDictionaryValue("Today Trade")') {
+                baseUrl = '@Url.Action("GetOTCLatestTrade", "BondSukuk")';
+            }
+
+            var url = baseUrl + '?isCorp=' + isCorp + '&isGov=' + isGov + '';
+
+            if($.fn.DataTable.isDataTable('#ltrTableReporting')){
+                $('#ltrTableReporting').DataTable().ajax.url(url).load();
+            }else {
+                $('#ltrTableReporting').dataTable({
+                    'ajax': {
+                        'url': url,
+                    },
+                    'filter': false,
+                    'sort': false,
+                    'serverSide': true,
+                    'paging': true,
+                    'processing': true,
+                    'info': false,
+                    'deferRender': true,
+                    'columns': [
+                        { 'data': 'BondId' },
+                        { 'data': 'BondId' },
+                        { 'data': 'Rating' },
+                        { 'data': 'Coupon' },
+                        { 'data': 'TTM' },
+                        { 'data': 'MatureDate' },
+                        { 'data': 'Price' },
+                        { 'data': 'Yield' },
+                        { 'data': 'Volume' },
+                        { 'data': 'Value' },
+                        { 'data': 'TradeDate' },
+                        { 'data': 'SettleDate' },
+                        { 'data': 'ConfirmDate' },
+                        { 'data': 'PriceSecondLeg' },
+                        { 'data': 'Term' },
+                        { 'data': 'TransactionType' }
+                    ],
+                    'columnDefs': [
+                        {
+                            'targets': [3,4,6,7,8,9],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-right');
+                            },
+                            'render' : function ( data, type, row, meta ) {
+                                return data !== null ? data.toLocaleString(currentLang) : data;
+                            }
+                        },
+                        {
+                            'targets': [5,10,11],
+                            'render' : function ( data, type, row, meta ) {
+                                var tradeDate = data;
+                                if (data) {
+                                    tradeDate = moment(data).locale(currentLang).format('DD MMM YYYY');
+                                }
+                                return tradeDate;
+                            }
+                        },
+                        {
+                            'targets': 12,
+                            'render' : function ( data, type, row, meta ) {
+                                var tradeTime = moment(data).locale(currentLang).format('h:mm:ss a');
+
+                                if (currentLang === 'id-id') {
+                                    tradeTime = moment(data).format('HH:mm:ss');
+                                }
+                                return tradeTime;
+                            }
+                        }
+                    ],
+                    "rowCallback": function (row, data, iDisplayIndex) {
+                        var info = this.api().page.info();
+                        var page = info.page;
+                        var length = info.length;
+                        var index = (page * length + (iDisplayIndex + 1));
+                        $('td:eq(0)', row).html(index);
+                    },
+                });
+            }
+        }
+
+        function addTransactionReportSummaryEvent(){
+            $('input[name="trsRb"]').on('click', function(e) {
+                getTransactionReportSummary();
+            });
+
+            $('.trsToday').on('click', function(e) {
+                e.preventDefault();
+                $('.trsToday').removeClass('is-active');
+                $(this).addClass('is-active');
+                getTransactionReportSummary();
+            });
+        }
+
+        function getTransactionReportSummary(){
+            var isGov = $('input[name="trsRb"]:checked').val() == 'gov';
+            var isCorp = $('input[name="trsRb"]:checked').val() == 'corp';
+
+            var baseUrl = '@Url.Action("GetOTCSummaryReporting", "BondSukuk")' + '?isCorp=' + isCorp + '&isGov=' + isGov;
+
+            if ($('.trsToday.is-active').text() === '@Umbraco.GetDictionaryValue("Today Trade")') {
+                baseUrl = '@Url.Action("GetOTCSummaryTrade", "BondSukuk")' + '?isCorp=' + isCorp + '&isGov=' + isGov;
+                $('#trsReportingContainer').hide();
+                $('#trsTradeContainer').show();
+                getTrsTrade(baseUrl);
+            }else {
+                $('#trsTradeContainer').hide();
+                $('#trsReportingContainer').show();
+                getTrsReporting(baseUrl);
+            }
+        }
+
+        function getTrsReporting(url){
+            if($.fn.DataTable.isDataTable('#trsTableReporting')){
+                $('#trsTableReporting').DataTable().ajax.url(url).load();
+            }else {
+                $('#trsTableReporting').dataTable({
+                    'ajax': {
+                        'url': url,
+                    },
+                    'filter': false,
+                    'sort': false,
+                    'serverSide': true,
+                    'paging': true,
+                    'processing': true,
+                    'info': false,
+                    'deferRender': true,
+                    'columns': [
+                        { 'data': 'BondId' },
+                        { 'data': 'BondId' },
+                        { 'data': 'BondName' },
+                        { 'data': 'Rating' },
+                        { 'data': 'TTM' },
+                        { 'data': 'MatureDate' },
+                        { 'data': 'Freq' },
+                        { 'data': 'Vol' },
+                        { 'data': 'Val' },
+                        { 'data': 'Description' },
+                        { 'data': 'PriceHigh' },
+                        { 'data': 'PriceLow' },
+                        { 'data': 'PriceLast' },
+                    ],
+                    'columnDefs': [
+                        {
+                            'targets': [4,6,7,8,9,10,11,12],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-right');
+                            },
+                            'render' : function ( data, type, row, meta ) {
+                                return data !== null ? data.toLocaleString(currentLang) : data;
+                            }
+                        },
+                        {
+                            'targets': [5],
+                            'render' : function ( data, type, row, meta ) {
+                                var tradeDate = data;
+                                if (data) {
+                                    tradeDate = moment(data).locale(currentLang).format('DD MMM YYYY');
+                                }
+                                return tradeDate;
+                            }
+                        }
+                    ],
+                    "rowCallback": function (row, data, iDisplayIndex) {
+                        var info = this.api().page.info();
+                        var page = info.page;
+                        var length = info.length;
+                        var index = (page * length + (iDisplayIndex + 1));
+                        $('td:eq(0)', row).html(index);
+                    },
+                });
+            }
+        }
+
+        function getTrsTrade(url){
+            if($.fn.DataTable.isDataTable('#trsTableTrade')){
+                $('#trsTableTrade').DataTable().ajax.url(url).load();
+            }else {
+                $('#trsTableTrade').dataTable({
+                    'ajax': {
+                        'url': url,
+                    },
+                    'filter': false,
+                    'sort': false,
+                    'serverSide': true,
+                    'paging': true,
+                    'processing': true,
+                    'info': false,
+                    'deferRender': true,
+                    'columns': [
+                        { 'data': 'BondId' },
+                        { 'data': 'BondId' },
+                        { 'data': 'Rating' },
+                        { 'data': 'Coupon' },
+                        { 'data': 'MatureDate' },
+                        { 'data': 'Freq' },
+                        { 'data': 'Vol' },
+                        { 'data': 'Val' },
+                        { 'data': 'PriceHigh' },
+                        { 'data': 'PriceHighPrev' },
+                        { 'data': 'PriceHighChange' },
+                        { 'data': 'PriceLow' },
+                        { 'data': 'PriceLowPrev' },
+                        { 'data': 'PriceLowChange' },
+                        { 'data': 'PriceLast' },
+                        { 'data': 'PriceLastPrev' },
+                        { 'data': 'PriceLastChange' },
+                        { 'data': 'TransactionType' },
+                    ],
+                    'columnDefs': [
+                        {
+                            'targets': [3,5,6,7,8,9,10,11,12,13,14,15,16],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-right');
+                            },
+                            'render' : function ( data, type, row, meta ) {
+                                return data !== null ? data.toLocaleString(currentLang) : data;
+                            }
+                        },
+                        {
+                            'targets': [4],
+                            'render' : function ( data, type, row, meta ) {
+                                var tradeDate = data;
+                                if (data) {
+                                    tradeDate = moment(data).locale(currentLang).format('DD MMM YYYY');
+                                }
+                                return tradeDate;
+                            }
+                        }
+                    ],
+                    "rowCallback": function (row, data, iDisplayIndex) {
+                        var info = this.api().page.info();
+                        var page = info.page;
+                        var length = info.length;
+                        var index = (page * length + (iDisplayIndex + 1));
+                        $('td:eq(0)', row).html(index);
+                    },
+                });
+            }
+        }
+
+        function addMostActiveEvent(){
+            $('input[name="bondTypeRb"]').on('click', function(e) {
+                getMostActiveBonds();
+            });
+
+            $('input[name="participantTypeRb"]').on('click', function(e) {
+                getMostActiveParticipant();
+            });
+
+            $('.mostActTab').on('click', function(e) {
+                e.preventDefault();
+                $('.mostActTab').removeClass('is-active');
+                $(this).addClass('is-active');
+
+                var selectedData = $(this).attr('data-lang');
+
+                if (selectedData === 'participant') {
+                    $('#participantsTypeContainer').show();
+                    $('#bondsTypeContainer').hide();
+
+                    $('#participantsContainer').show();
+
+                    getMostActiveParticipant();
+                }else {
+                    $('#bondsTypeContainer').show();
+                    $('#participantsTypeContainer').hide();
+
+                    $('#participantsContainer').hide();
+
+                    getMostActiveBonds();
+                }
+            });
+        }
+
+        function getMostActive(){
+            var selectedType = $('.mostActTab.is-active').attr('data-lang');
+            if (selectedType == 'bond') getMostActiveBonds();
+            else getMostActiveParticipant();
+        }
+
+        function getMostActiveBonds(){
+            var selectedType = $('input[name=bondTypeRb]:checked').val();
+            var isGov = selectedType == 'gov';
+            var isCorp = selectedType == 'corp';
+
+            var url = '@Url.Action("GetOTCMostActiveBonds", "BondSukuk")' + '?isCorp=' + isCorp + '&isGov=' + isGov;
+
+            if (isCorp){
+                $('#bondsGovernmentContainer').hide();
+                $('#participantsTypeContainer').hide();
+                $('#bondsCorporateContainer').show();
+                if($.fn.DataTable.isDataTable('#bondsCorporateTable')){
+                    $('#bondsCorporateTable').DataTable().ajax.url(url).load();
+                }else {
+                    $('#bondsCorporateTable').dataTable({
+                        'ajax': {
+                            'url': url,
+                        },
+                        'filter': false,
+                        'sort': false,
+                        'serverSide': true,
+                        'paging': true,
+                        'processing': true,
+                        'info': false,
+                        'deferRender': true,
+                        'columns': [
+                            { 'data': 'BondId' },
+                            { 'data': 'BondId' },
+                            { 'data': 'Coupon' },
+                            { 'data': 'Maturity' },
+                            { 'data': 'Freq' },
+                            { 'data': 'Vol' },
+                            { 'data': 'Val' },
+                            { 'data': 'PriceHigh' },
+                            { 'data': 'PriceHighPrev' },
+                            { 'data': 'PriceHighChange' },
+                            { 'data': 'PriceLow' },
+                            { 'data': 'PriceLowPrev' },
+                            { 'data': 'PriceLowChange' },
+                            { 'data': 'PriceLast' },
+                            { 'data': 'PriceLastPrev' },
+                            { 'data': 'PriceLastChange' },
+                            { 'data': 'TransactionType' },
+                        ],
+                        'columnDefs': [
+                            {
+                                'targets': [2,3,5,6,7,8,9,10,11,12,13,14,15],
+                                'createdCell' : function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-right');
+                                },
+                                'render' : function ( data, type, row, meta ) {
+                                    return data !== null ? data.toLocaleString(currentLang) : data;
+                                }
+                            },
+                            {
+                                'targets': [4],
+                                'render' : function ( data, type, row, meta ) {
+                                    var tradeDate = data;
+                                    if (data) {
+                                        tradeDate = moment(data).locale(currentLang).format('DD MMM YYYY');
+                                    }
+                                    return tradeDate;
+                                }
+                            }
+                        ],
+                        "rowCallback": function (row, data, iDisplayIndex) {
+                            var info = this.api().page.info();
+                            var page = info.page;
+                            var length = info.length;
+                            var index = (page * length + (iDisplayIndex + 1));
+                            $('td:eq(0)', row).html(index);
+                        },
+                    });
+                }
+            } else {
+                $('#bondsCorporateContainer').hide();
+                $('#participantsTypeContainer').hide();
+                $('#bondsGovernmentContainer').show();
+                if($.fn.DataTable.isDataTable('#bondsGovernmentTable')){
+                    $('#bondsGovernmentTable').DataTable().ajax.url(url).load();
+                }else {
+                    $('#bondsGovernmentTable').dataTable({
+                        'ajax': {
+                            'url': url,
+                        },
+                        'filter': false,
+                        'sort': false,
+                        'serverSide': true,
+                        'paging': true,
+                        'processing': true,
+                        'info': false,
+                        'deferRender': true,
+                        'columns': [
+                            { 'data': 'BondId' },
+                            { 'data': 'BondId' },
+                            { 'data': 'Coupon' },
+                            { 'data': 'Maturity' },
+                            { 'data': 'Freq' },
+                            { 'data': 'Vol' },
+                            { 'data': 'Val' },
+                            { 'data': 'PriceHigh' },
+                            { 'data': 'PriceHighPrev' },
+                            { 'data': 'PriceHighChange' },
+                            { 'data': 'PriceLow' },
+                            { 'data': 'PriceLowPrev' },
+                            { 'data': 'PriceLowChange' },
+                            { 'data': 'PriceLast' },
+                            { 'data': 'PriceLastPrev' },
+                            { 'data': 'PriceLastChange' },
+                            { 'data': 'TransactionType' },
+                        ],
+                        'columnDefs': [
+                            {
+                                'targets': [2,4,5,6,7,8,9,10,11,12,13,14,15,16],
+                                'createdCell' : function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-right');
+                                },
+                                'render' : function ( data, type, row, meta ) {
+                                    return data !== null ? data.toLocaleString(currentLang) : data;
+                                }
+                            },
+                            {
+                                'targets': [3],
+                                'render' : function ( data, type, row, meta ) {
+                                    var tradeDate = data;
+                                    if (data) {
+                                        tradeDate = moment(data).locale(currentLang).format('DD MMM YYYY');
+                                    }
+                                    return tradeDate;
+                                }
+                            }
+                        ],
+                        "rowCallback": function (row, data, iDisplayIndex) {
+                            var info = this.api().page.info();
+                            var page = info.page;
+                            var length = info.length;
+                            var index = (page * length + (iDisplayIndex + 1));
+                            $('td:eq(0)', row).html(index);
+                        },
+                    });
+                }
+            }
+        }
+
+        function getMostActiveParticipant(){
+            var selectedType = $('input[name=participantTypeRb]:checked').val();
+            var isBank = selectedType == 'bank';
+            var isSecurities = selectedType == 'securities';
+            var isCustodian = selectedType == 'custodian';
+
+            $('#bondsCorporateContainer').hide();
+            $('#bondsGovernmentContainer').hide();
+            $('#participantsTypeContainer').show();
+
+            getParticipantsCorp(isBank, isSecurities, isCustodian);
+            getParticipantsGov(isBank, isSecurities, isCustodian);
+        }
+
+        function getParticipantsCorp(isBank, isSecurities, isCustodian) {
+            var url = '@Url.Action("GetOTCMostActiveParticipantsCorp", "BondSukuk")' +
+            '?isBank=' + isBank +
+            '&isSecurities=' + isSecurities +
+            '&isCustodian=' + isCustodian;
+
+            if($.fn.DataTable.isDataTable('#participantsCorporateTable')){
+                $('#participantsCorporateTable').DataTable().ajax.url(url).load();
+            }else {
+                $('#participantsCorporateTable').dataTable({
+                    'ajax': {
+                        'url': url,
+                    },
+                    'filter': false,
+                    'sort': false,
+                    'serverSide': true,
+                    'paging': true,
+                    'processing': true,
+                    'info': false,
+                    'deferRender': true,
+                    'columns': [
+                        { 'data': 'FirmId' },
+                        { 'data': 'FirmId' },
+                        { 'data': 'FirmName' },
+                        { 'data': 'Freq' },
+                        { 'data': 'Vol' },
+                        { 'data': 'Val' },
+                    ],
+                    'columnDefs': [
+                        {
+                            'targets': [3,4,5],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-right');
+                            },
+                            'render' : function ( data, type, row, meta ) {
+                                return data !== null ? data.toLocaleString(currentLang) : data;
+                            }
+                        }
+                    ],
+                    "rowCallback": function (row, data, iDisplayIndex) {
+                        var info = this.api().page.info();
+                        var page = info.page;
+                        var length = info.length;
+                        var index = (page * length + (iDisplayIndex + 1));
+                        $('td:eq(0)', row).html(index);
+                    },
+                });
+            }
+        }
+
+        function getParticipantsGov(isBank, isSecurities, isCustodian) {
+            var url = '@Url.Action("GetOTCMostActiveParticipantsGov", "BondSukuk")' +
+            '?isBank=' + isBank +
+            '&isSecurities=' + isSecurities +
+            '&isCustodian=' + isCustodian;
+
+            if($.fn.DataTable.isDataTable('#participantsGovernmentTable')){
+                $('#participantsGovernmentTable').DataTable().ajax.url(url).load();
+            }else {
+                $('#participantsGovernmentTable').dataTable({
+                    'ajax': {
+                        'url': url,
+                    },
+                    'filter': false,
+                    'sort': false,
+                    'serverSide': true,
+                    'paging': true,
+                    'processing': true,
+                    'info': false,
+                    'deferRender': true,
+                    'columns': [
+                        { 'data': 'FirmId' },
+                        { 'data': 'FirmId' },
+                        { 'data': 'FirmName' },
+                        { 'data': 'Freq' },
+                        { 'data': 'Vol' },
+                        { 'data': 'Val' },
+                    ],
+                    'columnDefs': [
+                        {
+                            'targets': [3,4,5],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-right');
+                            },
+                            'render' : function ( data, type, row, meta ) {
+                                return data !== null ? data.toLocaleString(currentLang) : data;
+                            }
+                        }
+                    ],
+                    "rowCallback": function (row, data, iDisplayIndex) {
+                        var info = this.api().page.info();
+                        var page = info.page;
+                        var length = info.length;
+                        var index = (page * length + (iDisplayIndex + 1));
+                        $('td:eq(0)', row).html(index);
+                    },
+                });
+            }
+        }
+
+        
+
+        function getCancelledReport() {
+            if($.fn.DataTable.isDataTable('#cancelledReportTable')){
+                $('#cancelledReportTable').DataTable().ajax.url('@Url.Action("GetCancelled", "BondSukuk")').load();
+            }else {
+                $('#cancelledReportTable').dataTable({
+                    'ajax': {
+                        'url': '@Url.Action("GetCancelled", "BondSukuk")',
+                    },
+                    'filter': false,
+                    'sort': false,
+                    'serverSide': true,
+                    'processing': true,
+                    'info': false,
+                    'deferRender': true,
+                    'columns': [
+                        { 'data': 'NOMOR' },
+                        { 'data': 'BONDID' },
+                        { 'data': 'BONDNAME' },
+                        { 'data': 'PRICE' },
+                        { 'data': 'LAST_YIELD' },
+                        { 'data': 'LAST_VOLUME' },
+                        { 'data': 'LAST_VALUE' },
+                        { 'data': 'LAST_RATING' },
+                        { 'data': 'LAST_COUPON' },
+                        { 'data': 'TTM' },
+                        { 'data': 'MATURITY' },
+                        { 'data': 'LAST_TRADEDATE' },
+                        { 'data': 'LAST_SETTLE' },
+                        { 'data': 'PRICE_2ND_LEG' },
+                        { 'data': 'TERM' },
+                        { 'data': 'TRANSTYPE' },
+                    ],
+                    'columnDefs': [
+                        {
+                            'targets': [3,4,5,6,8,9,13],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-right');
+                            },
+                            'render' : function ( data, type, row, meta ) {
+                                return data !== null ? data.toLocaleString(currentLang) : data;
+                            }
+                        },
+                        {
+                            'targets': [10,11,12],
+                            'render' : function ( data, type, row, meta ) {
+                                var tradeDate = data;
+                                if (data) {
+                                    tradeDate = moment(data).locale(currentLang).format('DD MMM YYYY');
+                                }
+                                return tradeDate;
+                            }
+                        }
+                    ],
+                });
+            }
+        }
+
+    </script>
+}

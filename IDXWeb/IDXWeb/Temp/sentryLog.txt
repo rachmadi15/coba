@@ -1,0 +1,21 @@
+Try To Sent to sentry
+DSN Key : https://abb9dd53f7974265aed32180d4ec436e@o58477.ingest.sentry.io/5304233
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Environment : Local
+Enabled protocols:   Tls, Tls11, Tls12
+Available protocols: 
+0
+48
+192
+768
+3072
+12288
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+In test client change!
+Sentry Uri: https://o58477.ingest.sentry.io/api/5304233/store/
+Port: 443
+Public Key: abb9dd53f7974265aed32180d4ec436e
+Private Key: 
+Project ID: 5304233
+Success Send To Sentry
+ERROR

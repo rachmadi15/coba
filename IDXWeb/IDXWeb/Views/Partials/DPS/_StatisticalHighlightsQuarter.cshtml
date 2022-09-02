@@ -1,0 +1,43 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+<thead class="thead-plain">
+<tr>
+    <th rowspan="2"></th>
+    <th class="" rowspan="2" id="header-1"></th>
+    <th class="" rowspan="2" id="header-2"></th>
+    <th class="" colspan="4" id="header-3"></th>
+</tr>
+<tr>
+    <th class="">Q1</th>
+    <th class="">Q2</th>
+    <th class="">Q3</th>
+    <th class="">Q4</th>
+</tr>
+</thead>
+
+<script type="text/javascript">
+    function setDataTableHeader() {
+        months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        filteredType = $('#filteredType').val();
+        year = $('#filterYear').val();
+        month = $('#filterMonth').val();
+        quarter = $('#filterQuarter').val();
+        if (filteredType == "monthly") {
+            quarter = Math.floor((parseInt(month) + 2) / 3)
+        }
+        month = quarter * 3;
+        header1 = year-1;
+        header2 = "Q1-Q"+quarter+" "+year;
+        if (quarter == 1) {
+            header2 = "Q1 "+year
+        }
+        if (quarter == 4) {
+            header2 = year
+        }
+        header3 = year;
+
+        document.getElementById("header-1").innerHTML = header1;
+        document.getElementById("header-2").innerHTML = header2;
+        document.getElementById("header-3").innerHTML = header3;
+
+    }
+</script>

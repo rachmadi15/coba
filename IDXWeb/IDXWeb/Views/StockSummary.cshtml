@@ -1,0 +1,520 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+}
+
+@section Styles {
+    <link href="@Url.Content("/assets/css/vendor/datatables.min.css")" rel="stylesheet" type="text/css" />
+}
+
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1) {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages) {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (page.DocumentTypeId != 1237) {
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>
+
+                }
+                else {
+                    <li class="@cls"><a href="" class="disable"><span>@page.Name</span></li>
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+        </div>
+        <div action="" class="">
+            <div class="block flex v-center">
+                <span class="form-label-announcement">@Umbraco.GetDictionaryValue("date")</span>
+                <div class="calendar-box width-block">
+                    <input id="dateFilter" type="date" class="form-input form-input--block date-picker-js">
+                </div>
+            </div>
+        </div>
+        <div class="content-tab-container block">
+            <div class="content-tab-item">
+                <a href="#" class="content-tab-anchor is-active columnFilter">Default</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#" class="content-tab-anchor columnFilter">@Umbraco.GetDictionaryValue("All")</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#" class="content-tab-anchor columnFilter">@Umbraco.GetDictionaryValue("clear")</a>
+            </div>
+        </div>
+        <div class="filter-checkbox-container block">
+            <div class="filter-checkbox-item">
+                <input type="checkbox" class="form-input-custom-bullet" id="stockCode" name="summaryFilter" data-column="1" checked>
+                <label for="stockCode">@Umbraco.GetDictionaryValue("stock code")</label>
+            </div>
+            <div class="filter-checkbox-item">
+                <input type="checkbox" class="form-input-custom-bullet" id="stockName" name="summaryFilter" data-column="2" checked>
+                <label for="stockName">@Umbraco.GetDictionaryValue("stock name")</label>
+            </div>
+            <div class="filter-checkbox-item">
+                <input type="checkbox" class="form-input-custom-bullet" id="remarks" name="summaryFilter" data-column="3">
+                <label for="remarks">Remarks</label>
+            </div>
+            <div class="filter-checkbox-item">
+                <input type="checkbox" class="form-input-custom-bullet" id="previous" name="summaryFilter" data-column="4">
+                <label for="previous">@Umbraco.GetDictionaryValue("previous")</label>
+            </div>
+            <div class="filter-checkbox-item">
+                <input type="checkbox" class="form-input-custom-bullet" id="openPrice" name="summaryFilter" data-column="5">
+                <label for="openPrice">Open Price</label>
+            </div>
+            <div class="filter-checkbox-item">
+                <input type="checkbox" class="form-input-custom-bullet" id="firstTrade" name="summaryFilter" data-column="6">
+                <label for="firstTrade">First Trade</label>
+            </div>
+            <div class="filter-checkbox-item">
+                <input type="checkbox" class="form-input-custom-bullet" id="high" name="summaryFilter" data-column="7" checked>
+                <label for="high">@Umbraco.GetDictionaryValue("high")</label>
+            </div>
+            <div class="filter-checkbox-item">
+                <input type="checkbox" class="form-input-custom-bullet" id="low" name="summaryFilter" data-column="8" checked>
+                <label for="low">@Umbraco.GetDictionaryValue("low")</label>
+            </div>
+            <div class="filter-checkbox-item">
+                <input type="checkbox" class="form-input-custom-bullet" id="close" name="summaryFilter" data-column="9" checked>
+                <label for="close">@Umbraco.GetDictionaryValue("close")</label>
+            </div>
+            <div class="filter-checkbox-item">
+                <input type="checkbox" class="form-input-custom-bullet" id="change" name="summaryFilter" data-column="10" checked>
+                <label for="change">@Umbraco.GetDictionaryValue("change")</label>
+            </div>
+            <div class="filter-checkbox-item">
+                <input type="checkbox" class="form-input-custom-bullet" id="volume" name="summaryFilter" data-column="11" checked>
+                <label for="volume">Volume</label>
+            </div>
+            <div class="filter-checkbox-item">
+                <input type="checkbox" class="form-input-custom-bullet" id="value" name="summaryFilter" data-column="12" checked>
+                <label for="value">@Umbraco.GetDictionaryValue("value")</label>
+            </div>
+            <div class="filter-checkbox-item">
+                <input type="checkbox" class="form-input-custom-bullet" id="frequency" name="summaryFilter" data-column="13" checked>
+                <label for="frequency">@Umbraco.GetDictionaryValue("frequency")</label>
+            </div>
+            <div class="filter-checkbox-item">
+                <input type="checkbox" class="form-input-custom-bullet" id="indexIndividual" name="summaryFilter" data-column="14">
+                <label for="indexIndividual">Index Individual</label>
+            </div>
+            <div class="filter-checkbox-item">
+                <input type="checkbox" class="form-input-custom-bullet" id="listedShare" name="summaryFilter" data-column="15">
+                <label for="listedShare">Listed Share</label>
+            </div>
+            <div class="filter-checkbox-item">
+                <input type="checkbox" class="form-input-custom-bullet" id="offer" name="summaryFilter" data-column="16">
+                <label for="offer">Offer</label>
+            </div>
+            <div class="filter-checkbox-item">
+                <input type="checkbox" class="form-input-custom-bullet" id="offerVolume" name="summaryFilter" data-column="17">
+                <label for="offerVolume">Offer Volume</label>
+            </div>
+            <div class="filter-checkbox-item">
+                <input type="checkbox" class="form-input-custom-bullet" id="bid" name="summaryFilter" data-column="18">
+                <label for="bid">Bid</label>
+            </div>
+            <div class="filter-checkbox-item">
+                <input type="checkbox" class="form-input-custom-bullet" id="bidVolume" name="summaryFilter" data-column="19">
+                <label for="bidVolume">Bid Volume</label>
+            </div>
+            <div class="filter-checkbox-item">
+                <input type="checkbox" class="form-input-custom-bullet" id="lastTradingDate" name="summaryFilter" data-column="20">
+                <label for="lastTradingDate">Last Trading Date</label>
+            </div>
+            <div class="filter-checkbox-item">
+                <input type="checkbox" class="form-input-custom-bullet" id="tradeableShare" name="summaryFilter" data-column="21">
+                <label for="tradeableShare">Tradeable Share</label>
+            </div>
+            <div class="filter-checkbox-item">
+                <input type="checkbox" class="form-input-custom-bullet" id="weightForIndex" name="summaryFilter" data-column="22">
+                <label for="weightForIndex">Weight For Index</label>
+            </div>
+            <div class="filter-checkbox-item">
+                <input type="checkbox" class="form-input-custom-bullet" id="foreignSell" name="summaryFilter" data-column="23">
+                <label for="foreignSell">Foreign Sell</label>
+            </div>
+            <div class="filter-checkbox-item">
+                <input type="checkbox" class="form-input-custom-bullet" id="foreignBuy" name="summaryFilter" data-column="24">
+                <label for="foreignBuy">Foreign Buy</label>
+            </div>
+            <div class="filter-checkbox-item">
+                <input type="checkbox" class="form-input-custom-bullet" id="nonRegularVolume" name="summaryFilter" data-column="25">
+                <label for="nonRegularVolume">Non Regular Volume</label>
+            </div>
+            <div class="filter-checkbox-item">
+                <input type="checkbox" class="form-input-custom-bullet" id="nonRegularValue" name="summaryFilter" data-column="26">
+                <label for="nonRegularValue">Non Regular Value</label>
+            </div>
+            <div class="filter-checkbox-item">
+                <input type="checkbox" class="form-input-custom-bullet" id="nonRegularFreq" name="summaryFilter" data-column="27">
+                <label for="nonRegularFreq">Non Regular Frequency  </label>
+            </div>
+        </div>
+        <div class="block-double">
+            <button class="btn btn-primary" onclick="getStockSummary()">@Umbraco.GetDictionaryValue("search")</button>
+        </div>
+    </div>
+    <div class="main-content content-push">
+        <div class="container">
+            <div class="block overflow-auto">
+                <table id="stockTable" class="table table--zebra table-content-page table-thead-nowrap">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>@Umbraco.GetDictionaryValue("stock code")</th>
+                            <th>@Umbraco.GetDictionaryValue("stock name")</th>
+                            <th>Remarks</th>
+                            <th>@Umbraco.GetDictionaryValue("previous")</th>
+                            <th>Open Price</th>
+                            <th>First Trade</th>
+                            <th>@Umbraco.GetDictionaryValue("high")</th>
+                            <th>@Umbraco.GetDictionaryValue("low")</th>
+                            <th>@Umbraco.GetDictionaryValue("close")</th>
+                            <th>@Umbraco.GetDictionaryValue("change")</th>
+                            <th>Volume</th>
+                            <th>@Umbraco.GetDictionaryValue("value")</th>
+                            <th>@Umbraco.GetDictionaryValue("frequency")</th>
+                            <th>Index Individual</th>
+                            <th>Listed Shares</th>
+                            <th>Offer</th>
+                            <th>Offer Volume</th>
+                            <th>Bid</th>
+                            <th>Bid Volume</th>
+                            <th>Last Trading Date</th>
+                            <th>Tradeble Shares</th>
+                            <th>Weight for Index</th>
+                            <th>Foreign Sell</th>
+                            <th>Foreign Buy</th>
+                            <th>Non Regular Volume</th>
+                            <th>Non Regular Value</th>
+                            <th>Non Regular Frequency</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div hidden="true">
+                <table id="downloadStockTable" class="table table--zebra table-content-page table-thead-nowrap">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>@Umbraco.GetDictionaryValue("stock code")</th>
+                            <th>@Umbraco.GetDictionaryValue("stock name")</th>
+                            <th>Remarks</th>
+                            <th>@Umbraco.GetDictionaryValue("previous")</th>
+                            <th>Open Price</th>
+                            <th>First Trade</th>
+                            <th>@Umbraco.GetDictionaryValue("high")</th>
+                            <th>@Umbraco.GetDictionaryValue("low")</th>
+                            <th>@Umbraco.GetDictionaryValue("close")</th>
+                            <th>@Umbraco.GetDictionaryValue("change")</th>
+                            <th>Volume</th>
+                            <th>@Umbraco.GetDictionaryValue("value")</th>
+                            <th>@Umbraco.GetDictionaryValue("frequency")</th>
+                            <th>Index Individual</th>
+                            <th>Listed Shares</th>
+                            <th>Offer</th>
+                            <th>Offer Volume</th>
+                            <th>Bid</th>
+                            <th>Bid Volume</th>
+                            <th>Last Trading Date</th>
+                            <th>Tradeble Shares</th>
+                            <th>Weight for Index</th>
+                            <th>Foreign Sell</th>
+                            <th>Foreign Buy</th>
+                            <th>Non Regular Volume</th>
+                            <th>Non Regular Value</th>
+                            <th>Non Regular Frequency</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-right block">
+                <a onclick="downloadSummary()" href="" class="btn btn-primary --rounded"><span class="fa fa-download"></span> @Umbraco.GetDictionaryValue("download")</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+@section Scripts{
+    <script type="text/javascript" src="/assets/js/vendor/datatables.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            /*$('#stockTable').dataTable({
+                "processing": true, // for show progress bar  
+                "serverSide": true, // for process server side  
+                "filter": true, // this is for disable filter (search box)  
+                "orderMulti": false, // for disable multiple column at once  
+                "pageLength": 5,
+
+                "ajax": {
+                    "url": "/Demo/LoadData",
+                    "type": "POST",
+                    "datatype": "json"
+                },
+
+            });*/
+
+            $('#dateFilter').val(moment().add(-1, 'days').format('DD-MM-YYYY'));
+            
+            if(currentLang != "en-us"){
+                jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+                    "formatted-num-pre": function ( a ) {
+                        a = (a === "-" || a === "") ? 0 : a.replace( /[^\d\-\,]/g, "" );
+                        return parseFloat( a );
+                    },
+                 
+                    "formatted-num-asc": function ( a, b ) {
+                        return a - b;
+                    },
+                 
+                    "formatted-num-desc": function ( a, b ) {
+                        return b - a;
+                    }
+                } );
+            }else{
+                jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+                    "formatted-num-pre": function ( a ) {
+                        a = (a === "-" || a === "") ? 0 : a.replace( /[^\d\-\.]/g, "" );
+                        return parseFloat( a );
+                    },
+                 
+                    "formatted-num-asc": function ( a, b ) {
+                        return a - b;
+                    },
+                 
+                    "formatted-num-desc": function ( a, b ) {
+                        return b - a;
+                    }
+                } );
+            }
+
+            var defaultFiltersId = $('input:checkbox:checked').map(function() {
+                return this.id;
+            });
+
+            $('.columnFilter').on('click', function(e) {
+                e.preventDefault();
+                $('.columnFilter').removeClass('is-active');
+                $(this).addClass('is-active');
+
+                var selectedColumn = $(this).text();
+                if (selectedColumn === '@Umbraco.GetDictionaryValue("All")'){
+                    $('input[type="checkbox"]').attr('checked', true);
+                } else if (selectedColumn === "Clear"){
+                    $('input[type="checkbox"]').attr('checked', false);
+                } else {
+                    $('input[type="checkbox"]').attr('checked', false);
+                    for (var i = 0; i < defaultFiltersId.length; i++) {
+                        $('#' + defaultFiltersId[i]).attr('checked', true);
+                    }
+                }
+
+                $('input[type="checkbox"]').each(function (){
+                    var dataColumn = $(this).attr('data-column');
+                    var column = $('#stockTable').DataTable().column(dataColumn);
+
+                    column.visible($(this).attr('checked') !== undefined);
+                });
+                $('#stockTable').DataTable().draw();
+            });
+
+            getStockSummary();
+        });
+
+        function getStockSummary(){
+            var dateFilter = $('#dateFilter').val();
+            if (dateFilter !== ""){
+                dateFilter = moment(dateFilter, "DD-MM-YYYY").format('YYYYMMDD');
+            }
+
+            if($.fn.DataTable.isDataTable('#stockTable')){
+                var datatable = $('#stockTable').DataTable();
+                datatable.clear();
+                var url = '@Url.Action("GetStockSummary", "TradingSummary")' + '?Length=10000&date=' + dateFilter;
+                datatable.ajax.url(url).load();
+                datatable.draw();
+            } else {
+                var table = $('#stockTable').dataTable({
+                    'ajax': {
+                        'url': '@Url.Action("GetStockSummary", "TradingSummary")?Length=10000',
+                    },
+                    'filter': true,
+                    'sort': true,
+                    'serverSide': false,
+                    'processing': true,
+                    'paging': true,
+                    'deferRender': true,
+                    'columns': [
+                        { 'data': 'StockCode' },
+                        { 'data': 'StockCode', "visible": $('#stockCode:checked').val() != undefined },
+                        { 'data': 'StockName', "visible": $('#stockName:checked').val() != undefined },
+                        { 'data': 'Remarks', "visible": $('#remarks:checked').val() != undefined },
+                        { 'data': 'Previous', "visible": $('#previous:checked').val() != undefined },
+                        { 'data': 'OpenPrice', "visible": $('#openPrice:checked').val() != undefined },
+                        { 'data': 'FirstTrade', "visible": $('#firstTrade:checked').val() != undefined },
+                        { 'data': 'High', "visible": $('#high:checked').val() != undefined },
+                        { 'data': 'Low', "visible": $('#low:checked').val() != undefined },
+                        { 'data': 'Close', "visible": $('#close:checked').val() != undefined },
+                        { 'data': 'Change', "visible": $('#change:checked').val() != undefined },
+                        { 'data': 'Volume', "visible": $('#volume:checked').val() != undefined },
+                        { 'data': 'Value', "visible": $('#value:checked').val() != undefined },
+                        { 'data': 'Frequency', "visible": $('#frequency:checked').val() != undefined },
+                        { 'data': 'IndexIndividual', "visible": $('#indexIndividual:checked').val() != undefined },
+                        { 'data': 'ListedShares', "visible": $('#listedShare:checked').val() != undefined },
+                        { 'data': 'Offer', "visible": $('#offer:checked').val() != undefined },
+                        { 'data': 'OfferVolume', "visible": $('#offerVolume:checked').val() != undefined },
+                        { 'data': 'Bid', "visible": $('#bid:checked').val() != undefined },
+                        { 'data': 'BidVolume', "visible": $('#bidVolume:checked').val() != undefined },
+                        {
+                            'data': 'Date',
+                            "visible": $('#lastTradingDate:checked').val() != undefined,
+                            render: function( data, type, full, meta ) {
+                                return moment(data, "YYYY-MM-DDT00:00:00").format('DD MMM YYYY');
+                            }
+                        },
+                        { 'data': 'TradebleShares', "visible": $('#tradeableShare:checked').val() != undefined },
+                        { 'data': 'WeightForIndex', "visible": $('#weightForIndex:checked').val() != undefined },
+                        { 'data': 'ForeignSell', "visible": $('#foreignSell:checked').val() != undefined },
+                        { 'data': 'ForeignBuy', "visible": $('#foreignBuy:checked').val() != undefined },
+                        { 'data': 'NonRegularVolume', "visible": $('#nonRegularVolume:checked').val() != undefined },
+                        { 'data': 'NonRegularValue', "visible": $('#nonRegularValue:checked').val() != undefined },
+                        { 'data': 'NonRegularFrequency', "visible": $('#nonRegularFreq:checked').val() != undefined },
+                    ],
+                    'columnDefs': [
+                        {
+                            'targets': [3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,21,22,23,24,25,26,27],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-right');
+                            },
+                            'render' : function ( data, type, row, meta ) {
+                                return data.toLocaleString(currentLang);
+                            },
+                            'type' : 'formatted-num'
+                        },
+                        {
+                            'targets': [0,1,2],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-center');
+                            }
+                        }
+                    ],
+                    "rowCallback": function (row, data, iDisplayIndex) {
+                        var info = this.api().page.info();
+                        var page = info.page;
+                        var length = info.length;
+                        var index = (page * length + (iDisplayIndex + 1));
+                        $('td:eq(0)', row).html(index);
+                    },
+                });
+
+                $('input[type="checkbox"]').on( 'click', function (e) {
+                    var dataColumn = $(this).attr('data-column');
+                    var column = $('#stockTable').DataTable().column(dataColumn);
+
+                    column.visible( ! column.visible() );
+                } );
+            }
+        }
+
+        function downloadSummary(){
+            var dateFilter = $('#dateFilter').val();
+            if (dateFilter !== ""){
+                dateFilter = moment(dateFilter, "DD-MM-YYYY").format('YYYYMMDD');
+            }
+
+            var isDatatable = $.fn.DataTable.isDataTable('#downloadStockTable');
+            // if (!isDatatable) {
+            //     dateFilter = ''
+            // }
+
+            $.get('@Url.Action("DownloadStockSummary", "TradingSummary")?date=' + dateFilter, function (response){
+                if(!isDatatable){
+                    $('#downloadStockTable').DataTable({
+                        'paging': true,
+                        'data': response.Results,
+                        'buttons': [{
+                            'extend': 'excelHtml5',
+                            'title': function () {
+                                return '@Umbraco.TypedContent(CurrentPage.Id).PageTitle' + '-' + moment($('#dateFilter').val(), "DD-MM-YYYY").format('YYYYMMDD');
+                            },
+                            'exportOptions': {
+                                format: {
+                                    body: function ( data, row, column, node ) {
+                                        return data;
+                                    }
+                                }
+                            }
+                        }],
+                        'columns': [
+                            { 'data': 'No' },
+                            { 'data': 'StockCode' },
+                            { 'data': 'StockName' },
+                            { 'data': 'Remarks' },
+                            { 'data': 'Previous' },
+                            { 'data': 'OpenPrice' },
+                            { 'data': 'FirstTrade' },
+                            { 'data': 'High' },
+                            { 'data': 'Low' },
+                            { 'data': 'Close' },
+                            { 'data': 'Change' },
+                            { 'data': 'Volume' },
+                            { 'data': 'Value' },
+                            { 'data': 'Frequency' },
+                            { 'data': 'IndexIndividual' },
+                            { 'data': 'ListedShares' },
+                            { 'data': 'Offer' },
+                            { 'data': 'OfferVolume' },
+                            { 'data': 'Bid' },
+                            { 'data': 'BidVolume' },
+                            {
+                                'data': 'Date',
+                                render: function( data, type, full, meta ) {
+                                    return moment(data, "YYYY-MM-DDT00:00:00").format('DD MMM YYYY');
+                                }
+                            },
+                            { 'data': 'TradebleShares' },
+                            { 'data': 'WeightForIndex' },
+                            { 'data': 'ForeignSell' },
+                            { 'data': 'ForeignBuy' },
+                            { 'data': 'NonRegularVolume' },
+                            { 'data': 'NonRegularValue' },
+                            { 'data': 'NonRegularFrequency' },
+                        ],
+                        "rowCallback": function (row, data, iDisplayIndex) {
+                            var info = this.api().page.info();
+                            var page = info.page;
+                            var length = info.length;
+                            var index = (page * length + (iDisplayIndex + 1));
+                            $('td:eq(0)', row).html(index);
+                        },
+                    });
+                } else {
+                    var datatable = $('#downloadStockTable').DataTable();
+                    datatable.clear();
+                    datatable.rows.add(response.Results).draw();
+                }
+
+                $('#downloadStockTable').DataTable().buttons().trigger();
+            });
+        }
+
+    </script>
+}

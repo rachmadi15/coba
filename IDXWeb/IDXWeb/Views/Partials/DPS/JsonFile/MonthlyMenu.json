@@ -1,0 +1,400 @@
+[
+  {
+    "id": "Laporan1",
+    "name": "Highlights",
+    "links": [
+      {
+        "url": "composite-stock-price-index",
+        "name": "Composite Stock Price Index & Stock Trading Volume"
+      },
+      {
+        "url": "idx-indices-highlight",
+        "name": "IDX Indices Highlights"
+      },
+      {
+        "url": "statistical-highlight",
+        "name": "Statistical Highlights"
+      }
+    ]
+  },
+  {
+    "id": "Laporan2",
+    "name": "Stock Price Index",
+    "links": [
+      {
+        "url": "daily-idx-indices",
+        "name": "Daily IDX Indices"
+      },
+      {
+        "url": "jci-sectoral-movement",
+        "name": "Jakarta Composite Index & Sectoral Indices Movement"
+      },
+      {
+        "url": "idx-indices-12m-chart",
+        "name": "IDX Indices (12 Month Chart)"
+      }
+    ]
+  },
+  {
+    "id": "Laporan3",
+    "name": "Equity Trading by Investor",
+    "links": [
+      {
+        "url": "table-daily-trading-by-investor-type",
+        "name": "Table Daily Trading by Type of Investor"
+      },
+      {
+        "url": "daily-trading-chart-by-investor-type",
+        "name": "Daily Trading by Type of Investor"
+      },
+      {
+        "url": "total-trading-by-investor-type",
+        "name": "Total Trading by Investor's Type and Net Purchase by Foreigners"
+      }
+    ]
+  },
+  {
+    "id": "Laporan4",
+    "name": "Equity Trading by Market",
+    "links": [
+      {
+        "url": "daily-stock-trading-by-market-type",
+        "name": "Daily Stock Trading by Type of Market"
+      },
+      {
+        "url": "trading-value-volume-by-market-type",
+        "name": "Trading Value and Volume by Market Type"
+      }
+    ]
+  },
+  {
+    "id": "Laporan5",
+    "name": "Equity Trading by Securities",
+    "links": [
+      {
+        "url": "daily-right-certificate-reit-etf",
+        "name": "Daily Rights Certificate, Warrant, ETF & REIT Trading"
+      }
+    ]
+  },
+  {
+    "id": "Laporan6",
+    "name": "Equity Trading by Industry",
+    "links": [
+      {
+        "url": "trading-summary-by-industry-classification",
+        "name": "Trading Summary by Industry Classification"
+      },
+      {
+        "url": "trading-value-by-industry",
+        "name": "Trading Value by Industry"
+      },
+      {
+        "url": "number-listed-shares-by-industry",
+        "name": "Number of Listed Shares by Industry"
+      }
+    ]
+  },
+  {
+    "id": "Laporan7",
+    "name": "Biggest Market Capitalization & Most Active Stocks",
+    "links": [
+      {
+        "url": "biggest-market-cap",
+        "name": "50 Biggest Market Capitalization"
+      },
+      {
+        "url": "most-active-stock-by-trading-volume",
+        "name": "20 Most Active Stocks by Trading Volume"
+      },
+      {
+        "url": "most-active-stock-by-trading-value",
+        "name": "20 Most Active Stocks by Trading Value"
+      },
+      {
+        "url": "most-active-stock-by-trading-frequency",
+        "name": "20 Most Active Stocks by Trading Frequency"
+      },
+      {
+        "url": "stock-gainer-and-loser",
+        "name": "20 Stocks Gainer and Loser"
+      }
+    ]
+  },
+  {
+    "id": "Laporan8",
+    "name": "Most Active Brokerage",
+    "links": [
+      {
+        "url": "most-active-brokerage-by-total-value",
+        "name": "20 Most Active Brokerage House in Total Value"
+      },
+      {
+        "url": "most-active-brokerage-by-total-frequency",
+        "name": "20 Most Active Brokerage House in Total Frequency"
+      }
+    ]
+  },
+  {
+    "id": "Laporan9",
+    "name": "Trading Summary",
+    "links": [
+      {
+        "url": "most-active-stock-by-trading-value-ytd",
+        "name": "20 Most Active Stock by Total Trading Value (YTD)"
+      },
+      {
+        "url": "most-active-brokerage-by-total-trading-value-ytd",
+        "name": "20 Most Active Brokerage House by Total Trading Value (YTD)"
+      },
+      {
+        "url": "table-of-stock-price",
+        "name": "Table of Stock Price"
+      },
+      {
+        "url": "table-of-stock-trading",
+        "name": "Table of Stock Trading"
+      },
+      {
+        "url": "table-of-trading-industry",
+        "name": "Table of Trading Industry"
+      },
+      {
+        "url": "warrant-trading",
+        "name": "Warrant Trading"
+      },
+      {
+        "url": "etf-trading",
+        "name": "ETF Trading"
+      },
+      {
+        "url": "dinfra-trading",
+        "name": "DINFRA Trading"
+      },
+      {
+        "url": "reit-trading",
+        "name": "REIT Trading"
+      },
+      {
+        "url": "futures-trading",
+        "name": "Futures Trading"
+      },
+      {
+        "url": "rights-trading",
+        "name": "Right Trading"
+      }
+    ]
+  },
+  {
+    "id": "Laporan10",
+    "name": "Financial Report and Ratio of Listed Companies",
+    "links": [
+      {
+        "url": "financial-data-ratio",
+        "name": "Financial Data & Ratio"
+      },
+      {
+        "url": "summary-financial-ratio-by-industry",
+        "name": "Summary Financial Ratio by Industry"
+      }
+    ]
+  },
+  {
+    "id": "Laporan11",
+    "name": "Corporate Action of Listed Companies",
+    "links": [
+      {
+        "url": "stock-new-listing",
+        "name": "Stock New Listing"
+      },
+      {
+        "url": "stock-split-reverse",
+        "name": "Stock Split & Reverse Stock"
+      },
+      {
+        "url": "additional-listed-shares",
+        "name": "Additional Listed Shares"
+      },
+      {
+        "url": "dividend-announcement",
+        "name": "Dividend Announcement"
+      }
+    ]
+  },
+  {
+    "id": "Laporan12",
+    "name": "IDX Members Activity",
+    "links": [
+      {
+        "url": "idx-member-stock-transaction",
+        "name": "IDX Members (Brokerage Firm) Stock Transaction"
+      },
+      {
+        "url": "idx-member-etf-transaction",
+        "name": "IDX Members (Brokerage Firm) ETF Transaction"
+      },
+      {
+        "url": "idx-member-warrant-transaction",
+        "name": "IDX Members (Brokerage Firm) Warrant Transaction"
+      },
+      {
+        "url": "idx-member-reit-transaction",
+        "name": "IDX Members (Brokerage Firm) REIT Transaction"
+      },
+      {
+        "url": "idx-member-right-transaction",
+        "name": "IDX Members (Brokerage Firm) Right Transaction"
+      }
+    ]
+  },
+  {
+    "id": "Laporan13",
+    "name": "IDX Trading Activities",
+    "links": [
+      {
+        "url": "indonesia-stock-exchange-activities",
+        "name": "Indonesia Stock Exchange Activities"
+      },
+      {
+        "url": "stock-option-activities",
+        "name": "Stock Options Activities"
+      },
+      {
+        "url": "etf-activities",
+        "name": "ETF Activities"
+      },
+      {
+        "url": "reit-activities",
+        "name": "REIT Activities"
+      },
+      {
+        "url": "futures-activity",
+        "name": "Futures Activities"
+      },
+      {
+        "url": "corp-bond-activities",
+        "name": "Corporate Bond Activities"
+      },
+      {
+        "url": "gov-bond-activities",
+        "name": "Government Bond Activities"
+      },
+      {
+        "url": "abs-activities",
+        "name": "Asset Backed Securities Activities"
+      },
+      {
+        "url": "average-daily-trading-value-all-instrument-activities",
+        "name": "Average Daily Trading Value All Instrument Activities"
+      }
+    ]
+  },
+  {
+    "id": "Laporan14",
+    "name": "Bond Listing & Trading Summaries",
+    "links": [
+      {
+        "url": "listing-summaries-trading-corp-bond",
+        "name": "Listing Summaries & Trading of Corporate Bond"
+      },
+      {
+        "url": "listing-summaries-trading-gov-bond",
+        "name": "Listing Summaries & Trading of Government Bond"
+      },
+      {
+        "url": "listing-summaries-trading-abs",
+        "name": "Listing Summaries & Trading of ABS"
+      }
+    ]
+  },
+  {
+    "id": "Laporan15",
+    "name": "Bond New Issues",
+    "links": [
+      {
+        "url": "new-issues-of-bonds-sukuk-abs-corporate-securities",
+        "name": "New Issues of Bonds, Sukuk & ABS - Corporate Securities"
+      },
+      {
+        "url": "new-issues-of-bond-sukuk-abs-governement-securities",
+        "name": "New Issues of Bonds, Sukuk & ABS - Government Securities"
+      }
+    ]
+  },
+  {
+    "id": "Laporan16",
+    "name": "Corporate Action of Bonds Market",
+    "links": [
+      {
+        "url": "corporate-action-of-bond-sukuk-and-abs-govermont-bond",
+        "name": "Corporate Action of Bonds, Sukuk, and ABS - Government Bonds"
+      },
+      {
+        "url": "corporate-action-of-bond-sukuk-and-abs-corporate-bond",
+        "name": "Corporate Action of Bonds, Sukuk, and ABS - Corporate Bonds"
+      }
+    ]
+  },
+  {
+    "id": "Laporan17",
+    "name": "List of Government Bond, Corporate Bond, Sukuk & ABS Issues",
+    "links": [
+      {
+        "url": "list-of-government-bonds",
+        "name": "List of Government Bonds"
+      },
+      {
+        "url": "list-summary-of-trading-government-bond",
+        "name": "List Summary of Trading Government Bonds"
+      },
+      {
+        "url": "corporate-bonds-sukuk-issues",
+        "name": "Corporate Bonds & Sukuk Issues"
+      },
+      {
+        "url": "summary-of-corporate-bonds-sukuk-by-industry",
+        "name": "Summary of Corporate Bonds & Sukuk by Industry"
+      },
+      {
+        "url": "financial-data-bond-issuer",
+        "name": "Financial Data of Bond Issuer"
+      },
+      {
+        "url": "list-of-asset-backed-securities",
+        "name": "List of Asset Backed Securities"
+      }
+    ]
+  },
+  {
+    "id": "Laporan18",
+    "name": "Bond Daily Trading Activity",
+    "links": [
+      {
+        "url": "bond-daily-trading-activity",
+        "name": "Daily Activity Report of Bonds, Sukuk, and ABS"
+      }
+    ]
+  },
+  {
+    "id": "Laporan19",
+    "name": "Most Active Bonds",
+    "links": [
+      {
+        "url": "most-active-government-bonds-by-vol",
+        "name": "50 Most Active Government Bonds by Volume"
+      },
+      {
+        "url": "most-active-government-bonds-by-freq",
+        "name": "50 Most Active Government Bonds by Frequency"
+      },
+      {
+        "url": "most-active-corporate-bonds-by-vol",
+        "name": "50 Most Active Corporate Bonds by Volume"
+      },
+      {
+        "url": "most-active-corporate-bonds-by-freq",
+        "name": "50 Most Active Corporate Bonds by Frequency"
+      }
+    ]
+  }
+]

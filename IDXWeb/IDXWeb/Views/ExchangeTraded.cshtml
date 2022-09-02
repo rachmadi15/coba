@@ -1,0 +1,481 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+	Layout = "Master.cshtml";
+}
+
+@section Styles {
+    <link href="@Url.Content("/assets/css/jquery.dataTables.min.css")" rel="stylesheet" type="text/css" />
+}
+
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (page.DocumentTypeId != 1237){
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>                    
+                } else {
+                    <li class="@cls"><a href="" class="disable"><span>@page.Name</span></li>
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+        </div>
+        <div class="content-tab-container block --center">
+            <div class="content-tab-item">
+                <a href="#tradingAct" class="content-tab-anchor exchange-trade-tab-js is-active">Trading Activities</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#marketSum" class="content-tab-anchor exchange-trade-tab-js">Market Summary</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#mostAct" class="content-tab-anchor exchange-trade-tab-js">Most Active</a>
+            </div>
+        </div>
+    </div>
+    <div class="exchange-trade-container is-active" id="tradingAct">
+        <div class="container">
+            <form action="" class="">
+                <div class="block-half flex v-center">
+                    <span class="form-label-announcement">Choose by</span>
+                    <div class="form-radio">
+                        <input type="radio" class="form-input-custom-bullet" id="fits1" name="financialExchangeType" checked="checked">
+                        <label for="fits1" class="">FITS - Trading Activities Regular Board</label>
+                    </div>
+                </div>
+                <div class="block-half flex v-center">
+                    <span class="form-label-announcement">&nbsp;</span>
+                    <div class="form-radio">
+                        <input type="radio" class="form-input-custom-bullet" id="fits2" name="financialExchangeType">
+                        <label for="fits2" class="">FITS - Trading Activities Negotiated Board</label>
+                    </div>
+                </div>
+                <div class="block flex v-center">
+                    <span class="form-label-announcement">&nbsp;</span>
+                    <div class="form-radio">
+                        <input type="radio" class="form-input-custom-bullet" id="fits3" name="financialExchangeType">
+                        <label for="fits3" class="">FITS - Trading Activities Advertising Order</label>
+                    </div>
+                </div>
+                <div class="block flex v-center">
+                    <span class="form-label-announcement">&nbsp;</span>
+                    <button class="btn btn-primary">@Umbraco.GetDictionaryValue("search")</button>
+                </div>
+            </form>
+        </div>
+        <div class="main-content content-push">
+            <div class="container">
+                <div class="text-center">
+                    <h2>FITS - Trading Activities Regular Board</h2>
+                    <p><b>@Umbraco.GetDictionaryValue("date") :</b> Tuesday, 02-Jan-2018  <b>@Umbraco.GetDictionaryValue("time") :</b> 05:00:00 PM</p>
+                </div>
+                <div class="overflow-auto">
+                    <table class="table table--zebra table-content-page">
+                        <thead>
+                            <tr>
+                                <th>@Umbraco.GetDictionaryValue("code")</th>
+                                <th>Best Bid</th>
+                                <th>Best Offer</th>
+                                <th>Prev</th>
+                                <th>High</th>
+                                <th>Low</th>
+                                <th>Last</th>
+                                <th>Change(pt)</th>
+                                <th>Value(IDR)</th>
+                                <th>Volume(MIO IDR)</th>
+                                <th>Freq</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                            </tr>
+                          
+                        </tbody>
+                    </table>
+                </div>
+                <!-- <div class="text-right block">
+                    <a href="" class="btn btn-primary --rounded"><span class="fa fa-download"></span> @Umbraco.GetDictionaryValue("download")</a>
+                </div> -->
+            </div>        
+        </div>
+    </div>
+    <div class="exchange-trade-container" id="marketSum">
+        <div class="container">
+            <div class="text-center">
+                <h2>FITS Market Summary </h2>
+                <p><b>@Umbraco.GetDictionaryValue("date") :</b> Tuesday, 02-Jan-2018  <b>@Umbraco.GetDictionaryValue("time") :</b> 05:00:00 PM</p>
+            </div>
+            <table class="table table--zebra table-content-page">
+                <thead>
+                    <tr>
+                        <th>Market</th>
+                        <th>Volume(MIO IDR)</th>
+                        <th>Value(IDR)</th>
+                        <th>@Umbraco.GetDictionaryValue("frequency")</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center">Regular Market</td>
+                        <td class="text-right">0</td>
+                        <td class="text-right">0</td>
+                        <td class="text-right">0</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Regular Market</td>
+                        <td class="text-right">0</td>
+                        <td class="text-right">0</td>
+                        <td class="text-right">0</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Regular Market</td>
+                        <td class="text-right">0</td>
+                        <td class="text-right">0</td>
+                        <td class="text-right">0</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-right block">
+                <a href="" class="btn btn-primary --rounded"><span class="fa fa-download"></span> @Umbraco.GetDictionaryValue("download")</a>
+            </div>
+            <div class="text-center">
+                <p><b>@Umbraco.GetDictionaryValue("date") :</b> Tuesday, 02-Jan-2018  <b>@Umbraco.GetDictionaryValue("time") :</b> 05:00:00 PM</p>
+            </div>
+            <table class="table table--zebra table-content-page">
+                <thead>
+                    <tr>
+                        <th>Market</th>
+                        <th>Volume(MIO IDR)</th>
+                        <th>Value(IDR)</th>
+                        <th>@Umbraco.GetDictionaryValue("frequency")</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center">Regular Market</td>
+                        <td class="text-right">0</td>
+                        <td class="text-right">0</td>
+                        <td class="text-right">0</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Regular Market</td>
+                        <td class="text-right">0</td>
+                        <td class="text-right">0</td>
+                        <td class="text-right">0</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Regular Market</td>
+                        <td class="text-right">0</td>
+                        <td class="text-right">0</td>
+                        <td class="text-right">0</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-right block">
+                <a href="" class="btn btn-primary --rounded"><span class="fa fa-download"></span> @Umbraco.GetDictionaryValue("download")</a>
+            </div>
+        </div>
+    </div>
+    <div class="exchange-trade-container" id="mostAct">
+        <div class="container">
+            <form action="" class="">
+                <div class="block flex v-center">
+                    <span class="form-label-financial-report">Choose Type</span>
+                    <div class="form-radio form-radio--inline">
+                        <input type="radio" class="form-input-custom-bullet" id="tofr1" name="financialReportType">
+                        <label for="tofr1" class="">@Umbraco.GetDictionaryValue("bonds")</label>
+                    </div>
+                    <div class="form-radio form-radio--inline">
+                        <input type="radio" class="form-input-custom-bullet" id="tofr2" name="financialReportType">
+                        <label for="tofr2" class="">Brokers</label>
+                    </div>
+                </div>
+                <div class="block flex v-center">
+                    <span class="form-label-financial-report">Obligation Type</span>
+                    <div class="form-radio form-radio--inline">
+                        <input type="radio" class="form-input-custom-bullet" id="toe1" name="financialExchangeType">
+                        <label for="toe1" class="">Goverment Securities</label>
+                    </div>
+                    <div class="form-radio form-radio--inline">
+                        <input type="radio" class="form-input-custom-bullet" id="toe2" name="financialExchangeType">
+                        <label for="toe2" class="">Corporate @Umbraco.GetDictionaryValue("bonds")</label>
+                    </div>
+                </div>
+                <div class="block flex v-center">
+                    <span class="form-label-financial-report">&nbsp;</span>
+                    <button class="btn btn-primary">@Umbraco.GetDictionaryValue("search")</button>
+                </div>
+            </form>
+        </div>
+        <div class="main-content content-push">
+            <div class="container">
+                <div class="text-center">
+                    <h2>FITS - Trading Activities Regular Board</h2>
+                    <p><b>@Umbraco.GetDictionaryValue("date") :</b> Tuesday, 02-Jan-2018  <b>@Umbraco.GetDictionaryValue("time") :</b> 05:00:00 PM</p>
+                    <p>Top 10 Government Bonds By Highest Volume</p>
+                </div>
+                <div class="block overflow-auto">
+                    <table class="table table--zebra table-content-page">
+                        <thead>
+                            <tr>
+                                <th rowspan="3">No</th>
+                                <th rowspan="3">Bond</th>
+                                <th rowspan="3">Coupon</th>
+                                <th rowspan="3">Maturity</th>
+                                <th rowspan="3">Freq</th>
+                                <th rowspan="3">Total Volume MIO(IDR)</th>
+                                <th rowspan="3">Total Value(IDR)</th>
+                                <th colspan="9">Price</th>
+                                <th rowspan="3">Transact Type</th>
+                            </tr>
+                            <tr>
+                                <th colspan="3">High</th>
+                                <th colspan="3">Low</th>
+                                <th colspan="3">Last</th>
+                            </tr>
+                            <tr>
+                                <th>Today</th>
+                                <th>Prev</th>
+                                <th>@Umbraco.GetDictionaryValue("change")</th>
+                                <th>Today</th>
+                                <th>Prev</th>
+                                <th>@Umbraco.GetDictionaryValue("change")</th>
+                                <th>Today</th>
+                                <th>Prev</th>
+                                <th>@Umbraco.GetDictionaryValue("change")</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="">10</td>
+                                <td>10</td>
+                                <td>10</td>
+                                <td>10</td>
+                                <td class="text-right">10</td>
+                                <td class="text-right">10</td>
+                                <td class="text-right">10</td>
+                                <td class="text-right">10</td>
+                                <td class="text-right">10</td>
+                                <td class="text-right">10</td>
+                                <td class="text-right">10</td>
+                                <td>10</td>
+                                <td>10</td>
+                                <td>10</td>
+                                <td>10</td>
+                                <td>10</td>
+                                <td>10</td>
+                            </tr>
+                          
+                        </tbody>
+                    </table>
+                </div>
+                <ol class="pagination">
+                    <li><a href=""><span class="fa fa-angle-double-left"></span></a></li
+                    ><li><a href="" class="active">1</a></li><li
+                    ><a href="">2</a></li><li
+                    ><a href="">3</a></li><li
+                    ><a href=""><span class="fa fa-angle-double-right"></span></a></li>
+                </ol>
+            </div>        
+        </div>
+    </div>
+</main>
+
+<!-- @section Scripts{
+    <script type="text/javascript" src="/assets/js/vendor/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        var currentLang = document.URL.indexOf("id-id") > 0 ? "id-id" : "en-us";
+
+        $(function () {
+            getTradingActivity();
+        });
+
+        function getTradingActivity(){
+            $.get('@Url.Action("GetETPDataTimeCurrent", "BondSukuk")',
+                function (result) {
+                    var datetimeString = result.replace('"{Result: ', '').replace('}"', '');
+
+                    if (datetimeString !== '') {
+                        var tradingActDate = moment(datetimeString).locale(currentLang).format('dddd, DD-MMM-YYYY');
+                        $('#tradingActDate').text(tradingActDate);
+
+                        var tradingActTime = moment(datetimeString).locale(currentLang).format('h:mm:ss a');
+
+                        if (currentLang === 'id-id') {
+                            tradingActTime = moment(datetimeString).format('HH:mm:ss');
+                        }
+
+                        $('#tradingActTime').text(tradingActTime);
+
+                        var marketSumDate = moment(datetimeString).locale(currentLang).format('dddd, DD-MMM-YYYY');
+                        $('#marketSumDate').text(marketSumDate);
+
+                        var marketSumTime = moment(datetimeString).locale(currentLang).format('h:mm:ss a');
+
+                        if (currentLang === 'id-id') {
+                            marketSumTime = moment(datetimeString).format('HH:mm:ss');
+                        }
+
+                        $('#marketSumTime').text(marketSumTime);
+                    }
+                });
+        }
+
+        function getETPDataTimePrev(){
+            $.get('@Url.Action("GetETPDataTimePrev", "BondSukuk")',
+                function (result) {
+                    if (result !== '') {
+                        var datetimeString = result.replace('"{Result: ', '').replace('}"', '');
+
+                        var marketSumPrevDate = moment(datetimeString).locale(currentLang).format('dddd, DD-MMM-YYYY');
+                        $('#marketSumPrevDate').text(marketSumPrevDate);
+                    }
+                });
+        }
+
+        function getETPTradingActivity(){
+            $.get('@Url.Action("getETPTradingActivity", "BondSukuk")',
+                function (result) {
+                    var jsonResult = $.parseJSON(result);
+                    $('#tradingActTable').dataTable({
+                        'processing': true,
+                        'paging': false,
+                        'ordering': false,
+                        'info': false,
+                        'filter': false,
+                        'deferRender': true,
+                        'data': jsonResult.Items,
+                        'columns': [
+                            { 'data': 'No' },
+                            { 'data': 'BondId' },
+                            { 'data': 'BestBidPrice' },
+                            { 'data': 'BestOfferPrice' },
+                            { 'data': 'TradePriceHigh' },
+                            { 'data': 'TradePriceLow' },
+                            { 'data': 'TradePriceLast' },
+                            { 'data': 'TradeVolTotal' },
+                            { 'data': 'TradeValTotal' },
+                            { 'data': 'TradeFreq' }
+                        ],
+                        'columnDefs': [
+                            {
+                                'targets': [2, 3, 4, 5, 6, 7, 8, 9],
+                                'createdCell' : function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-right');
+                                }
+                            }
+                        ],
+                        "rowCallback": function (row, data, iDisplayIndex) {
+                            var info = this.api().page.info();
+                            var page = info.page;
+                            var length = info.length;
+                            var index = (page * length + (iDisplayIndex + 1));
+                            $('td:eq(0)', row).html(index);
+                        },
+                    });
+                });
+        }
+
+        function getETPMarketSummary(){
+            $.get('@Url.Action("GetETPMarketActivity", "BondSukuk")',
+                function (result) {
+                    var jsonResult = $.parseJSON(result);
+
+                    $('#marketSumTable').dataTable({
+                        'processing': true,
+                        'paging': false,
+                        'ordering': false,
+                        'info': false,
+                        'filter': false,
+                        'deferRender': true,
+                        'data': jsonResult.Items,
+                        'columns': [
+                            { 'data': 'No' },
+                            { 'data': 'BondId' },
+                            { 'data': 'OTCPrice' },
+                            { 'data': 'IBPAPrice' },
+                            { 'data': 'TradePriceHigh' },
+                            { 'data': 'TradePriceLow' },
+                            { 'data': 'TradePriceLast' },
+                            { 'data': 'TradeVolTotal' },
+                            { 'data': 'TradeValTotal' },
+                            { 'data': 'TradeFreq' }
+                        ],
+                        'columnDefs': [
+                            {
+                                'targets': [2, 3, 4, 5, 6, 7, 8, 9],
+                                'createdCell' : function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-right');
+                                }
+                            }
+                        ],
+                        "rowCallback": function (row, data, iDisplayIndex) {
+                            var info = this.api().page.info();
+                            var page = info.page;
+                            var length = info.length;
+                            var index = (page * length + (iDisplayIndex + 1));
+                            $('td:eq(0)', row).html(index);
+                        },
+                    });
+                });
+        }
+
+        function getETPMarketSummaryPrev(){
+            $.get('@Url.Action("GetETPMarketActivityPrev", "BondSukuk")',
+                function (result) {
+                    var jsonResult = $.parseJSON(result);
+
+                    $('#marketSumPrevTable').dataTable({
+                        'processing': true,
+                        'paging': false,
+                        'ordering': false,
+                        'info': false,
+                        'filter': false,
+                        'deferRender': true,
+                        'data': jsonResult.Items,
+                        'columns': [
+                            { 'data': 'No' },
+                            { 'data': 'BondId' },
+                            { 'data': 'OTCPrice' },
+                            { 'data': 'IBPAPrice' },
+                            { 'data': 'TradePriceHigh' },
+                            { 'data': 'TradePriceLow' },
+                            { 'data': 'TradePriceLast' },
+                            { 'data': 'TradeVolTotal' },
+                            { 'data': 'TradeValTotal' },
+                            { 'data': 'TradeFreq' }
+                        ],
+                        'columnDefs': [
+                            {
+                                'targets': [2, 3, 4, 5, 6, 7, 8, 9],
+                                'createdCell' : function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-right');
+                                }
+                            }
+                        ],
+                        "rowCallback": function (row, data, iDisplayIndex) {
+                            var info = this.api().page.info();
+                            var page = info.page;
+                            var length = info.length;
+                            var index = (page * length + (iDisplayIndex + 1));
+                            $('td:eq(0)', row).html(index);
+                        },
+                    });
+                });
+        }
+
+    </script>
+} -->

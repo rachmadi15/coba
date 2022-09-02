@@ -1,0 +1,192 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+}
+
+@section Styles {
+    <link href="@Url.Content("/assets/css/jquery.dataTables.min.css")" rel="stylesheet" type="text/css" />
+}
+
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (page.DocumentTypeId != 1237){
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>                    
+                } else {
+                    <li class="@cls"><a href="" class="disable"><span>@page.Name</span></li>
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+        </div>
+    </div>
+    <div class="main-content content-push">
+        <div class="container">
+            <h4>@Umbraco.GetDictionaryValue("date"): <span id="marketDate"></span></h2>
+            <div class="block overflow-auto">
+                <table id="constituentTable" class="table table--zebra table-content-page table-thead-nowrap ">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>@Umbraco.GetDictionaryValue("name")</th>
+                            <th>@Umbraco.GetDictionaryValue("previous")</th>
+                            <th>@Umbraco.GetDictionaryValue("high")</th>
+                            <th>@Umbraco.GetDictionaryValue("low")</th>
+                            <th>@Umbraco.GetDictionaryValue("last")</th>
+                            <th>@Umbraco.GetDictionaryValue("change")</th>
+                            <th>% @Umbraco.GetDictionaryValue("change")</th>
+                        </tr>
+                    </thead>
+                    <tbody>                        
+                    </tbody>
+                </table>
+            </div>
+            <h3>@Umbraco.GetDictionaryValue("Sectoral")</h3>
+            <div class="block overflow-auto">
+                <table id="sectoralTable" class="table table--zebra table-content-page table-thead-nowrap ">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>@Umbraco.GetDictionaryValue("name")</th>
+                            <th>@Umbraco.GetDictionaryValue("previous")</th>
+                            <th>@Umbraco.GetDictionaryValue("high")</th>
+                            <th>@Umbraco.GetDictionaryValue("low")</th>
+                            <th>@Umbraco.GetDictionaryValue("last")</th>
+                            <th>@Umbraco.GetDictionaryValue("change")</th>
+                            <th>% @Umbraco.GetDictionaryValue("change")</th>
+                        </tr>
+                    </thead>
+                    <tbody>                        
+                    </tbody>
+                </table>
+            </div>
+        </div>        
+    </div>
+</main>
+
+@section Scripts{
+    <script type="text/javascript" src="/assets/js/vendor/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $.get('@Url.Action("GetMarketTime", "Helper")?culture=' + currentLang, function (result) {
+                var jsonResult = $.parseJSON(result);
+                $('#marketDate').text(jsonResult);
+            });
+            getConstituent();
+            getSectoral();
+        });
+
+        function getConstituent(){
+            $.get('@Url.Action("GetConstituent", "StockData")',
+                function (result) {
+                    $('#constituentTable').dataTable({
+                        'processing': true,
+                        'paging': true,
+                        'deferRender': true,
+                        'data': result.Items,
+                        'columns': [
+                            { 'data': 'IndexCode' },
+                            { 'data': 'IndexCode' },
+                            { 'data': 'PrevVal' },
+                            { 'data': 'HighVal' },
+                            { 'data': 'LowVal' },
+                            { 'data': 'LastVal' },
+                            { 'data': 'ChgVal' },
+                            { 'data': 'ChgPct' }
+                        ],
+                        'columnDefs': [
+                            {
+                                'targets': [2,3,4,5,6,7],
+                                'createdCell' : function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-right');
+                                },
+                                'render' : function ( data, type, row, meta ) {
+                                    return data.toLocaleString(currentLang);
+                                }
+                            },
+                            {
+                                'targets': [0,1,2],
+                                'createdCell' : function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-center');
+                                }
+                            }
+                        ],
+                        "order": [[ 3, "desc" ]],
+                        "rowCallback": function (row, data, iDisplayIndex) {
+                            var info = this.api().page.info();
+                            var page = info.page;
+                            var length = info.length;
+                            var index = (page * length + (iDisplayIndex + 1));
+                            $('td:eq(0)', row).html(index);
+                        },
+                    });
+                });
+        }
+
+        function getSectoral(){
+            $.get('@Url.Action("GetSectoral", "StockData")',
+                function (result) {
+                    $('#sectoralTable').dataTable({
+                        'processing': true,
+                        'paging': true,
+                        'deferRender': true,
+                        'data': result.Items,
+                        'columns': [
+                            { 'data': 'IndexCode' },
+                            { 'data': 'IndexCode' },
+                            { 'data': 'PrevVal' },
+                            { 'data': 'HighVal' },
+                            { 'data': 'LowVal' },
+                            { 'data': 'LastVal' },
+                            { 'data': 'ChgVal' },
+                            { 'data': 'ChgPct' }
+                        ],
+                        'columnDefs': [
+                            {
+                                'targets': [2,3,4,5,6,7],
+                                'createdCell' : function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-right');
+                                },
+                                'render' : function ( data, type, row, meta ) {
+                                    return data.toLocaleString(currentLang);
+                                }
+                            },
+                            {
+                                'targets': [0,1,2],
+                                'createdCell' : function (td, cellData, rowData, row, col) {
+                                    return $(td).addClass('text-center');
+                                }
+                            }
+                        ],
+                        "order": [[ 3, "desc" ]],
+                        "rowCallback": function (row, data, iDisplayIndex) {
+                            var info = this.api().page.info();
+                            var page = info.page;
+                            var length = info.length;
+                            var index = (page * length + (iDisplayIndex + 1));
+                            $('td:eq(0)', row).html(index);
+                        },
+                        "language": {
+                            "emptyTable": "No data available."
+                        }
+                    });
+                });
+        }
+
+    </script>
+}

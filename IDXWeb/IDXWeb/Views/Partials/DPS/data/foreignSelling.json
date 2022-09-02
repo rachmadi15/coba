@@ -1,0 +1,300 @@
+{
+  "data": [
+    {
+      "date": "2019-11-01T00:00:00",
+      "foreignForeignVolume": 100.00,
+      "foreignForeignValue": 123.00,
+      "foreignForeignFreq": 123.00,
+      "foreignDomesticVolume": 123.00,
+      "foreignDomesticValue": 123.00,
+      "foreignDomesticFreq": 123.00
+    },
+    {
+      "date": "2019-11-02T00:00:00",
+      "foreignForeignVolume": 120.00,
+      "foreignForeignValue": 122.00,
+      "foreignForeignFreq": 122.00,
+      "foreignDomesticVolume": 122.00,
+      "foreignDomesticValue": 122.00,
+      "foreignDomesticFreq": 122.00
+    },
+    {
+      "date": "2019-11-03T00:00:00",
+      "foreignForeignVolume": 130.00,
+      "foreignForeignValue": 132.00,
+      "foreignForeignFreq": 132.00,
+      "foreignDomesticVolume": 132.00,
+      "foreignDomesticValue": 132.00,
+      "foreignDomesticFreq": 132.00
+    },
+    {
+      "date": "2019-11-05T00:00:00",
+      "foreignForeignVolume": 130.00,
+      "foreignForeignValue": 113.00,
+      "foreignForeignFreq": 113.00,
+      "foreignDomesticVolume": 113.00,
+      "foreignDomesticValue": 113.00,
+      "foreignDomesticFreq": 113.00
+    },
+    {
+      "date": "2019-11-06T00:00:00",
+      "foreignForeignVolume": 122.00,
+      "foreignForeignValue": 111.00,
+      "foreignForeignFreq": 111.00,
+      "foreignDomesticVolume": 111.00,
+      "foreignDomesticValue": 111.00,
+      "foreignDomesticFreq": 111.00
+    },
+    {
+      "date": "2019-11-07T00:00:00",
+      "foreignForeignVolume": 123.00,
+      "foreignForeignValue": 123.00,
+      "foreignForeignFreq": 123.00,
+      "foreignDomesticVolume": 123.00,
+      "foreignDomesticValue": 123.00,
+      "foreignDomesticFreq": 123.00
+    },
+    {
+      "date": "2019-11-08T00:00:00",
+      "foreignForeignVolume": 132.00,
+      "foreignForeignValue": 121.00,
+      "foreignForeignFreq": 121.00,
+      "foreignDomesticVolume": 121.00,
+      "foreignDomesticValue": 121.00,
+      "foreignDomesticFreq": 121.00
+    },
+    {
+      "date": "2019-11-09T00:00:00",
+      "foreignForeignVolume": 122.00,
+      "foreignForeignValue": 153.00,
+      "foreignForeignFreq": 153.00,
+      "foreignDomesticVolume": 153.00,
+      "foreignDomesticValue": 153.00,
+      "foreignDomesticFreq": 153.00
+    },
+    {
+      "date": "2019-11-10T00:00:00",
+      "foreignForeignVolume": 111.00,
+      "foreignForeignValue": 122.00,
+      "foreignForeignFreq": 122.00,
+      "foreignDomesticVolume": 122.00,
+      "foreignDomesticValue": 122.00,
+      "foreignDomesticFreq": 122.00
+    },
+    {
+      "date": "2019-11-11T00:00:00",
+      "foreignForeignVolume": 112.00,
+      "foreignForeignValue": 112.00,
+      "foreignForeignFreq": 112.00,
+      "foreignDomesticVolume": 112.00,
+      "foreignDomesticValue": 112.00,
+      "foreignDomesticFreq": 112.00
+    },
+    {
+      "date": "2019-11-11T00:00:00",
+      "foreignForeignVolume": 120.00,
+      "foreignForeignValue": 153.00,
+      "foreignForeignFreq": 153.00,
+      "foreignDomesticVolume": 153.00,
+      "foreignDomesticValue": 153.00,
+      "foreignDomesticFreq": 153.00
+    },
+    {
+      "date": "2019-11-12T00:00:00",
+      "foreignForeignVolume": 142.00,
+      "foreignForeignValue": 119.00,
+      "foreignForeignFreq": 119.00,
+      "foreignDomesticVolume": 119.00,
+      "foreignDomesticValue": 119.00,
+      "foreignDomesticFreq": 119.00
+    },
+    {
+      "date": "2019-11-13T00:00:00",
+      "foreignForeignVolume": 156.00,
+      "foreignForeignValue": 151.00,
+      "foreignForeignFreq": 151.00,
+      "foreignDomesticVolume": 151.00,
+      "foreignDomesticValue": 151.00,
+      "foreignDomesticFreq": 151.00
+    },
+    {
+      "date": "2019-11-14T00:00:00",
+      "foreignForeignVolume": 142.00,
+      "foreignForeignValue": 142.00,
+      "foreignForeignFreq": 142.00,
+      "foreignDomesticVolume": 142.00,
+      "foreignDomesticValue": 142.00,
+      "foreignDomesticFreq": 142.00
+    },
+    {
+      "date": "2019-11-15T00:00:00",
+      "foreignForeignVolume": 124.00,
+      "foreignForeignValue": 166.00,
+      "foreignForeignFreq": 166.00,
+      "foreignDomesticVolume": 166.00,
+      "foreignDomesticValue": 166.00,
+      "foreignDomesticFreq": 166.00
+    },
+    {
+      "date": "2019-11-16T00:00:00",
+      "foreignForeignVolume": 122.00,
+      "foreignForeignValue": 132.00,
+      "foreignForeignFreq": 132.00,
+      "foreignDomesticVolume": 132.00,
+      "foreignDomesticValue": 132.00,
+      "foreignDomesticFreq": 132.00
+    },
+    {
+      "date": "2019-11-17T00:00:00",
+      "foreignForeignVolume": 122.00,
+      "foreignForeignValue": 152.00,
+      "foreignForeignFreq": 152.00,
+      "foreignDomesticVolume": 152.00,
+      "foreignDomesticValue": 152.00,
+      "foreignDomesticFreq": 152.00
+    },
+    {
+      "date": "2019-11-18T00:00:00",
+      "foreignForeignVolume": 111.00,
+      "foreignForeignValue": 156.00,
+      "foreignForeignFreq": 156.00,
+      "foreignDomesticVolume": 156.00,
+      "foreignDomesticValue": 156.00,
+      "foreignDomesticFreq": 156.00
+    },
+    {
+      "date": "2019-11-19T00:00:00",
+      "foreignForeignVolume": 112.00,
+      "foreignForeignValue": 123.00,
+      "foreignForeignFreq": 123.00,
+      "foreignDomesticVolume": 123.00,
+      "foreignDomesticValue": 123.00,
+      "foreignDomesticFreq": 123.00
+    },
+    {
+      "date": "2019-11-20T00:00:00",
+      "foreignForeignVolume": 121.00,
+      "foreignForeignValue": 32.00,
+      "foreignForeignFreq": 32.00,
+      "foreignDomesticVolume": 32.00,
+      "foreignDomesticValue": 32.00,
+      "foreignDomesticFreq": 32.00
+    },
+    {
+      "date": "2019-11-21T00:00:00",
+      "foreignForeignVolume": 321.00,
+      "foreignForeignValue": 152.00,
+      "foreignForeignFreq": 152.00,
+      "foreignDomesticVolume": 152.00,
+      "foreignDomesticValue": 152.00,
+      "foreignDomesticFreq": 152.00
+    },
+    {
+      "date": "2019-11-22T00:00:00",
+      "foreignForeignVolume": 123.00,
+      "foreignForeignValue": 123.00,
+      "foreignForeignFreq": 123.00,
+      "foreignDomesticVolume": 123.00,
+      "foreignDomesticValue": 123.00,
+      "foreignDomesticFreq": 123.00
+    },
+    {
+      "date": "2019-11-23T00:00:00",
+      "foreignForeignVolume": 231.00,
+      "foreignForeignValue": 153.00,
+      "foreignForeignFreq": 153.00,
+      "foreignDomesticVolume": 153.00,
+      "foreignDomesticValue": 153.00,
+      "foreignDomesticFreq": 153.00
+    },
+    {
+      "date": "2019-11-24T00:00:00",
+      "foreignForeignVolume": 123.00,
+      "foreignForeignValue": 123.00,
+      "foreignForeignFreq": 123.00,
+      "foreignDomesticVolume": 123.00,
+      "foreignDomesticValue": 123.00,
+      "foreignDomesticFreq": 123.00
+    },
+    {
+      "date": "2019-11-25T00:00:00",
+      "foreignForeignVolume": 123.00,
+      "foreignForeignValue": 123.00,
+      "foreignForeignFreq": 123.00,
+      "foreignDomesticVolume": 123.00,
+      "foreignDomesticValue": 123.00,
+      "foreignDomesticFreq": 123.00
+    },
+    {
+      "date": "2019-11-26T00:00:00",
+      "foreignForeignVolume": 152.00,
+      "foreignForeignValue": 123.00,
+      "foreignForeignFreq": 123.00,
+      "foreignDomesticVolume": 123.00,
+      "foreignDomesticValue": 123.00,
+      "foreignDomesticFreq": 123.00
+    },
+    {
+      "date": "2019-11-28T00:00:00",
+      "foreignForeignVolume": 142.00,
+      "foreignForeignValue": 123.00,
+      "foreignForeignFreq": 123.00,
+      "foreignDomesticVolume": 123.00,
+      "foreignDomesticValue": 123.00,
+      "foreignDomesticFreq": 123.00
+    },
+    {
+      "date": "2019-11-28T00:00:00",
+      "foreignForeignVolume": 123.00,
+      "foreignForeignValue": 123.00,
+      "foreignForeignFreq": 123.00,
+      "foreignDomesticVolume": 123.00,
+      "foreignDomesticValue": 123.00,
+      "foreignDomesticFreq": 123.00
+    }
+  ],
+  "columns": [
+    {
+      "columnName": "date",
+      "decimal": 0.0,
+      "format": "fullDate",
+      "className": "text-center nowrap"
+    },
+    {
+      "columnName": "foreignForeignVolume",
+      "decimal": 0.0,
+      "format": "true",
+      "className": ""
+    },
+    {
+      "columnName": "foreignForeignValue",
+      "decimal": 0.0,
+      "format": "true",
+      "className": ""
+    },
+    {
+      "columnName": null,
+      "decimal": 0.0,
+      "format": "false",
+      "className": ""
+    },
+    {
+      "columnName": "foreignDomesticVolume",
+      "decimal": 0.0,
+      "format": "true",
+      "className": ""
+    },
+    {
+      "columnName": "foreignDomesticValue",
+      "decimal": 0.0,
+      "format": "true",
+      "className": ""
+    },
+    {
+      "columnName": "foreignDomesticFreq",
+      "decimal": 0.0,
+      "format": "true",
+      "className": ""
+    }
+  ]
+}

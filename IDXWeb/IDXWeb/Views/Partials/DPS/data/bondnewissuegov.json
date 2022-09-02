@@ -1,0 +1,74 @@
+{
+  "data": [
+    {
+      "listingdate": "Fri Mar 01 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "maturedate": "Fri Mar 01 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "type": "ADMF0303",
+      "seccode": "ADMF0303",
+      "bondname": "PT Adira",
+      "interest": 606649555,
+      "outstand": 606649555,
+      "tenure": "3 M"
+    },
+    {
+      "listingdate": "Fri Mar 01 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "maturedate": "Fri Mar 01 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+      "type": "ADMF0303",
+      "seccode": "ADMF0303",
+      "bondname": "PT Adira",
+      "interest": 606649555,
+      "outstand": 606649555,
+      "tenure": "3 M"
+    }
+  ],
+  "columns": [
+    {
+      "columnName": "type",
+      "decimal": 0,
+      "format": true,
+      "className": ""
+    },
+    {
+      "columnName": "bondname",
+      "decimal": 0,
+      "format": true,
+      "className": ""
+    },
+    {
+      "columnName": "seccode",
+      "decimal": 0,
+      "format": true,
+      "className": ""
+    },
+    {
+      "columnName": "listingdate",
+      "decimal": 0,
+      "format": "fullDate",
+      "className": "text-center nowrap"
+    },
+    {
+      "columnName": "maturedate",
+      "decimal": 0,
+      "format": "fullDate",
+      "className": "text-center nowrap"
+    },
+    {
+      "columnName": "interest",
+      "decimal": 0,
+      "format": true,
+      "className": ""
+    },
+    {
+      "columnName": "outstand",
+      "decimal": 0,
+      "format": true,
+      "className": ""
+    },
+    {
+      "columnName": "tenure",
+      "decimal": 0,
+      "format": true,
+      "className": ""
+    }
+  ]
+}

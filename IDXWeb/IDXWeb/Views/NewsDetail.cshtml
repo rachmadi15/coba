@@ -1,0 +1,98 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+	Layout = "Master.cshtml";
+}
+<main class="sticky-footer-container-item --pushed" ng-controller="NewsController as annoucnementCtrl">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (page.DocumentTypeId != 1237){
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>                    
+                } else {
+                    <li class="@cls"><a href="" class="disable"><span>@page.Name</span></li>
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+        </div>
+        <div class="news-detail-img-container">
+            <img ng-src="{{news.ImageUrl}}" alt="" class="">
+        </div>
+        <div class="news-detail-content-container block-double">
+            <h2 class="news-detail-title">{{news.Title}}</h2>
+            <div class="news-detail-support-content-container block-double">
+                <time class="news-detail-date"><b>{{news.PublishedDate | date:'dd MMMM yyyy'}}</b></time>
+                <div class="news-detail-social-media-container">
+                    <span class="news-detail-social-media-text">Share</span>
+                    <a href="" class="news-detail-social-media-anchor"><span class="fa fa-facebook-square"></span></a>
+                    <a href="" class="news-detail-social-media-anchor"><span class="fa fa-twitter"></span></a>
+                </div>
+            </div>
+            <p ng-bind-html="contents"></p>
+        </div>
+        <h2 class="">Related News</h2>
+        <div class="related-news-container block">
+            <div class="related-news-item" ng-repeat="related in relatedNews">
+                <a href="@Umbraco.TypedContent(Request.Url.ToString().Contains("en-us") ? 2033 : 2036).Url?newsId={{related.Id}}" class="related-news-anchor">
+                    <img src="/assets/img/mainhall.jpg" alt="" class="related-news-img">
+                    <span class="related-news-text-container">
+                        <span class="related-news-text clamp-js">{{related.Title}}</span>
+                        <time class="related-news-date">{{related.PublishedDate | date:'dd MMM yyyy'}}</time>
+                    </span>
+                </a>
+            </div>            
+        </div>
+    </div>   
+</main>
+
+@section Scripts{
+    <script>
+        const app = angular.module('app', ['ngSanitize'])
+        app.controller('NewsController', ['$scope', '$http', function($scope, $http){
+
+            $scope.news = null;
+            $scope.contents = "";
+            $scope.loading = false;
+            $scope.relatedNews = [];
+
+            var newsId = getParams('id');
+            var newsItemId = getParams('newsId');
+
+            getNewsDetail();
+            getRelatedNews();
+
+            function getNewsDetail() {
+                $scope.loading = true;                
+                $http.get('@Url.Action("GetNewsDetailWithLocale", "NewsAnnouncement")' + 
+                '?newsId=' + newsItemId + '&locale=' + currentLang).then(function (result) {
+                    $scope.news = result.data;
+                    $scope.loading = false;
+                    $scope.contents = result.data.Contents;
+                });
+            }
+
+            function getRelatedNews(){
+            	$http.get('@Url.Action("GetNewsRelated", "NewsAnnouncement")' + 
+            		'?id=' + newsId + 
+            		'&locale=' + currentLang).then(function (result) {
+                    $scope.relatedNews = result.data.Items;
+                });
+            }
+
+        }])
+    </script>
+}

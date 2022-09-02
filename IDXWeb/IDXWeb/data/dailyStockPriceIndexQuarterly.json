@@ -1,0 +1,292 @@
+{
+    "data": [
+        {
+            "date": 1,
+            "indexName": "JCI",
+            "month1": {
+                "value": 1324833,
+                "status": null
+            },
+            "month2": {
+                "value": 1324934,
+                "status": "decrease"
+            },
+            "month3": {
+                "value": null,
+                "status": null
+            }
+        },
+        {
+            "date": 2,
+            "indexName": "JCI",
+            "month1": {
+                "value": 1324782,
+                "status": null
+            },
+            "month2": {
+                "value": 1324990,
+                "status": "increase"
+            },
+            "month3": {
+                "value": null,
+                "status": null
+            }
+        },
+        {
+            "date": 3,
+            "indexName": "JCI",
+            "month1": {
+                "value": null,
+                "status": null
+            },
+            "month2": {
+                "value": 1324546,
+                "status": null
+            },
+            "month3": {
+                "value": 1324812,
+                "status": null
+            }
+        },
+        {
+            "date": 4,
+            "indexName": "JCI",
+            "month1": {
+                "value": 1324918,
+                "status": "decrease"
+            },
+            "month2": {
+                "value": 1324716,
+                "status": "decrease"
+            },
+            "month3": {
+                "value": 1324652,
+                "status": "increase"
+            }
+        },
+        {
+            "date": 5,
+            "indexName": "JCI",
+            "month1": {
+                "value": 1324979,
+                "status": "decrease"
+            },
+            "month2": {
+                "value": 1324540,
+                "status": "increase"
+            },
+            "month3": {
+                "value": null,
+                "status": null
+            }
+        },
+        {
+            "date": 6,
+            "indexName": "JCI",
+            "month1": {
+                "value": null,
+                "status": null
+            },
+            "month2": {
+                "value": 1324740,
+                "status": "increase"
+            },
+            "month3": {
+                "value": 1324959,
+                "status": "decrease"
+            }
+        },
+        {
+            "date": 7,
+            "indexName": "JCI",
+            "month1": {
+                "value": 1324616,
+                "status": "increase"
+            },
+            "month2": {
+                "value": 1324646,
+                "status": null
+            },
+            "month3": {
+                "value": null,
+                "status": null
+            }
+        },
+        {
+            "date": 8,
+            "indexName": "JCI",
+            "month1": {
+                "value": null,
+                "status": null
+            },
+            "month2": {
+                "value": 1324630,
+                "status": null
+            },
+            "month3": {
+                "value": 1324938,
+                "status": "increase"
+            }
+        },
+        {
+            "date": 9,
+            "indexName": "JCI",
+            "month1": {
+                "value": null,
+                "status": null
+            },
+            "month2": {
+                "value": 1324561,
+                "status": null
+            },
+            "month3": {
+                "value": 1324818,
+                "status": null
+            }
+        },
+        {
+            "date": 10,
+            "indexName": "JCI",
+            "month1": {
+                "value": 1324626,
+                "status": null
+            },
+            "month2": {
+                "value": 1324870,
+                "status": "decrease"
+            },
+            "month3": {
+                "value": 1324644,
+                "status": null
+            }
+        },
+        {
+            "date": 11,
+            "indexName": "JCI",
+            "month1": {
+                "value": null,
+                "status": null
+            },
+            "month2": {
+                "value": 1324966,
+                "status": null
+            },
+            "month3": {
+                "value": null,
+                "status": null
+            }
+        },
+        {
+            "date": 12,
+            "indexName": "JCI",
+            "month1": {
+                "value": 1324890,
+                "status": "decrease"
+            },
+            "month2": {
+                "value": 1324833,
+                "status": "increase"
+            },
+            "month3": {
+                "value": 1324863,
+                "status": "decrease"
+            }
+        },
+        {
+            "date": 13,
+            "indexName": "JCI",
+            "month1": {
+                "value": null,
+                "status": null
+            },
+            "month2": {
+                "value": 1324636,
+                "status": null
+            },
+            "month3": {
+                "value": null,
+                "status": null
+            }
+        },
+        {
+            "date": 14,
+            "indexName": "JCI",
+            "month1": {
+                "value": null,
+                "status": null
+            },
+            "month2": {
+                "value": 1324960,
+                "status": null
+            },
+            "month3": {
+                "value": null,
+                "status": null
+            }
+        },
+        {
+            "date": 15,
+            "indexName": "JCI",
+            "month1": {
+                "value": 1324785,
+                "status": "increase"
+            },
+            "month2": {
+                "value": 1324939,
+                "status": "increase"
+            },
+            "month3": {
+                "value": 1324640,
+                "status": null
+            }
+        },
+        {
+            "date": 16,
+            "indexName": "JCI",
+            "month1": {
+                "value": 1324775,
+                "status": null
+            },
+            "month2": {
+                "value": 1324553,
+                "status": "increase"
+            },
+            "month3": {
+                "value": null,
+                "status": null
+            }
+        }
+    ],
+    "columns": [
+        {
+            "columnName": "date",
+            "decimal": 0,
+            "format": false,
+            "className": ""
+        },
+        {
+            "columnName": "indexName",
+            "decimal": 0,
+            "format": false,
+            "className": "nowrap"
+        },
+        {
+            "columnName": "month1",
+            "decimal": 0,
+            "format": "closeFormat",
+            "className": ""
+        },
+        {
+            "columnName": "month2",
+            "decimal": 0,
+            "format": "closeFormat",
+            "className": ""
+        },
+        {
+            "columnName": "month3",
+            "decimal": 0,
+            "format": "closeFormat",
+            "className": ""
+        }
+    ]
+}

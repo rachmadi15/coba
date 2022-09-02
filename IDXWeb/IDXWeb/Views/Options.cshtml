@@ -1,0 +1,231 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+	Layout = "Master.cshtml";
+}
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (page.DocumentTypeId != 1237){
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>                    
+                } else {
+                    <li class="@cls"><a href="" class="disable"><span>@page.Name</span></li>
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+        </div>
+        <div class="content-tab-container block --center">
+            <div class="content-tab-item">
+                <a href="#tradingAct" class="content-tab-anchor etp-trading-tab-js is-active">Trading Activities</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#marketSum" class="content-tab-anchor etp-trading-tab-js">Market Summary</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#mostActive" class="content-tab-anchor etp-trading-tab-js">Most Active</a>
+            </div>
+        </div>
+        <div class="etp-trading-container is-active" id="tradingAct">
+            <div class="text-center">
+                <p><b>@Umbraco.GetDictionaryValue("date") :</b> Tuesday, 02-Jan-2018  <b>@Umbraco.GetDictionaryValue("time") :</b> 05:00:00 PM</p>
+            </div>
+            <table class="table table--zebra table-content-page">
+                <thead>
+                    <tr>
+                        <th class="text-center" rowspan="2">No</th>
+                        <th class="text-center" rowspan="2">Securities ID</th>
+                        <th class="text-center" colspan="2">Quote</th>
+                        <th class="text-center" colspan="6">Trade</th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">Best Bid</th>
+                        <th class="text-center">Best Offer</th>
+                        <th class="text-center">High</th>
+                        <th class="text-center">Low</th>
+                        <th class="text-center">Last</th>
+                        <th class="text-center">Volume</th>
+                        <th class="text-center">Value</th>
+                        <th class="text-center">Freq</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center">1</td>
+                        <td class="text-center">ORI013</td>
+                        <td class="text-center">11</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="etp-trading-container" id="marketSum">
+            <div class="text-center">
+                <p><b>@Umbraco.GetDictionaryValue("date") :</b> Tuesday, 02-Jan-2018  <b>@Umbraco.GetDictionaryValue("time") :</b> 05:00:00 PM</p>
+            </div>
+            <table class="table table--zebra table-content-page">
+                <thead>
+                    <tr>
+                        <th class="text-center" rowspan="2">No</th>
+                        <th class="text-center" rowspan="2">Securities ID</th>
+                        <th class="text-center" colspan="8">Trade</th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">OTC Price</th>
+                        <th class="text-center">IBPA Price</th>
+                        <th class="text-center">High</th>
+                        <th class="text-center">Low</th>
+                        <th class="text-center">Last</th>
+                        <th class="text-center">Volume</th>
+                        <th class="text-center">Value</th>
+                        <th class="text-center">Freq</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center">1</td>
+                        <td class="text-center">ORI013</td>
+                        <td class="text-center">11</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-center">
+                <p><b>@Umbraco.GetDictionaryValue("date") :</b> Tuesday, 02-Jan-2018  <b>@Umbraco.GetDictionaryValue("time") :</b> 05:00:00 PM</p>
+            </div>
+            <table class="table table--zebra table-content-page">
+                <thead>
+                    <tr>
+                        <th class="text-center" rowspan="2">No</th>
+                        <th class="text-center" rowspan="2">Securities ID</th>
+                        <th class="text-center" colspan="8">Trade</th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">OTC Price</th>
+                        <th class="text-center">IBPA Price</th>
+                        <th class="text-center">High</th>
+                        <th class="text-center">Low</th>
+                        <th class="text-center">Last</th>
+                        <th class="text-center">Volume</th>
+                        <th class="text-center">Value</th>
+                        <th class="text-center">Freq</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center">1</td>
+                        <td class="text-center">ORI013</td>
+                        <td class="text-center">11</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="etp-trading-container" id="mostActive">
+            <div class="text-center">
+                <p><b>@Umbraco.GetDictionaryValue("date") :</b> Tuesday, 02-Jan-2018  <b>@Umbraco.GetDictionaryValue("time") :</b> 05:00:00 PM</p>
+            </div>
+            <table class="table table--zebra table-content-page">
+                <thead>
+                    <tr>
+                        <th class="text-center" rowspan="2">No</th>
+                        <th class="text-center" rowspan="2">Securities ID</th>
+                        <th class="text-center" colspan="8">Trade</th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">OTC Price</th>
+                        <th class="text-center">IBPA Price</th>
+                        <th class="text-center">High</th>
+                        <th class="text-center">Low</th>
+                        <th class="text-center">Last</th>
+                        <th class="text-center">Volume</th>
+                        <th class="text-center">Value</th>
+                        <th class="text-center">Freq</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center">1</td>
+                        <td class="text-center">ORI013</td>
+                        <td class="text-center">11</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-center">
+                <p><b>@Umbraco.GetDictionaryValue("date") :</b> Tuesday, 02-Jan-2018  <b>@Umbraco.GetDictionaryValue("time") :</b> 05:00:00 PM</p>
+            </div>
+            <table class="table table--zebra table-content-page">
+                <thead>
+                    <tr>
+                        <th class="text-center" rowspan="2">No</th>
+                        <th class="text-center" rowspan="2">Securities ID</th>
+                        <th class="text-center" colspan="8">Trade</th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">OTC Price</th>
+                        <th class="text-center">IBPA Price</th>
+                        <th class="text-center">High</th>
+                        <th class="text-center">Low</th>
+                        <th class="text-center">Last</th>
+                        <th class="text-center">Volume</th>
+                        <th class="text-center">Value</th>
+                        <th class="text-center">Freq</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center">1</td>
+                        <td class="text-center">ORI013</td>
+                        <td class="text-center">11</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                        <td class="text-center">101.9</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>

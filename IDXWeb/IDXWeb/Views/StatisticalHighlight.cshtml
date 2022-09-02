@@ -1,0 +1,784 @@
+﻿@using System.Configuration
+@using IDXWeb.Models;
+@using Newtonsoft.Json;
+@using System.IO;
+@using System.Text
+
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "DPSMaster.cshtml";
+    var en = Model.Content.AncestorOrSelf("home").Name == "en-us";
+    var isCumulative = string.IsNullOrEmpty(Request.QueryString["cumulative"]) ? "false" : Request.QueryString["cumulative"];
+    var stockSumUrlName = "LINK_DPS_STOCK_TRADING_SUMMARY";
+    var stockMSnapshotUrlName = "LINK_DPS_STOCK_M_SNAPSHOT";
+    var stockMSnapshotRightUrlName = "LINK_DPS_STOCK_M_SNAPSHOT_RIGHT";
+    var rightAnnouncementUrlName = "LINK_DPS_RIGHT_ANNOUNCEMENTS";
+    var stockNewListingUrlName = "LINK_DPS_STAT_NEW_LISTING";
+    var stockDeListingUrlName = "LINK_DPS_STAT_DELISTING";
+    var bondAbsTradingSummaryUrlName = "LINK_DPS_BOND_ABS_TRADING_SUMMARY";
+    var bondAbsListingSummaryUrlName = "LINK_DPS_BOND_ABS_LISTING_SUMMARY";
+    var otherInstrumentTradingSumUrlName = "LINK_DPS_OTHER_INSTRUMENT_TRAD_SUM";
+    var numberOfSecuritiesUrlName = "LINK_DPS_NUMBER_SECURITIES";
+    var foreignInvestorStockTransactionUrlName = "LINK_DPS_FOREIGN_INVESTOR_STOCK_TRANSACTION";
+    var monthlyTradingVolUrlName = "LINK_DPS_MONTHLY_TRADING_VOLUME_VALUE";
+    var quarterTradingVolUrlName = "LINK_DPS_QUARTERLY_TRADING_VOLUME_VALUE";
+    var downloadCode = "StatHighlight";
+    var fileName = Umbraco.Field("title").ToString();
+    if (!string.IsNullOrWhiteSpace(Umbraco.Field("titleQuarterly").ToString()))
+    {
+        fileName = Umbraco.Field("titleQuarterly").ToString();
+    }
+    var printState = Request.QueryString["print"];
+    var month = Request.QueryString["month"];
+    var year = Request.QueryString["year"];
+    var quarter = Request.QueryString["quarter"];
+    var date = Request.QueryString["date"];
+    var start = Request.QueryString["start"];
+    var end = Request.QueryString["end"];
+    var periodType = Request.QueryString["periodType"];
+    var animation = "";
+    var isPrint = false;
+    var query = Request.QueryString["q"];
+    byte[] queryBase64 = Convert.FromBase64String(query);
+    string queryJson = Encoding.UTF8.GetString(queryBase64);
+    dynamic querys = JsonConvert.DeserializeObject<dynamic>(queryJson);
+    if (string.IsNullOrEmpty(periodType))
+    {
+        periodType = querys.type;
+    }
+
+    if (querys.quarter != 0)
+    {
+        periodType = querys.type;
+    }
+    if (printState == "pdf")
+    {
+        isPrint = true;
+        animation = "no-animation";
+    }
+    if (!string.IsNullOrEmpty(year))
+    {
+        HttpCookie typeC = new HttpCookie("filteredType");
+        typeC.Value = "yearly";
+        Response.Cookies.Add(typeC);
+        HttpCookie yearC = new HttpCookie("filteredYear");
+        yearC.Value = year;
+        Response.Cookies.Add(yearC);
+    }
+    if (!string.IsNullOrEmpty(quarter))
+    {
+        HttpCookie quarterC = new HttpCookie("filteredQuarter");
+        quarterC.Value = quarter;
+        Response.Cookies.Add(quarterC);
+
+        HttpCookie typeC = new HttpCookie("filteredType");
+        typeC.Value = "quarterly";
+        Response.Cookies.Add(typeC);
+
+    }
+    if (!string.IsNullOrEmpty(month))
+    {
+        HttpCookie monthC = new HttpCookie("filteredMonth");
+        HttpCookie typeC = new HttpCookie("filteredType");
+        typeC.Value = "monthly";
+        Response.Cookies.Add(typeC);
+
+        monthC.Value = month;
+        Response.Cookies.Add(monthC);
+    }
+
+    if (start != "" && start != null)
+    {
+        HttpCookie startC = new HttpCookie("startDate");
+        HttpCookie endC = new HttpCookie("endDate");
+        startC.Value = start;
+        endC.Value = end;
+        Response.Cookies.Add(startC);
+        Response.Cookies.Add(endC);
+    }
+    if (date != "" && date != null)
+    {
+        HttpCookie dateC = new HttpCookie("filteredDate");
+        dateC.Value = date;
+        Response.Cookies.Add(dateC);
+    }
+}
+<div class="table-loading">
+    <img src="~/assets/img/Rolling-1s-200px.svg" alt="">
+    Loading...
+</div>
+<div class="background-white content-push">
+    <div class="container mb-16">
+        <p class="red mb-12 text-bold">Stock Trading Summary</p>
+        <div class="table-wrapper">
+            <table class="statistic-table">
+                <thead class="thead-plain">
+                    <tr>
+                        <th rowspan="2">Market</th>
+                        <th class="short" colspan="3">IDX Total Trading</th>
+                        <th rowspan="2"></th>
+                        <th class="short" colspan="4">Sharia Stock Trading</th>
+                        <th rowspan="2"></th>
+                        <th class="short" colspan="4">LQ45 Stock Trading</th>
+                    </tr>
+                    <tr class="text-right">
+                        <th class="short">Volume,<br> m. shares</th>
+                        <th class="short">Value,<br> b. IDR</th>
+                        <th class="short">Freq,<br> th. X</th>
+                        <th class="short">Volume,<br> m. shares</th>
+                        <th class="short">Value,<br> b. IDR</th>
+                        <th class="short">%*</th>
+                        <th class="short">Freq,<br> th. X</th>
+                        <th class="short">Volume,<br> m. shares</th>
+                        <th class="short">Value,<br> b. IDR</th>
+                        <th class="short">%*</th>
+                        <th class="short">Freq,<br> th. X</th>
+                    </tr>
+                </thead>
+                <tbody id="stock-trading-summary">
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td class="no-border" colspan="4">
+                            *Percentage compared to IDX total trading
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="background-light-grey content-push">
+    <div class="container bzg">
+        <div class="bzg_c split-table-left mb-16" data-col="s12,m6">
+            <p class="red mb-12 text-bold">Foreign Investors Stock Transaction<sup>1</sup></p>
+            <div class="table-wrapper">
+                <table class="statistic-table">
+                    <thead>
+                        <tr>
+                            <th class="text-left">Trade Side</th>
+                            <th class="text-right">Volume,<br> m. shares</th>
+                            <th class="text-right">Value,<br> b. IDR</th>
+                            <th class="text-right">Frequency,<br> th. X</th>
+                        </tr>
+                    </thead>
+                    <tbody id="foreign-investor-stock-transaction"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="bzg_c split-table-right mb-16" data-col="s12,m6">
+            <p class="red mb-12 text-bold">Other Instrument Trading Summary</p>
+            <div class="table-wrapper">
+                <table class="statistic-table">
+                    <thead>
+                        <tr>
+                            <th class="text-left">Instrument</th>
+                            <th class="text-right nowrap">Volume,<br> th. shares</th>
+                            <th class="text-right nowrap">Value,<br> m. IDR</th>
+                            <th class="text-right nowrap">Frequency,<br> X</th>
+                        </tr>
+                    </thead>
+                    <tbody id="other-instrument-trading-sum"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@if (periodType == "monthly")
+{
+
+    <div class="background-white content-push">
+        <div class="container">
+            <p class="red mb-12 text-bold">Stock Market Snapshot</p>
+            <div class="bzg ml-0 mb-16">
+                <div class="bzg_c split-table-left" data-col="s12,m6">
+                    <div class="table-wrapper">
+                        <table class="statistic-table">
+                            <tbody id="stock-m-snapshot">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="bzg_c split-table-right" data-col="s12,m6">
+                    <div class="table-wrapper">
+                        <table class="statistic-table">
+                            <tbody id="stock-m-snapshot-right"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="background-light-grey content-push">
+        <div class="container bzg">
+            <div class="bzg_c split-table-left mb-16" data-col="s12,m6">
+                <p class="red mb-12 text-bold">Stock New Listing</p>
+                <div class="table-wrapper">
+                    <table class="statistic-table">
+                        <tbody id="stock-new-listing">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="bzg_c split-table-right mb-16" data-col="s12,m6">
+                <p class="red mb-12 text-bold">Stock Delisting</p>
+                <div class="table-wrapper">
+                    <table class="statistic-table">
+                        <tbody id="stock-delisting">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="background-white content-push">
+        <div class="container bzg">
+            <div class="bzg_c split-table-left mb-16" data-col="s12,m6">
+                <p class="red mb-12 text-bold">Rights Announcement</p>
+                <div class="table-wrapper">
+                    <table class="statistic-table">
+                        <tbody id="right-announcements"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="bzg_c split-table-right mb-16" data-col="s12,m6">
+                <p class="red mb-12 text-bold">Number of Securities</p>
+                <div class="table-wrapper">
+                    <table class="statistic-table">
+                        <tbody id="number-of-securities"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+<div class="background-light-grey content-push">
+    <div class="container bzg">
+        <div class="bzg_c split-table-left mb-16" data-col="s12,m6">
+            <p class="red mb-12 text-bold">Bond & ABS Trading Summary</p>
+            <div class="table-wrapper">
+                <table class="statistic-table">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Volume, b</th>
+                        <th>Frequency, x</th>
+                    </tr>
+                    </thead>
+                    <tbody id="bond-abs-trading-summary"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="bzg_c split-table-right mb-16" data-col="s12,m6">
+            <p class="red mb-12 text-bold">Bond & ABS Listing Summary</p>
+            <div class="table-wrapper">
+                <table class="statistic-table">
+                    <tbody id="bond-abs-listing-summary"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@* @if (periodType == "quarterly") *@
+{
+@*     <div class="background-white content-push"> *@
+@*         <div class="container mb-16"> *@
+@*             <p class="red mb-12 text-bold">Monthly Trading in Volume and Value</p> *@
+@*             <div class="monthly-trading-volume-value-js" data-chart="@Url.Action("GetApiData", "DigitalStatitic", new {urlName = monthlyTradingVolUrlName, query = query, isPrint, cumulative = isCumulative})"></div> *@
+@*         </div> *@
+@*         <div class="container mb-16"> *@
+@*             <p class="red mb-12 text-bold">Quarterly Trading Volume and Value</p> *@
+@*             <div class="quarterly-trading-volume-value-js" data-chart="@Url.Action("GetApiData", "DigitalStatitic", new {urlName = quarterTradingVolUrlName, query = query, isPrint, cumulative = isCumulative})"></div> *@
+@*         </div> *@
+@*     </div> *@
+@* } *@
+@section Scripts{
+    <script type="text/javascript">
+        var downloadState = true;
+        var loadedData = 0;
+        var dataAmount = @(periodType == "monthly" ? 11 : 5);
+        var isErrorHandled = false;
+
+        $(function () {
+            setTabVisibility();
+            getYear();
+            filteredType = $('#filteredType').val();
+            getData(filteredType);
+        });
+        function getYear() {
+            setFilterOpt(true);
+            date = new Date();
+            month = date.getMonth();
+            year = date.getFullYear()
+            quarter = Math.floor((parseInt(month) + 2)/3)
+            for (var i = year; i >= year-2; i--) {
+                $('#filterYear').append('<option value="' + i + '">' + i + '</option>');
+            }
+
+            $('#filterYear').val(year);
+            $('#filterMonth').val(month);
+            $('#filterQuarter').val(quarter-1);
+        }
+        function hideLoader() {
+            loadedData += 1;
+            if (loadedData >= dataAmount) {
+                var loader = $('.table-loading');
+                loader.fadeOut();
+            }
+        }
+        var handleError = function () {
+            hideLoader();
+            if (isErrorHandled) return;
+            var message = 'Failed to load statistic data. Please try again later.';
+            @if(!en) {
+                <text>message = 'Gagal mengambil data statistik. Cobalah beberapa saat lagi.';</text>
+            }
+            alert(message);
+            // $('#stock-trading-summary').html('<tr><td colspan="14">' + message + '</td></tr>');
+            isErrorHandled = true;
+        }
+        function setTabVisibility() {
+            var filteredType = $('#filteredType').val();
+            $('#filterMonth').parent().parent().css('display', 'none')
+            $('#filterQuarter').parent().parent().css('display', 'none')
+
+            if (filteredType == 'monthly') {
+                $('#filterMonth').parent().parent().css('display', 'block')
+            }
+            if (filteredType == 'quarterly') {
+                $('#filterQuarter').parent().parent().css('display', 'block')
+            }
+        }
+        function numberFormat(val, decimal) {
+            if (val == null || val == 0 || val == "") {
+                return "-";
+            }
+            return val.toLocaleString('en', {
+                minimumFractionDigits: decimal,
+                maximumFractionDigits: decimal
+            })
+        }
+        function getDataStockSum(query) {
+            tableStockSum = $('#stock-trading-summary')
+            var url = '@Url.Action("GetApiDataSearch", "DigitalStatitic", new { urlName = stockSumUrlName })' + query;
+            $.ajax({
+                url: url,
+                method: 'GET',
+                success: function (res) {
+                    html = ""
+                    res.data.forEach((el, i) => {
+                        isBold = (el.Market != null) && (el.Market.toLowerCase().includes("total") || el.Market.toLowerCase().includes("average"))
+                        html += "<tr style='" + (isBold ? "font-weight: bold;" : "") + "'>";
+                        html += "<td>" + el.Market + "</td>";
+                        html += "<td class='text-right'>" + numberFormat(el.IdxVol, 2) + "</td>";
+                        html += "<td class='text-right'>" + numberFormat(el.IdxVal, 2) + "</td>";
+                        html += "<td class='text-right'>" + numberFormat(el.IdxFreq, 2) + "</td>";
+                        html += "<td></td>";
+                        html += "<td class='text-right'>" + numberFormat(el.ShariaVol, 2) + "</td>";
+                        html += "<td class='text-right'>" + numberFormat(el.ShariaVal, 2) + "</td>";
+                        html += "<td class='text-right'>" + numberFormat(el.ShariaPercent, 2) + "</td>";
+                        html += "<td class='text-right'>" + numberFormat(el.ShariaFreq, 2) + "</td>";
+                        html += "<td></td>";
+                        html += "<td class='text-right'>" + numberFormat(el.Lq45Vol, 2) + "</td>";
+                        html += "<td class='text-right'>" + numberFormat(el.Lq45Val, 2) + "</td>";
+                        html += "<td class='text-right'>" + numberFormat(el.Lq45Percent, 2) + "</td>";
+                        html += "<td class='text-right'>" + numberFormat(el.Lq45Freq, 2) + "</td>";
+                        html += "</tr>";
+                    })
+                    hideLoader();
+                    tableStockSum.html(html)
+                },
+                error: handleError
+            })
+        }
+        function getDataStockMSnapshot(query) {
+            tableStockMSnapshot = $('#stock-m-snapshot')
+            var url = '@Url.Action("GetApiDataSearch", "DigitalStatitic", new { urlName = stockMSnapshotUrlName })' + query;
+
+            $.ajax({
+                url: url,
+                method: 'GET',
+                success: function (res) {
+                    html = ""
+                    res.data.forEach((el, i) => {
+                        html += "<tr>";
+                        html += "<td>" + el.Market + "</td>";
+                        html += "<td class='text-right'>" + numberFormat(el.IdxVal, 0) + "</td>";
+                        html += "</tr>";
+                    })
+                    hideLoader();
+                    tableStockMSnapshot.html(html)
+                },
+                error: handleError
+            });
+        }
+        function getDataStockDeListing(query) {
+            tableStockDeListing = $('#stock-delisting')
+            var url = '@Url.Action("GetApiDataSearch", "DigitalStatitic", new { urlName = stockDeListingUrlName })' + query;
+            $.ajax({
+                url: url,
+                method: 'GET',
+                success: function (res) {
+                    html = ""
+                    res.data.forEach((el, i) => {
+                        html += "<tr>";
+                        html += "<td>" + el.Title + "</td>";
+                        html += "<td class='text-right'>" + numberFormat(el.Value, 0) + "</td>";
+                        html += "</tr>";
+                    })
+                    hideLoader();
+                    tableStockDeListing.html(html)
+                },
+                error: handleError
+            });
+        }
+        function getDataStockNewListing(query) {
+            tableStockNewListing = $('#stock-new-listing')
+            var url = '@Url.Action("GetApiDataSearch", "DigitalStatitic", new { urlName = stockNewListingUrlName })' + query;
+            $.ajax({
+                url: url,
+                method: 'GET',
+                success: function (res) {
+                    html = ""
+                    res.data.forEach((el, i) => {
+                        html += "<tr>";
+                        html += "<td>" + el.Title + "</td>";
+                        html += "<td class='text-right'>" + numberFormat(el.Value, 0) + "</td>";
+                        html += "</tr>";
+                    })
+                    hideLoader();
+                    tableStockNewListing.html(html)
+                },
+                error: handleError
+            });
+        }
+        function getDataOtherInstrumentTradSum(query) {
+            tableOtherInstrumentTradSum = $('#other-instrument-trading-sum')
+            var url = '@Url.Action("GetApiDataSearch", "DigitalStatitic", new { urlName = otherInstrumentTradingSumUrlName })' + query;
+            $.ajax({
+                url: url,
+                method: 'GET',
+                success: function (res) {
+                    html = ""
+                    res.data.forEach((el, i) => {
+                        if (el.Market == "") {
+                            html += "<tr class=\"sub-head text-bold\">";
+                            html += "<td class=\"no-border\"></td>";
+                            html += "<td class=\"text-right no-border\">Volume</td>";
+                            html += "<td class='text-right no-border'>Value,<br>m. IDR</td>";
+                            html += "<td class='text-right no-border'>Frequency</td>";
+                            html += "</tr>";
+                        } else {
+                            html += "<tr>";
+                            html += "<td>" + el.Market + "</td>";
+                            html += "<td class='text-right'>" + numberFormat(el.IdxVol, 2) + "</td>";
+                            html += "<td class='text-right'>" + numberFormat(el.IdxVal, 0) + "</td>";
+                            html += "<td class='text-right'>" + numberFormat(el.IdxFreq, 0) + "</td>";
+                            html += "</tr>";
+                        }
+                    })
+                    hideLoader();
+                    tableOtherInstrumentTradSum.html(html)
+                },
+                error: handleError
+            });
+        }
+        function getDataNumberOfSecurities(query) {
+            tableNumberOfSecurities = $('#number-of-securities')
+            var url = '@Url.Action("GetApiDataSearch", "DigitalStatitic", new { urlName = numberOfSecuritiesUrlName })' + query;
+            $.ajax({
+                url: url,
+                method: 'GET',
+                success: function (res) {
+                    html = ""
+                    res.data.forEach((el, i) => {
+                        colspan = 2
+                        html += "<tr>";
+                        html += "<td>" + el.Market + "</td>";
+                        if (el.Market.includes("|")) {
+                            html += "<td class='text-center separator'>" + numberFormat(el.IdxVol, 0) + "</td>";
+                            colspan = 1
+                        }
+                        html += "<td class='text-right' colspan='" + colspan + "'>" + numberFormat(el.IdxVal, 0) + "</td>";
+                        html += "</tr>";
+                    })
+                    hideLoader();
+                    tableNumberOfSecurities.html(html)
+                },
+                error: handleError
+            });
+        }
+        function getDataStockMSnapshotRight(query) {
+            tableStockMSnapshotRight = $('#stock-m-snapshot-right')
+            var url = '@Url.Action("GetApiDataSearch", "DigitalStatitic", new { urlName = stockMSnapshotRightUrlName })' + query;
+            $.ajax({
+                url: url,
+                method: 'GET',
+                success: function (res) {
+                    html = ""
+                    res.data.forEach((el, i) => {
+                        colspan = 2
+                        html += "<tr>";
+                        html += "<td>" + el.Market + "</td>";
+                        if (el.Market.includes("|")) {
+                            html += "<td class='text-center separator'>" + numberFormat(el.IdxVol, 0) + "</td>";
+                            colspan = 1
+                        }
+                        decimal = el.Market.toLowerCase().includes("average") ? 2 : 0;
+                        html += "<td class='text-right' colspan='" + colspan + "'>" + numberFormat(el.IdxVal, decimal) + "</td>";
+                        html += "</tr>";
+                    })
+                    hideLoader();
+                    tableStockMSnapshotRight.html(html)
+                },
+                error: handleError
+            });
+        }
+        function getDataForeignStockTrans(query) {
+            tableForeignStockTrans = $('#foreign-investor-stock-transaction')
+            var url = '@Url.Action("GetApiDataSearch", "DigitalStatitic", new { urlName = foreignInvestorStockTransactionUrlName })' + query;
+            $.ajax({
+                url: url,
+                method: 'GET',
+                success: function (res) {
+                    html = ""
+                    res.data.forEach((el, i) => {
+                        isBold = (el.Market != null) && (el.Market.toLowerCase().includes("net"))
+                        html += "<tr style='" + (isBold ? "font-weight: bold;" : "") + "'>";
+                        html += "<td>" + el.Market + "</td>";
+                        html += "<td class='text-right'>" + numberFormat(el.IdxVol, 0) + "</td>";
+                        html += "<td class='text-right'>" + numberFormat(el.IdxVal, 0) + "</td>";
+                        html += "<td class='text-right'>" + numberFormat(el.IdxFreq, 0) + "</td>";
+                        html += "</tr>";
+                    })
+                    html += "<tr>"
+                    html += "<td class=\"no-border\" colspan=\"4\">"
+                    html += "<ol class=\"pl-12 mb-0\">"
+                    html += "<li>"
+                    html += "Type of investor is calculated based on transaction domicile inputed into IDX trading system. Not based on actual investor identity registrated on KSEI."
+                    html += "</li>"
+                    html += "<li>"
+                    html += "Net purchase by foreign investors (purchase minus sales)"
+                    html += "</li>"
+                    html += "<li>"
+                    html += "Infrastructure Investment Trust"
+                    html += "</li>"
+                    html += "</ol>"
+                    html += "</td>"
+                    html += "</tr>"
+                    hideLoader();
+                    tableForeignStockTrans.html(html)
+                },
+                error: handleError
+            });
+        }
+        function getDataRightAnnouncement(query) {
+            tableRightAnnouncement = $('#right-announcements')
+            var url = '@Url.Action("GetApiDataSearch", "DigitalStatitic", new { urlName = rightAnnouncementUrlName })' + query;
+            $.ajax({
+                url: url,
+                method: 'GET',
+                success: function (res) {
+                    html = ""
+                    res.data.forEach((el, i) => {
+                        html += "<tr>";
+                        html += "<td>" + el.Title + "</td>";
+                        html += "<td class='text-right'>" + numberFormat(el.Value, 0) + "</td>";
+                        html += "</tr>";
+                    })
+                    hideLoader();
+                    tableRightAnnouncement.html(html)
+                },
+                error: handleError
+            });
+        }
+        function getDataBondAbsTradingSummary(query) {
+            tablBondAbsTradSum = $('#bond-abs-trading-summary')
+            var url = '@Url.Action("GetApiDataSearch", "DigitalStatitic", new { urlName = bondAbsTradingSummaryUrlName })' + query;
+            $.ajax({
+                url: url,
+                method: 'GET',
+                success: function (res) {
+                    html = ""
+                    res.data.forEach((el, i) => {
+                        isBold = (el.Market != null) && (el.Market.toLowerCase().includes("bond") || el.Market.toLowerCase().includes("abs"))
+                        html += "<tr class='" + (isBold ? "text-bold" : "") + "'>";
+                        html += "<td>" + el.Market + "</td>";
+                        html += "<td class='text-right'>" + (isBold ? "" : numberFormat(el.IdxVol, 2)) + "</td>";
+                        html += "<td class='text-right'>" + (isBold ? "" : numberFormat(el.IdxFreq, 0)) + "</td>";
+                        html += "</tr>";
+                    })
+                    hideLoader();
+                    tablBondAbsTradSum.html(html)
+                },
+                error: handleError
+            });
+        }
+        function getDataBondAbsListingSummary(query) {
+            tablBondAbsListSum = $('#bond-abs-listing-summary')
+            var url = '@Url.Action("GetApiDataSearch", "DigitalStatitic", new { urlName = bondAbsListingSummaryUrlName })' + query;
+            $.ajax({
+                url: url,
+                method: 'GET',
+                success: function (res) {
+                    html = ""
+                    res.data.forEach((el, i) => {
+                        isBold = (el.Market != null) && (el.Market.toLowerCase().includes("bond") || el.Market.toLowerCase().includes("abs"))
+                        html += "<tr class='" + (isBold ? "text-bold" : "") + "'>";
+                        html += "<td colspan='" + (isBold ? "2" : "0") + "'>" + el.Market + "</td>";
+                        colspan = 2
+                        if (el.Market.includes("|")) {
+                            html += "<td class='text-right separator'>" + (isBold ? "" : numberFormat(el.IdxVol, 0)) + "</td>";
+                            colspan = 1
+                        }
+                        html += "<td class='text-right' colspan='" + colspan + "'>" + (isBold ? "" : numberFormat(el.IdxVal, 0)) + "</td>";
+                        html += "</tr>";
+                    })
+                    hideLoader();
+                    tablBondAbsListSum.html(html)
+                },
+                error: handleError
+            });
+        }
+        function getData(type) {
+            isErrorHandled = false;
+            loadedData = 0;
+//            setCookie("filteredYear", $('#filterYear').val());
+//            setCookie("filteredMonth", $('#filterMonth').val());
+//            setCookie("filteredQuarter", $('#filterQuarter').val());
+            if (type != undefined) {
+                $('#filteredType').val(type);
+//                setCookie("filteredType", type);
+                setTabVisibility()
+            }
+//            if (type == "yearly") {
+//                setCookie("filteredQuarter", 4);
+//            }
+
+            var loader = $('.table-loading');
+            loader.fadeIn();
+            var filteredType = $('#filteredType').val();
+            var periodYear = $('#filterYear').val();
+            var periodMonth = $('#filterMonth').val();
+            var periodQuarter = $('#filterQuarter').val();
+            var dateFiltered = $('#dateFiltered').val();
+            var startDate = $('#startDate').val();
+            var endDate = $('#endDate').val();
+
+            if ('@printState' == "pdf") {
+                periodYear = '@year'
+                periodMonth = '@month'
+                periodQuarter = '@quarter'
+                filteredType = '@periodType'
+            }
+
+            var queryparam = ""
+
+            if (periodYear != undefined) {
+//                setCookie("filterYear", periodYear);
+                queryparam += '&periodYear=' + periodYear;
+            }
+            if (periodMonth != undefined) {
+//                setCookie("filterMonth", periodMonth);
+                queryparam += '&periodMonth=' + periodMonth;
+
+            }
+            if (periodQuarter != undefined) {
+                queryparam += '&periodQuarter=' + periodQuarter;
+            }
+            queryparam += '&periodType=' + filteredType;
+            if(startDate != undefined) {
+                queryparam += '&startDate=' + startDate;
+            }
+            if (endDate != undefined) {
+                queryparam += '&endDate=' + endDate;
+            }
+            if (dateFiltered != undefined) {
+                queryparam += '&dateFiltered=' + dateFiltered;
+            }
+            queryparam += '&cumulative=' + @isCumulative;
+            getDataStockSum(queryparam)
+            getDataOtherInstrumentTradSum(queryparam)
+            getDataForeignStockTrans(queryparam)
+            getDataBondAbsTradingSummary(queryparam)
+            getDataBondAbsListingSummary(queryparam)
+            if ('@periodType' == 'monthly'){
+                getDataStockMSnapshot(queryparam)
+                getDataStockMSnapshotRight(queryparam)
+                getDataStockNewListing(queryparam)
+                getDataRightAnnouncement(queryparam)
+                getDataStockDeListing(queryparam)
+                getDataNumberOfSecurities(queryparam)
+            }
+            setTitle();
+        }
+
+        function getReport(tipe) {
+            var filteredType = $('#filteredType').val();
+            var periodYear = $('#filterYear').val();
+            var periodMonth = $('#filterMonth').val();
+            var periodQuarter = $('#filterQuarter').val();
+            var dateFiltered = $('#dateFiltered').val();
+            var startDate = $('#startDate').val();
+            var endDate = $('#endDate').val();
+            var queryparam = "&type=" + tipe;
+            queryparam += '&periodType=' + filteredType;
+
+            if (periodYear != undefined) {
+//                    setCookie("filterYear", periodYear);
+                queryparam += '&periodYear=' + periodYear;
+            }
+            if (periodMonth != undefined && filteredType == "monthly") {
+//                    setCookie("filterMonth", periodMonth);
+                queryparam += '&periodMonth=' + periodMonth;
+
+            }
+            if (periodQuarter != undefined && filteredType == "quarterly") {
+                queryparam += '&periodQuarter=' + periodQuarter;
+            }
+
+            if (dateFiltered != undefined) {
+                queryparam += '&dateFiltered=' + dateFiltered;
+            }
+
+            if (startDate != undefined) {
+                queryparam += '&startDate=' + startDate;
+            }
+            if (endDate != undefined) {
+                queryparam += '&endDate=' + endDate;
+            }
+            queryparam += '&cumulative=' + @isCumulative;
+
+            queryparam += '&filecode=' + '@downloadCode';
+
+//                if (tipe == "pdf") {
+//                    var loc = window.location.href;
+//
+//                    //printDiv("mainStatistik");
+//                    //window.print();
+//                } else {
+            filename = '@Umbraco.Field("title")'
+            if (filteredType == "quarterly") {
+                filename = "@(string.IsNullOrEmpty(Umbraco.Field("titleQuarterly").ToString()) ? Umbraco.Field("title") : Umbraco.Field("titleQuarterly"))";
+            }
+            queryparam += '&filename='+filename;
+            var url = '@Url.Action("GetReportData", "DigitalStatitic", new { xyzzz = 0 })' + queryparam;
+//                }
+
+//                if (tipe == "pdf") {
+            window.open(url, '_blank');
+//                } else {
+//                console.log(url)
+//                    location.href = url;
+//                }
+        }
+    </script>
+}

@@ -1,0 +1,214 @@
+{
+    "data": [
+        {
+            "sector": "Agriculture",
+            "subSector": "Crops",
+            "code": "BISI",
+            "stockName": "Bisi Internasional Tbk.",
+            "sharia": true,
+            "fsDate": "Mon Dec 03 2018 02:10:19 GMT+0700 (Western Indonesia Time)",
+            "fiscalYearEnd": 11,
+            "assets": 2538,
+            "liabilities": 449,
+            "equity": 2301,
+            "sales": 2286,
+            "ebt": 504,
+            "profitPeriod": 401,
+            "profitAttrOwner": 404,
+            "eps": 133.7,
+            "bookValue": 770,
+            "peRatio": 9,
+            "priceBV": 1.82,
+            "deRatio": 0.21,
+            "roa": 16.2,
+            "roe": 16.2,
+            "npm": 16.7
+        },
+        {
+            "sector": "Agriculture",
+            "subSector": "Animal Husbandry",
+            "code": "BISI",
+            "stockName": "Bisi Internasional Tbk.",
+            "sharia": true,
+            "fsDate": "Fri Dec 14 2018 11:24:01 GMT+0700 (Western Indonesia Time)",
+            "fiscalYearEnd": 11,
+            "assets": 2591,
+            "liabilities": 442,
+            "equity": 2302,
+            "sales": 2269,
+            "ebt": 504,
+            "profitPeriod": 400,
+            "profitAttrOwner": 402,
+            "eps": 133.9,
+            "bookValue": 762,
+            "peRatio": 11,
+            "priceBV": 1.86,
+            "deRatio": 0.15,
+            "roa": 17.4,
+            "roe": 15.8,
+            "npm": 16.6
+        },
+        {
+            "sector": "Mining",
+            "subSector": "Coal Mining",
+            "code": "BISI",
+            "stockName": "Bisi Internasional Tbk.",
+            "sharia": false,
+            "fsDate": "Thu Dec 13 2018 03:38:54 GMT+0700 (Western Indonesia Time)",
+            "fiscalYearEnd": 11,
+            "assets": 2526,
+            "liabilities": 442,
+            "equity": 2307,
+            "sales": 2283,
+            "ebt": 502,
+            "profitPeriod": 402,
+            "profitAttrOwner": 402,
+            "eps": 133.8,
+            "bookValue": 760,
+            "peRatio": 11,
+            "priceBV": 1.83,
+            "deRatio": 0.17,
+            "roa": 15.9,
+            "roe": 17.1,
+            "npm": 15.7
+        }
+    ],
+    "columns": [
+        {
+            "columnName": "sector",
+            "decimal": 0,
+            "format": false,
+            "className": "text-center wide"
+        },
+        {
+            "columnName": "subSector",
+            "decimal": 0,
+            "format": false,
+            "className": "text-center"
+        },
+        {
+            "columnName": "listedStocks",
+            "decimal": 0,
+            "format": "nesting",
+            "nesting": [
+                {
+                    "columnName": "code",
+                    "format": false
+                },
+                {
+                    "columnName": "stockName",
+                    "format": false
+                }
+            ],
+            "className": "text-center nowrap"
+        },
+        {
+            "columnName": "sharia",
+            "decimal": 0,
+            "format": "yesNo",
+            "className": "text-center"
+        },
+        {
+            "columnName": "fsDate",
+            "decimal": 0,
+            "format": "monthYear",
+            "className": "text-center nowrap"
+        },
+        {
+            "columnName": "fiscalYearEnd",
+            "decimal": 0,
+            "format": "month",
+            "className": "text-center"
+        },
+        {
+            "columnName": "assets",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "liabilities",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "equity",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "sales",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "ebt",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "profitPeriod",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "profitAttrOwner",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "eps",
+            "decimal": 1,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "bookValue",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "peRatio",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "priceBV",
+            "decimal": 2,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "deRatio",
+            "decimal": 2,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "roa",
+            "decimal": 1,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "roe",
+            "decimal": 1,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "npm",
+            "decimal": 1,
+            "format": true,
+            "className": "text-center"
+        }
+    ]
+}

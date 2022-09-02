@@ -1,0 +1,18 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = null;
+    string linkUrl = "";
+    if(CurrentPage.HasValue("linkTarget"))
+    {
+        var linkItem = CurrentPage.linkTarget;
+        foreach(var item in linkItem)
+        {
+            linkUrl = item.Link;
+        }
+    }
+
+    if(!String.IsNullOrEmpty(linkUrl))
+    {
+        Response.Redirect(linkUrl);
+    }
+}

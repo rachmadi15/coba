@@ -1,0 +1,184 @@
+{
+    "data": [
+        {
+            "indexName": "Composite Index (IHSG)",
+            "high": {
+                "val": 1233190,
+                "date": "Thu May 02 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+            },
+            "low": {
+                "val": 5809220,
+                "date": "Fri May 17 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+            },
+            "close": {
+                "val": 5979117,
+                "date": "Fri May 31 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+            },
+            "month1": {
+                "val": 241506,
+                "percent": 3.81,
+                "rank": 12,
+                "status": "decrease"
+            },
+            "month3": {
+                "val": 234231,
+                "percent": 3.54,
+                "rank": 18,
+                "status": "decrease"
+            },
+            "month6": {
+                "val": 152993,
+                "percent": 2.53,
+                "rank": 14,
+                "status": "increase"
+            },
+            "year1": {
+                "val": 225530,
+                "percent": 3.77,
+                "rank": 13,
+                "status": "increase"
+            },
+            "ytd": {
+                "val": 14619,
+                "percent": 0.24,
+                "rank": 16,
+                "status": ""
+            }
+        },
+        {
+            "indexName": "Agriculture",
+            "high": {
+                "val": 1438937,
+                "date": "Fri May 03 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+            },
+            "low": {
+                "val": 1351935,
+                "date": "Mon May 20 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+            },
+            "close": {
+                "val": 139715,
+                "date": "Fri May 31 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+            },
+            "month1": {
+                "val": 42373,
+                "percent": 2.94,
+                "rank": 5,
+                "status": "decrease"
+            },
+            "month3": {
+                "val": 123671,
+                "percent": 8.12,
+                "rank": 30,
+                "status": "decrease"
+            },
+            "month6": {
+                "val": 152993,
+                "percent": 2.53,
+                "rank": 14,
+                "status": "decrease"
+            },
+            "year1": {
+                "val": 225530,
+                "percent": 3.77,
+                "rank": 13,
+                "status": "decrease"
+            },
+            "ytd": {
+                "val": 14619,
+                "percent": 0.24,
+                "rank": 16,
+                "status": "decrease"
+            }
+        },
+        {
+            "indexName": "Mining",
+            "high": {
+                "val": 1438937,
+                "date": "Thu May 02 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+            },
+            "low": {
+                "val": 1351935,
+                "date": "Sat May 16 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+            },
+            "close": {
+                "val": 139715,
+                "date": "Fri May 31 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+            },
+            "month1": {
+                "val": 42373,
+                "percent": 2.94,
+                "rank": 5,
+                "status": "decreaseMost"
+            },
+            "month3": {
+                "val": 123671,
+                "percent": 8.12,
+                "rank": 30,
+                "status": "decrease"
+            },
+            "month6": {
+                "val": 152993,
+                "percent": 2.53,
+                "rank": 14,
+                "status": "decrease"
+            },
+            "year1": {
+                "val": 225530,
+                "percent": 3.77,
+                "rank": 13,
+                "status": "decreaseMost"
+            },
+            "ytd": {
+                "val": 14619,
+                "percent": 0.24,
+                "rank": 16,
+                "status": "decrease"
+            }
+        },
+        {
+            "indexName": "Infras, Utilities & Transportation",
+            "high": {
+                "val": 1438937,
+                "date": "Thu May 02 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+            },
+            "low": {
+                "val": 1351935,
+                "date": "Sat May 16 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+            },
+            "close": {
+                "val": 139715,
+                "date": "Fri May 31 2019 00:00:00 GMT+0700 (Western Indonesia Time)"
+            },
+            "month1": {
+                "val": 42373,
+                "percent": 2.94,
+                "rank": 5,
+                "status": "decrease"
+            },
+            "month3": {
+                "val": 123671,
+                "percent": 8.12,
+                "rank": 30,
+                "status": "decrease"
+            },
+            "month6": {
+                "val": 152993,
+                "percent": 2.53,
+                "rank": 1,
+                "status": "increaseMost"
+            },
+            "year1": {
+                "val": 225530,
+                "percent": 3.77,
+                "rank": 13,
+                "status": "increase"
+            },
+            "ytd": {
+                "val": 14619,
+                "percent": 0.24,
+                "rank": 1,
+                "status": "increaseMost"
+            }
+        }
+    ]
+}

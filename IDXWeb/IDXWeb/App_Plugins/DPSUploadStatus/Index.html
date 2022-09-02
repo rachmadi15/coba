@@ -1,0 +1,17 @@
+﻿<div ng-controller="DPSUploadStatusController as c">
+    <div>
+        <textarea id="status" name="status" rows="10" style="width: 500px;" ng-model="model.value"></textarea>
+    </div>
+    <div class="btn umb-button__button btn-info umb-button--xxs" ng-click="c.refresh()" style="margin-top: 10px;">
+        <i class="icon icon-refresh"></i>
+        <span class="ng-binding">Refresh</span>
+    </div>
+    <div ng-if="!c.autoRefreshEnabled" class="btn umb-button__button btn-default umb-button--xxs" ng-click="c.startAutoRefresh()" style="margin-top: 10px;">
+        <span class="ng-binding">Auto Refresh</span>
+        <i class="icon icon-wrong" style="vertical-align: middle;"></i>
+    </div>
+    <div ng-if="c.autoRefreshEnabled" class="btn umb-button__button btn-success umb-button--xxs" ng-click="c.stopAutoRefresh()" style="margin-top: 10px;">
+        <span class="ng-binding">Auto Refresh</span>
+        <i class="icon icon-check" style="vertical-align: middle;"></i>
+    </div>
+</div>

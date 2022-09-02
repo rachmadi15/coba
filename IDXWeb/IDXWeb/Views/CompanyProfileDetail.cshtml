@@ -1,0 +1,1795 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+}
+
+@section Styles {
+    <link href="@Url.Content("/assets/css/jquery.dataTables.min.css")" rel="stylesheet" type="text/css" />
+}
+
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1) {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages) {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (!page.Name.Contains("Detail")) {
+                    if (page.DocumentTypeId != 1237) {
+                        <li class="@cls"><a href="@page.Url">@page.Name</a></li>
+                    }
+                    else {
+                        <li class="@cls"><a href="" class="disable"><span>@page.Name</span></a></li>
+                    }
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+        </div>
+        <div class="company-profile-header">
+            <div class="company-profile-name">
+                <img id="emitenLogo" src="" alt="">
+                <span id="emitenName"></span>
+            </div>
+            <div class="company-profile-list">
+                <form action="">
+                    <label for="" class="form-label">Pilih Kode Perusahaan</label>
+                    <div class="option-box">
+                        <select name="" id="emitenList" class="form-option"></select>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="main-content content-push">
+        <div class="container">
+            <ul class="content-tab-container --center block-double">
+                <li class="content-tab-item"><a href="#general" class="content-tab-anchor company-profile-anchor-js is-active">@Umbraco.GetDictionaryValue("general")</a></li>
+                <li class="content-tab-item"><a href="#dividen" class="content-tab-anchor company-profile-anchor-js">@Umbraco.GetDictionaryValue("Dividend")</a></li>
+                <li class="content-tab-item"><a href="#issued" class="content-tab-anchor company-profile-anchor-js">@Umbraco.GetDictionaryValue("Issued History")</a></li>
+                <li class="content-tab-item"><a href="#announcement" class="content-tab-anchor company-profile-anchor-js">@Umbraco.GetDictionaryValue("Announcement")</a></li>
+                @*<li class="content-tab-item"><a href="#finance" class="content-tab-anchor company-profile-anchor-js">@Umbraco.GetDictionaryValue("Financial Report")</a></li>*@
+                <li id="bondSukukTab" class="content-tab-item"><a href="#bond" class="content-tab-anchor company-profile-anchor-js">@Umbraco.GetDictionaryValue("Bond Sukuk")</a></li>
+                <li class="content-tab-item"><a href="#trading" class="content-tab-anchor company-profile-anchor-js">@Umbraco.GetDictionaryValue("Trading Info")</a></li>
+                <li class="content-tab-item"><a href="#calendar" class="content-tab-anchor company-profile-anchor-js">@Umbraco.GetDictionaryValue("Calendar")</a></li>
+                
+                
+                <li id="h_anchor" class="content-tab-item"><a href="#History" class="content-tab-anchor company-profile-anchor-js">Historical</a></li>
+                <li id="dh_anchor" class="content-tab-item"><a href="#DH" class="content-tab-anchor company-profile-anchor-js">@Umbraco.GetDictionaryValue("CompanyProfileDetail - Histori Perubahan Dividen")</a></li>
+                
+            </ul>
+            <div class="company-profile-content is-active" id="general">
+                <dl class="financial-report-list --big cf block-double">
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("Name")</dt>
+                    <dd class="financial-report-description"><span id="frName"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("Security Code")</dt>
+                    <dd class="financial-report-description"><span id="frSecurityCode"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("Office Address")</dt>
+                    <dd class="financial-report-description"><span id="frOfficeAddress"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("Email Address")</dt>
+                    <dd class="financial-report-description"><span id="frEmail"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("Phone")</dt>
+                    <dd class="financial-report-description"><span id="frTelephone"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("fax")</dt>
+                    <dd class="financial-report-description"><span id="frFax"></span></dd>
+                    <dt class="financial-report-title">NPWP</dt>
+                    <dd class="financial-report-description"><span id="frNpwp"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("situs")</dt>
+                    <dd class="financial-report-description"><a id="frWebsite" href="" target="_blank"></a></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("ipo date")</dt>
+                    <dd class="financial-report-description"><span id="frIpoDate"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("board")</dt>
+                    <dd class="financial-report-description"><span id="frBoard"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("mainbusiness")</dt>
+                    <dd class="financial-report-description"><span id="frMainBusiness"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("sector")</dt>
+                    <dd class="financial-report-description"><span id="frSector"></span></dd>
+                    <dt class="financial-report-title">Sub Sektor</dt>
+                    <dd class="financial-report-description"><span id="frSubSector"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("bae")</dt>
+                    <dd class="financial-report-description"><span id="frBAE"></span></dd>
+                </dl>
+                <div class="block-double">
+                    <h2 class="page-subtitle">@Umbraco.GetDictionaryValue("Corporate Secretary")</h2>
+                    <table id="csTable" class="table table--zebra table-content-page">
+                        <thead>
+                            <tr>
+                                <th>@Umbraco.GetDictionaryValue("name")</th>
+                                <th>@Umbraco.GetDictionaryValue("Email Address")</th>
+                                <th>@Umbraco.GetDictionaryValue("phone number")</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="block-double">
+                    <h2 class="page-subtitle">@Umbraco.GetDictionaryValue("director")</h2>
+                    <table id="directorTable" class="table table--zebra table-content-page">
+                        <thead>
+                            <tr>
+                                <th>@Umbraco.GetDictionaryValue("name")</th>
+                                <th>@Umbraco.GetDictionaryValue("position")</th>
+                                <th>@Umbraco.GetDictionaryValue("affiliated")</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="block-double">
+                    <h2 class="page-subtitle">@Umbraco.GetDictionaryValue("Comissioners")</h2>
+                    <table id="comissionerTable" class="table table--zebra table-content-page">
+                        <thead>
+                            <tr>
+                                <th>@Umbraco.GetDictionaryValue("name")</th>
+                                <th>@Umbraco.GetDictionaryValue("position")</th>
+                                <th>@Umbraco.GetDictionaryValue("Independent")</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="block-double">
+                    <h2 class="page-subtitle">@Umbraco.GetDictionaryValue("Audit Committee")</h2>
+                    <table id="committeeTable" class="table table--zebra table-content-page">
+                        <thead>
+                            <tr>
+                                <th>@Umbraco.GetDictionaryValue("name")</th>
+                                <th>@Umbraco.GetDictionaryValue("position")</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="block-double">
+                    <h2 class="page-subtitle">@Umbraco.GetDictionaryValue("Shareholders")</h2>
+                    <table id="shareholdersTable" class="table table--zebra table-content-page">
+                        <thead>
+                            <tr>
+                                <th>@Umbraco.GetDictionaryValue("name")</th>
+                                <th>@Umbraco.GetDictionaryValue("type")</th>
+                                <th>@Umbraco.GetDictionaryValue("summary")</th>
+                                <th>@Umbraco.GetDictionaryValue("percentage")</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="block-double">
+                    <h2 class="page-subtitle">@Umbraco.GetDictionaryValue("Subsidiary")</h2>
+                    <table id="subsidiaryTable" class="table table--zebra table-content-page width-block">
+                        <thead>
+                            <tr>
+                                <th>@Umbraco.GetDictionaryValue("name")</th>
+                                <th>@Umbraco.GetDictionaryValue("type")</th>
+                                <th>@Umbraco.GetDictionaryValue("total asset")</th>
+                                <th>@Umbraco.GetDictionaryValue("percentage")</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div id="public-accountant-container" class="block-double">
+                    <h2 class="page-subtitle">@Umbraco.GetDictionaryValue("Public Accountant")</h2>
+                    <table id="publicAccountantTable" class="table table--zebra table-content-page">
+                        <thead>
+                            <tr>
+                                <th>@Umbraco.GetDictionaryValue("name")</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="company-profile-content" id="dividen">
+                <div class="block-double">
+                    <table id="dividenTable" class="table table--zebra table-content-page">
+                        <thead>
+                            <tr>
+                                <th>@Umbraco.GetDictionaryValue("company name")</th>
+                                <th>@Umbraco.GetDictionaryValue("year")</th>
+                                <th>@Umbraco.GetDictionaryValue("cash dividend")</th>
+                                <th>@Umbraco.GetDictionaryValue("bonus share")</th>
+                                <th>@Umbraco.GetDictionaryValue("cum date")</th>
+                                <th>@Umbraco.GetDictionaryValue("ex date")</th>
+                                <th>@Umbraco.GetDictionaryValue("recording date")</th>
+                                <th>@Umbraco.GetDictionaryValue("payment date")</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="company-profile-content" id="issued">
+                <div class="block-double">
+                    <table id="issuedTable" class="table table--zebra table-content-page width-block">
+                        <thead>
+                            <tr>
+                                <th>@Umbraco.GetDictionaryValue("listing date")</th>
+                                <th>@Umbraco.GetDictionaryValue("corp action")</th>
+                                <th>@Umbraco.GetDictionaryValue("number of stock addition")</th>
+                                <th>@Umbraco.GetDictionaryValue("number of stock acc")</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="company-profile-content" id="announcement" ng-controller="AnnouncementController as announcementCtrl">
+                <div action="" class="block-double">
+                    <div class="block flex v-center">
+                        <span class="form-label-announcement">@Umbraco.GetDictionaryValue("keyword")</span>
+                        <input id="announcementKeywordInput" type="text" class="form-input form-input--block" placeholder="Enter Keyword">
+                    </div>
+                    <div class="block flex v-center">
+                        <span class="form-label-announcement">@Umbraco.GetDictionaryValue("from")</span>
+                        <div class="calendar-box width-block">
+                            <input id="announcementDateFromInput" type="date" class="form-input form-input--block date-picker-js">
+                        </div>
+                        <span class="form-label-announcement">@Umbraco.GetDictionaryValue("to")</span>
+                        <div class="calendar-box width-block">
+                            <input id="announcementDateToInput" type="date" class="form-input form-input--block date-picker-js">
+                        </div>
+                    </div>
+
+                    <div class="block flex v-center">
+                        <span class="form-label-announcement">&nbsp;</span>
+                        <button id="announcementSearchBtn" class="btn btn-primary">@Umbraco.GetDictionaryValue("search")</button>
+                    </div>
+                </div>
+                <div class="container white-container">
+                    <div class="block">
+                        <div class="border-bottom">
+                            <div class="container-space container-space--big" dir-paginate="res in announcement | itemsPerPage: limit" total-items="totalUsers" current-page="pagination.current">
+                                <time class="financial-report-date">{{res.pengumuman.TglPengumuman | date:'dd MMMM yyyy HH:mm:ss'}}</time>
+                                <a href="{{res.attachments[0].FullSavePath}}" target="_blank" class="red">
+                                    <p class="text-bigger text-bold block-clear">{{res.pengumuman.JudulPengumuman}} [{{res.pengumuman.Kode_Emiten}}]</p>
+                                </a>
+                                Attachment:<br />
+                                <div ng-repeat="attachments in res.attachments | filter:true:isAttachment">
+                                    <a href="{{attachments.FullSavePath}}" target="_blank" class="red"><span class="fa fa-file"></span> {{attachments.OriginalFilename}}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+                </div>
+            </div>
+            <div class="company-profile-content" id="finance">
+                <div action="" class="text-center block-double">
+                    <div class="option-box d-iblock">
+                        <select name="" id="" class="form-option financial-report-js">
+                            <option value="#tahunan">Laporan Keuangan Tahunan</option>
+                            <option value="#interim">Laporan Keuangan Interim</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="block-double financial-report-content is-active" id="tahunan">
+                    <h3>Neraca</h3>
+                    <table id="neracaTable" class="table table-content-page">
+                        <thead>
+                            <tr>
+                                <th>Akun</th>
+                                <th id="neracaYear1"></th>
+                                <th id="neracaYear2"></th>
+                                <th id="neracaYear3"></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                    <h3>Laba Rugi</h3>
+                    <table id="labaRugiTable" class="table table-content-page">
+                        <thead>
+                            <tr>
+                                <th>Akun</th>
+                                <th id="labaRugiYear1"></th>
+                                <th id="labaRugiYear2"></th>
+                                <th id="labaRugiYear3"></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                    <h3>Arus Kas</h3>
+                    <table id="arusKasTable" class="table table-content-page">
+                        <thead>
+                            <tr>
+                                <th>Akun</th>
+                                <th id="arusKasYear1"></th>
+                                <th id="arusKasYear2"></th>
+                                <th id="arusKasYear3"></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="block-double financial-report-content" id="interim">
+                    <h3>Neraca</h3>
+                    <table id="neracaInterimTable" class="table table-content-page">
+                        <thead>
+                            <tr>
+                                <th>Akun</th>
+                                <th id="neracaInterimYear1"></th>
+                                <th id="neracaInterimYear2"></th>
+                                <th id="neracaInterimYear3"></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                    <h3>Laba Rugi</h3>
+                    <table id="labaRugiInterimTable" class="table table-content-page">
+                        <thead>
+                            <tr>
+                                <th>Akun</th>
+                                <th id="labaRugiInterimYear1"></th>
+                                <th id="labaRugiInterimYear2"></th>
+                                <th id="labaRugiInterimYear3"></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                    <h3>Arus Kas</h3>
+                    <table id="arusKasInterimTable" class="table table-content-page">
+                        <thead>
+                            <tr>
+                                <th>Akun</th>
+                                <th id="arusKasInterimYear1"></th>
+                                <th id="arusKasInterimYear2"></th>
+                                <th id="arusKasInterimYear3"></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="company-profile-content" id="bond">
+                <div class="block-double">
+                    <table id="bondTable" class="table table--zebra table-content-page">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>@Umbraco.GetDictionaryValue("name")</th>
+                                <th>@Umbraco.GetDictionaryValue("listing date")</th>
+                                <th>Mature Date</th>
+                                <th>Rating</th>
+                                <th>@Umbraco.GetDictionaryValue("CPD - BondSukuk - value", "Value")</th>
+                                <th>@Umbraco.GetDictionaryValue("CPD - BondSukuk - Margin", "Margin")</th>
+                                <th>Trustee</th>
+                                <th>ISIN Code</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="company-profile-content" id="trading">
+                <div class="grid-container block-double">
+                    <dl class="financial-report-list --big cf block-double grid-2">
+                        <dt class="financial-report-title">@Umbraco.GetDictionaryValue("date")</dt>
+                        <dd id="tradingDate" class="financial-report-description">-</dd>
+                        <dt class="financial-report-title">@Umbraco.GetDictionaryValue("time")</dt>
+                        <dd id="tradingTime" class="financial-report-description">-</dd>
+                        <dt class="financial-report-title">@Umbraco.GetDictionaryValue("high")</dt>
+                        <dd id="tradingHigh" class="financial-report-description">-</dd>
+                        <dt class="financial-report-title">@Umbraco.GetDictionaryValue("low")</dt>
+                        <dd id="tradingLow" class="financial-report-description">-</dd>
+                        <dt class="financial-report-title">@Umbraco.GetDictionaryValue("last")</dt>
+                        <dd id="tradingLast" class="financial-report-description">-</dd>
+                        <dt class="financial-report-title">IHSI</dt>
+                        <dd id="tradingIhsi" class="financial-report-description">-</dd>
+                        <dt class="financial-report-title">Volume</dt>
+                        <dd id="tradingVolume" class="financial-report-description">-</dd>
+                        <dt class="financial-report-title">@Umbraco.GetDictionaryValue("value")</dt>
+                        <dd id="tradingValue" class="financial-report-description"></dd>
+                        <dt class="financial-report-title">@Umbraco.GetDictionaryValue("frequency")</dt>
+                        <dd id="tradingFrequency" class="financial-report-description">-</dd>
+                        <dt class="financial-report-title">@Umbraco.GetDictionaryValue("market cap")</dt>
+                        <dd id="tradingMarketCap" class="financial-report-description">-</dd>
+                        <dt class="financial-report-title">@Umbraco.GetDictionaryValue("negotiated volume")</dt>
+                        <dd id="tradingNegotiatedVolume" class="financial-report-description">-</dd>
+                    </dl>
+                    <div class="grid-2">
+                        <div class="white-container padding-space">
+                            <div class="chart-stock"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="block-double">
+                    <table id="tradingInfoTable" class="table table--zebra table-content-page width-block">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>@Umbraco.GetDictionaryValue("date")</th>
+                                <th>@Umbraco.GetDictionaryValue("opening price")</th>
+                                <th>@Umbraco.GetDictionaryValue("high")</th>
+                                <th>@Umbraco.GetDictionaryValue("low")</th>
+                                <th>@Umbraco.GetDictionaryValue("closing")</th>
+                                <th>Volume</th>
+                                <th>@Umbraco.GetDictionaryValue("value")</th>
+                                <th>@Umbraco.GetDictionaryValue("frequency")</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="company-profile-content" id="calendar">
+                <div class="block-double">
+                    <table id="calendarTable" class="table table--zebra table-content-page width-block">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>@Umbraco.GetDictionaryValue("date")</th>
+                                <th>@Umbraco.GetDictionaryValue("event")</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="company-profile-content" id="bondIssued">
+                <div class="block-double">
+                    <table id="issuedBondTable" class="table table--zebra table-content-page">
+                        <thead>
+                            <tr>
+                                <th>@Umbraco.GetDictionaryValue("name")</th>
+                                <th>Bond Amortization</th>
+                                <th>Bond Sinking Fund</th>
+                                <th>Coupon Detail</th>
+                                <th>Coupon Payment Detail</th>
+                                <th>Bond Maturity</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="company-profile-content" id="ESG">
+			
+            </div>
+            <!--==================== History Content Container ==================-->
+            <div class="company-profile-content" id="History">
+                <div class="block flex v-center">
+                    <span class="form-label-announcement">@Umbraco.GetDictionaryValue("year")</span>
+                    <select name="year" id="hYearFilter" class="form-input form-input--block"></select>
+                </div>
+                <div class="block-double">
+                    <h2>@Umbraco.GetDictionaryValue("CompanyProfileDetail - Histori Perubahan Nama")</h2>
+                    <table id="NHTable" class="table table--zebra table-content-page">
+                        <thead>
+                            <tr>
+                                <th>Tanggal Efektif</th>
+                                <th>Nama Emiten</th>
+                                <th>Nama Emiten Baru</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <hr />
+                <div class="block-double">
+                    <h2>@Umbraco.GetDictionaryValue("CompanyProfileDetail - Histori Perubahan Core Business")</h2>
+                    <table id="CBHTable" class="table table--zebra table-content-page">
+                        <thead>
+                            <tr>
+                                <th>Tanggal RUPS</th>
+                                <th>Kegiatan Semula</th>
+                                <th>Kegiatan Baru</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <hr />
+                <div class="block-double">
+                    <h2>@Umbraco.GetDictionaryValue("CompanyProfileDetail - Histori Perubahan Pemegang Saham > 5 Persen")</h2>
+                    <table id="SHHTable" class="table table--zebra table-content-page">
+                        <thead>
+                            <tr>
+                                <th>Periode</th>
+                                <th>@Umbraco.GetDictionaryValue("name")</th>
+                                <th>Jumlah</th>
+                                <th>Persentase</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <hr />
+                <div class="block-double">
+                    <h2>@Umbraco.GetDictionaryValue("CompanyProfileDetail - Histori Perubahan Pemegang Saham Pengendali")</h2>
+                    <table id="SHHPTable" class="table table--zebra table-content-page">
+                        <thead>
+                            <tr>
+                                <th>Periode</th>
+                                <th>@Umbraco.GetDictionaryValue("name")</th>
+                                <th>Jenis</th>
+                                <th>Jumlah</th>
+                                <th>Persentase</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <hr />
+                <div class="block-double">
+                    <h2>ESG</h2>
+				<div>
+					<b>@Umbraco.GetDictionaryValue("Company Profile Detail - ESG - Date") : <span id="esgTime"></span></b>
+				</div>
+                <div style="width:50%;float:left;padding:10px;">
+                    <h3>@Umbraco.GetDictionaryValue("Company Profile Detail - ESG - Rasio Komposisi")</h3>
+					<table id="esgTable" class="table table--zebra table-content-page">
+                        <thead>
+                            <tr>
+                                <th>@Umbraco.GetDictionaryValue("Company Profile Detail - ESG - Keterangan")</th>
+                                <th>@Umbraco.GetDictionaryValue("Company Profile Detail - ESG - Perempuan")</th>
+                                <th>@Umbraco.GetDictionaryValue("Company Profile Detail - ESG - Laki-laki")</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+							<tr>
+								<td>@Umbraco.GetDictionaryValue("Company Profile Detail - ESG - Jajaran Direksi")</td>
+								<td id="direksiWoman"></td>
+								<td id="direksiMan"></td>
+							</tr>
+							<tr>
+								<td>@Umbraco.GetDictionaryValue("Company Profile Detail - ESG - Jajaran Level Senior Management")</td>
+								<td id="seniorWoman"></td>
+								<td id="seniorMan"></td>
+							</tr>
+						</tbody>
+                    </table>
+                </div>
+                <div style="width:50%;float:right;padding:10px">
+                    <h3>@Umbraco.GetDictionaryValue("Company Profile Detail - ESG - Rata-rata waktu pelatihan") <span id="esgAvgTime"></span> @Umbraco.GetDictionaryValue("Company Profile Detail - ESG - Jam")</h3>
+					<table id="esgTable" class="table table--zebra table-content-page">
+                        <thead>
+                            <tr>
+                                <th>@Umbraco.GetDictionaryValue("Company Profile Detail - ESG - Keterangan")</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+							<tr>
+								<td>@Umbraco.GetDictionaryValue("Company Profile Detail - ESG - Penggunaan Emisi")</td>
+								<td id="esgEmisi"></td>
+							</tr>
+							<tr>
+								<td>@Umbraco.GetDictionaryValue("Company Profile Detail - ESG - Daur Ulang Sampah")</td>
+								<td id="esgDaurUlang"></td>
+							</tr>
+						</tbody>
+                    </table>
+                </div>
+				</div>
+            </div>
+            <!--==================== Dividen Content Container ==================-->
+            <div class="company-profile-content" id="DH">
+                <div class="block flex v-center">
+                    <span class="form-label-announcement">@Umbraco.GetDictionaryValue("year")</span>
+                    <select name="year" id="dhYearFilter" class="form-input form-input--block"></select>
+                </div>
+                <div class="block-double">
+                    <h2>Dividen Tunai</h2>
+                    <table id="DHTable" class="table table--zebra table-content-page">
+                        <thead>
+                            <tr>
+                                <th>Nama Perusahaan</th>
+                                <th>Tahun</th>
+                                <th>Jenis</th>
+                                <th>Mata Uang</th>
+                                <th>Total</th>
+                                <th>Tanggal Cum Reguler dan Negosiasi</th>
+                                <th>Tanggal Cum Tunai</th>
+                                <th>Tanggal Ex Reguler dan Negosiasi</th>
+                                <th>Tanggal Ex Tunai</th>
+                                <th>Tanggal DPS</th>
+                                <th>Tanggal Pembayaran</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <hr />
+                <div class="block-double">
+                    <h2>Dividen Saham</h2>
+                    <table id="DH2Table" class="table table--zebra table-content-page">
+                        <thead>
+                            <tr>
+                                <th>Nama Perusahaan</th>
+                                <th>Tahun</th>
+                                <th>Jenis</th>
+                                <th>Rasio</th>
+                                <th>Total</th>
+                                <th>Tanggal Cum Reguler dan Negosiasi</th>
+                                <th>Tanggal Cum Tunai</th>
+                                <th>Tanggal Ex Reguler dan Negosiasi</th>
+                                <th>Tanggal Ex Tunai</th>
+                                <th>Tanggal DPS</th>
+                                <th>Tanggal Pembagian</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+@section Scripts{
+    <script type="text/javascript" src="/assets/js/vendor/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/assets/js/vendor/numeric-comma.js"></script>
+    <script type="text/javascript" src="/assets/js/vendor/moment.min.js"></script>
+    <script type="text/javascript" src="/assets/js/vendor/datetime-moment.js"></script>
+    <script type="text/javascript" src="/assets/js/cpd-esg.js"></script>
+    <script type="text/javascript" src="/assets/js/cpd-historical.js"></script>
+    @{ /*Main Script*/}
+    <script type="text/javascript">
+        
+        var emitenCode = getParams('kodeEmiten');
+
+        $(function () {
+            getEmitenType();
+            getCompanyProfile('@Url.Action("GetCompanyProfilesDetail", "ListedCompany")');
+            //getFinancialReport('@Url.Action("GetCompanyProfilesFinance", "ListedCompany")');
+            getTradingInfoDaily('@Url.Action("GetTradingInfoDaily", "ListedCompany")');
+            getTradingInfoSS('@Url.Action("GetTradingInfoSS", "ListedCompany")');
+            renderChart('@Url.Action("GetStockChart", "Helper")');
+            getCalendar('@Url.Action("GetCalendar", "Home")');
+            getIssuedHistory();
+
+            init();
+
+            var hash = $.trim( window.location.hash );
+
+            if (hash) $('.content-tab-item a[href$="'+hash+'"]').trigger('click');
+        });
+        
+
+        function init() {
+            $('#h_anchor').attr('onclick', 'getNH(); getCBH(); getSHH(); getSHHP(); getESG();');
+            $('#dh_anchor').attr('onclick', 'getDH(); getDH2();');
+            populateYearFilter('#hYearFilter');
+            populateYearFilter('#dhYearFilter');
+            $('#hYearFilter').attr('onchange', 'getNH(); getCBH(); getSHH(); getSHHP(); getESG();');
+            $('#dhYearFilter').attr('onchange', 'getDH(); getDH2();');
+        }
+
+    </script>
+    <script>
+        const app = angular.module('app', ['angularUtils.directives.dirPagination'])
+        app.controller('AnnouncementController', ['$scope', '$http', function($scope, $http){
+
+            $scope.announcement = [];
+            $scope.totalUsers = 0;
+            $scope.currentPage = 1;
+            $scope.limit = 10;
+            getResultsPage(1);
+
+            $scope.pagination = {
+                current: 1
+            };
+
+            $scope.pageChanged = function(newPage) {
+                getResultsPage(newPage);
+            };
+
+            $('#announcementSearchBtn').on('click', function(e){
+                getResultsPage(1);
+            });
+
+            function getResultsPage(pageNumber) {
+                var dateFrom  = $('#announcementDateFromInput').val();
+
+                if (dateFrom !== '') {
+                    dateFrom = moment(dateFrom, 'DD-MM-YYYY').format('YYYYMMDD');
+                }
+
+                var dateTo  = $('#announcementDateToInput').val();
+
+                if (dateTo !== '') {
+                    dateTo = moment(dateTo, 'DD-MM-YYYY').format('YYYYMMDD');
+                }
+
+                var emitenCode = getParams('kodeEmiten');
+                var keyword = $('#announcementKeywordInput').val();
+                $http.get("@Url.Action("GetProfileAnnouncement", "ListedCompany")" +
+                '?kodeEmiten=' + emitenCode +
+                '&keyword=' + keyword  +
+                '&dateFrom=' + dateFrom +
+                '&dateTo=' + dateTo +
+                '&indexFrom=' +(pageNumber-1) +
+                '&pageSize=' + $scope.limit
+                + '&language=' + currentLang)
+                .then(function (result) {
+                    $scope.announcement = result.data.Replies;
+                    $scope.totalUsers = result.data.ResultCount;
+                });
+            }
+
+        }])
+    </script>
+    <script>
+        function getEmitenType() {
+            $.get('@Url.Action("GetEmiten", "Helper")?emitenType=*', function (result) {
+                $('#emitenList').append('<option value="">' + "@Umbraco.GetDictionaryValue("choose emiten")" + '</option>');
+                for (var i = 0; i < result.length; i++) {
+                    $('#emitenList').each(function(){
+                        $(this).append('<option value="' + result[i].KodeEmiten + '">' + result[i].KodeEmiten + ' - ' + result[i].NamaEmiten + '</option>');
+                    });
+                }
+            });
+
+            $('#emitenList').on('change', function (e) {
+                var url = document.URL.replace('kodeEmiten=' + getParams('kodeEmiten'), 'kodeEmiten=' + $(this).val());
+                window.location.href = url;
+            });
+        }
+        function getCompanyProfile(api) {
+            var emitenCode = getParams('kodeEmiten');
+
+            var emitenType = $('input[name="companyProfileType"]:checked').val();
+
+            if (emitenType === undefined) {
+                emitenType = '';
+            }
+
+            var indexFrom = 1;
+            var pageSize = 1;
+
+            $.get(api + '?emitenType = ' + emitenType + '&kodeEmiten=' +
+                emitenCode + '&language=' + currentLang, function (result) {
+                    if (result.Profiles !== null && result.Profiles.length > 0) {
+                        setCompanyProfiles(result.Profiles[0]);
+                    }
+
+                    if (result.Sekretaris !== null && result.Sekretaris.length > 0) {
+                        setCompanySecretary(result.Sekretaris);
+                    }
+
+                    if (result.Direktur !== null && result.Direktur.length > 0) {
+                        setDirector(result.Direktur);
+                    }
+
+                    if (result.Komisaris !== null && result.Komisaris.length > 0) {
+                        setComissioner(result.Komisaris);
+                    }
+
+                    if (result.KomiteAudit !== null && result.KomiteAudit.length > 0) {
+                        setAuditCommittee(result.KomiteAudit);
+                    }
+
+                    if (result.PemegangSaham !== null && result.PemegangSaham.length > 0) {
+                        setShareholders(result.PemegangSaham);
+                    }
+
+                    if (result.AnakPerusahaan !== null && result.AnakPerusahaan.length > 0) {
+                        setSubsidiary(result.AnakPerusahaan);
+                    }
+
+                    if (result.Dividen !== null ) {
+                        if(result.Dividen.length > 0){
+                            setDividen(result.Dividen);
+                        }
+                    }
+
+                    if (result.BondsAndSukuk !== null ) {
+                        if(result.BondsAndSukuk.length > 0){
+                            setBondsAndSukuk(result.BondsAndSukuk);
+                        }
+                    }
+
+                    if (result.IssuedBond !== null ) {
+                        if(result.IssuedBond.length > 0){
+                            console.log(result.IssuedBond);
+                            setIssuedBond(result.IssuedBond);
+                        }
+                    }
+
+                    if (result.KAP !== null ) {
+                        if(result.KAP.length > 0){
+                            setKAP(result.KAP);
+                        }
+                    } else {
+                        $('#public-accountant-container').hide();
+                    }
+                });
+        }
+
+        function setCompanyProfiles(profiles) {
+            $('#emitenLogo').attr('src', profiles.Logo);
+            $('#emitenName').text(profiles.NamaEmiten === '' || profiles.NamaEmiten === 'NULL' ? '-' : profiles.NamaEmiten);
+            $('#frName').text(profiles.NamaEmiten === '' || profiles.NamaEmiten === 'NULL' ? '-' : profiles.NamaEmiten);
+            $('#frSecurityCode').text(profiles.KodeEmiten === '' || profiles.KodeEmiten === 'NULL' ? '-' : profiles.KodeEmiten);
+            $('#frOfficeAddress').text(profiles.Alamat === '' || profiles.Alamat === 'NULL' ? '-' : profiles.Alamat);
+            $('#frEmail').text(profiles.Email === '' || profiles.Email === 'NULL' ? '-' : profiles.Email);
+            $('#frTelephone').text(profiles.Telepon === '' || profiles.Telepon === 'NULL' ? '-' : profiles.Telepon);
+            $('#frFax').text(profiles.Fax === '' || profiles.Fax === 'NULL' ? '-' : profiles.Fax);
+            $('#frNpwp').text(profiles.NPWP === '' || profiles.NPWP === 'NULL' ? '-' : profiles.NPWP);
+            if (profiles.Website === '' || profiles.Website === 'NULL') {
+                $('#frWebsite').text('-');
+            } else {
+                $('#frWebsite').text(profiles.Website).attr('href', profiles.Website);
+            }
+            $('#frIpoDate').text(profiles.TanggalPencatatan === '' || profiles.TanggalPencatatan === 'NULL' ? '-' : moment(profiles.TanggalPencatatan).locale(currentLang).format('DD MMM YYYY'));
+            $('#frBoard').text(profiles.PapanPencatatan === '' || profiles.PapanPencatatan === 'NULL' ? '-' : profiles.PapanPencatatan);
+            $('#frMainBusiness').text(profiles.KegiatanUsahaUtama === '' || profiles.KegiatanUsahaUtama === 'NULL' ? '-' : profiles.KegiatanUsahaUtama);
+            $('#frSector').text(profiles.Sektor === '' || profiles.Sektor === 'NULL' ? '-' : profiles.Sektor);
+            $('#frSubSector').text(profiles.SubSektor === '' || profiles.SubSektor === 'NULL' ? '-' : profiles.SubSektor);
+            $('#frBAE').text(profiles.BAE === '' || profiles.BAE === 'NULL' ? '-' : profiles.BAE);
+
+            if (profiles.EfekEmiten_Obligasi) {
+                $('#bondSukukTab').show();
+                $('#bondIssedTab').show();
+            } else {
+                $('#bondSukukTab').hide();
+                $('#bondIssedTab').hide();
+            }
+        }
+
+        function setCompanySecretary(secretary) {
+            for (var i = 0; i < secretary.length; i++) {
+                $('#csTable tbody').append('<tr><td>' + secretary[i].Nama + '</td><td>' + secretary[i].Email + '</td><td>' + secretary[i].Telepon + '</td></tr>');
+            }
+        }
+
+        function setDirector(director) {
+            for (var i = 0; i < director.length; i++) {
+                var afiliasi = director[i].Afiliasi ? 'Yes' : 'No';
+                $('#directorTable tbody').append('<tr><td>' + director[i].Nama +
+                    '</td><td>' + director[i].Jabatan +
+                    '</td><td>' + afiliasi + '</td></tr>');
+            }
+        }
+
+        function setComissioner(comissioner) {
+            for (var i = 0; i < comissioner.length; i++) {
+                var independen = comissioner[i].Independen ? 'Yes' : 'No';
+                $('#comissionerTable tbody').append('<tr><td>' + comissioner[i].Nama +
+                    '</td><td>' + comissioner[i].Jabatan +
+                    '</td><td>' + independen + '</td></tr>');
+            }
+        }
+
+        function setAuditCommittee(committee) {
+            for (var i = 0; i < committee.length; i++) {
+                $('#committeeTable tbody').append('<tr><td>' + committee[i].Nama +
+                    '</td><td>' + committee[i].Jabatan + '</td></tr>');
+            }
+        }
+
+        function setShareholders(shareholders) {
+            for (var i = 0; i < shareholders.length; i++) {
+                $('#shareholdersTable tbody').append('<tr><td>' + shareholders[i].Nama +
+                    '</td><td>' + shareholders[i].Kategori +
+                    '</td><td class="text-right">' + shareholders[i].Jumlah.toLocaleString(currentLang) +
+                    '</td><td class="text-right">' + shareholders[i].Persentase.toLocaleString(currentLang) + ' %</td></tr>');
+            }
+        }
+
+        function setSubsidiary(subsidiary){
+            $('#subsidiaryTable').dataTable({
+                'processing': true,
+                'paging': true,
+                'deferRender': true,
+                'data': subsidiary,
+                'columns': [
+                    { 'data': 'Nama' },
+                    { 'data': 'BidangUsaha' },
+                    { 'data': 'JumlahAset' },
+                    { 'data': 'Persentase' },
+                ],
+                'columnDefs': [
+                    {
+                        'targets': 2,
+                        'createdCell' : function (td, cellData, rowData, row, col) {
+                            return $(td).addClass('text-right');
+                        },
+                        'render' : function ( data, type, row, meta ) {
+                            return data.toLocaleString(currentLang);
+                        }
+                    },
+                    {
+                        'targets': 3,
+                        'createdCell' : function (td, cellData, rowData, row, col) {
+                            $(td).text($(td).text() + ' %');
+                            return $(td).addClass('text-right');
+                        },
+                        'render' : function ( data, type, row, meta ) {
+                            return data.toLocaleString(currentLang);
+                        }
+                    },
+                ],
+            });
+        }
+
+        function setDividen(dividen) {
+            for (var i = 0; i < dividen.length; i++) {
+                $('#dividenTable tbody').append(
+                    '<tr>' +
+                    '<td>' + dividen[i].Nama + '</td>' +
+                    '<td>' + dividen[i].TahunBuku + '</td>' +
+                    '<td class="text-right">' + dividen[i].CashDividenTotal.toLocaleString(currentLang) + '</td>' +
+                    '<td class="text-right">' + dividen[i].TotalSahamBonus.toLocaleString(currentLang) + '</td>' +
+                    '<td>' + moment(dividen[i].TanggalCum).locale(currentLang).format("DD MMM YYYY") + '</td>' +
+                    '<td>' + moment(dividen[i].TanggalExRegulerDanNegosiasi).locale(currentLang).format("DD MMM YYYY") + '</td>' +
+                    '<td>' + moment(dividen[i].TanggalDPS).locale(currentLang).format("DD MMM YYYY") + '</td>' +
+                    '<td>' + moment(dividen[i].TanggalPembayaran).locale(currentLang).format("DD MMM YYYY") + '</td>' +
+                    '</tr>');
+            }
+        }
+
+        function setBondsAndSukuk(bonds) {
+            for (var i = 0; i < bonds.length; i++) {
+                $('#bondTable tbody').append(
+                    '<tr>' +
+                    '<td class="text-center">' + bonds[i].id + '</td>' +
+                    '<td>' + bonds[i].NamaEmisi + '</td>' +
+                    '<td>' + moment(bonds[i].ListingDate).locale(currentLang).format("DD MMM YYYY") + '</td>' +
+                    '<td>' + moment(bonds[i].MatureDate).locale(currentLang).format("DD MMM YYYY") + '</td>' +
+                    '<td class="text-center">' + bonds[i].Rating + '</td>' +
+                    '<td class="text-right">' + bonds[i].Nominal.toLocaleString(currentLang) + '</td>' +
+                    '<td class="text-right">' + bonds[i].Margin.toLocaleString(currentLang) + '</td>' +
+                    '<td>' + bonds[i].WaliAmanat + '</td>' +
+                    '<td class="text-center">' + bonds[i].ISINCode + '</td>' +
+                    '</tr>');
+            }
+        }
+
+        function setIssuedBond(issuedBond) {
+            for (var i = 0; i < issuedBond.length; i++) {
+                $('#issuedBondTable tbody').append(
+                    '<tr>' +
+                    '<td class="text-center">' + issuedBond[i].NamaSeri + '</td>' +
+                    '<td>' + issuedBond[i].AmortisasiValue + '</td>' +
+                    '<td>' + issuedBond[i].SinkingFund + '</td>' +
+                    '<td class="text-center">' + issuedBond[i].CouponDetail + '</td>' +
+                    '<td>' + moment(issuedBond[i].CouponPaymentDetail).locale(currentLang).format("DD MMM YYYY") + '</td>' +
+                    '<td>' + moment(issuedBond[i].MatureDate).locale(currentLang).format("DD MMM YYYY") + '</td>' +
+                    '</tr>');
+            }
+        }
+
+        function setKAP(kap) {
+            for (var i = 0; i < kap.length; i++) {
+                $('#publicAccountantTable tbody').append('<tr><td>' + kap[i].Nama + '</td></tr>');
+            }
+        }
+
+        function getFinancialReport(api) {
+            var currentYear = moment().format('YYYY');
+            $('#neracaYear1').text(currentYear);
+            $('#neracaYear2').text(currentYear - 1);
+            $('#neracaYear3').text(currentYear - 2);
+
+            $('#labaRugiYear1').text(currentYear);
+            $('#labaRugiYear2').text(currentYear - 1);
+            $('#labaRugiYear3').text(currentYear - 2);
+
+            $('#arusKasYear1').text(currentYear);
+            $('#arusKasYear2').text(currentYear - 1);
+            $('#arusKasYear3').text(currentYear - 2);
+
+            $.get(api + '?kodeEmiten=' + emitenCode
+                + '&language=' + currentLang, function (result) {
+                    setNeraca(result.neraca);
+                    setLabaRugi(result.labarugi);
+                    setArusKas(result.aruskas);
+                    setNeracaInterim(result.neracainterim);
+                    setLabaRugiInterim(result.labarugiinterim);
+                    setArusKasInterim(result.aruskasinterim);
+                });
+        }
+
+        function setNeraca(neraca) {
+            $('#neracaTable tbody').append(
+                '<tr class="background-light-grey text-bold">' +
+                '<td>MATA UANG</td>' +
+                '<td class="text-center">IDR</td>' +
+                '<td class="text-center">IDR</td>' +
+                '<td class="text-center">IDR</td>' +
+                '</tr>');
+
+            $('#neracaTable tbody').append(
+                '<tr class="background-light-grey text-bold">' +
+                '<td>LAPORAN POSISI KEUANGAN (NERACA)</td>' +
+                '<td></td>' +
+                '<td></td>' +
+                '<td></td>' +
+                '</tr>');
+
+            $('#neracaTable tbody').append(
+                '<tr class="background-light-grey text-bold">' +
+                '<td>EKUITAS TOTAL</td>' +
+                '<td class="text-right">' + (neraca[0] !== undefined ? neraca[0].EkuitasTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neraca[1] !== undefined ? neraca[1].EkuitasTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neraca[2] !== undefined ? neraca[2].EkuitasTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#neracaTable tbody').append(
+                '<tr>' +
+                '<td>EKUITAS INDUK TOTAL</td>' +
+                '<td class="text-right">' + (neraca[0] !== undefined ? neraca[0].EkuitasIndukTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neraca[1] !== undefined ? neraca[1].EkuitasIndukTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neraca[2] !== undefined ? neraca[2].EkuitasIndukTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#neracaTable tbody').append(
+                '<tr>' +
+                '<td>EKUITAS LAIN</td>' +
+                '<td class="text-right">' + (neraca[0] !== undefined ? neraca[0].EkuitasLain.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neraca[1] !== undefined ? neraca[1].EkuitasLain.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neraca[2] !== undefined ? neraca[2].EkuitasLain.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#neracaTable tbody').append(
+                '<tr>' +
+                '<td>EKUITAS NON PENGENDALI</td>' +
+                '<td class="text-right">' + (neraca[0] !== undefined ? neraca[0].EkuitasNonPengendali.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neraca[1] !== undefined ? neraca[1].EkuitasNonPengendali.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neraca[2] !== undefined ? neraca[2].EkuitasNonPengendali.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#neracaTable tbody').append(
+                '<tr class="background-light-grey text-bold">' +
+                '<td>SALDO LABA TOTAL</td>' +
+                '<td class="text-right">' + (neraca[0] !== undefined ? neraca[0].SaldoLabaTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neraca[1] !== undefined ? neraca[1].SaldoLabaTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neraca[2] !== undefined ? neraca[2].SaldoLabaTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#neracaTable tbody').append(
+                '<tr>' +
+                '<td>SALDO LABA CADANGAN</td>' +
+                '<td class="text-right">' + (neraca[0] !== undefined ? neraca[0].SaldoLabaCadangan.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neraca[1] !== undefined ? neraca[1].SaldoLabaCadangan.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neraca[2] !== undefined ? neraca[2].SaldoLabaCadangan.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#neracaTable tbody').append(
+                '<tr>' +
+                '<td>SALDO LABA DITAHAN</td>' +
+                '<td class="text-right">' + (neraca[0] !== undefined ? neraca[0].SaldoLabaDitahan.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neraca[1] !== undefined ? neraca[1].SaldoLabaDitahan.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neraca[2] !== undefined ? neraca[2].SaldoLabaDitahan.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#neracaTable tbody').append(
+                '<tr class="background-light-grey text-bold">' +
+                '<td>MODAL DISETOR</td>' +
+                '<td class="text-right">' + (neraca[0] !== undefined ? neraca[0].ModalDisetor.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neraca[1] !== undefined ? neraca[1].ModalDisetor.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neraca[2] !== undefined ? neraca[2].ModalDisetor.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#neracaTable tbody').append(
+                '<tr class="background-light-grey text-bold">' +
+                '<td>TOTAL LIABILITAS</td>' +
+                '<td class="text-right">' + (neraca[0] !== undefined ? neraca[0].TotalLiabilitas.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neraca[1] !== undefined ? neraca[1].TotalLiabilitas.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neraca[2] !== undefined ? neraca[2].TotalLiabilitas.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#neracaTable tbody').append(
+                '<tr class="background-light-grey text-bold">' +
+                '<td>TOTAL ASET</td>' +
+                '<td class="text-right">' + (neraca[0] !== undefined ? neraca[0].TotalAset.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neraca[1] !== undefined ? neraca[1].TotalAset.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neraca[2] !== undefined ? neraca[2].TotalAset.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+        }
+
+        function setLabaRugi(labaRugi) {
+            $('#labaRugiTable tbody').append(
+                '<tr class="background-light-grey text-bold">' +
+                '<td>MATA UANG</td>' +
+                '<td class="text-center">IDR</td>' +
+                '<td class="text-center">IDR</td>' +
+                '<td class="text-center">IDR</td>' +
+                '</tr>');
+
+            $('#labaRugiTable tbody').append(
+                '<tr class="background-light-grey text-bold">' +
+                '<td>PENDAPATAN USAHA</td>' +
+                '<td class="text-right">' + (labaRugi[0] !== undefined ? labaRugi[0].PendUsaha.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugi[1] !== undefined ? labaRugi[1].PendUsaha.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugi[2] !== undefined ? labaRugi[2].PendUsaha.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#labaRugiTable tbody').append(
+                '<tr>' +
+                '<td>LABA KOTOR</td>' +
+                '<td class="text-right">' + (labaRugi[0] !== undefined ? labaRugi[0].LabaKotor.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugi[1] !== undefined ? labaRugi[1].LabaKotor.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugi[2] !== undefined ? labaRugi[2].LabaKotor.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#labaRugiTable tbody').append(
+                '<tr>' +
+                '<td>LABA SEBELUM PAJAK</td>' +
+                '<td class="text-right">' + (labaRugi[0] !== undefined ? labaRugi[0].LabaSebelumPajak.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugi[1] !== undefined ? labaRugi[1].LabaSebelumPajak.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugi[2] !== undefined ? labaRugi[2].LabaSebelumPajak.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#labaRugiTable tbody').append(
+                '<tr>' +
+                '<td>LABA OPSI LANJUT</td>' +
+                '<td class="text-right">' + (labaRugi[0] !== undefined ? labaRugi[0].LabaOpsLanjut.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugi[1] !== undefined ? labaRugi[1].LabaOpsLanjut.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugi[2] !== undefined ? labaRugi[2].LabaOpsLanjut.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#labaRugiTable tbody').append(
+                '<tr>' +
+                '<td>LABA OPSI STOP</td>' +
+                '<td class="text-right">' + (labaRugi[0] !== undefined ? labaRugi[0].LabaOpsStop.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugi[1] !== undefined ? labaRugi[1].LabaOpsStop.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugi[2] !== undefined ? labaRugi[2].LabaOpsStop.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#labaRugiTable tbody').append(
+                '<tr>' +
+                '<td>LABA DIST ENTITAS INDUK</td>' +
+                '<td class="text-right">' + (labaRugi[0] !== undefined ? labaRugi[0].LabaDistEntitasInduk.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugi[1] !== undefined ? labaRugi[1].LabaDistEntitasInduk.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugi[2] !== undefined ? labaRugi[2].LabaDistEntitasInduk.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#labaRugiTable tbody').append(
+                '<tr>' +
+                '<td>LABA DIST NON PENGENDALI</td>' +
+                '<td class="text-right">' + (labaRugi[0] !== undefined ? labaRugi[0].LabaDistNonPengendali.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugi[1] !== undefined ? labaRugi[1].LabaDistNonPengendali.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugi[2] !== undefined ? labaRugi[2].LabaDistNonPengendali.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#labaRugiTable tbody').append(
+                '<tr class="background-light-grey text-bold">' +
+                '<td>LABA TOTAL</td>' +
+                '<td class="text-right">' + (labaRugi[0] !== undefined ? labaRugi[0].LabaTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugi[1] !== undefined ? labaRugi[1].LabaTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugi[2] !== undefined ? labaRugi[2].LabaTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#labaRugiTable tbody').append(
+                '<tr>' +
+                '<td>LABA KOMPLAIN SETELAH PAJAK</td>' +
+                '<td class="text-right">' + (labaRugi[0] !== undefined ? labaRugi[0].LabaKompLainStlPajak.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugi[1] !== undefined ? labaRugi[1].LabaKompLainStlPajak.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugi[2] !== undefined ? labaRugi[2].LabaKompLainStlPajak.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#labaRugiTable tbody').append(
+                '<tr>' +
+                '<td>LABA KOMPLAIN DIST INDUK</td>' +
+                '<td class="text-right">' + (labaRugi[0] !== undefined ? labaRugi[0].LabaKompDistInduk.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugi[1] !== undefined ? labaRugi[1].LabaKompDistInduk.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugi[2] !== undefined ? labaRugi[2].LabaKompDistInduk.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#labaRugiTable tbody').append(
+                '<tr>' +
+                '<td>LABA KOMPLAIN DIST NON PENGENDALI</td>' +
+                '<td class="text-right">' + (labaRugi[0] !== undefined ? labaRugi[0].LabaKompDistNonPengendali.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugi[1] !== undefined ? labaRugi[1].LabaKompDistNonPengendali.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugi[2] !== undefined ? labaRugi[2].LabaKompDistNonPengendali.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#labaRugiTable tbody').append(
+                '<tr class="background-light-grey text-bold">' +
+                '<td>LABA KOMPLAIN TOTAL</td>' +
+                '<td class="text-right">' + (labaRugi[0] !== undefined ? labaRugi[0].LabaKompTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugi[1] !== undefined ? labaRugi[1].LabaKompTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugi[2] !== undefined ? labaRugi[2].LabaKompTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#labaRugiTable tbody').append(
+                '<tr>' +
+                '<td>LABA PER SAHAM</td>' +
+                '<td class="text-right">' + (labaRugi[0] !== undefined ? labaRugi[0].LabaPerSaham.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugi[1] !== undefined ? labaRugi[1].LabaPerSaham.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugi[2] !== undefined ? labaRugi[2].LabaPerSaham.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#labaRugiTable tbody').append(
+                '<tr>' +
+                '<td>LABA PER SAHAM DILUSIAN</td>' +
+                '<td class="text-right">' + (labaRugi[0] !== undefined ? labaRugi[0].LabaPerSahamDilusian.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugi[1] !== undefined ? labaRugi[1].LabaPerSahamDilusian.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugi[2] !== undefined ? labaRugi[2].LabaPerSahamDilusian.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+        }
+
+        function setArusKas(arusKas) {
+            $('#arusKasTable tbody').append(
+                '<tr class="background-light-grey text-bold">' +
+                '<td>MATA UANG</td>' +
+                '<td class="text-center">IDR</td>' +
+                '<td class="text-center">IDR</td>' +
+                '<td class="text-center">IDR</td>' +
+                '</tr>');
+
+            $('#arusKasTable tbody').append(
+                '<tr class="background-light-grey text-bold">' +
+                '<td>BERSIH TAHUN BERJALAN</td>' +
+                '<td class="text-right">' + (arusKas[0] !== undefined ? arusKas[0].BersihTahunBerjalan.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (arusKas[1] !== undefined ? arusKas[1].BersihTahunBerjalan.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (arusKas[2] !== undefined ? arusKas[2].BersihTahunBerjalan.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#arusKasTable tbody').append(
+                '<tr>' +
+                '<td>DARI AKTIFITAS OPERASI</td>' +
+                '<td class="text-right">' + (arusKas[0] !== undefined ? arusKas[0].DariAktifitasOperasi.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (arusKas[1] !== undefined ? arusKas[1].DariAktifitasOperasi.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (arusKas[2] !== undefined ? arusKas[2].DariAktifitasOperasi.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#arusKasTable tbody').append(
+                '<tr>' +
+                '<td>DARI AKTIFITAS INVESTASI</td>' +
+                '<td class="text-right">' + (arusKas[0] !== undefined ? arusKas[0].DariAktifitasInvestasi.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (arusKas[1] !== undefined ? arusKas[1].DariAktifitasInvestasi.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (arusKas[2] !== undefined ? arusKas[2].DariAktifitasInvestasi.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#arusKasTable tbody').append(
+                '<tr>' +
+                '<td>DARI AKTIFITAS PENDANAAN</td>' +
+                '<td class="text-right">' + (arusKas[0] !== undefined ? arusKas[0].DariAktifitasPendanaan.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (arusKas[1] !== undefined ? arusKas[1].DariAktifitasPendanaan.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (arusKas[2] !== undefined ? arusKas[2].DariAktifitasPendanaan.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+        }
+
+        function setNeracaInterim(neracaInterim) {
+            $('#neracaInterimYear1').text(moment(neracaInterim[0].PeriodeBerakhir).format('MMM YYYY'));
+            $('#neracaInterimYear2').text(moment(neracaInterim[1].PeriodeBerakhir).format('MMM YYYY'));
+            $('#neracaInterimYear3').text(moment(neracaInterim[2].PeriodeBerakhir).format('MMM YYYY'));
+
+            $('#neracaInterimTable tbody').append(
+                '<tr class="background-light-grey text-bold">' +
+                '<td>MATA UANG</td>' +
+                '<td class="text-center">IDR</td>' +
+                '<td class="text-center">IDR</td>' +
+                '<td class="text-center">IDR</td>' +
+                '</tr>');
+
+            $('#neracaInterimTable tbody').append(
+                '<tr class="background-light-grey text-bold">' +
+                '<td>LAPORAN POSISI KEUANGAN (NERACA)</td>' +
+                '<td></td>' +
+                '<td></td>' +
+                '<td></td>' +
+                '</tr>');
+
+            $('#neracaInterimTable tbody').append(
+                '<tr class="background-light-grey text-bold">' +
+                '<td>EKUITAS TOTAL</td>' +
+                '<td class="text-right">' + (neracaInterim[0] !== undefined ? neracaInterim[0].EkuitasTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neracaInterim[1] !== undefined ? neracaInterim[1].EkuitasTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neracaInterim[2] !== undefined ? neracaInterim[2].EkuitasTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#neracaInterimTable tbody').append(
+                '<tr>' +
+                '<td>EKUITAS INDUK TOTAL</td>' +
+                '<td class="text-right">' + (neracaInterim[0] !== undefined ? neracaInterim[0].EkuitasIndukTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neracaInterim[1] !== undefined ? neracaInterim[1].EkuitasIndukTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neracaInterim[2] !== undefined ? neracaInterim[2].EkuitasIndukTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#neracaInterimTable tbody').append(
+                '<tr>' +
+                '<td>EKUITAS LAIN</td>' +
+                '<td class="text-right">' + (neracaInterim[0] !== undefined ? neracaInterim[0].EkuitasLain.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neracaInterim[1] !== undefined ? neracaInterim[1].EkuitasLain.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neracaInterim[2] !== undefined ? neracaInterim[2].EkuitasLain.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#neracaInterimTable tbody').append(
+                '<tr>' +
+                '<td>EKUITAS NON PENGENDALI</td>' +
+                '<td class="text-right">' + (neracaInterim[0] !== undefined ? neracaInterim[0].EkuitasNonPengendali.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neracaInterim[1] !== undefined ? neracaInterim[1].EkuitasNonPengendali.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neracaInterim[2] !== undefined ? neracaInterim[2].EkuitasNonPengendali.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#neracaInterimTable tbody').append(
+                '<tr class="background-light-grey text-bold">' +
+                '<td>SALDO LABA TOTAL</td>' +
+                '<td class="text-right">' + (neracaInterim[0] !== undefined ? neracaInterim[0].SaldoLabaTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neracaInterim[1] !== undefined ? neracaInterim[1].SaldoLabaTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neracaInterim[2] !== undefined ? neracaInterim[2].SaldoLabaTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#neracaInterimTable tbody').append(
+                '<tr>' +
+                '<td>SALDO LABA CADANGAN</td>' +
+                '<td class="text-right">' + (neracaInterim[0] !== undefined ? neracaInterim[0].SaldoLabaCadangan.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neracaInterim[1] !== undefined ? neracaInterim[1].SaldoLabaCadangan.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neracaInterim[2] !== undefined ? neracaInterim[2].SaldoLabaCadangan.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#neracaInterimTable tbody').append(
+                '<tr>' +
+                '<td>SALDO LABA DITAHAN</td>' +
+                '<td class="text-right">' + (neracaInterim[0] !== undefined ? neracaInterim[0].SaldoLabaDitahan.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neracaInterim[1] !== undefined ? neracaInterim[1].SaldoLabaDitahan.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neracaInterim[2] !== undefined ? neracaInterim[2].SaldoLabaDitahan.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#neracaInterimTable tbody').append(
+                '<tr class="background-light-grey text-bold">' +
+                '<td>MODAL DISETOR</td>' +
+                '<td class="text-right">' + (neracaInterim[0] !== undefined ? neracaInterim[0].ModalDisetor.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neracaInterim[1] !== undefined ? neracaInterim[1].ModalDisetor.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neracaInterim[2] !== undefined ? neracaInterim[2].ModalDisetor.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#neracaInterimTable tbody').append(
+                '<tr class="background-light-grey text-bold">' +
+                '<td>TOTAL LIABILITAS</td>' +
+                '<td class="text-right">' + (neracaInterim[0] !== undefined ? neracaInterim[0].TotalLiabilitas.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neracaInterim[1] !== undefined ? neracaInterim[1].TotalLiabilitas.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neracaInterim[2] !== undefined ? neracaInterim[2].TotalLiabilitas.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#neracaInterimTable tbody').append(
+                '<tr class="background-light-grey text-bold">' +
+                '<td>TOTAL ASET</td>' +
+                '<td class="text-right">' + (neracaInterim[0] !== undefined ? neracaInterim[0].TotalAset.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neracaInterim[1] !== undefined ? neracaInterim[1].TotalAset.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (neracaInterim[2] !== undefined ? neracaInterim[2].TotalAset.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+        }
+
+        function setLabaRugiInterim(labaRugiInterim) {
+            $('#labaRugiInterimYear1').text(moment(labaRugiInterim[0].PeriodeBerakhir).format('MMM YYYY'));
+            $('#labaRugiInterimYear2').text(moment(labaRugiInterim[1].PeriodeBerakhir).format('MMM YYYY'));
+            $('#labaRugiInterimYear3').text(moment(labaRugiInterim[2].PeriodeBerakhir).format('MMM YYYY'));
+
+            $('#labaRugiInterimTable tbody').append(
+                '<tr class="background-light-grey text-bold">' +
+                '<td>MATA UANG</td>' +
+                '<td class="text-center">IDR</td>' +
+                '<td class="text-center">IDR</td>' +
+                '<td class="text-center">IDR</td>' +
+                '</tr>');
+
+            $('#labaRugiInterimTable tbody').append(
+                '<tr class="background-light-grey text-bold">' +
+                '<td>PENDAPATAN USAHA</td>' +
+                '<td class="text-right">' + (labaRugiInterim[0] !== undefined ? labaRugiInterim[0].PendUsaha.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugiInterim[1] !== undefined ? labaRugiInterim[1].PendUsaha.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugiInterim[2] !== undefined ? labaRugiInterim[2].PendUsaha.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#labaRugiInterimTable tbody').append(
+                '<tr>' +
+                '<td>LABA KOTOR</td>' +
+                '<td class="text-right">' + (labaRugiInterim[0] !== undefined ? labaRugiInterim[0].LabaKotor.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugiInterim[1] !== undefined ? labaRugiInterim[1].LabaKotor.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugiInterim[2] !== undefined ? labaRugiInterim[2].LabaKotor.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#labaRugiInterimTable tbody').append(
+                '<tr>' +
+                '<td>LABA SEBELUM PAJAK</td>' +
+                '<td class="text-right">' + (labaRugiInterim[0] !== undefined ? labaRugiInterim[0].LabaSebelumPajak.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugiInterim[1] !== undefined ? labaRugiInterim[1].LabaSebelumPajak.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugiInterim[2] !== undefined ? labaRugiInterim[2].LabaSebelumPajak.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#labaRugiInterimTable tbody').append(
+                '<tr>' +
+                '<td>LABA OPSI LANJUT</td>' +
+                '<td class="text-right">' + (labaRugiInterim[0] !== undefined ? labaRugiInterim[0].LabaOpsLanjut.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugiInterim[1] !== undefined ? labaRugiInterim[1].LabaOpsLanjut.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugiInterim[2] !== undefined ? labaRugiInterim[2].LabaOpsLanjut.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#labaRugiInterimTable tbody').append(
+                '<tr>' +
+                '<td>LABA OPSI STOP</td>' +
+                '<td class="text-right">' + (labaRugiInterim[0] !== undefined ? labaRugiInterim[0].LabaOpsStop.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugiInterim[1] !== undefined ? labaRugiInterim[1].LabaOpsStop.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugiInterim[2] !== undefined ? labaRugiInterim[2].LabaOpsStop.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#labaRugiInterimTable tbody').append(
+                '<tr>' +
+                '<td>LABA DIST ENTITAS INDUK</td>' +
+                '<td class="text-right">' + (labaRugiInterim[0] !== undefined ? labaRugiInterim[0].LabaDistEntitasInduk.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugiInterim[1] !== undefined ? labaRugiInterim[1].LabaDistEntitasInduk.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugiInterim[2] !== undefined ? labaRugiInterim[2].LabaDistEntitasInduk.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#labaRugiInterimTable tbody').append(
+                '<tr>' +
+                '<td>LABA DIST NON PENGENDALI</td>' +
+                '<td class="text-right">' + (labaRugiInterim[0] !== undefined ? labaRugiInterim[0].LabaDistNonPengendali.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugiInterim[1] !== undefined ? labaRugiInterim[1].LabaDistNonPengendali.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugiInterim[2] !== undefined ? labaRugiInterim[2].LabaDistNonPengendali.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#labaRugiInterimTable tbody').append(
+                '<tr class="background-light-grey text-bold">' +
+                '<td>LABA TOTAL</td>' +
+                '<td class="text-right">' + (labaRugiInterim[0] !== undefined ? labaRugiInterim[0].LabaTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugiInterim[1] !== undefined ? labaRugiInterim[1].LabaTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugiInterim[2] !== undefined ? labaRugiInterim[2].LabaTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#labaRugiInterimTable tbody').append(
+                '<tr>' +
+                '<td>LABA KOMPLAIN SETELAH PAJAK</td>' +
+                '<td class="text-right">' + (labaRugiInterim[0] !== undefined ? labaRugiInterim[0].LabaKompLainStlPajak.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugiInterim[1] !== undefined ? labaRugiInterim[1].LabaKompLainStlPajak.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugiInterim[2] !== undefined ? labaRugiInterim[2].LabaKompLainStlPajak.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#labaRugiInterimTable tbody').append(
+                '<tr>' +
+                '<td>LABA KOMPLAIN DIST INDUK</td>' +
+                '<td class="text-right">' + (labaRugiInterim[0] !== undefined ? labaRugiInterim[0].LabaKompDistInduk.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugiInterim[1] !== undefined ? labaRugiInterim[1].LabaKompDistInduk.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugiInterim[2] !== undefined ? labaRugiInterim[2].LabaKompDistInduk.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#labaRugiInterimTable tbody').append(
+                '<tr>' +
+                '<td>LABA KOMPLAIN DIST NON PENGENDALI</td>' +
+                '<td class="text-right">' + (labaRugiInterim[0] !== undefined ? labaRugiInterim[0].LabaKompDistNonPengendali.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugiInterim[1] !== undefined ? labaRugiInterim[1].LabaKompDistNonPengendali.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugiInterim[2] !== undefined ? labaRugiInterim[2].LabaKompDistNonPengendali.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#labaRugiInterimTable tbody').append(
+                '<tr class="background-light-grey text-bold">' +
+                '<td>LABA KOMPLAIN TOTAL</td>' +
+                '<td class="text-right">' + (labaRugiInterim[0] !== undefined ? labaRugiInterim[0].LabaKompTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugiInterim[1] !== undefined ? labaRugiInterim[1].LabaKompTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugiInterim[2] !== undefined ? labaRugiInterim[2].LabaKompTotal.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#labaRugiInterimTable tbody').append(
+                '<tr>' +
+                '<td>LABA PER SAHAM</td>' +
+                '<td class="text-right">' + (labaRugiInterim[0] !== undefined ? labaRugiInterim[0].LabaPerSaham.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugiInterim[1] !== undefined ? labaRugiInterim[1].LabaPerSaham.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugiInterim[2] !== undefined ? labaRugiInterim[2].LabaPerSaham.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#labaRugiInterimTable tbody').append(
+                '<tr>' +
+                '<td>LABA PER SAHAM DILUSIAN</td>' +
+                '<td class="text-right">' + (labaRugiInterim[0] !== undefined ? labaRugiInterim[0].LabaPerSahamDilusian.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugiInterim[1] !== undefined ? labaRugiInterim[1].LabaPerSahamDilusian.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (labaRugiInterim[2] !== undefined ? labaRugiInterim[2].LabaPerSahamDilusian.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+        }
+
+        function setArusKasInterim(arusKasInterim) {
+            $('#arusKasInterimYear1').text(moment(arusKasInterim[0].PeriodeBerakhir).format('MMM YYYY'));
+            $('#arusKasInterimYear2').text(moment(arusKasInterim[1].PeriodeBerakhir).format('MMM YYYY'));
+            $('#arusKasInterimYear3').text(moment(arusKasInterim[2].PeriodeBerakhir).format('MMM YYYY'));
+
+            $('#arusKasInterimTable tbody').append(
+                '<tr class="background-light-grey text-bold">' +
+                '<td>MATA UANG</td>' +
+                '<td class="text-center">IDR</td>' +
+                '<td class="text-center">IDR</td>' +
+                '<td class="text-center">IDR</td>' +
+                '</tr>');
+
+            $('#arusKasInterimTable tbody').append(
+                '<tr class="background-light-grey text-bold">' +
+                '<td>BERSIH TAHUN BERJALAN</td>' +
+                '<td class="text-right">' + (arusKasInterim[0] !== undefined ? arusKasInterim[0].BersihTahunBerjalan.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (arusKasInterim[1] !== undefined ? arusKasInterim[1].BersihTahunBerjalan.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (arusKasInterim[2] !== undefined ? arusKasInterim[2].BersihTahunBerjalan.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#arusKasInterimTable tbody').append(
+                '<tr>' +
+                '<td>DARI AKTIFITAS OPERASI</td>' +
+                '<td class="text-right">' + (arusKasInterim[0] !== undefined ? arusKasInterim[0].DariAktifitasOperasi.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (arusKasInterim[1] !== undefined ? arusKasInterim[1].DariAktifitasOperasi.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (arusKasInterim[2] !== undefined ? arusKasInterim[2].DariAktifitasOperasi.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#arusKasInterimTable tbody').append(
+                '<tr>' +
+                '<td>DARI AKTIFITAS INVESTASI</td>' +
+                '<td class="text-right">' + (arusKasInterim[0] !== undefined ? arusKasInterim[0].DariAktifitasInvestasi.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (arusKasInterim[1] !== undefined ? arusKasInterim[1].DariAktifitasInvestasi.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (arusKasInterim[2] !== undefined ? arusKasInterim[2].DariAktifitasInvestasi.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+
+            $('#arusKasInterimTable tbody').append(
+                '<tr>' +
+                '<td>DARI AKTIFITAS PENDANAAN</td>' +
+                '<td class="text-right">' + (arusKasInterim[0] !== undefined ? arusKasInterim[0].DariAktifitasPendanaan.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (arusKasInterim[1] !== undefined ? arusKasInterim[1].DariAktifitasPendanaan.toLocaleString(currentLang) : '-') + '</td>' +
+                '<td class="text-right">' + (arusKasInterim[2] !== undefined ? arusKasInterim[2].DariAktifitasPendanaan.toLocaleString(currentLang) : '-') + '</td>' +
+                '</tr>');
+        }
+
+        function getTradingInfoDaily(api) {
+            $.getJSON(api + '?code=' + emitenCode + '&language=' + currentLang, function (result) {
+                $('#tradingDate').text(moment(result.DTCreate).locale(currentLang).format('DD-MMM-YYYY'));
+                $('#tradingTime').text(moment(result.DTCreate).locale(currentLang).format('HH:mm:ss'));
+                $('#tradingHigh').text(result.HighestPrice !== null ? result.HighestPrice.toLocaleString(currentLang) : '0');
+                $('#tradingLow').text(result.LowestPrice !== null ? result.HighestPrice.toLocaleString(currentLang) : '0');
+                $('#tradingLast').text(result.ClosingPrice !== null ? result.ClosingPrice.toLocaleString(currentLang) : '0');
+                $('#tradingIhsi').text(result.IndividualIndex !== null ? result.IndividualIndex.toLocaleString(currentLang) : '0');
+                $('#tradingVolume').text(result.TradedVolume !== null ? result.TradedVolume.toLocaleString(currentLang) : '0');
+                $('#tradingValue').text(result.TradedValue !== null ? result.TradedValue.toLocaleString(currentLang) : '0');
+                $('#tradingFrequency').text(result.TradedFrequency !== null ? result.TradedFrequency.toLocaleString(currentLang) : '0');
+                $('#tradingMarketCap').text(result.NumberForeigner !== null ? result.NumberForeigner.toLocaleString(currentLang) : '0');
+                $('#tradingNegotiatedVolume').text(result.BestBidVolume !== null ? result.BestBidVolume.toLocaleString(currentLang) : '0');
+            });
+        }
+
+        function getTradingInfoSS(api) {
+            $('#tradingInfoTable').dataTable({
+                'ajax': {
+                    'url': api + '?code=' + emitenCode + '&language=' + currentLang,
+                    'dataSrc': 'replies'
+                },
+                'filter': false,
+                'sort': false,
+                'serverSide': true,
+                'processing': true,
+                'paging': true,
+                'deferRender': true,
+                'lengthMenu': [10, 20, 30, 40, 50, 60],
+                'columns': [
+                    { 'data': 'No' },
+                    {
+                        'data': 'Date',
+                        render: function (data, type, full, meta) {
+                            return moment(data, "YYYY-MM-DDT00:00:00").format('DD MMM YYYY');
+                        }
+                    },
+                    { 'data': 'OpenPrice' },
+                    { 'data': 'High' },
+                    { 'data': 'Low' },
+                    { 'data': 'Close' },
+                    { 'data': 'Volume' },
+                    { 'data': 'Value' },
+                    { 'data': 'Frequency' }
+                ],
+                'columnDefs': [
+                    {
+                        'targets': [2, 3, 4, 5, 6, 7, 8],
+                        'createdCell': function (td, cellData, rowData, row, col) {
+                            return $(td).addClass('text-right');
+                        },
+                        'render': function (data, type, row, meta) {
+                            return data.toLocaleString(currentLang);
+                        }
+                    }
+                ],
+                "rowCallback": function (row, data, iDisplayIndex) {
+                    var info = this.api().page.info();
+                    var page = info.page;
+                    var length = info.length;
+                    var index = (page * length + (iDisplayIndex + 1));
+                    $('td:eq(0)', row).html(index);
+                },
+                drawCallback: function () {
+                    $('#tradingInfoTable_paginate').css('display', 'none');
+                }
+            });
+        }
+
+        function renderChart(api) {
+            var chartUrl = api;
+            var period = '1d';
+            $.getJSON(chartUrl + '?indexCode=' + emitenCode + '&period=' + period, function (response) {
+                var $chartElem = $('.chart-stock');
+                var data = [];
+                for (var i in response.ChartData) {
+                    if (response.ChartData.hasOwnProperty(i)) {
+                        data = $.map(response.ChartData, function (n, i) {
+                            return [[parseInt(n.Date), n.Close]];
+                        });
+                    }
+                }
+
+                var startDate = null;
+                var endDate = null;
+
+                if (response.Period === "1d") {
+                    startDate = parseInt(response.StartDate);
+                    endDate = parseInt(response.EndDate);
+                }
+
+                $chartElem.highcharts({
+                    chart: {
+                        zoomType: 'x',
+                        ignoreHiddenSeries: false,
+                        height: 160,
+                        spacing: [0, 0, 0, 0],
+                        marginTop: 20
+                    },
+                    buttons: {
+                        printButton: {
+                            enabled: false
+                        },
+                        exportButton: {
+                            enabled: false
+                        }
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    credits: { enabled: false },
+                    legend: { enabled: false },
+                    title: { text: null },
+                    xAxis: {
+                        type: 'datetime',
+                        gridLineWidth: 1,
+                        min: startDate,
+                        max: endDate,
+                        ordinal: false,
+                        endOnTick: false,
+                        startOnTick: false,
+                    },
+                    yAxis: {
+                        title: null,
+                        gridLineWidth: 1,
+                        min: response.MinPrice,
+                        max: response.MaxPrice,
+                        plotLines: [{
+                            color: '#FF0000',
+                            width: 2,
+                            dashStyle: 'shortdash',
+                            value: response.OpenPrice // Need to set this probably as a var.
+                        }],
+                        //tickInterval: response.Step
+                    },
+                    plotOptions: {
+                        area: {
+                            fillColor: {
+                                linearGradient: {
+                                    x1: 0,
+                                    y1: 0,
+                                    x2: 0,
+                                    y2: 1
+                                },
+                                stops: [
+                                    [0, Highcharts.getOptions().colors[0]],
+                                    [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                                ]
+                            },
+                            marker: {
+                                radius: 2
+                            },
+                            lineWidth: 1,
+                            negativeColor: 'red',
+                            color: 'green',
+                            states: {
+                                hover: {
+                                    lineWidth: 1
+                                }
+                            },
+                            threshold: response.OpenPrice
+                        }
+                    },
+                    series: [{
+                        name: response.IndexCode,
+                        type: 'area',
+                        data: data
+                    }]
+                });
+            });
+        }
+
+        function getCalendar(){
+            $.getJSON('@Url.Action("GetCalendar", "Home")?range=' + emitenCode + '&date=' + '&language=' + currentLang, function(result){
+                $('#calendarTable').dataTable({
+                    'processing': true,
+                    'paging': true,
+                    'deferRender': true,
+                    'data': result.Results,
+                    'columns': [
+                        { 'data': 'id' },
+                        {
+                            'data': 'start',
+                            render: function( data, type, full, meta ) {
+                                return moment(data, "YYYY-MM-DDT00:00:00").format('DD MMM YYYY');
+                            }
+                        },
+                        {
+                            'data': 'description',
+                            'render' : function ( data, type, row, meta ) {
+                                if (data.length <= 0 || data.length > 255) {
+                                    return row.Jenis;
+                                }
+                                return row.description;
+                            }
+                        },
+                    ],
+                    "rowCallback": function (row, data, iDisplayIndex) {
+                        var info = this.api().page.info();
+                        var page = info.page;
+                        var length = info.length;
+                        var index = (page * length + (iDisplayIndex + 1));
+                        $('td:eq(0)', row).html(index);
+                    },
+                    "order": [[ 0, "desc" ]],
+                });
+            });
+        }
+
+        function getIssuedHistory(){
+            $('#issuedTable').dataTable({
+                'ajax': {
+                    'url': '@Url.Action("GetIssuedHistory", "ListingActivity")?kodeEmiten=' + emitenCode + '&language=' + currentLang,
+                },
+                'filter': false,
+                'sort': false,
+                'serverSide': true,
+                'processing': true,
+                'paging': true,
+                'deferRender': true,
+                'columns': [
+                    { 'data': 'TanggalPencatatan' },
+                    { 'data': 'JenisTindakan' },
+                    { 'data': 'JumlahSaham' },
+                    { 'data': 'JumlahSahamSetelahTindakan' },
+                ],
+                'columnDefs': [
+                    {
+                        'targets': [2,3],
+                        'createdCell' : function (td, cellData, rowData, row, col) {
+                            return $(td).addClass('text-right');
+                        },
+                        'render' : function ( data, type, row, meta ) {
+                            return data.toLocaleString(currentLang);
+                        }
+                    },
+                    {
+                        'targets': [0,1],
+                        'createdCell' : function (td, cellData, rowData, row, col) {
+                            return $(td).addClass('text-center');
+                        }
+                    },
+                    {
+                        'targets': [0],
+                        render: function( data, type, full, meta ) {
+                                return moment(data, "YYYY-MM-DDT00:00:00").format('DD MMM YYYY');
+                            }
+                    },
+                ],
+            });
+        }
+        
+        function populateYearFilter(htmlId) {
+            var currentYear = moment().format('YYYY');
+            for (var i = 0; i < 4; i++) {
+                $(htmlId).append('<option value="' + (currentYear - i) + '">' + (currentYear - i) + '</option>');
+            }
+        }
+
+    </script>
+}

@@ -1,0 +1,221 @@
+﻿@using System.Configuration
+@using IDXWeb.Models;
+@using Newtonsoft.Json;
+@using System.IO;
+@using System.Net.Http;
+
+
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+    MostActiveStockBundle items = new MostActiveStockBundle();
+    using (var client = new HttpClient())
+    {
+        var url = ConfigurationManager.AppSettings["LINK_MOST_ACTIVE_STOCK_VALUE"];
+        //HTTP GET
+        var responseTask = client.GetAsync(url);
+        responseTask.Wait();
+
+        var result = responseTask.Result;
+        if (result.IsSuccessStatusCode)
+        {
+            var readTask = result.Content.ReadAsAsync<MostActiveStockBundle>();
+            readTask.Wait();
+
+            items = readTask.Result;
+
+        }
+    }
+
+    var counter = 1;
+}
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                <li class="@cls"><a href="@page.Url">@page.Name.ToLower()</a></li>
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">Statistik</h1>
+        </div>
+        <div class="content-tab-container block content-tab-container--center">
+            <div class="content-tab-item">
+                <a href="#monthly" class="content-tab-anchor statistic-tab-js is-active">Monthly</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#quarterly" class="content-tab-anchor statistic-tab-js">Quarterly</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#yearly" class="content-tab-anchor statistic-tab-js">Yearly</a>
+            </div>
+        </div>
+    </div>
+    <div class="statistic-main-content">
+        <div class="statistic-container is-active" id="monthly">
+            <div class="background-light-grey content-push">
+                <div class="container mb-16">
+                    <div class="statistic--title-area mb-20">
+                        <h2 class="mb-0">20 Most Active Stocks by Trading Volume</h2>
+                        <div class="download-toggle-area">
+                            <button class="btn btn-primary download-toggle is-active" type="button" data-toggle="#searchList">
+                                Download
+                                <i class="fa fa-caret-down ml-8"></i>
+                                <ul class="download-list full-width" id="searchList">
+                                    <li><a href="#">PDF</a></li>
+                                    <li><a href="#">Excel</a></li>
+                                </ul>
+                            </button>
+                        </div>
+                    </div>
+                    <form class="report-search" action="">
+                        <div class="report-search-main">
+                            <i class="fa fa-search red fa-lg"></i>
+                            <input class="form-input" type="text" placeholder="Search this report">
+                            <button class="toggle-options btn btn-primary" type="button">
+                                <i class="fa fa-ellipsis-v fa-lg"></i>
+                            </button>
+                        </div>
+                        <div class="report-search-options">
+                            <div class="bzg">
+                                <div class="bzg_c" data-col="s4">
+                                    Type:
+                                </div>
+                                <div class="bzg_c" data-col="s8,m6,l8">
+                                    <select class="form-input form-input--block js-select-url" name="" id="">
+                                        <option value="" data-url="most-active-stock-by-trading-volume">Volume</option>
+                                        <option value="" data-url="most-active-stock-by-trading-value">Value</option>
+                                        <option value="" data-url="most-active-stock-by-trading-frequency" selected>Frequency</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="bzg">
+                                <div class="bzg_c" data-col="s4">
+                                    Month:
+                                </div>
+                                <div class="bzg_c" data-col="s8,m6,l8">
+                                    <select class="form-input form-input--block" name="" id="">
+                                        <option value="">January</option>
+                                        <option value="">February</option>
+                                        <option value="">March</option>
+                                        <option value="">April</option>
+                                        <option value="">May</option>
+                                        <option value="">June</option>
+                                        <option value="">July</option>
+                                        <option value="">August</option>
+                                        <option value="">September</option>
+                                        <option value="">October</option>
+                                        <option value="">November</option>
+                                        <option value="">December</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="bzg">
+                                <div class="bzg_c" data-col="s4">
+                                    Year:
+                                </div>
+                                <div class="bzg_c" data-col="s8,m6,l8">
+                                    <select class="form-input form-input--block" name="" id="">
+                                        <option value="">2019</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="bzg">
+                                <div class="bzg_c">
+                                    <button class="btn btn-primary">
+                                        <i class="fa fa-filter mr-8"></i>
+                                        Filter
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="background-white content-push">
+                <div class="container mb-16">
+                    <div class="table-wrapper">
+                        <table class="statistic-table">
+                            <thead class="thead-plain">
+                                <tr>
+                                    <th rowspan="2">No</th>
+                                    <th class="text-left" rowspan="2">Listed Stocks</th>
+                                    <th class="short" colspan="4">Total Trading</th>
+                                    <th rowspan="2">Trading Days</th>
+                                </tr>
+                                <tr class="text-right">
+                                    <th class="short">Volume</th>
+                                    <th class="short">Value (IDR)</th>
+                                    <th class="short">%</th>
+                                    <th class="short">Freq. (x)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in items.Data)
+                                {
+                                    <tr class="text-right">
+                                        <td>@(counter).</td>
+                                        <td class="text-left">@item.StockName</td>
+                                        <td>@item.Volume</td>
+                                        <td>@item.Value</td>
+                                        <td>@item.ValuePercent</td>
+                                        <td>@item.Freq</td>
+                                        <td>@item.TradingDays</td>
+                                    </tr>
+                                    counter++;
+                                }
+                            </tbody>
+
+                            <tfoot class="text-right">
+                                <tr>
+                                    <td class="no-border"></td>
+                                    <td class="text-left no-border">Total of The 20 Stocks</td>
+                                    <td class="no-border">@items.TotalVolumeTop</td>
+                                    <td class="no-border">@items.TotalValueTop</td>
+                                    <td class="no-border"></td>
+                                    <td class="no-border">@items.TotalFreqTop</td>
+                                    <td class="no-border"></td>
+                                </tr>
+                                <tr>
+                                    <td class="no-border"></td>
+                                    <td class="text-left no-border">% of Total Trading</td>
+                                    <td class="no-border">@items.TotalVolumePercentage</td>
+                                    <td class="no-border">@items.TotalValuePercentage</td>
+                                    <td class="no-border"></td>
+                                    <td class="no-border">@items.TotalFreqPercentage</td>
+                                    <td class="no-border"></td>
+                                </tr>
+                                <tr>
+                                    <td class="no-border"></td>
+                                    <td class="text-left no-border">Total Trading</td>
+                                    <td class="no-border">@items.TotalVolume</td>
+                                    <td class="no-border">@items.TotalValue</td>
+                                    <td class="no-border"></td>
+                                    <td class="no-border">@items.TotalFreq</td>
+                                    <td class="no-border"></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<?php include $path.'_partials/statistic-quarterly.php'; ?>
+            <?php include $path.'_partials/statistic-yearly.php'; ?>*@
+    </div>
+</main>
+
+

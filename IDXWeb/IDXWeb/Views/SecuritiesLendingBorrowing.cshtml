@@ -1,0 +1,485 @@
+﻿	@using System.Configuration
+	@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+	@{
+		Layout = "Master.cshtml";
+	}
+
+	@section Styles {
+		<link href="@Url.Content("/assets/css/vendor/datatables.min.css")" rel="stylesheet" type="text/css" />
+	}
+
+	<main class="sticky-footer-container-item --pushed">
+		<div class="container top-space">
+			@{
+				IPublishedContent current = (CurrentPage);
+				Stack<dynamic> pages = new Stack<dynamic>();
+				while (current.Level > 1)
+				{
+					pages.Push(current);
+					current = current.Parent;
+				}
+			}
+
+			<ul class="breadcrumb block">
+				<li><a href="/"><span class="fa fa-home"></span></a></li>
+				@foreach (var page in pages)
+				{
+					var cls = page.Id == CurrentPage.Id ? "current" : "";
+					if (page.DocumentTypeId != 1237){
+						<li class="@cls"><a href="@page.Url">@page.Name</a></li>
+					} else {
+						<li class="@cls"><a href="" class="disable"><span>@page.Name</span></a></li>
+					}
+				}
+			</ul>
+			<div class="page-title-container">
+				<h1 class="page-title">@CurrentPage.Name</h1>
+			</div>
+			<div>
+				<h2 class="article-item-title red"><span><strong>@Umbraco.GetDictionaryValue("SBL - Table Title")</strong></span><span><strong>Borrowing</strong></span> and <span><strong>Lending (SBL) Data*<br /></strong></span></h2>
+				<table border="0" width="694" height="97" class="table table--zebra table-content-page" style="height: 118px;">
+				<thead>
+					<tr style="height: 38px;">
+					<th style="height: 38px; width: 21px;">No</th>
+					<th style="height: 38px; width: 407px;">Description</th>
+					<th style="height: 38px; width: 89px;">Link</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr style="height: 38px;">
+					<td style="text-align: center; height: 38px; width: 21px;">1.</td>
+					<td style="height: 38px; width: 407px;"><strong>@Umbraco.GetDictionaryValue("SBL - Lendable Text")<br /></strong></td>
+					<td style="height: 38px; width: 89px; text-align: center;"><a id="lendableFile" href="#">Download</a></td>
+				</tr>
+				<tr style="height: 42px;">
+					<td style="text-align: center; width: 21px; height: 42px;">2.</td>
+					<td style="width: 407px; height: 42px;"><strong>@Umbraco.GetDictionaryValue("SBL - Transaction Text")<br /></strong></td>
+					<td style="width: 89px; height: 42px; text-align: center;"><a id="transactionFile" href="#">Download</a></td>
+				</tr>
+				</tbody>
+				</table>
+				<p><strong>Disclaimer:<br /></strong><strong>*   </strong>@Umbraco.GetDictionaryValue("SBL - Data as of") <span id="dataDate"></span><strong><br /></strong><strong>** </strong>@Umbraco.GetDictionaryValue("SBL - Disclaimer 2")</p>
+				<p><strong>@Umbraco.GetDictionaryValue("SBL - More info") </strong></span><a href="https://www.idx.co.id/en-us/products/securities-borrowing-and-lending/"><strong>@Umbraco.GetDictionaryValue("SBL - Click here")</strong></a></p>
+				
+				<div class="block">
+					<div class="content-tab-container block content-tab-container--center wrap">
+						<div class="content-tab-item">
+							<a href="#lendable" class="content-tab-anchor content-tab-anchor--wide etp-trading-tab-js">@Umbraco.GetDictionaryValue("SLB - Lendable")</a>
+						</div>
+						<div class="content-tab-item">
+							<a href="#topFreq" class="content-tab-anchor content-tab-anchor--wide etp-trading-tab-js">@Umbraco.GetDictionaryValue("SLB - Top 5 Frequency")</a>
+						</div>
+						<div class="content-tab-item">
+							<a href="#topVal" class="content-tab-anchor content-tab-anchor--wide etp-trading-tab-js">@Umbraco.GetDictionaryValue("SLB - Top 5 Value")</a>
+						</div>
+						<div class="content-tab-item">
+							<a href="#topActive" class="content-tab-anchor content-tab-anchor--wide etp-trading-tab-js">@Umbraco.GetDictionaryValue("SLB - Top 5 Active Stock")</a>
+						</div>
+						<div class="content-tab-item">
+							<a href="#daily" class="content-tab-anchor content-tab-anchor--wide etp-trading-tab-js">@Umbraco.GetDictionaryValue("SLB - Daily")</a>
+						</div>
+					</div>
+					
+				</div>
+				<div class="etp-trading-container" id="lendable">
+				<div class="content-push">
+					<div class="container">
+						<table id="lendableTable" class="table table--zebra table-content-page" style="width:100%">
+								<thead>
+									<tr>
+										<th>No</th>
+										<th>@Umbraco.GetDictionaryValue("code")</th>
+										<th>Volume (@Umbraco.GetDictionaryValue("SBL - Shares"))</th>
+										<th>@Umbraco.GetDictionaryValue("SLB - Regular Securities Borrowing Lending")</th>
+										<th>@Umbraco.GetDictionaryValue("SLB - Front End Securities Borrowing Lending")</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+					</div>
+				</div>
+			</div>
+			<div class="etp-trading-container" id="topFreq">
+				<div class="content-push">
+					<div class="container">
+						<table id="topFreqTable" class="table table--zebra table-content-page" style="width:50%">
+								<thead>
+									<tr>
+										<th>No</th>
+										<th>@Umbraco.GetDictionaryValue("code")</th>
+										<th>@Umbraco.GetDictionaryValue("frequency")</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+					</div>
+				</div>
+			</div>
+			<div class="etp-trading-container" id="topVal">
+				<div class="content-push">
+					<div class="container">
+						<table id="topValTable" class="table table--zebra table-content-page" style="width:50%">
+								<thead>
+									<tr>
+										<th>No</th>
+										<th>@Umbraco.GetDictionaryValue("code")</th>
+										<th>@Umbraco.GetDictionaryValue("value") (Rp)</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+					</div>
+				</div>
+			</div>
+			<div class="etp-trading-container" id="topActive">
+				<div class="content-push">
+					<div class="container">
+						<table id="topActiveTable" class="table table--zebra table-content-page" style="width:50%">
+								<thead>
+									<tr>
+										<th>No</th>
+										<th>@Umbraco.GetDictionaryValue("code")</th>
+										<th>Volume (@Umbraco.GetDictionaryValue("SBL - Shares"))</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+					</div>
+				</div>
+			</div>
+			<div class="etp-trading-container" id="daily">
+				<div class="content-push">
+					<div class="container">
+						<table id="dailyTable" class="table table--zebra table-content-page" style="width:100%">
+								<thead>
+									<tr>
+										<th>No</th>
+										<th>@Umbraco.GetDictionaryValue("code")</th>
+										<th>Volume (@Umbraco.GetDictionaryValue("SBL - Shares"))</th>
+										<th>@Umbraco.GetDictionaryValue("value") (Rp)</th>
+										<th>Borrowing Fee Rate Per Annual</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	@section Scripts{
+		<script type="text/javascript" src="/assets/js/vendor/datatables.min.js"></script>
+		<script type="text/javascript">
+			$(function () {
+				$('#dateFilter').val(moment().add(-1, 'days').format('DD-MM-YYYY'));
+				getTopFreq();
+				getTopVal();
+				getTopActive();
+				getDaily();
+                getLendable();
+                getDownloadable();
+			});
+
+			function getTopFreq(){
+				
+				if($.fn.DataTable.isDataTable('#topFreqTable')){
+					var datatable = $('#topFreqTable').DataTable();
+					datatable.clear();
+					var url = '@Url.Action("TopLenderFreq", "Slb")';
+					datatable.ajax.url(url).load();
+					datatable.draw();
+				} else {
+					$('#topFreqTable').dataTable({
+						'ajax': {
+						'url': '@Url.Action("TopLenderFreq", "Slb")',
+						},
+						'filter': false,
+						'sort': false,
+						'serverSide': true,
+						'processing': true,
+						'paging': false,
+						'ordering': false,
+						'deferRender': true,
+						'columns': [
+							{ 'data': 'No' },
+							{ 'data': 'KodeSaham' },
+							{ 'data': 'Frequency'}
+						],
+						'columnDefs': [
+							{
+								'targets': [0,1,2],
+								'createdCell' : function (td, cellData, rowData, row, col) {
+									return $(td).addClass('text-center');
+								}
+							},
+							{
+								'targets': [0, 1, 2],
+								'createdCell' : function (td, cellData, rowData, row, col) {
+									return $(td).addClass('text-right');
+								},
+								'render' : function ( data, type, row, meta ) {
+									return data.toLocaleString(currentLang);
+								}
+							},
+							{
+							    'targets': [0, 1, 2],
+							    'render' : function ( data, type, row, meta ) {
+							        if(data != null){
+                                        return data.toLocaleString(currentLang);
+							        }
+							        return '';
+                                }
+							}
+						],
+						"rowCallback": function (row, data, iDisplayIndex) {
+							var info = this.api().page.info();
+							var page = info.page;
+							var length = info.length;
+							var index = (page * length + (iDisplayIndex + 1));
+							$('td:eq(0)', row).html(index);
+						},
+					});                
+				}
+			}
+			
+			function getTopVal(){
+				
+				if($.fn.DataTable.isDataTable('#topValTable')){
+					var datatable = $('#topValTable').DataTable();
+					datatable.clear();
+					var url = '@Url.Action("TopLenderVal", "Slb")';
+					datatable.ajax.url(url).load();
+					datatable.draw();
+				} else {
+					$('#topValTable').dataTable({
+						'ajax': {
+						'url': '@Url.Action("TopLenderVal", "Slb")',
+						},
+						'filter': false,
+						'sort': false,
+						'serverSide': true,
+						'processing': true,
+						'paging': false,
+						'ordering': false,
+						'deferRender': true,
+						'columns': [
+							{ 'data': 'No' },
+							{ 'data': 'KodeSaham' },
+							{ 'data': 'Value'}
+						],
+						'columnDefs': [
+							{
+								'targets': [0,1,2],
+								'createdCell' : function (td, cellData, rowData, row, col) {
+									return $(td).addClass('text-center');
+								}
+							},
+							{
+							    'targets': [0, 1, 2],
+							    'render' : function ( data, type, row, meta ) {
+							        if(data != null){
+                                        return data.toLocaleString(currentLang);
+							        }
+							        return '';
+                                }
+							}
+						],
+						"rowCallback": function (row, data, iDisplayIndex) {
+							var info = this.api().page.info();
+							var page = info.page;
+							var length = info.length;
+							var index = (page * length + (iDisplayIndex + 1));
+							$('td:eq(0)', row).html(index);
+						},
+					});                
+				}
+			}
+			
+			function getTopActive(){
+				
+				if($.fn.DataTable.isDataTable('#topActiveTable')){
+					var datatable = $('#topActiveTable').DataTable();
+					datatable.clear();
+					var url = '@Url.Action("TopActiveStock", "Slb")';
+					datatable.ajax.url(url).load();
+					datatable.draw();
+				} else {
+					$('#topActiveTable').dataTable({
+						'ajax': {
+						'url': '@Url.Action("TopActiveStock", "Slb")',
+						},
+						'filter': false,
+						'sort': false,
+						'serverSide': true,
+						'processing': true,
+						'paging': false,
+						'ordering': false,
+						'deferRender': true,
+						'columns': [
+							{ 'data': 'No' },
+							{ 'data': 'KodeSaham' },
+							{ 'data': 'Volume'}
+						],
+						'columnDefs': [
+							{
+								'targets': [0,1,2],
+								'createdCell' : function (td, cellData, rowData, row, col) {
+									return $(td).addClass('text-center');
+								}
+							},
+							{
+							    'targets': [0, 1, 2],
+							    'render' : function ( data, type, row, meta ) {
+							        if(data != null){
+                                        return data.toLocaleString(currentLang);
+							        }
+							        return '';
+                                }
+							}
+						],
+						"rowCallback": function (row, data, iDisplayIndex) {
+							var info = this.api().page.info();
+							var page = info.page;
+							var length = info.length;
+							var index = (page * length + (iDisplayIndex + 1));
+							$('td:eq(0)', row).html(index);
+						},
+					});                
+				}
+			}
+			function getDaily(){
+				
+				if($.fn.DataTable.isDataTable('#dailyTable')){
+					var datatable = $('#dailyTable').DataTable();
+					datatable.clear();
+					var url = '@Url.Action("Daily", "Slb")';
+					datatable.ajax.url(url).load();
+					datatable.draw();
+				} else {
+					$('#dailyTable').dataTable({
+						'ajax': {
+						'url': '@Url.Action("Daily", "Slb")',
+						},
+						'filter': false,
+						'sort': false,
+						'serverSide': true,
+						'processing': true,
+						'paging': false,
+						'ordering': true,
+						'deferRender': true,
+						'columns': [
+							{ 'data': 'No' },
+							{ 'data': 'KodeSaham' },
+							{ 'data': 'Volume'},
+							{ 'data': 'Value' },
+							{ 'data': 'BorrowingFeeRatePerAnnual' }
+						],
+						'columnDefs': [
+							{
+								'targets': [0,1,2],
+								'createdCell' : function (td, cellData, rowData, row, col) {
+									return $(td).addClass('text-center');
+								}
+							},
+							{
+							    'targets': [0, 1, 2, 3, 4],
+							    'render' : function ( data, type, row, meta ) {
+							        if(data != null){
+                                        return data.toLocaleString(currentLang);
+							        }
+							        return '';
+                                }
+							}
+							
+						],
+						"rowCallback": function (row, data, iDisplayIndex) {
+							var info = this.api().page.info();
+							var page = info.page;
+							var length = info.length;
+							var index = (page * length + (iDisplayIndex + 1));
+							$('td:eq(0)', row).html(index);
+						},
+					});                
+				}
+            }
+
+			function getLendable(){
+				
+				if($.fn.DataTable.isDataTable('#lendableTable')){
+					var datatable = $('#lendableTable').DataTable();
+					datatable.clear();
+					var url = '@Url.Action("LendableStock", "Slb")';
+					datatable.ajax.url(url).load();
+					datatable.draw();
+				} else {
+					$('#lendableTable').dataTable({
+						'ajax': {
+						'url': '@Url.Action("LendableStock", "Slb")',
+						},
+						'filter': true,
+						'sort': false,
+						'serverSide': false,
+						'processing': true,
+						'paging': true,
+						'ordering': true,
+						'deferRender': true,
+						'columns': [
+							{ 'data': 'No' },
+							{ 'data': 'KodeSaham' },
+							{ 'data': 'Volume'},
+							{ 'data': 'RegularSecuritiesBorrowingLending' },
+							{ 'data': 'FrontEndSecuritiesBorrowingLending' }
+						],
+						'columnDefs': [
+							{
+								'targets': [0,1,2,3,4],
+								'createdCell' : function (td, cellData, rowData, row, col) {
+									return $(td).addClass('text-center');
+								}
+							},
+							{
+							    'targets': [0, 1, 2, 3, 4],
+							    'render' : function ( data, type, row, meta ) {
+							        if(data != null){
+                                        return data.toLocaleString(currentLang);
+							        }
+							        return '';
+                                }
+							}
+						],
+						"rowCallback": function (row, data, iDisplayIndex) {
+							var info = this.api().page.info();
+							var page = info.page;
+							var length = info.length;
+							var index = (page * length + (iDisplayIndex + 1));
+							$('td:eq(0)', row).html(index);
+						},
+					});                
+				}
+            }
+
+            function getDownloadable() {
+                $.ajax({
+                    url: "@Url.Action("Files", "Slb")",
+                    type: "GET",
+                    datatype: "jsonp",
+                    success: function (res) {
+                        var result = JSON.parse(res);
+                        $("#lendableFile").attr("href", result[0]["FilePath"]);
+                        $("#transactionFile").attr("href", result[1]["FilePath"]);
+                        var num = result[0]["FilePath"].replace(/\D/g, "");
+                        $("#dataDate").text(moment(num).format('DD MMMM YYYY'));
+                        $("#lendableFile").attr("download", "data-sbl-lendable-" + moment(num).format('DDMMYYYY') + ".xlsx");
+                        $("#transactionFile").attr("download", "data-sbl-transaksi-" + moment(num).format('DDMMYYYY') + ".xlsx");
+                    }
+                })
+            }
+
+		</script>
+	}

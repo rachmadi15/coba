@@ -1,0 +1,189 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+
+    Layout = "Master.cshtml";
+    var Stocks = new string[] {
+"Obligasi Negara RI Seri ",
+"Obligasi Negara RI Seri ",
+"Obligasi Negara Republik Indonesia Seri ",
+"Obligasi Negara RI Seri ",
+"Obligasi Negara RI Seri ",
+"Obligasi Negara Republik Indonesia Seri ",
+"Obligasi Negara RI Seri ",
+"Obligasi Negara RI Seri ",
+"Obligasi Negara Republik Indonesia Seri ",
+"Obligasi Negara RI Seri ",
+"Obligasi Negara RI Seri ",
+"Obligasi Negara Republik Indonesia Seri ",
+"Obligasi Negara RI Seri ",
+"Obligasi Negara RI Seri ",
+"Obligasi Negara Republik Indonesia Seri ",
+"Obligasi Negara RI Seri ",
+"Obligasi Negara RI Seri ",
+"Obligasi Negara Republik Indonesia Seri ",
+"Obligasi Negara Republik Indonesia Seri ",
+"Obligasi Negara Republik Indonesia Seri ",
+"Obligasi Negara Republik Indonesia Seri ",
+"Obligasi Negara Republik Indonesia Seri ",
+"Obligasi Negara",
+"Obligasi Negara",
+"Obligasi Negara",
+"Obligasi Negara RI Seri ",
+"Obligasi Negara RI Seri ",
+"Obligasi Negara Republik Indonesia Seri ",
+"Obligasi Negara RI Seri ",
+"Obligasi Negara RI Seri ",
+"Obligasi Negara Republik Indonesia Seri ",
+"Obligasi Negara RI Seri ",
+"Obligasi Negara RI Seri ",
+"Obligasi Negara Republik Indonesia Seri ",
+"Obligasi Negara RI Seri ",
+"Obligasi Negara RI Seri ",
+"Obligasi Negara Republik Indonesia Seri ",
+"Obligasi Negara RI Seri ",
+"Obligasi Negara RI Seri ",
+"Obligasi Negara Republik Indonesia Seri ",
+"Obligasi Negara RI Seri ",
+"Obligasi Negara RI Seri ",
+"Obligasi Negara Republik Indonesia Seri ",
+"Obligasi Negara Republik Indonesia Seri ",
+"Obligasi Negara Republik Indonesia Seri ",
+"Obligasi Negara Republik Indonesia Seri ",
+"Obligasi Negara Republik Indonesia Seri ",
+"Obligasi Negara",
+"Obligasi Negara",
+"Obligasi Negara",
+};
+
+    var counter = 0;
+}
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                <li class="@cls"><a href="@page.Url">@page.Name.ToLower()</a></li>
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">Statistik</h1>
+        </div>
+        <div class="content-tab-container block content-tab-container--center">
+            <div class="content-tab-item">
+                <a href="#monthly" class="content-tab-anchor statistic-tab-js is-active">Monthly</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#quarterly" class="content-tab-anchor statistic-tab-js">Quarterly</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#yearly" class="content-tab-anchor statistic-tab-js">Yearly</a>
+            </div>
+        </div>
+    </div>
+    <div class="statistic-main-content">
+        <div class="statistic-container is-active" id="monthly">
+            <div class="background-light-grey content-push">
+                <div class="container mb-16">
+                    <div class="statistic--title-area mb-20">
+                        <h2 class="mb-0">@CurrentPage.Name</h2>
+                        <div class="download-toggle-area">
+                            <button class="btn btn-primary download-toggle is-active" type="button" data-toggle="#searchList">
+                                Download
+                                <i class="fa fa-caret-down ml-8"></i>
+                                <ul class="download-list full-width" id="searchList">
+                                    <li><a href="#">PDF</a></li>
+                                    <li><a href="#">Excel</a></li>
+                                </ul>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="background-white content-push">
+                <div class="container">
+                    <div class="table-wrapper">
+                        <table class="statistic-table js-datatable no-paging" data-json="/data/BondDailyTradingActivity.json">
+                            <thead class="thead-plain">
+                                <tr>
+                                    <th rowspan="2" class="short">No.</th>
+                                    <th rowspan="2" class="wide">Bond Name</th>
+                                    <th rowspan="2" class="short">Type of<br> Bond</th>
+                                    <th rowspan="2" class="short">Bond Code</th>
+                                    <th rowspan="2" class="short">Issued<br> Date</th>
+                                    <th rowspan="2" class="short">Listing<br> Date</th>
+                                    <th rowspan="2" class="short">Mature<br> Date</th>
+                                    <th rowspan="2" class="short">Nominal Value<br> b. IDR</th>
+                                    <th rowspan="2" class="short">Interest</th>
+                                    <th rowspan="2" class="short">Tenure</th>
+                                    <th colspan="3" class="short">Trading</th>
+                                </tr>
+                                <tr>
+                                    <th class="short">Volume<br> b.IDR</th>
+                                    <th class="short">Value<br> b.IDR</th>
+                                    <th class="short">Freq.</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-right">
+                                @foreach (var item in Stocks)
+                                {
+                                    counter++;
+                                    var nominal = 39252000;
+                                    var tenure = 1;
+                                    var volume = 16169;
+                                    var value = 17229;
+                                    var freq = 65;
+                                    if (counter%5 == 0)
+                                    {
+                                        nominal = 0;
+                                        volume = 0;
+                                        value = 0;
+                                        freq = 0;
+                                    }
+                                    else
+                                    {
+                                        tenure = tenure *32 / counter;
+                                        nominal = nominal /3 * 2 + 29800;
+                                        volume = volume / 3 * 2 + 2980;
+                                        value = value / 3 * 2 + 2980;
+                                        freq = freq / 3 + 21;
+                                    }
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td>@item PBS0@(counter)</td>
+                                        <td>Sukuk IFR</td>
+                                        <td>PBS0@(counter)</td>
+                                        <td>@(counter % 30)-Sep-@(counter % 19)</td>
+                                        <td>@(counter % 30)-Aug-@(counter % 19)</td>
+                                        <td>@(counter % 30)-Oct-@(counter % 19)</td>
+                                        <td>@nominal</td>
+                                        <td>@counter  %</td>
+                                        <td>@tenure  M</td>
+                                        <td>@volume</td>
+                                        <td>@value</td>
+                                        <td>@freq</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<?php include $path.'_partials/statistic-quarterly.php'; ?>
+            <?php include $path.'_partials/statistic-yearly.php'; ?>*@
+    </div>
+</main>
+
+

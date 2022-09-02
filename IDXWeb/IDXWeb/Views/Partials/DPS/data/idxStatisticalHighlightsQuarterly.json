@@ -1,0 +1,197 @@
+{
+    "data": [
+        {
+            "name": "High",
+            "lastYear": 6689287,
+            "currentYearCumulative": 6525274,
+            "currentYearQ1": 6525274,
+            "currentYearQ2": 6507221,
+            "group": "EQUITIES",
+            "subGroup": "Jakarta Composite Index"
+        },
+        {
+            "name": "Low",
+            "lastYear": 5633937,
+            "currentYearCumulative": 5826868,
+            "currentYearQ1": 6353774,
+            "currentYearQ2": 5826868,
+            "group": "EQUITIES",
+            "subGroup": "Jakarta Composite Index"
+        },
+        {
+            "name": "Close",
+            "lastYear": 6194498,
+            "currentYearCumulative": 6358629,
+            "currentYearQ1": 6468725,
+            "currentYearQ2": 6358629,
+            "group": "EQUITIES",
+            "subGroup": "Jakarta Composite Index"
+        },
+        {
+            "name": "Trading Day",
+            "lastYear": 240,
+            "currentYearCumulative": 116,
+            "currentYearQ1": 61,
+            "currentYearQ2": 55,
+            "group": "EQUITIES",
+            "subGroup": "Stock Market Summary"
+        },
+        {
+            "name": "Listed Companies, eop",
+            "lastYear": 619,
+            "currentYearCumulative": 116,
+            "currentYearQ1": 61,
+            "currentYearQ2": 55,
+            "group": "EQUITIES",
+            "subGroup": "Stock Market Summary"
+        },
+        {
+            "name": "Listed Shares, m.shares",
+            "lastYear": 5123379,
+            "currentYearCumulative": 5306178,
+            "currentYearQ1": 5167188,
+            "currentYearQ2": 5306706,
+            "group": "EQUITIES",
+            "subGroup": "Stock Market Summary"
+        },
+        {
+            "name": "Market Capitalization, b. IDR",
+            "lastYear": 7023998,
+            "currentYearCumulative": 7243890,
+            "currentYearQ1": 7365380,
+            "currentYearQ2": 7243890,
+            "group": "EQUITIES",
+            "subGroup": "Stock Market Summary"
+        },
+        {
+            "name": "Trading Value, b. IDR",
+            "lastYear": 489.14,
+            "currentYearCumulative": 121.64,
+            "currentYearQ1": 2.12,
+            "currentYearQ2": 119.52,
+            "hasDecimal": 2,
+            "group": "EQUITIES",
+            "subGroup": "Rights"
+        },
+        {
+            "name": "Listed Issuer, eop",
+            "lastYear": 1,
+            "currentYearCumulative": 1,
+            "currentYearQ1": 1,
+            "currentYearQ2": 1,
+            "group": "EQUITIES",
+            "subGroup": "Corporate Bond, USD Issuance"
+        },
+        {
+            "name": "Number of Listed Bond",
+            "lastYear": 1,
+            "currentYearCumulative": 1,
+            "currentYearQ1": 1,
+            "currentYearQ2": 1,
+            "group": "EQUITIES",
+            "subGroup": "Corporate Bond, USD Issuance"
+        },
+        {
+            "name": "Outstanding Value, m. USD",
+            "lastYear": 47.5,
+            "currentYearCumulative": 47.5,
+            "currentYearQ1": 47.5,
+            "currentYearQ2": 47.5,
+            "hasDecimal": 1,
+            "group": "EQUITIES",
+            "subGroup": "Corporate Bond, USD Issuance"
+        },
+        {
+            "name": "Listed Options, eop",
+            "lastYear": null,
+            "currentYearCumulative": null,
+            "currentYearQ1": null,
+            "currentYearQ2": null,
+            "group": "DERIVATIVES",
+            "subGroup": "Options"
+        },
+        {
+            "name": "Trading Value, b. IDR",
+            "lastYear": null,
+            "currentYearCumulative": null,
+            "currentYearQ1": null,
+            "currentYearQ2": null,
+            "group": "DERIVATIVES",
+            "subGroup": "Options"
+        },
+        {
+            "name": "Listed Futures, contracts, eop",
+            "lastYear": 9,
+            "currentYearCumulative": 9,
+            "currentYearQ1": 9,
+            "currentYearQ2": 9,
+            "group": "DERIVATIVES",
+            "subGroup": "Futures"
+        },
+        {
+            "name": "Trading Value, contracts",
+            "lastYear": 6,
+            "currentYearCumulative": 2,
+            "currentYearQ1": 2,
+            "currentYearQ2": 2,
+            "group": "DERIVATIVES",
+            "subGroup": "Futures"
+        }
+    ],
+    "columns": [
+        {
+            "columnName": null,
+            "decimal": 0,
+            "format": false,
+            "className": "short no-border"
+        },
+        {
+            "columnName": "name",
+            "decimal": 0,
+            "format": false,
+            "className": "text-left nowrap short no-border"
+        },
+        {
+            "columnName": "lastYear",
+            "decimal": 0,
+            "format": true,
+            "className": "short no-border"
+        },
+        {
+            "columnName": "currentYearCumulative",
+            "decimal": 0,
+            "format": true,
+            "className": "short no-border"
+        },
+        {
+            "columnName": null,
+            "decimal": 0,
+            "format": false,
+            "className": "short no-border"
+        },
+        {
+            "columnName": "currentYearQ1",
+            "decimal": 0,
+            "format": true,
+            "className": "short no-border"
+        },
+        {
+            "columnName": "currentYearQ2",
+            "decimal": 0,
+            "format": true,
+            "className": "short no-border"
+        },
+        {
+            "columnName": "group",
+            "decimal": 0,
+            "format": "grouping",
+            "className": "short no-border"
+        },
+        {
+            "columnName": "subGroup",
+            "decimal": 0,
+            "format": "subGrouping",
+            "className": "short no-border"
+        }
+    ]
+}

@@ -1,0 +1,234 @@
+{
+    "data": [
+        {
+            "listedStocks": "Citra Putra Realty Tbk. (CLAY)",
+            "lastMonth": 8850,
+            "lastMonthAdjusted": 8850,
+            "thisMonth": 4630,
+            "dilutionFactors": 1.00,
+            "priceChange": -4220,
+            "pricePercent": -47.68
+        },
+        {
+            "listedStocks": "Onix Capital Tbk. (OCAP)",
+            "lastMonth": 180,
+            "lastMonthAdjusted": 180,
+            "thisMonth": 3170,
+            "dilutionFactors": 1.00,
+            "priceChange": -1826,
+            "pricePercent": -666.42
+        },
+        {
+            "listedStocks": "Nusantara Properti Internasional Tbk. [S] (NATO)",
+            "lastMonth": 180,
+            "lastMonthAdjusted": 180,
+            "thisMonth": 3170,
+            "dilutionFactors": 1.00,
+            "priceChange": -607,
+            "pricePercent": -589.32
+        },
+        {
+            "listedStocks": "Wahana Interfood Nusantara Tbk. (COCO)",
+            "lastMonth": 180,
+            "lastMonthAdjusted": 180,
+            "thisMonth": 3170,
+            "dilutionFactors": 1.00,
+            "priceChange": -522,
+            "pricePercent": -314.14
+        },
+        {
+            "listedStocks": "Smartfren Telecom Tbk. [S] (FREN)",
+            "lastMonth": 180,
+            "lastMonthAdjusted": 180,
+            "thisMonth": 3170,
+            "dilutionFactors": 1.00,
+            "priceChange": -2990,
+            "pricePercent": -1666.11
+        },
+        {
+            "listedStocks": "Cahayaputra Asa Keramik Tbk. [S] (CAKK)",
+            "lastMonth": 180,
+            "lastMonthAdjusted": 180,
+            "thisMonth": 3170,
+            "dilutionFactors": 1.00,
+            "priceChange": -2990,
+            "pricePercent": -1666.11
+        },
+        {
+            "listedStocks": "Dewata Freightinternational Tbk. (DEAL)",
+            "lastMonth": 180,
+            "lastMonthAdjusted": 180,
+            "thisMonth": 3170,
+            "dilutionFactors": 1.00,
+            "priceChange": -2990,
+            "pricePercent": -1666.11
+        },
+        {
+            "listedStocks": "Adi Sarana Armada Tbk. (ASSA)",
+            "lastMonth": 180,
+            "lastMonthAdjusted": 180,
+            "thisMonth": 3170,
+            "dilutionFactors": 1.00,
+            "priceChange": -2990,
+            "pricePercent": -1666.11
+        },
+        {
+            "listedStocks": "Map Aktif Adiperkasa Tbk. [S] (MAPA)",
+            "lastMonth": 180,
+            "lastMonthAdjusted": 180,
+            "thisMonth": 3170,
+            "dilutionFactors": 1.00,
+            "priceChange": -2990,
+            "pricePercent": -1666.11
+        },
+        {
+            "listedStocks": "Alumindo Light Metal Industry Tbk. (ALMI)",
+            "lastMonth": 180,
+            "lastMonthAdjusted": 180,
+            "thisMonth": 3170,
+            "dilutionFactors": 1.00,
+            "priceChange": -2990,
+            "pricePercent": -1666.11
+        },
+        {
+            "listedStocks": "Bank Central Asia Tbk. (BBCA)",
+            "lastMonth": 180,
+            "lastMonthAdjusted": 180,
+            "thisMonth": 3170,
+            "dilutionFactors": 1.00,
+            "priceChange": -2990,
+            "pricePercent": -1666.11
+        },
+        {
+            "listedStocks": "Bank Rakyat Indonesia (Persero) Tbk. (BBRI)",
+            "lastMonth": 180,
+            "lastMonthAdjusted": 180,
+            "thisMonth": 3170,
+            "dilutionFactors": 1.00,
+            "priceChange": -2990,
+            "pricePercent": -1666.11
+        },
+        {
+            "listedStocks": "H.M. Sampoerna Tbk. (HMSP)",
+            "lastMonth": 180,
+            "lastMonthAdjusted": 180,
+            "thisMonth": 3170,
+            "dilutionFactors": 1.00,
+            "priceChange": -2990,
+            "pricePercent": -1666.11
+        },
+        {
+            "listedStocks": "Telekomunikasi Indonesia (Persero) Tbk. (TLKM)",
+            "lastMonth": 180,
+            "lastMonthAdjusted": 180,
+            "thisMonth": 3170,
+            "dilutionFactors": 1.00,
+            "priceChange": -2990,
+            "pricePercent": -1666.11
+        },
+        {
+            "listedStocks": "Unilever Tbk. (UNVR)",
+            "lastMonth": 180,
+            "lastMonthAdjusted": 180,
+            "thisMonth": 3170,
+            "dilutionFactors": 1.00,
+            "priceChange": -2990,
+            "pricePercent": -1666.11
+        },
+        {
+            "listedStocks": "Bank Mandiri (Persero) Tbk. (BMRI)",
+            "lastMonth": 180,
+            "lastMonthAdjusted": 180,
+            "thisMonth": 3170,
+            "dilutionFactors": 1.00,
+            "priceChange": -2990,
+            "pricePercent": -1666.11
+        },
+        {
+            "listedStocks": "Astra International Tbk. (ASII)",
+            "lastMonth": 180,
+            "lastMonthAdjusted": 180,
+            "thisMonth": 3170,
+            "dilutionFactors": 1.00,
+            "priceChange": -2990,
+            "pricePercent": -1666.11
+        },
+        {
+            "listedStocks": "Bank Negara Indonesia (Persero) Tbk. (BBNI)",
+            "lastMonth": 180,
+            "lastMonthAdjusted": 180,
+            "thisMonth": 3170,
+            "dilutionFactors": 1.00,
+            "priceChange": -2990,
+            "pricePercent": -1666.11
+        },
+        {
+            "listedStocks": "Gudang Garam Tbk. (GGRM)",
+            "lastMonth": 180,
+            "lastMonthAdjusted": 180,
+            "thisMonth": 3170,
+            "dilutionFactors": 1.00,
+            "priceChange": -2990,
+            "pricePercent": -1666.11
+        },
+        {
+            "listedStocks": "Indofood CBP Sukses Makmur Tbk. (ICBP)",
+            "lastMonth": 180,
+            "lastMonthAdjusted": 180,
+            "thisMonth": 3170,
+            "dilutionFactors": 1.00,
+            "priceChange": -2990,
+            "pricePercent": -1666.11
+        }
+    ],
+    "columns": [
+        {
+            "columnName": "count",
+            "decimal": 0,
+            "format": "count",
+            "className": ""
+        },
+        {
+            "columnName": "listedStocks",
+            "decimal": 0,
+            "format": false,
+            "className": "text-left nowrap"
+        },
+        {
+            "columnName": "lastMonth",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "lastMonthAdjusted",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "thisMonth",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "dilutionFactors",
+            "decimal": 2,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "priceChange",
+            "decimal": 0,
+            "format": "plusMinus",
+            "className": ""
+        },
+        {
+            "columnName": "pricePercent",
+            "decimal": 2,
+            "format": true,
+            "className": ""
+        }
+    ]
+}

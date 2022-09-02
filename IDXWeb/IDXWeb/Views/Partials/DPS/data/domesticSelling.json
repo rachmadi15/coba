@@ -1,0 +1,99 @@
+{
+    "data": [
+        {
+            "date": "Fri Mar 01 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "domesticForeignVolume": 247163515,
+            "domesticForeignValue": 944519910579,
+            "domesticForeignFreq": 30957,
+            "domesticDomesticVolume": 606649555,
+            "domesticDomesticValue": 1202116930357,
+            "domesticDomesticFreq": 72995
+        },
+        {
+            "date": "Sat Mar 04 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "domesticForeignVolume": 247193387,
+            "domesticForeignValue": 975352650295,
+            "domesticForeignFreq": 30951,
+            "domesticDomesticVolume": 606644999,
+            "domesticDomesticValue": 1330281107258,
+            "domesticDomesticFreq": 72956
+        },
+        {
+            "date": "Sun Mar 05 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "domesticForeignVolume": 247145650,
+            "domesticForeignValue": 1102161014014,
+            "domesticForeignFreq": 30818,
+            "domesticDomesticVolume": 606649750,
+            "domesticDomesticValue": 1234849667369,
+            "domesticDomesticFreq": 72997
+        },
+        {
+            "date": "Mon Mar 06 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "domesticForeignVolume": 247177169,
+            "domesticForeignValue": 1057977382156,
+            "domesticForeignFreq": 30945,
+            "domesticDomesticVolume": 606649392,
+            "domesticDomesticValue": 1240820293654,
+            "domesticDomesticFreq": 72996
+        },
+        {
+            "date": "Tue Mar 07 2019 00:00:00 GMT+0700 (Western Indonesia Time)",
+            "domesticForeignVolume": 247147517,
+            "domesticForeignValue": 1162964736964,
+            "domesticForeignFreq": 30769,
+            "domesticDomesticVolume": 606644837,
+            "domesticDomesticValue": 1357294118265,
+            "domesticDomesticFreq": 72969
+        }
+    ],
+    "columns": [
+        {
+            "columnName": "date",
+            "decimal": 0,
+            "format": "fullDate",
+            "className": "text-center nowrap"
+        },
+        {
+            "columnName": "domesticForeignVolume",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "domesticForeignValue",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "domesticForeignFreq",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": null,
+            "decimal": 0,
+            "format": false,
+            "className": ""
+        },
+        {
+            "columnName": "domesticDomesticVolume",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "domesticDomesticValue",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "domesticDomesticFreq",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        }
+    ]
+}

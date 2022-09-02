@@ -1,0 +1,27 @@
+{
+  "chartName": "Trading Value by Market Type",
+  "unit": null,
+  "series": [
+    {
+      "seriesName": "Reguler",
+      "seriesColor": "#4472c4",
+      "seriesData": [
+        2452362408.00
+      ]
+    },
+    {
+      "seriesName": "Negotiated",
+      "seriesColor": "#ed7d31",
+      "seriesData": [
+        245236240899.00
+      ]
+    },
+    {
+      "seriesName": "Cash",
+      "seriesColor": "#a5a5a5",
+      "seriesData": [
+        42447336462.00
+      ]
+    }
+  ]
+}

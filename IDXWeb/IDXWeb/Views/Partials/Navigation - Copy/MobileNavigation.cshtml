@@ -1,0 +1,67 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@using System.Collections
+@using Umbraco.Web;
+@{ 
+    var site = Model.Content.Site();
+    var selection = site.Children.Where(x => x.IsVisible());
+}
+
+<ul class="header-main-mobile-nav-list list-nostyle">
+    @foreach (var item in selection)
+    {
+        <li class="header-main-mobile-nav-item main-nav-js">
+            <span>@item.Name</span>
+
+            @if (item.Children != null && item.Children.Any())
+            {
+                <ul class="header-main-mobile-subnav-list list-nostyle">
+                    @foreach (var childLevel1 in item.Children)
+                    {
+                        if (childLevel1.DocumentTypeId == 1329)
+                        {
+                            <li class="header-main-mobile-subnav-item">
+                                <a href="@childLevel1.Url">@childLevel1.Name</a>
+                            </li>
+                                    }
+                                    else if(childLevel1.Id == 3083) { }
+                                    else
+                                    {
+                                        var showChild = childLevel1.Children != null && childLevel1.Children.Any() && (childLevel1.Children.FirstOrDefault().IsVisible() && (childLevel1.Children.FirstOrDefault().DocumentTypeId != 1096 &&
+                                                                                                                                                                             childLevel1.Children.FirstOrDefault().DocumentTypeId != 1700 &&
+                                                                                                                                                                             childLevel1.Children.FirstOrDefault().DocumentTypeId != 1862 &&
+                                                                                                                                                                             childLevel1.Children.FirstOrDefault().DocumentTypeId != 1643 &&
+                                                                                                                                                                             childLevel1.Children.FirstOrDefault().DocumentTypeId != 2076));
+                                        var showDropDown = showChild ? "main-subnav-js dropdown" : "";
+                            <li class="header-main-mobile-subnav-item @showDropDown">
+                                <a href="@childLevel1.Url">@childLevel1.Name</a>
+                                @if (childLevel1.Children != null && childLevel1.Children.Any() && (childLevel1.Children.FirstOrDefault().IsVisible()))
+                                {
+                                    <ul class="header-main-mobile-childnav-list list-nostyle">
+                                        @foreach (var childLevel2 in childLevel1.Children)
+                                        {
+                                            if (childLevel2.GetPropertyValue<bool>("hidden"))
+                                            {
+                                                continue;
+                                            }
+                                            if (childLevel2.IsVisible() &&
+                                            (childLevel2.DocumentTypeId != 1096 &&
+                                            childLevel2.DocumentTypeId != 1700 &&
+                                            childLevel2.DocumentTypeId != 1862 &&
+                                            childLevel2.DocumentTypeId != 1643 &&
+                                            childLevel2.DocumentTypeId != 2076 &&
+                                            childLevel2.DocumentTypeId != 2257 &&
+                                            childLevel2.DocumentTypeId != 2315))
+                                            {
+                                                <li class="header-main-mobile-childnav-item"><a href="@childLevel2.Url">@childLevel2.Name</a></li>
+                                            }
+                    }
+                                    </ul>
+                                }
+                            </li>
+                        }
+                    }
+                </ul>
+            }
+        </li>
+    }
+</ul>

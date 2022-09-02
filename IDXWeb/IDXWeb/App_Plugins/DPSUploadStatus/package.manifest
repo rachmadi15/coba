@@ -1,0 +1,19 @@
+﻿{
+	propertyEditors: [
+		{
+			alias: "DPSUploadStatus",
+			name: "DPS Upload Status",
+			icon: "icon-cloud-upload",
+			group: "Other",
+			editor: {
+				valueType: "TEXT",
+				view: "~/App_Plugins/DPSUploadStatus/Index.html"
+			}
+		}
+	],
+	javascript: [
+		"~/App_Plugins/DPSUploadStatus/Controller.js",
+	],
+	css: [
+	]
+}

@@ -1,0 +1,283 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+
+@{
+    var root = Model.Content.AncestorOrSelf("home");
+    var locale = root.Name;
+
+    var feedbackCategories = root.Descendants("feedbackCategory").OrderBy(o => o.GetPropertyValue("orderNumber")).ToList();
+    var visitorTypes = root.Descendants("visitorType").OrderBy(o => o.GetPropertyValue("orderNumber")).ToList();
+    var baseNode = root.Descendants("emptyPage").FirstOrDefault(o => o.Name == "User Feedback");
+    var baseNodeId = baseNode != null ? baseNode.Id : 0;
+}
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script type="text/javascript">
+    var setCookie = function (name, value, days) {
+        if (days <= 0) days = 90;
+        var d = new Date;
+        d.setTime(d.getTime() + 24 * 60 * 60 * 1000 * days);
+        console.log(name + "=" + value + ";path=/;expires=" + d.toGMTString());
+        document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
+    }
+
+    function submitFeedback() {
+        var visitorTypes = document.getElementsByName('visitorTypeId');
+        var visitorTypeId = 0;
+        if (visitorTypes) {
+            for (var i = 0; i < visitorTypes.length; i++) {
+                if (visitorTypes[i].checked) {
+                    visitorTypeId = visitorTypes[i].value;
+                    break;
+                }
+            }
+        }
+
+        var ratingOptions = document.getElementsByName('rating');
+        var rating = 0;
+        if (ratingOptions) {
+            for (var i = 0; i < ratingOptions.length; i++) {
+                if (ratingOptions[i].checked) {
+                    rating = ratingOptions[i].value;
+                    break;
+                }
+            }
+        }
+
+        var categoryOptions = document.getElementsByName('categoryIds[]');
+        var categories = [];
+        if (categoryOptions) {
+            for (var i = 0; i < categoryOptions.length; i++) {
+                if (categoryOptions[i].checked) {
+                    categories.push(categoryOptions[i].value);
+                }
+            }
+        }
+        
+        $('#user-feedback-panel').addClass('submitting');
+        var formData = new FormData();
+        //formData.append('__RequestVerificationToken', document.getElementById('__token').value);
+        formData.append('baseNodeId', @baseNodeId);
+        formData.append('visitorTypeId', visitorTypeId);
+        formData.append('rating', rating);
+        formData.append('otherCategory', document.getElementById('other').value);
+        formData.append('description', document.getElementById('description').value);
+        formData.append('captcha', grecaptcha.getResponse());
+
+        for (var i = 0; i < categories.length; i++) {
+            formData.append('categoryIds[]', categories[i]);
+        }
+
+        var feedbackPanel = document.getElementById('user-feedback-panel');
+        $.ajax({
+            url: '@(Url.Action("Submit", "Feedback"))',
+            type: 'POST',
+            data: formData,
+			processData: false,
+			contentType: false,
+            success: function (response) {
+                feedbackPanel.classList.remove('submitting', 'is-active');
+                document.getElementById('feedback-submit-success').classList.add('is-active');
+                sessionStorage.setItem('skipFeedback', 1);
+
+                var exp = feedbackPanel.getAttribute('exp');
+                setCookie('skipFeedback', '1', exp);
+                setTimeout(function () {
+                    feedbackPanel.remove();
+                }, 200);
+            },
+            error: function (response) {
+                feedbackPanel.classList.remove('submitting');
+                feedbackPanel.classList.add('submit-failed');
+            }
+        });
+
+        req.send(formData);
+    }
+</script>
+
+<!-- note: data-show in minutes, data-page = how many pages visited -->
+<div id="user-feedback-panel" class="user-feedback" data-page="5" data-show="2" data-exp="1">
+
+    <div class="loader">
+        <img src="~/Umbraco/assets/img/loader.gif" alt="" />
+    </div>
+    <div class="failed" style="text-align: center;">
+        <span style="display: block;">@(locale == "en-us" ? "Submit Failed" : "Gagal Mengirim Data")</span>
+        <a href="" onclick="document.getElementById('user-feedback-panel').classList.remove('submit-failed')">@(locale == "en-us" ? "Close" : "Tutup")</a>
+    </div>
+
+    <div class="feedback_panel">
+        <button class="btn btn-primary btn-trigger" type="button" disabled>
+            <img src="~/assets/img/icon-arrow-down.png" class="icon-close" alt="">
+            <span>Close</span>
+        </button>
+        <div class="panel__inner" style="padding-bottom: 0;">
+            <h2 style="font-size: 1.5em;">
+                @Umbraco.GetDictionaryValue("user_feedback_title")
+            </h2>
+            <form id="user-feedback" class="form">
+
+                @(Html.ValidationSummary())
+                <input type="hidden" name="baseNodeId" value="@baseNodeId" />
+
+                <div class="mb-24">
+                    <label for="" class="is-block mb-8 fw-bold">@Umbraco.GetDictionaryValue("user_feedback_label_visitor_type")</label>
+                    <div class="flex-grid">
+                        @foreach (var visitorType in visitorTypes)
+                        {
+                            <label for="visitor-@visitorType.Id" class="fc fs-4 fl-s mb-8">
+                                <input type="radio" name="visitorTypeId" id="visitor-@visitorType.Id" value="@visitorType.Id" required>
+                                @visitorType.Name
+                            </label>
+                        }
+                    </div>
+                </div>
+                <!-- form__row -->
+
+                <div class="mb-24">
+                    <label for="" class="is-block mb-8 fw-bold">@Umbraco.GetDictionaryValue("user_feedback_label_rating")</label>
+                    <div class="add-rating mb-8">
+                        <label for="rate1" class="rate_item">
+                            <input type="radio" name="rating" id="rate1" value="1" required>
+                            <span class="icon-blank fa fa-star-o"></span>
+                            <span class="icon-fill fa fa-star"></span>
+                        </label>
+                        <label for="rate2" class="rate_item">
+                            <input type="radio" name="rating" id="rate2" value="2" required>
+                            <span class="icon-blank fa fa-star-o"></span>
+                            <span class="icon-fill fa fa-star"></span>
+                        </label>
+                        <label for="rate3" class="rate_item">
+                            <input type="radio" name="rating" id="rate3" value="3" required>
+                            <span class="icon-blank fa fa-star-o"></span>
+                            <span class="icon-fill fa fa-star"></span>
+                        </label>
+                        <label for="rate4" class="rate_item">
+                            <input type="radio" name="rating" id="rate4" value="4" required>
+                            <span class="icon-blank fa fa-star-o"></span>
+                            <span class="icon-fill fa fa-star"></span>
+                        </label>
+                        <label for="rate5" class="rate_item">
+                            <input type="radio" name="rating" id="rate5" value="5" required>
+                            <span class="icon-blank fa fa-star-o"></span>
+                            <span class="icon-fill fa fa-star"></span>
+                        </label>
+                    </div>
+                </div>
+                <!-- form__row -->
+
+                <div class="mb-24">
+                    <label for="" class="is-block mb-8 fw-bold">@Umbraco.GetDictionaryValue("user_feedback_label_category")</label>
+                    <div class="bzg">
+                        @foreach (var category in feedbackCategories)
+                        {
+                            <div class="bzg_c mb-8" data-col="m4">
+                                <label for="category-@category.Id">
+                                    <input type="checkbox" id="category-@category.Id" value="@category.Id" name="categoryIds[]">
+                                    <span class="label-text">@category.Name</span>
+                                </label>
+                            </div>
+                        }
+                        <div class="bzg_c mb-8" data-col="m4">
+                            <label for="other">
+                                <input type="checkbox" value="0" name="categoryIds[]">
+                                <span class="label-text">@Umbraco.GetDictionaryValue("other")</span>
+                            </label>
+                            <input type="text" id="other" class="form-input" name="other">
+                        </div>
+                    </div>
+                </div>
+                <!-- form__row -->
+
+                <div class="mb-24">
+                    <label for="" class="is-block mb-8 fw-bold">@Umbraco.GetDictionaryValue("user_feedback_label_description")</label>
+                    <textarea name="description" id="description" rows="3" class="form-input form-input--block mb-8"></textarea>
+                </div>
+
+                <div class="g-recaptcha"
+                     data-sitekey="@(System.Configuration.ConfigurationManager.AppSettings["gReCaptchaKey"])"
+                     data-callback="submitFeedback"
+                     data-size="invisible">
+                </div>
+                <button style="display: none;">@(locale == "en-us" ? "Submit" : "Kirim")</button>
+            </form>
+        </div>
+        <div style="height: 64px; display: flex; align-items: center;">
+            <div id="submit-feedback" class="btn btn-primary text-caps" style="align-items: center; height: fit-content; margin-left: 24px;">@(locale == "en-us" ? "Submit" : "Kirim")</div>
+        </div>
+    </div>
+    <div class="feedback_overlay"></div>
+</div>
+
+<div id="feedback-submit-success" class="pop-up-background alert-background-js">
+    <div class="alert-dual-container">
+        <a href="" class="calendar-pop-up-close calendar-pop-up-js"><span class="fa fa-times"></span></a>
+        <h3 style="padding: 20px; width: 100%;text-align: center; margin: 0;">@umbraco.library.GetDictionaryItem("user_feedback_thanks")</h3>
+    </div>
+</div>
+<style>
+    .user-feedback.submit-failed::before,
+    .user-feedback.submitting::before {
+        display: block;
+        content: " ";
+        position: fixed;
+        background-color: #dcdcdc80;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        z-index: 3;
+    }
+
+    .user-feedback.submit-failed::before {
+        background-color: #dcdcdcd9;
+    }
+
+    .failed,
+    .loader {
+        display: none;
+    }
+
+    .user-feedback.submit-failed > .failed,
+    .user-feedback.submitting > .loader {
+        display: block;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        z-index: 4;
+        transform: translate(-50%, -50%);
+    }
+
+    .user-feedback .add-rating .rate_item input {
+        left: 0;
+        opacity: 0;
+    }
+
+    .user-feedback > .feedback_panel > .panel__inner {
+        height: calc(100% - 36px);
+        display: block;
+    }
+	
+	div[style*="z-index: 2000000000;"] {
+		position: fixed !important;
+		top: 50% !important;
+		transform: translateY(-50%);
+	}
+
+    @@media screen and (min-width: 64em) {
+        .user-feedback > .feedback_panel > .panel__inner {
+            height: 100%;
+        }
+    }
+</style>
+
+<script>
+    $('#user-feedback').on('submit', function (e) {
+        e.preventDefault();
+        grecaptcha.execute();
+    });
+
+    $('#submit-feedback').click(function () {
+        $('#user-feedback button').click();
+    });
+</script>

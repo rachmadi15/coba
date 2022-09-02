@@ -1,0 +1,46 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{ 
+    var root = Model.Content.DocumentTypeAlias == "islamicHome" ? Model.Content : Model.Content.Ancestor("islamicHome");
+}
+
+<div class="sticky-footer-container-item">
+    <footer class="site-footer">
+        <div class="site-footer-brand">
+            <div class="container">
+                <div class="footer-brand-img">
+                    <img src="~/assets/islamic/img/logo-ojk.png" alt="" class="">
+                </div>
+                <div class="footer-brand-img footer-brand-img--tall">
+                    <img src="~/assets/islamic/img/logo-idx.png" alt="" class="">
+                </div>
+                <div class="footer-brand-img">
+                    <img src="~/assets/islamic/img/logo-kpei.png" alt="" class="">
+                </div>
+                <div class="footer-brand-img">
+                    <img src="~/assets/islamic/img/logo-ksei.png" alt="" class="">
+                </div>
+            </div>
+        </div>
+        <div class="site-footer-act">
+            <div class="container">
+                <div class="footer-act-left">
+                    <span>© Copyright 2019 by Indonesia Stock Exchange</span>
+                </div>
+                <div class="footer-act-middle">
+                    <ul class="list-nostyle list-inline">
+                        <li><a href="@(root.Descendant("islamicFAQ").Url)">FAQ</a></li>
+                        <li><a href="@(root.Descendant("islamicContactUs").Url)">Contact us</a></li>
+                        <li><a href="@(root.Descendant("islamicPrivacyPolicy").Url)">Privacy Policy</a></li>
+                        <li><a href="#">Term and Condition</a></li>
+                    </ul>
+                </div>
+                <div class="footer-act-right">
+                    <ul class="list-nostyle list-inline">
+                        <li class="mr-6"><a href=""><i class="fab fa-facebook-f fa-fw"></i></a></li>
+                        <li class="mr-6"><a href=""><i class="fab fa-instagram fa-fw"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>

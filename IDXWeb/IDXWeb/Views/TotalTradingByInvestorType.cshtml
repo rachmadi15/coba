@@ -1,0 +1,133 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+
+    Layout = "Master.cshtml";
+}
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                <li class="@cls"><a href="@page.Url">@page.Name.ToLower()</a></li>
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">Statistik</h1>
+        </div>
+        <div class="content-tab-container block content-tab-container--center">
+            <div class="content-tab-item">
+                <a href="#monthly" class="content-tab-anchor statistic-tab-js is-active">Monthly</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#quarterly" class="content-tab-anchor statistic-tab-js">Quarterly</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#yearly" class="content-tab-anchor statistic-tab-js">Yearly</a>
+            </div>
+        </div>
+    </div>
+     <div class="statistic-main-content">
+            <div class="statistic-container is-active" id="monthly">
+                <div class="background-light-grey content-push">
+                    <div class="container mb-16">
+                        <div class="statistic--title-area mb-20">
+                            <h2 class="mb-0">Total Trading by Investor's Type and Net Purchase by Foreigners</h2>
+                            <div class="download-toggle-area">
+                                <button class="btn btn-primary download-toggle is-active" type="button" data-toggle="#searchList">
+                                    Download
+                                    <i class="fa fa-caret-down ml-8"></i>
+                                    <ul class="download-list full-width" id="searchList">
+                                        <li><a href="#">PDF</a></li>
+                                        <li><a href="#">Excel</a></li>
+                                    </ul>
+                                </button>
+                            </div>
+                        </div>
+                        <form class="report-search" action="">
+                            <div class="report-search-options is-active">
+                                <div class="bzg">
+                                    <div class="bzg_c" data-col="s4">
+                                        Month:
+                                    </div>
+                                    <div class="bzg_c" data-col="s8,m6,l8">
+                                        <select class="form-input form-input--block" name="" id="">
+                                            <option value="">January</option>
+                                            <option value="">February</option>
+                                            <option value="">March</option>
+                                            <option value="">April</option>
+                                            <option value="">May</option>
+                                            <option value="">June</option>
+                                            <option value="">July</option>
+                                            <option value="">August</option>
+                                            <option value="">September</option>
+                                            <option value="">October</option>
+                                            <option value="">November</option>
+                                            <option value="">December</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="bzg">
+                                    <div class="bzg_c" data-col="s4">
+                                        Year:
+                                    </div>
+                                    <div class="bzg_c" data-col="s8,m6,l8">
+                                        <select class="form-input form-input--block" name="" id="">
+                                            <option value="">2019</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="bzg">
+                                    <div class="bzg_c">
+                                        <button class="btn btn-primary">
+                                            <i class="fa fa-filter mr-8"></i>
+                                            Filter
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="background-white content-push">
+                    <div class="container">
+                        <div class="mb-16">
+                            <p class="red mb-4 text-bold">Total Trading by Investor's Type</p>
+                            <p class="mb-12">% of Total Market, Selling + Buying</p>
+                            <div class="total-trading-investor-js" data-chart="@Url.Action("GetTotalTradingInvestor", "DigitalStatitic")"></div>
+                        </div>
+                        <div class="mb-16">
+                            <p class="red mb-12 text-bold">Net Purchase by Foreigners</p>
+                            <div class="net-purchase-foreigners-js" data-chart="/data/netPurchaseForeigners.json"></div>
+                            <div class="bzg text-center text-bold">
+                                <div class="bzg_c" data-col="s6,m2" data-offset="m4">
+                                    <span class="green mr-8">&#11044;</span>Net Buying
+                                </div>
+                                <div class="bzg_c" data-col="s6,m2">
+                                    <span class="red mr-8">&#11044;</span>Net Selling
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="text-bold mb-8">Note:</p>
+                        <p class="mb-0">This statistic is calculated based on type of investor provided by IDX members on each buying or selling order inputted into IDX trading system, not based on actual registered shareholders figures from listed companies</p>
+                    </div>
+                </div>
+            </div>
+            @*<?php include $path.'_partials/statistic-quarterly.php'; ?>
+            <?php include $path.'_partials/statistic-yearly.php'; ?>*@
+        </div>
+</main>
+
+

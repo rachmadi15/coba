@@ -1,0 +1,32 @@
+﻿{
+  "propertyEditors": [
+    {
+      "alias": "CustomFileUpload",
+      "name": "Custom File Uploader",
+      "icon": "icon-download-alt",
+      "group": "media",
+      "editor": {
+        "view": "~/App_Plugins/CustomFileUploader/view.html"
+      },
+      "prevalues": {
+        "fields": [
+          {
+            "label": "Upload API BaseURL",
+            "description": "ex: https//api.idx.co.id/",
+            "key": "uploadUrl",
+            "view": "requiredfield"
+          },
+          {
+            "label": "Accept File Extension",
+            "description": "ex: image/*, Default: *",
+            "key": "acceptExt",
+            "view": "textstring"
+          }
+        ]
+      }
+    }
+  ],
+  "javascript": [
+    "~/App_Plugins/CustomFileUploader/uploader.controller.js"
+  ]
+}

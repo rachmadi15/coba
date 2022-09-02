@@ -1,0 +1,220 @@
+{
+    "data": [
+        {
+            "type": "Bonds Conventional",
+            "issuerNum": 105,
+            "issuesNum": 306,
+            "seriesNum": 574,
+            "outstandingIDR": 367791,
+            "outstandingUSD": null,
+            "tradingIDRVol": 23721,
+            "tradingIDRFreq": 1993,
+            "tradingUSDVol": null,
+            "tradingUSDFreq": null,
+            "group": "IDR Denomination"
+        },
+        {
+            "type": "Bonds Subordinate",
+            "issuerNum": 17,
+            "issuesNum": 34,
+            "seriesNum": 38,
+            "outstandingIDR": 25334,
+            "outstandingUSD": null,
+            "tradingIDRVol": 1027,
+            "tradingIDRFreq": 189,
+            "tradingUSDVol": null,
+            "tradingUSDFreq": null,
+            "group": "IDR Denomination"
+        },
+        {
+            "type": "Bonds Conversion",
+            "issuerNum": null,
+            "issuesNum": null,
+            "seriesNum": null,
+            "outstandingIDR": null,
+            "outstandingUSD": null,
+            "tradingIDRVol": 4,
+            "tradingIDRFreq": 20,
+            "tradingUSDVol": null,
+            "tradingUSDFreq": null,
+            "group": "IDR Denomination"
+        },
+        {
+            "type": "Bonds Zero Coupon",
+            "issuerNum": null,
+            "issuesNum": null,
+            "seriesNum": null,
+            "outstandingIDR": null,
+            "outstandingUSD": null,
+            "tradingIDRVol": null,
+            "tradingIDRFreq": null,
+            "tradingUSDVol": null,
+            "tradingUSDFreq": null,
+            "group": "IDR Denomination"
+        },
+        {
+            "type": "Bonds Ijarah",
+            "issuerNum": 10,
+            "issuesNum": 32,
+            "seriesNum": 84,
+            "outstandingIDR": 13476,
+            "outstandingUSD": null,
+            "tradingIDRVol": 2336,
+            "tradingIDRFreq": 212,
+            "tradingUSDVol": null,
+            "tradingUSDFreq": null,
+            "group": "IDR Denomination"
+        },
+        {
+            "type": "Bonds Mudaraba",
+            "issuerNum": 9,
+            "issuesNum": 17,
+            "seriesNum": 34,
+            "outstandingIDR": 8207,
+            "outstandingUSD": null,
+            "tradingIDRVol": 1159,
+            "tradingIDRFreq": 72,
+            "tradingUSDVol": null,
+            "tradingUSDFreq": null,
+            "group": "IDR Denomination"
+        },
+        {
+            "type": "Bonds Mudaraba Subordinate",
+            "issuerNum": 1,
+            "issuesNum": 1,
+            "seriesNum": 1,
+            "outstandingIDR": 1000,
+            "outstandingUSD": null,
+            "tradingIDRVol": 24,
+            "tradingIDRFreq": 4,
+            "tradingUSDVol": null,
+            "tradingUSDFreq": null,
+            "group": "IDR Denomination"
+        },
+        {
+            "type": "Bonds Wakalah",
+            "issuerNum": 1,
+            "issuesNum": 2,
+            "seriesNum": 6,
+            "outstandingIDR": 1450,
+            "outstandingUSD": null,
+            "tradingIDRVol": 70,
+            "tradingIDRFreq": 2,
+            "tradingUSDVol": null,
+            "tradingUSDFreq": null,
+            "group": "IDR Denomination"
+        },
+        {
+            "type": "Bonds Conventional",
+            "issuerNum": null,
+            "issuesNum": null,
+            "seriesNum": null,
+            "outstandingIDR": null,
+            "outstandingUSD": null,
+            "tradingIDRVol": null,
+            "tradingIDRFreq": null,
+            "tradingUSDVol": null,
+            "tradingUSDFreq": null,
+            "group": "USD Denomination"
+        },
+        {
+            "type": "Bonds Subordinate",
+            "issuerNum": 1,
+            "issuesNum": 1,
+            "seriesNum": 1,
+            "outstandingIDR": null,
+            "outstandingUSD": 47.5,
+            "tradingIDRVol": null,
+            "tradingIDRFreq": null,
+            "tradingUSDVol": null,
+            "tradingUSDFreq": null,
+            "group": "USD Denomination"
+        }
+    ],
+    "columns": [
+        {
+            "columnName": "count",
+            "decimal": 0,
+            "format": "count",
+            "className": "text-right nowrap"
+        },
+        {
+            "columnName": "type",
+            "decimal": 0,
+            "format": false,
+            "className": "text-left nowrap"
+        },
+        {
+            "columnName": "issuerNum",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "issuesNum",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": "seriesNum",
+            "decimal": 0,
+            "format": true,
+            "className": "text-center"
+        },
+        {
+            "columnName": null,
+            "decimal": 0,
+            "format": false,
+            "className": ""
+        },
+        {
+            "columnName": "outstandingIDR",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "outstandingUSD",
+            "decimal": 1,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": null,
+            "decimal": 0,
+            "format": false,
+            "className": ""
+        },
+        {
+            "columnName": "tradingIDRVol",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "tradingIDRFreq",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "tradingUSDVol",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "tradingUSDFreq",
+            "decimal": 0,
+            "format": true,
+            "className": ""
+        },
+        {
+            "columnName": "group",
+            "decimal": 0,
+            "format": "grouping",
+            "className": ""
+        }
+    ]
+}

@@ -1,0 +1,70 @@
+﻿<div ng-controller="FeedbackDashboardController as vm">
+    <div id="dashboard-container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="ui card">
+                    <div class="content" style="padding: 0;">
+                        <div class="row" style="width: 100%; margin: 0;">
+                            <div class="col-xs-12 col-sm-6">
+                                <input id="stats-start" type="text" ng-model="vm.statsStart" placeholder="Start Date" style="width: 100%;" />
+                            </div>
+                            <div class="col-xs-12 col-sm-6">
+                                <input id="stats-end" type="text" ng-model="vm.statsEnd" placeholder="End Date" style="width: 100%;" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <div class="ui card">
+                    <div id="todays-feedback" class="content">
+                        <div ng-if="vm.todaysStatsLoading" style="min-height: 230px;">
+                            <div class="umb-empty-state ng-scope -center">
+                                <div class="ng-scope">
+                                    <img ng-if="vm.todaysStatsLoading" src="/Umbraco/assets/img/loader.gif" alt="Loading" />
+                                    <localize ng-if="!vm.todaysStatsLoading && !vm.todaysFeedbackData <= 0" key="content_listViewNoContent" class="ng-isolate-scope ng-scope">Failed to load data</localize>
+                                </div>
+                            </div>
+                        </div>
+                        <todays-feedback ng-if="!vm.todaysStatsLoading && vm.todaysFeedbackData" style="display: block;" options="vm.todaysFeedbackData"></todays-feedback>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <div class="ui card">
+                    <div id="overall-rating" class="content">
+                        <div ng-if="vm.statsLoading" style="min-height: 230px;">
+                            <div class="umb-empty-state ng-scope -center">
+                                <div class="ng-scope">
+                                    <img ng-if="vm.statsLoading" src="/Umbraco/assets/img/loader.gif" alt="Loading" />
+                                    <localize ng-if="!vm.statsLoading && !vm.overallRatingData <= 0" key="content_listViewNoContent" class="ng-isolate-scope ng-scope">Failed to load data</localize>
+                                </div>
+                            </div>
+                        </div>
+                        <overall-rating ng-if="!vm.statsLoading && vm.overallRatingData" options="vm.overallRatingData"></overall-rating>
+                        <span ng-if="!vm.statsLoading && vm.overallRatingData" class="amount">{{ vm.overallRatingData.value }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="ui card">
+                    <div class="content">
+                        <div ng-if="vm.statsLoading" style="min-height: 230px;">
+                            <div class="umb-empty-state ng-scope -center">
+                                <div class="ng-scope">
+                                    <img ng-if="vm.statsLoading" src="/Umbraco/assets/img/loader.gif" alt="Loading" />
+                                    <localize ng-if="!vm.statsLoading && !vm.timelineData <= 0" key="content_listViewNoContent" class="ng-isolate-scope ng-scope">Failed to load data</localize>
+                                </div>
+                            </div>
+                        </div>
+                        <timeline-chart ng-if="!vm.statsLoading && vm.timelineData" style="display: block;" options="vm.timelineData"></timeline-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,268 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+}
+
+@section Styles {
+    <link href="@Url.Content("/assets/css/jquery.dataTables.min.css")" rel="stylesheet" type="text/css" />
+}
+
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (page.DocumentTypeId != 1237){
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>                    
+                } else {
+                    <li class="@cls"><a href="" class="disable"><span>@page.Name</span></li>
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+        </div>
+        <div action="" class="block-double">
+            <div class="block flex v-center">
+                <span class="form-label-announcement">@Umbraco.GetDictionaryValue("code")</span>
+                <select name="code" id="emitenList" class="form-input form-input--block select2-js"></select>
+            </div>
+            <div class="block flex v-center">
+                <span class="form-label-announcement">@Umbraco.GetDictionaryValue("type of action")</span>
+                <!-- <input id="typeOfAction" type="text" class="form-input form-input--block" placeholder="@Umbraco.GetDictionaryValue("type of action")"> -->
+                <select name="typeOfAction" id="typeOfAction" class="form-input form-input--block select2-js">
+                    <option value="">@Umbraco.GetDictionaryValue("choose type")</option>
+                    <option value="stockSplit">Stock Split</option>
+                    <option value="hmetd">HMETD</option>
+                    <option value="tanpaHmetd">Tanpa HMETD</option>
+                    <option value="esopMsop">ESOP/MSOP</option>
+                    <option value="sahamBonus">Saham Bonus</option>
+                    <option value="ipo">IPO</option>
+                    <option value="partialDelisting">Partial Delisting</option>
+                    <option value="waran">Waran</option>
+                    <option value="devidenSaham">Deviden Saham</option>
+                    <option value="gabungUsaha">Gabung Usaha</option>
+                    <option value="reverseStock">Reverse Stock</option>
+                    <option value="kurangModal">Kurang Modal</option>
+                    <option value="konversiSaham">Konversi Saham</option>
+                    <option value="CompanyListing">Company Listing</option>
+                    <option value="BuybackSaham">Buyback Saham</option>
+                    <option value="PrivatePlacement">PrivatePlacement</option>
+                </select>
+            </div>
+            <div class="block flex v-center">
+                <span class="form-label-announcement">@Umbraco.GetDictionaryValue("from")</span>
+                <div class="calendar-box width-block">
+                    <input id="dateFromInput" type="date" class="form-input form-input--block date-picker-js">
+                </div>
+                <span class="form-label-announcement">@Umbraco.GetDictionaryValue("to")</span>
+                <div class="calendar-box width-block">
+                    <input id="dateToInput" type="date" class="form-input form-input--block date-picker-js">
+                </div>
+            </div>
+
+            <div class="block flex v-center">
+                <span class="form-label-announcement">&nbsp;</span>
+                <button class="btn btn-primary" onclick="getAction()">@Umbraco.GetDictionaryValue("search")</button>
+            </div>
+        </div>
+        <table id="stockTable" class="table table--zebra table-content-page table-thead-nowrap ">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>@Umbraco.GetDictionaryValue("date")</th>
+                    <th>@Umbraco.GetDictionaryValue("emiten code")</th>
+                    <th>@Umbraco.GetDictionaryValue("type of corporate action")</th>
+                    <th>@Umbraco.GetDictionaryValue("amount of corporate action")</th>
+                    <th>@Umbraco.GetDictionaryValue("total amount")</th>
+                </tr>
+            </thead>
+            <tbody>                        
+            </tbody>
+        </table>
+    </div>
+</main>
+
+@section Scripts{
+    <script type="text/javascript" src="/assets/js/vendor/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+        	getEmitenType();
+        	getAction();
+        });
+
+        function getEmitenType() {
+            $.get('@Url.Action("GetEmiten", "Helper")?emitenType=s', function (result) {
+                $('#emitenList').append('<option value="">' + "@Umbraco.GetDictionaryValue("choose emiten")" + '</option>');
+                for (var i = 0; i < result.length; i++) {
+                    $('#emitenList').each(function(){
+                        $(this).append('<option value="' + result[i].KodeEmiten + '">' + result[i].KodeEmiten + ' - ' + result[i].NamaEmiten + '</option>');
+                    });
+                }
+            });
+        }
+
+        function getAction(){
+            if($.fn.DataTable.isDataTable('#stockTable')){
+                var selectedCode = $('#emitenList option:selected').val();
+
+	        	if (selectedCode == "@Umbraco.GetDictionaryValue("choose emiten")" || selectedCode == undefined) {
+	        		selectedCode = "";
+	        	}
+
+	        	var selectedType = $('#typeOfAction').val();
+
+	        	var dateFrom = $('#dateFromInput').val();
+	            if (dateFrom !== ""){
+	                dateFrom = moment(dateFrom, "DD-MM-YYYY").format('YYYYMMDD');
+	            }
+
+	            var dateTo = $('#dateToInput').val();
+	            if (dateTo !== ""){
+	                dateTo = moment(dateTo, "DD-MM-YYYY").format('YYYYMMDD');
+	            }
+
+	            var url = '@Url.Action("GetIssuedHistory", "ListingActivity")?kodeEmiten=' + selectedCode + '&caType=' + selectedType + '&dateFrom=' + dateFrom + '&dateTo=' + dateTo;
+	            
+	            $('#stockTable').DataTable().ajax.url(url).load();
+            }else {
+                $('#stockTable').dataTable({
+                    'ajax': {
+                        'url': '@Url.Action("GetIssuedHistory", "ListingActivity")',
+                    },
+                    'filter': false,
+                    'sort': false,
+                    'serverSide': true,
+                    'processing': true,
+                    'paging': true,
+                    'deferRender': true,
+                    'columns': [
+                        { 'data': 'id' },
+                        { 'data': 'TanggalPencatatan' },
+                        { 'data': 'KodeEmiten' },
+                        { 'data': 'JenisTindakan' },
+                        { 'data': 'JumlahSaham' },
+                        { 'data': 'JumlahSahamSetelahTindakan' }
+                    ],
+                    'columnDefs': [
+                        {
+                            'targets': [0,1,2],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-center');
+                            }
+                        },
+                        {
+                            'targets': [3],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                $(td).text(getFormattedAction(cellData));
+                                return $(td).addClass('text-center');
+                            },
+                            'render' : function ( data, type, row, meta ) {
+                                return data.toLocaleString(currentLang);
+                            }
+                        },
+                        {
+                            'targets': [4,5],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-right');
+                            },
+                            'render' : function ( data, type, row, meta ) {
+                                return data.toLocaleString(currentLang);
+                            }
+                        },
+                        {
+                            'targets': [1],
+                            'render' : function ( data, type, row, meta ) {
+                                var tradeDate = data;
+                                if (data) {
+                                    tradeDate = moment(data).locale(currentLang).format('DD MMM YYYY');
+                                }
+
+                                if (tradeDate === "01 Jan 0001") {
+                                    tradeDate = "";
+                                }
+
+                                return tradeDate;
+                            }
+                        }
+                    ],
+                    "rowCallback": function (row, data, iDisplayIndex) {
+                    	var info = this.api().page.info();
+	                    var page = info.page;
+	                    var length = info.length;
+	                    var index = (page * length + (iDisplayIndex + 1));
+	                    $('td:eq(0)', row).html(index);
+	                },
+                });                    	
+            }
+        }
+
+        function getFormattedAction(actionType){
+            var contentValue = actionType;
+
+            if (actionType === 'stockSplit') {
+                contentValue = 'Stock Split';
+            }
+            if (actionType === 'hmetd') {
+                contentValue = 'HMETD';
+            }
+            if (actionType === 'tanpaHmetd') {
+                contentValue = 'Tanpa HMETD';
+            }
+            if (actionType === 'esopMsop') {
+                contentValue = 'ESOP/MSOP';
+            }
+            if (actionType === 'sahamBonus') {
+                contentValue = 'Saham Bonus';
+            }
+            if (actionType === 'ipo') {
+                contentValue = 'IPO';
+            }
+            if (actionType === 'partialDelisting') {
+                contentValue = 'Partial Delisting';
+            }
+            if (actionType === 'waran') {
+                contentValue = 'Waran';
+            }
+            if (actionType === 'devidenSaham') {
+                contentValue = 'Deviden Saham';
+            }
+            if (actionType === 'gabungUsaha') {
+                contentValue = 'Gabung Usaha';
+            }
+            if (actionType === 'reverseStock') {
+                contentValue = 'Reverse Stock';
+            }
+            if (actionType === 'kurangModal') {
+                contentValue = 'Kurang Modal';
+            }
+            if (actionType === 'konversiSaham') {
+                contentValue = 'Konversi Saham';
+            }
+            if (actionType === 'CompanyListing') {
+                contentValue = 'Company Listing';
+            }
+            if (actionType === 'BuybackSaham') {
+                contentValue = 'Buyback Saham';
+            }
+            if (actionType === 'PrivatePlacement') {
+                contentValue = 'Private Placement';
+            }
+
+            return contentValue;
+        }
+
+    </script>
+}

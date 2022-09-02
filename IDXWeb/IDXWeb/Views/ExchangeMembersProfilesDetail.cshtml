@@ -1,0 +1,460 @@
+﻿@using System.Configuration
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+	Layout = "Master.cshtml";
+}
+
+@section Styles {
+    <link href="@Url.Content("/assets/css/vendor/datatables.min.css")" rel="stylesheet" type="text/css" />
+}
+
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (!page.Name.Contains("Detail")){
+                    if (page.DocumentTypeId != 1237){
+                        <li class="@cls"><a href="@page.Url">@page.Name</a></li>                    
+                    } else {
+                        <li class="@cls"><a href="" class="disable"><span>@page.Name</span></a></li>
+                    }
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+        </div>
+        <div class="company-profile-header">
+            <div class="company-profile-name">
+                <img id="emitenLogo" src="" alt="">
+                <span id="emitenName"></span>
+            </div>
+            <div class="company-profile-list">
+                <div>
+                    <label for="" class="form-label">@Umbraco.GetDictionaryValue("choose name")</label>
+                    <select name="" id="brokerList" class="form-option">
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main-content content-push">
+        <div class="container">
+            <ul class="content-tab-container --center block-double">
+                <li class="content-tab-item"><a href="#general" class="content-tab-anchor company-profile-anchor-js is-active">@Umbraco.GetDictionaryValue("general")</a></li>
+                <li class="content-tab-item"><a href="#dividen" class="content-tab-anchor company-profile-anchor-js">Overview</a></li>
+                <li class="content-tab-item"><a href="#finance" class="content-tab-anchor company-profile-anchor-js">@Umbraco.GetDictionaryValue("Financial Report")</a></li>
+                <li class="content-tab-item"><a href="#branch" class="content-tab-anchor company-profile-anchor-js">@Umbraco.GetDictionaryValue("branch")</a></li>
+            </ul>
+            <div class="company-profile-content is-active" id="general">
+                <dl class="financial-report-list --big cf block-double">
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("member name")</dt>
+                    <dd class="financial-report-description"><span id="frName"></span></dd>
+                    <dt class="financial-report-title">NPWP</dt>
+                    <dd class="financial-report-description"><span id="frNpwp"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("deed number")</dt>
+                    <dd class="financial-report-description"><span id="frDeedNo">-</span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("authorized capital")*</dt>
+                    <dd class="financial-report-description"><span id="frAuthorizedCapital"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("paid up capital")*</dt>
+                    <dd class="financial-report-description"><span id="frPaidUpCapital"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("company status")</dt>
+                    <dd class="financial-report-description"><span id="frCompanyStatus"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("operational status")</dt>
+                    <dd class="financial-report-description"><span id="frOperationalStatus"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("work permit")</dt>
+                    <dd class="financial-report-description"><span id="frWorkPermit"></span></dd>
+                    <dt class="financial-report-title"><b>@Umbraco.GetDictionaryValue("Last Day MKBD Value")</b></dt>
+                    <dd class="financial-report-description"><span id="frLastDayMKBDValue"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("Head Office")</dt>
+                    <dd class="financial-report-description"><span id="frHeadOffice"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("phone number")</dt>
+                    <dd class="financial-report-description"><span id="frTelephone"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("fax")</dt>
+                    <dd class="financial-report-description"><span id="frFax"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("postal code")</dt>
+                    <dd class="financial-report-description"><span id="frPostalCode"></span></dd>
+                    <dt class="financial-report-title">@Umbraco.GetDictionaryValue("situs")</dt>
+                    <dd class="financial-report-description"><a id="frWebsite" href="" target="_blank"></a></dd>
+                </dl>
+                <div class="block-double">
+                    <h2 class="page-subtitle">@Umbraco.GetDictionaryValue("board of management")</h2>
+                    <table id="bomTable" class="table table--zebra table-content-page">
+                        <thead>
+                            <tr>
+                                <th>@Umbraco.GetDictionaryValue("name")</th>
+                                <th>@Umbraco.GetDictionaryValue("occupation")</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="block-double">
+                    <h2 class="page-subtitle">@Umbraco.GetDictionaryValue("shareholders")</h2>
+                    <table id="shareholdersTable" class="table table--zebra table-content-page">
+                        <thead>
+                            <tr>
+                                <th>@Umbraco.GetDictionaryValue("name")</th>
+                                <th>@Umbraco.GetDictionaryValue("ownership")</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <p>(*) Berdasarkan Surat Persetujuan Otoritas Jasa Keuangan (d.h. Bapepam – LK) & Akta Pengesahan</p>
+            </div>
+            <div class="company-profile-content" id="dividen">
+                <div class="block-double">
+                    <h4>@Umbraco.GetDictionaryValue("date"): <span id="marketDate"></span></h2>
+                    <h3>@Umbraco.GetDictionaryValue("average mkbd")</h3>
+                    <table id="mkbdSummaryTable" class="table table--zebra table-content-page">
+                        <thead>
+                            <tr>
+                                <th>@Umbraco.GetDictionaryValue("month")</th>
+                                <th id="mkbdFirstYear">2018</th>
+                                <th id="mkbdSecondYear">2018</th>
+                                <th id="mkbdThirdYear">2018</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+                    <h3>@Umbraco.GetDictionaryValue("total transactions")</h3>
+                    <table id="totalTransactionTable" class="table table--zebra table-content-page">
+                        <thead>
+                            <tr>
+                                <th>@Umbraco.GetDictionaryValue("month")</th>
+                                <th id="totalFirstYear">2018</th>
+                                <th id="totalSecondYear">2018</th>
+                                <th id="totalThirdYear">2018</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="company-profile-content" id="finance">
+                <div class="block-double">
+                    <div class="block flex v-center">
+                        <span class="form-label-financial-report">@Umbraco.GetDictionaryValue("year")</span>
+                        <div class="option-box">
+                            <select name="" id="yearList" class="form-option-basic finance-report">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="block flex v-center">
+                        <span class="form-label-financial-report">@Umbraco.GetDictionaryValue("period")</span>
+                        <div class="option-box">
+                            <select name="" id="periodList" class="form-option-basic finance-report">
+                                <option value="tw1">Triwulan 1</option>
+                                <option value="tw2">Triwulan 2</option>
+                                <option value="tw3">Triwulan 3</option>
+                                <option value="audit">Audit</option>
+                                <option value="unaudit">Unaudit</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="block flex v-center">
+                        <span class="form-label-financial-report">&nbsp;</span>
+                        <button id="financeSearchButton" onclick="getFinancialReport();" class="btn btn-primary">@Umbraco.GetDictionaryValue("search")</button>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="financial-report-container">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="company-profile-content" id="branch">
+                <div class="block-double">
+                    <table id="branchTable" class="table table--zebra table-content-page table--block">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>@Umbraco.GetDictionaryValue("address")</th>
+                                <th>@Umbraco.GetDictionaryValue("city")</th>
+                                <th>@Umbraco.GetDictionaryValue("postal code")</th>
+                                <th>@Umbraco.GetDictionaryValue("phone number")</th>
+                                <th>@Umbraco.GetDictionaryValue("fax")</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>        
+    </div>
+</main>
+
+@section Scripts{
+    <script type="text/javascript" src="/assets/js/vendor/datatables.min.js"></script>
+    <script type="text/javascript">
+        var emitenCode = getParams('kodeEmiten');
+
+        $(function () {
+            $.get('@Url.Action("GetMarketTime", "Helper")?culture=' + currentLang, function (result) {
+                var jsonResult = $.parseJSON(result);
+                $('#marketDate').text(jsonResult);
+            });
+
+            getEmitenType();
+            getCompanyProfile();
+            getOverview();
+            getBranch();
+
+            var currentYear = moment().format('YYYY');
+
+            $('#mkbdFirstYear').text(currentYear);
+            $('#mkbdSecondYear').text(currentYear - 1);
+            $('#mkbdThirdYear').text(currentYear - 2);
+
+            $('#totalFirstYear').text(currentYear);
+            $('#totalSecondYear').text(currentYear - 1);
+            $('#totalThirdYear').text(currentYear - 2);
+
+            for (var i = 0; i < @ConfigurationManager.AppSettings["maxYear"]; i++) {
+                $('#yearList').append('<option value="' + (currentYear - i) + '">' + (currentYear - i) + '</option>');
+            }
+        });
+
+        function getParams(sParam){
+            var sPageURL = window.location.search.substring(1);
+            var sURLVariables = sPageURL.split('&');
+            for (var i = 0; i < sURLVariables.length; i++) {
+                var sParameterName = sURLVariables[i].split('=');
+                if (sParameterName[0] == sParam) {
+                    return sParameterName[1];
+                }
+            }
+        }
+
+        function getEmitenType() {
+            $('#brokerList').select2({
+                ajax: {
+                    url: '@Url.Action("GetBrokerCodeList", "ExchangeMember")',
+                    delay: 250,
+                    data: function (params) {
+                        var query = {
+                            start: params.page || 1,
+                            keyword: params.term
+                        }
+                        return query;
+                    },
+                    processResults: function (data, params) {
+                        params.page = params.page || 1;
+
+                        var select2Data = $.map(data.data, function (obj) {
+                            obj.id = obj.Code;
+                            obj.text = obj.Code + " - " + obj.Name;
+
+                            return obj;
+                        });
+
+                        return {
+                            results: select2Data,
+                            pagination: {
+                              more: (params.page * 10) < data.recordsTotal
+                            }
+                        };
+                    },
+                    cache: true
+                },
+                width:'280px',
+                placeholder: '@Umbraco.GetDictionaryValue("choose name")',
+                templateResult: function (item) { return item.Name; },
+                templateSelection: function (item) { return item.Name; },
+            });
+
+            $('#brokerList').on('change', function (e) {
+                var url = document.URL.replace('kodeEmiten=' + getParams('kodeEmiten'), 'kodeEmiten=' + $(this).val());
+                window.location.href = url;
+            });
+        }
+
+        function getCompanyProfile(){
+            var emitenType = $('input[name="companyProfileType"]:checked').val();
+            var indexFrom = 1;
+            var pageSize = 1;
+
+            $.get('@Url.Action("GetBrokerDetail", "ExchangeMember")?code=' + emitenCode, function (result) {
+                if (result != null) {
+                    setProfiles(result);
+                    setBoardOfManagement(result.Managements);
+                    setShareholders(result.ShareHolders);
+                }
+            });
+        }
+
+        function setProfiles(profiles){
+            $('#emitenLogo').attr('src', profiles.Logo);
+            $('#emitenName').text(profiles.Name);
+            $('#frName').text(profiles.Name);
+            $('#frNpwp').text(profiles.NPWPNo);
+            $('#frDeedNo').text(profiles.AktaNo);
+            $('#frAuthorizedCapital').text(profiles.ModalDasar.toLocaleString(currentLang));
+            $('#frPaidUpCapital').text(profiles.ModalDisetor.toLocaleString(currentLang));
+            $('#frCompanyStatus').text(profiles.CompanyStatus);
+            $('#frOperationalStatus').text(profiles.StatusName);
+            $('#frWorkPermit').text(profiles.OperationalLicense);
+            $('#frLastDayMKBDValue').text(profiles.Mkbd.toLocaleString(currentLang));
+            $('#frHeadOffice').text(profiles.Address + ', ' + profiles.City);
+            $('#frTelephone').text(profiles.Phone);
+            $('#frFax').text(profiles.Fax);
+            $('#frWebsite').text(profiles.Website).attr('href', 'http://' + profiles.Website);
+            $('#frPostalCode').text(profiles.Zip);
+        }
+
+        function setBoardOfManagement(managements){
+            for (var i = 0; i < managements.length; i++) {
+                $('#bomTable tbody').append('<tr><td>' + managements[i].PersonName + 
+                    '</td><td>' + managements[i].JobPositionName + '</td></tr>');
+            }
+        }
+
+        function setShareholders(shareholders){
+            for (var i = 0; i < shareholders.length; i++) {
+                $('#shareholdersTable tbody').append('<tr><td>' + shareholders[i].ShareHolderName + 
+                    '</td><td class="text-right">' + shareholders[i].NumberOfShare + ' %</td></tr>');
+            }
+        }
+
+        function getOverview(){
+            var emitenCode = getParams('kodeEmiten');
+
+            getMkbdSummary(emitenCode);
+            getTransactionSummary(emitenCode);
+        }
+
+        function getMkbdSummary(brokerCode){
+            $.get('@Url.Action("GetMkbdSummary", "ExchangeMember")?code=' + brokerCode, function (result) {
+                if (result != null) {
+                    for (var i = 0; i < result.Items.length; i++) {
+                        $('#mkbdSummaryTable tbody').append(
+                            '<tr>' + 
+                                '<td>' + moment().month(i).format('MMMM') + '</td>' + 
+                                '<td class="text-right">' + Math.round(result.Items[i].Avg1).toLocaleString(currentLang) + '</td>' + 
+                                '<td class="text-right">' + Math.round(result.Items[i].Avg2).toLocaleString(currentLang) + '</td>' + 
+                                '<td class="text-right">' + Math.round(result.Items[i].Avg3).toLocaleString(currentLang) + '</td>' + 
+                            '</tr>');
+                    }
+                }
+            });
+        }
+
+        function getTransactionSummary(brokerCode){
+            $.get('@Url.Action("GetTransactionSummary", "ExchangeMember")?code=' + brokerCode, function (result) {
+                if (result != null) {
+                    for (var i = 0; i < result.Items.length; i++) {
+                        $('#totalTransactionTable tbody').append(
+                            '<tr>' + 
+                                '<td>' + moment().month(i).format('MMMM') + '</td>' + 
+                                '<td class="text-right">' + Math.round(result.Items[i].Sum1).toLocaleString(currentLang) + '</td>' + 
+                                '<td class="text-right">' + Math.round(result.Items[i].Sum2).toLocaleString(currentLang) + '</td>' + 
+                                '<td class="text-right">' + Math.round(result.Items[i].Sum3).toLocaleString(currentLang) + '</td>' + 
+                            '</tr>');
+                    }
+                }
+            });
+        }
+
+        function getBranch(){
+            var emitenCode = getParams('kodeEmiten');
+
+            // $.get('@Url.Action("GetBranch", "ExchangeMember")?code=' + emitenCode + '&start=0&length=100', function (result) {
+            //     if (result != null) {
+            //         for (var i = 0; i < result.data.length; i++) {
+            //             $('#branchTable tbody').append(
+            //                 '<tr>' + 
+            //                     '<td>' + result.data[i].No + '</td>' + 
+            //                     '<td>' + result.data[i].Address + '</td>' + 
+            //                     '<td>' + result.data[i].City + '</td>' + 
+            //                     '<td>' + result.data[i].Zip + '</td>' + 
+            //                     '<td>' + result.data[i].Phone + '</td>' + 
+            //                     '<td>' + result.data[i].Fax + '</td>' + 
+            //                 '</tr>');
+            //         }
+
+                    
+            //     }
+            // });
+
+            $('#branchTable').dataTable({
+                'ajax': {
+                    'url': '@Url.Action("GetBranch", "ExchangeMember")?code=' + emitenCode,
+                },
+                'filter': false,
+                'sort': false,
+                'serverSide': true,
+                'processing': true,
+                'paging': true,
+                'deferRender': true,
+                'columns': [
+                    { 'data': 'No' },
+                    { 'data': 'Address' },
+                    { 'data': 'City' },
+                    { 'data': 'Zip' },
+                    { 'data': 'Phone' },
+                    { 'data': 'Fax' },
+                ],
+                'columnDefs': [
+                    {
+                        'targets': [0],
+                        'createdCell' : function (td, cellData, rowData, row, col) {
+                            return $(td).addClass('text-center');
+                        }
+                    },
+                ],
+                "rowCallback": function (row, data, iDisplayIndex) {
+                    var info = this.api().page.info();
+                    var page = info.page;
+                    var length = info.length;
+                    var index = (page * length + (iDisplayIndex + 1));
+                    $('td:eq(0)', row).html(index);
+                },
+            });
+        }
+
+        function getFinancialReport(){
+            var selectedYear = $('#yearList option:selected').val();
+            var selectedPeriod = $('#periodList option:selected').val();
+
+            $.getJSON('@Url.Action("GetFinancialReport", "ExchangeMember")?code=' + emitenCode + '&year=' + selectedYear + '&period=' + selectedPeriod, function (result){
+                $('.financial-report-container').empty();
+                for (var i = 0; i < result.length; i++) {
+                    $('.financial-report-container').append(
+                        '<dl class="financial-report-list cf">' +
+                            '<dt class="financial-report-title">Year</dt>' +
+                            '<dd class="financial-report-description">' + selectedYear + '</dd>' +
+                            '<dt class="financial-report-title">Period</dt>' +
+                            '<dd class="financial-report-description">' + $('#periodList option:selected').text() + '</dd>' +
+                            '<dt class="financial-report-title">Report</dt>' +
+                            '<dd class="financial-report-description">' +
+                                '<div class="financial-report-download">' +
+                                    '<a href="' + result[i].Value.Path + '">' + result[i].Key + '</a>' +
+                                '</div>' +
+                            '</dd>' +
+                        '</dl>');
+                }
+            });
+
+        }
+    </script>
+}

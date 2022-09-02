@@ -1,0 +1,394 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+	Layout = "Master.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="@Url.Content("/assets/css/calculator.css")">
+    <link href="@Url.Content("/assets/css/vendor/datatables.min.css")" rel="stylesheet" type="text/css" />
+}
+
+<main class="sticky-footer-container-item --pushed">
+    <div class="container top-space">
+        @{
+            IPublishedContent current = (CurrentPage);
+            Stack<dynamic> pages = new Stack<dynamic>();
+            while (current.Level > 1)
+            {
+                pages.Push(current);
+                current = current.Parent;
+            }
+        }
+
+        <ul class="breadcrumb block">
+            <li><a href="/"><span class="fa fa-home"></span></a></li>
+            @foreach (var page in pages)
+            {
+                var cls = page.Id == CurrentPage.Id ? "current" : "";
+                if (page.DocumentTypeId != 1237){
+                    <li class="@cls"><a href="@page.Url">@page.Name</a></li>                    
+                } else {
+                    <li class="@cls"><a href="" class="disable"><span>@page.Name</span></a></li>
+                }
+            }
+        </ul>
+        <div class="page-title-container">
+            <h1 class="page-title">@Umbraco.TypedContent(CurrentPage.Id).PageTitle</h1>
+        </div>
+        <div class="content-tab-container block --center">
+            <div class="content-tab-item">
+                <a href="#information" class="content-tab-anchor etp-trading-tab-js is-active">@Umbraco.GetDictionaryValue("Structured Warrant - Information")</a>
+            </div>
+            <div class="content-tab-item">
+                <a href="#calculator" class="content-tab-anchor etp-trading-tab-js">@Umbraco.GetDictionaryValue("Structured Warrant - Calculator")</a>
+            </div>
+        </div>
+    </div>
+    
+        
+    <div class="main-content content-push">
+        
+        <div class="container">
+            <div class="block">
+                <div class="etp-trading-container is-active" id="information">
+                    <div action="" class="block-double">
+                        <div class="block flex v-center">
+                            <span class="form-label-announcement">@Umbraco.GetDictionaryValue("SW - Underlying")</span>
+                            <select name="code" id="underlyingInput" class="form-input form-input--block select2-js emitenList"></select>
+                        </div>
+                        <div class="block flex v-center">
+                            <span class="form-label-announcement">@Umbraco.GetDictionaryValue("SW - Issuer")</span>
+                            <select name="code" id="issuerInput" class="form-input form-input--block select2-js issuerList"></select>
+                        </div>
+                        <div class="block flex v-center">
+                            <span class="form-label-announcement">@Umbraco.GetDictionaryValue("SW - SW Type")</span>
+                            <select id="swTypeInput" class="form-input form-input--block select2-js swtypeList"></select>
+                        </div>
+            
+                        <div class="block flex v-center">
+                            <span class="form-label-announcement">&nbsp;</span>
+                            <button id="searchBtn" class="btn btn-primary">@Umbraco.GetDictionaryValue("search")</button>
+                        </div>
+                    </div>
+                    
+            
+                    <table id="informationTable" class="table table--zebra table-content-page">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>@Umbraco.GetDictionaryValue("SW - Code", "Kode SW")</th>
+                                <th>@Umbraco.GetDictionaryValue("SW - Download")</th>
+                                <th>@Umbraco.GetDictionaryValue("SW - Underlying")</th>
+                                <th>@Umbraco.GetDictionaryValue("SW - Issuer")</th>
+                                <th>@Umbraco.GetDictionaryValue("SW - SW Type")</th>
+                                <th>@Umbraco.GetDictionaryValue("SW - Exercise Price")</th>
+                                <th>@Umbraco.GetDictionaryValue("SW - Exercise Ratio")</th>
+                                <th>First Trading Date</th>
+                                <th>Last Trading Date</th>
+                                <th>Time to Last Trading Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="etp-trading-container" id="calculator">
+                    <div class="calculator">
+                        <div class="mb-16 bzg">
+                            <div class="bzg_c pt-6" data-col="m3, l2" data-offset="m2, l3">Conversion Rate</div>
+                            <div class="bzg_c" data-col="m5, l4">
+                                <input type="hidden" value="1:1">
+                                <div class="form-input form-input--block">1:1</div>
+                            </div>
+                        </div>
+                        <div class="mb-16 bzg">
+                            <div class="bzg_c pt-6" data-col="m3, l2" data-offset="m2, l3">
+                                @Umbraco.GetDictionaryValue("SW - Calculator - Stock")
+                            </div>
+                            <div class="bzg_c" data-col="m5, l4">
+                                <input type="text" class="form-input form-input--block money-mask"
+                                value="" id="calcStock">
+                            </div>
+                        </div>
+                        <div class="mb-16 bzg">
+                            <div class="bzg_c pt-6" data-col="m3, l2" data-offset="m2, l3">
+                                @Umbraco.GetDictionaryValue("SW - Calculator - Exercise")
+                            </div>
+                            <div class="bzg_c" data-col="m5, l4">
+                                <input type="text" class="form-input form-input--block money-mask"
+                                value="" id="calcExercise">
+                            </div>
+                        </div>
+                        <div class="mb-16 bzg">
+                            <div class="bzg_c pt-6" data-col="m3, l2" data-offset="m2, l3">
+                                @Umbraco.GetDictionaryValue("SW - Calculator - Rate")
+                            </div>
+                            <div class="bzg_c" data-col="m5, l4">
+                                <input type="text" class="form-input form-input--block percent-unit"
+                                value="" id="calcRate">
+                            </div>
+                        </div>
+                        <div class="mb-16 bzg">
+                            <div class="bzg_c pt-6" data-col="m3, l2" data-offset="m2, l3">
+                                @Umbraco.GetDictionaryValue("SW - Calculator - Volatility")
+                            </div>
+                            <div class="bzg_c" data-col="m5, l4">
+                                <input type="text" class="form-input form-input--block percent-unit"
+                                value="" id="calcVolatility">
+                            </div>
+                        </div>
+                        <input type="hidden" id="calcTime">
+                        <div class="mb-16 bzg">
+                            <div class="bzg_c pt-6" data-col="m3, l2" data-offset="m2, l3">
+                                @Umbraco.GetDictionaryValue("SW - Calculator - Current Date")
+                            </div>
+                            <div class="bzg_c" data-col="m5, l4">
+                                <input type="text" class="form-input form-input--block datepickerCalc" 
+                                id="calcStartDate" placeholder="@Umbraco.GetDictionaryValue("choose")">
+                            </div>
+                        </div>
+                        <div class="mb-16 bzg">
+                            <div class="bzg_c pt-6" data-col="m3, l2" data-offset="m2, l3">
+                                @Umbraco.GetDictionaryValue("SW - Calculator - Exercise Date")
+                            </div>
+                            <div class="bzg_c" data-col="m5, l4">
+                                <input type="text" class="form-input form-input--block datepickerCalc" 
+                                id="calcEndDate" placeholder="@Umbraco.GetDictionaryValue("choose")">
+                            </div>
+                        </div>
+                        <div class="mb-16 bzg">
+                            <div class="bzg_c pt-6" data-col="m3, l2" data-offset="m2, l3">
+                                &nbsp;
+                            </div>
+                            <div class="bzg_c" data-col="m5, l4">
+                                <button class="btn btn-primary btnCalc" type="button">
+                                    @Umbraco.GetDictionaryValue("SW - Calculator - Calculate")
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mb-16 bzg">
+                            <div class="bzg_c" data-col="m3, l2" data-offset="m2, l3">
+                                @Umbraco.GetDictionaryValue("SW - Calculator - Call Price")
+                            </div>
+                            <div class="bzg_c" data-col="m5, l4">
+                                <strong class="call-price text-larger">0</strong>
+                            </div>
+                        </div>
+                        <div class="mb-16 bzg">
+                            <div class="bzg_c" data-col="m3, l2" data-offset="m2, l3">
+                                @Umbraco.GetDictionaryValue("SW - Calculator - Put Price")
+                            </div>
+                            <div class="bzg_c" data-col="m5, l4">
+                                <strong class="put-price text-larger">0</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+    </div>
+</main>
+
+<div class="start-date-container"></div>
+<div class="end-date-container"></div>
+
+@section Scripts{
+    <script type="text/javascript" src="/assets/js/vendor/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.1/jstat.js"></script>
+    <script src="/assets/js/vendor/jquery.mask.min.js"></script>
+    <script src="/assets/js/vendor/flatpickr.min.js"></script>
+    <script src="/assets/js/calculator.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready((function () {
+            getInformationList();
+            getFilter();
+        }));
+
+        $('#searchBtn').on('click', function(e){
+            getInformationList();
+        });
+        function getInformationList(){
+            
+            var underlying =  $('#underlyingInput').val();
+            if(underlying == null) underlying = '';
+            var issuer = $('#issuerInput :selected').val();
+            if(issuer == null) issuer = '';
+            var swtype = $('#swTypeInput :selected').val();
+            if(swtype == null) swtype = '';
+            var datefrom = $('#dateFromInput').val();
+            if(datefrom == null) datefrom = '';
+            var dateto = $('#dateToInput').val();
+            if(dateto == null) dateto = '';
+                
+            if($.fn.DataTable.isDataTable('#informationTable')){
+                var datatable = $('#informationTable').DataTable();
+                datatable.clear();
+                var url = '@(Url.Action("GetInformationList", "StructuredWarrant"))' +
+                '?underlying=' + underlying + 
+                '&issuer=' + issuer + 
+                '&swtype=' + swtype +
+                '&datefrom=' + moment(datefrom).format('YYYY-MM-DD') + 
+                '&dateto=' + moment(dateto).format('YYYY-MM-DD') + 
+                '&language=' + currentLang;
+                datatable.ajax.url(url).load();
+            } else {
+                $('#informationTable').dataTable({
+                    'ajax': {
+                    'url': '@(Url.Action("GetInformationList", "StructuredWarrant"))' +
+                    '?underlying=' + underlying + 
+                    '&issuer=' + issuer + 
+                    '&swtype=' + swtype +
+                    '&datefrom=' + moment(datefrom).format('YYYY-MM-DD') + 
+                    '&dateto=' + moment(dateto).format('YYYY-MM-DD') + 
+                    '&language=' + currentLang,
+                    },
+                    'filter': false,
+                    'sort': false,
+                    'serverSide': true,
+                    'processing': true,
+                    'paging': true,
+                    'deferRender': true,
+                    'columns': [
+                        { 'data': 'IntRow' },
+                        { 'data': 'KodeSW' },
+                        { 'data': 'FullSavePath' },
+                        { 'data': 'Underlying'},
+                        { 'data': 'Issuer' },
+                        { 'data': 'SWType' },
+                        { 'data': 'ExercisePrice' },
+                        { 'data': 'ExerciseRatio' },
+                        { 'data': 'FirstTradingDate' },
+                        { 'data': 'LastTradingDate' },
+                        { 'data': 'TimetoLastTradingDate' },
+                    ],
+                    'columnDefs': [
+                        {
+                            'targets' : [2],
+                            'render' : function( data, type, row, meta){
+                                console.log(data);
+                                if(data != null)
+                                return "<a target=”_blank” href=\"" + data + "\">Download</a>";
+                                else
+                                return "-";
+                            }
+                        },
+                        {
+                            'targets': [0,1,2,3,4,5,7,8,9,10],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-center');
+                            }
+                        },
+                        {
+                            'targets': [6],
+                            'createdCell' : function (td, cellData, rowData, row, col) {
+                                return $(td).addClass('text-right');
+                            },
+                            'render' : function ( data, type, row, meta ) {
+                                if(data != null)
+                                    return data.toLocaleString(currentLang);
+                                else
+                                    return data
+                            }
+                        },
+                        {
+                            'targets': [8,9],
+                            'render': function (data, type, row, meta){
+                                if(data == null) return '';
+                                var date = moment(data).locale(currentLang).format('DD-MMM-YYYY');
+                                return date;
+                            }
+                        }
+                        
+                    ],
+                    "rowCallback": function (row, data, iDisplayIndex) {
+                        var info = this.api().page.info();
+                        var page = info.page;
+                        var length = info.length;
+                        var index = (page * length + (iDisplayIndex + 1));
+                        $('td:eq(0)', row).html(index);
+                    },
+                });                
+            }
+        }
+        
+         function getFilter() {
+            $.get('@Url.Action("GetEmiten", "Helper")?emitenType=s', function (result) {
+                $('.emitenList').append('<option value="">' + "@Umbraco.GetDictionaryValue("SW - Choose Underlying")" + '</option>');
+                for (var i = 0; i < result.length; i++) {
+                    $('.emitenList').each(function(){
+                        $(this).append('<option value="' + result[i].KodeEmiten + '">' + result[i].KodeEmiten + '</option>');
+                    });
+                }
+                $.get('@Url.Action("GetIndexList", "Home")?cultureInfo=' + currentLang, function (result) {
+                    var jsonResult = $.parseJSON(result);
+                    for(var i = 0; i < jsonResult.length; i++){
+                        $('.emitenList').each(function(){
+                            if(jsonResult[i].IndexCode != 'COMPOSITE')
+                                $(this).append('<option value="' + jsonResult[i].IndexCode + '">' + jsonResult[i].IndexCode + '</option>');
+                        })
+                    }
+                });
+            });
+            $.get('@Url.Action("GetIssuerDDL", "StructuredWarrant")', function (result) {
+                $('.issuerList').append('<option value="">' + "@Umbraco.GetDictionaryValue("SW - Choose Issuer")" + '</option>');
+                for (var i = 0; i < result.length; i++) {
+                    $('.issuerList').each(function(){
+                        $(this).append('<option value="' + result[i] + '">' + result[i] + '</option>');
+                    });
+                }
+            });
+            $.get('@Url.Action("GetJenisSw", "StructuredWarrant")', function (result) {
+                $('.swtypeList').append('<option value="">' + "@Umbraco.GetDictionaryValue("SW - Choose SW Type")" + '</option>');
+                for (var i = 0; i < result.length; i++) {
+                    $('.swtypeList').each(function(){
+                        var dat = capitalizeLetter(result[i]);
+                        $(this).append('<option value="' + result[i] + '">' + dat + '</option>');
+                    });
+                }
+            });
+        }
+        
+        function getStockInfo(){
+            var indexCode = $('.emitenList option:selected').text();
+                $.get('@Url.Action("GetStockInfo", "Home")?code=' + indexCode, function (result) {
+                    var price = result.Price.toLocaleString(currentLang);
+                    var percent = result.Percent.toLocaleString(currentLang) + '%';
+
+                    $('.market-overview-chart-filter-item').removeClass('is-active');
+                    $($('.market-overview-chart-filter-item')[0]).addClass('is-active');
+
+                    onChartChange(indexCode, price, percent, "1D");
+
+                    $('#chartDisclaimerContainer').show();
+            });
+        }
+        
+        
+        function onChartChange(indexCode, indexChange, indexPercent, period){
+            currentCode = indexCode;
+
+            $('.market-overview-chart-stock-header-title').text(indexCode);
+
+            var indexColor = (indexPercent.indexOf('-') < 0 ? 'green' : 'red');
+
+            if (indexChange !== "" && indexPercent !== ""){
+                $('#graphicPrice').text(indexChange);
+                $('#graphicPercent').text(indexPercent);
+
+                $('#graphicPrice').removeClass('green red').addClass(indexColor);
+                $('#graphicPercent').removeClass('green red').addClass(indexColor);
+            }
+
+            renderIndexChart(indexCode, period);
+        }
+        
+        function capitalizeLetter(str) {
+            var splitStr = str.toLowerCase().split(' ');
+            for (var i = 0; i < splitStr.length; i++) {
+               splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);     
+            }
+            return splitStr.join(' '); 
+        }
+
+    </script>
+}

@@ -1,0 +1,51 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Islamic.cshtml";
+    int albumId = Model.Content.GetPropertyValue<int>("mediaId");
+    var album = Umbraco.TypedMedia(albumId);
+    if (album == null)
+    {
+        throw new EntryPointNotFoundException("404 Page not found");
+    }
+}
+
+@Html.Partial("Islamic/Header")
+
+<div class="sticky-footer-container-item --pushed">
+	<main>
+		<section class="site-section-pull">
+			<div class="container relative pv-30">
+				<div class="page-title-container">
+					<span class="page-title-text">@album.Name</span>
+					<a href="@(Request.UrlReferrer.ToString())" class="page-title-nav">
+						<i class="fas fa-chevron-left"></i>
+					</a>
+				</div>
+				@foreach (var image in album.Children.Where(o => o.DocumentTypeAlias == "Image"))
+				{
+					<div class="img-wide">
+						<img src="@(image.Url)" alt="">
+					</div>
+				}
+
+				<!-- <div class="gallery-slider-parent">
+		<?php for ($i=0; $i < count($galleryList); $i++) { ?>
+		<div class="">
+			<img src="<?=$img.$galleryList[$i]['img']?>" alt="">
+		</div>
+		<?php } ?>
+	</div>
+	<div class="gallery-slider-nav">
+		<?php for ($i=0; $i < count($galleryList); $i++) { ?>
+		<div class="">
+			<img src="<?=$img.$galleryList[$i]['img']?>" alt="">
+		</div>
+		<?php } ?>
+	</div> -->
+			</div>
+		</section>
+	</main>
+</div>
+
+@Html.Partial("Islamic/Footer")
+@Html.Partial("Islamic/Scripts")

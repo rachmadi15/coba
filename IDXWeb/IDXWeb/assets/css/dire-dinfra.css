@@ -1,0 +1,291 @@
+﻿.flexboxtweener .content-tab-container--center {
+    display: inline-block !important;
+}
+
+.content-tab-container {
+    text-align: center;
+    padding: 0;
+    width: 100%;
+}
+
+@media screen and (min-width: 48em) {
+    .content-tab-container {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        color: #A4A4A4;
+    }
+}
+
+@media screen and (min-width: 64em) {
+    .content-tab-container {
+        -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    }
+}
+
+.content-tab-container.content-tab-container--center, .content-tab-container.--center {
+    -webkit-box-pack: center !important;
+    -webkit-justify-content: center !important;
+    -ms-flex-pack: center !important;
+    justify-content: center !important;
+}
+
+.content-tab-container.content-tab-container--spread, .content-tab-container.--spread {
+    -webkit-box-pack: justify !important;
+    -webkit-justify-content: space-between !important;
+    -ms-flex-pack: justify !important;
+    justify-content: space-between !important;
+}
+
+.content-tab-container.wrap {
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.content-tab-item {
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+    .content-tab-item.content-tab-item--full {
+        width: 100%;
+    }
+
+        .content-tab-item.content-tab-item--full .content-tab-anchor {
+            width: 100%;
+        }
+
+@media screen and (min-width: 48em) {
+    .content-tab-item {
+        -webkit-box-flex: 0;
+        -webkit-flex: 0 auto;
+        -ms-flex: 0 auto;
+        flex: 0 auto;
+        width: auto;
+    }
+
+        .content-tab-item.content-tab-item--full {
+            width: auto;
+        }
+}
+
+.content-tab-anchor {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 10px;
+    width: 160px;
+    height: 100%;
+    color: #A4A4A4;
+    border: 1px solid #A4A4A4;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.content-tab-anchor:hover, .content-tab-anchor:focus {
+    color: #9F0E0F;
+    border: 1px solid #9F0E0F;
+}
+
+.content-tab-anchor.is-active {
+    color: #9F0E0F;
+    border: 1px solid #9F0E0F;
+}
+
+.content-tab-anchor.content-tab-anchor--wide {
+    width: 200px;
+}
+
+.custom-bullet-list li {
+    position: relative;
+    padding-left: 20px;
+}
+
+.custom-bullet-list li:before {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    -webkit-transform: translate(5px, -50%);
+    -ms-transform: translate(5px, -50%);
+    transform: translate(5px, -50%);
+    content: "\f054";
+    font-family: 'FontAwesome';
+    font-size: 8px;
+    z-index: 1;
+    color: #fff;
+}
+
+.custom-bullet-list li:after {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    top: 50%;
+    left: 0;
+    -webkit-transform: translate(0, -50%);
+    -ms-transform: translate(0, -50%);
+    transform: translate(0, -50%);
+    content: '';
+    background: #9F0E0F;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+}
+
+@media screen and (min-width: 48em) {
+    .custom-bullet-list li:before {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        -webkit-transform: translate(5px, -50%);
+        -ms-transform: translate(5px, -50%);
+        transform: translate(5px, -50%);
+        content: "\f054";
+        font-family: 'FontAwesome';
+        font-size: 8px;
+        z-index: 1;
+        color: #fff;
+    }
+}
+
+.circle-number-list {
+    counter-reset: step-counter;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.circle-number-list > ol {
+    counter-reset: none;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.circle-number-list > ol:first-child {
+    counter-reset: step-counter;
+}
+
+.circle-number-list li {
+    counter-increment: step-counter;
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    min-height: 40px;
+    margin-bottom: 10px;
+    padding-left: 55px !important;
+    min-width: 270px;
+    font-size: 1.2em;
+}
+
+.circle-number-list li:before {
+    position: absolute;
+    content: counter(step-counter);
+    width: 35px !important;
+    height: 35px !important;
+    color: #FFF;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    background: #9F0E0F;
+    left: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.dire-dinfra-container {
+    display: none;
+}
+
+.dire-dinfra-container.is-active {
+    display: block;
+}
+
+.dire-dinfra-banner {
+    position: relative;
+    margin-bottom: 50px;
+}
+
+.dire-dinfra-banner .dire-dinfra-banner__content {
+    position: absolute;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    height: 75%;
+    width: auto;
+    padding: 10px;
+    background: rgba(159, 14, 15, 0.75);
+    color: #FFF;
+    top: 50%;
+    left: 0;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    text-transform: uppercase;
+    font-weight: bold;
+    line-height: 1.5;
+}
+
+@media screen and (min-width: 20em) {
+    .dire-dinfra-banner .dire-dinfra-banner__content {
+        font-size: 1.2em;
+        padding: 10px 15px;
+    }
+}
+
+@media screen and (min-width: 48em) {
+    .dire-dinfra-banner .dire-dinfra-banner__content {
+        padding: 10px 25px;
+        font-size: 2em;
+        font-weight: 700;
+    }
+}
+
+@media screen and (min-width: 64em) {
+    .dire-dinfra-banner .dire-dinfra-banner__content {
+        font-size: 3em;
+    }
+}
+
+.light-grey {
+    color: #a2a2a2;
+}

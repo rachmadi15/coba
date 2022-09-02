@@ -1,0 +1,32 @@
+{
+  "data": [
+    {
+      "date": "2019-11-20T00:00:00",
+      "indexName": "Index",
+      "close": {
+        "status": "decrease",
+        "value": 123.00
+      }
+    }
+  ],
+  "columns": [
+        {
+            "columnName": "date",
+            "decimal": 0,
+            "format": "fullDate",
+            "className": "text-center nowrap"
+        },
+        {
+            "columnName": "indexName",
+            "decimal": 0,
+            "format": false,
+            "className": "text-center"
+        },
+        {
+            "columnName": "close",
+            "decimal": 0,
+            "format": "closeFormat",
+            "className": "text-center"
+        }
+    ]
+}
